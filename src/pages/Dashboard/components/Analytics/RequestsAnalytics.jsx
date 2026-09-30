@@ -16,6 +16,11 @@ import ChartContainer from "./charts/ChartContainer";
 import { getRequestsApplicationAnalytics } from "../../../../services/analyticsServices";
 import { isoAlpha3ToName } from "../../../../utils/isoCountryNames";
 
+const emptyDataMessage = (data) =>
+  data?.has_errors
+    ? `Error: ${data.error_message || "Some analytics data could not be loaded. Please try refreshing."}`
+    : "No data available for the selected period";
+
 const applyDataForRange = (data, range) => {
   const volumeKeyMap = {
     "7d": "request_volume_7_days",
@@ -30,7 +35,7 @@ const applyDataForRange = (data, range) => {
     "30d": "requests_by_category_region 1 month",
     "1yr": "requests_by_category_region 1 year",
     all: "requests_by_category_region 1 year",
-    custom: "requests_by_category_region custom range",
+    custom: "requests_by_category_region_custom_range",
   };
 
   const volumeKey = volumeKeyMap[range];
@@ -369,7 +374,7 @@ const RequestsAnalytics = () => {
             role="status"
             className="flex items-center justify-center h-[210px] text-gray-600"
           >
-            {trend.message || "No data available for the selected period"}
+            {trend.message || emptyDataMessage(trend.data)}
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={210}>
@@ -565,7 +570,7 @@ const RequestsAnalytics = () => {
             role="status"
             className="flex items-center justify-center h-[210px] text-gray-600"
           >
-            {category.message || "No data available for the selected period"}
+            {category.message || emptyDataMessage(category.data)}
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={210}>

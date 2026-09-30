@@ -90,7 +90,7 @@ const BASE_RESPONSE = {
       { category: "DONATE_CLOTHES", country: "USA", count: 17 },
       { category: "MATH", country: "XXX", count: 2 },
     ],
-    "requests_by_category_region custom range": [
+    requests_by_category_region_custom_range: [
       { category: "GENERAL_CATEGORY", country: "USA", count: 1 },
     ],
   },
@@ -344,7 +344,7 @@ describe("RequestsAnalytics", () => {
   it.each([
     [
       Promise.resolve({
-        body: { "requests_by_category_region custom range": [] },
+        body: { requests_by_category_region_custom_range: [] },
       }),
       "No data available for the selected period",
     ],
@@ -464,6 +464,40 @@ describe("RequestsAnalytics", () => {
     });
 
     expect(screen.getByTestId("bar-India")).toBeInTheDocument();
+  });
+
+  it("surfaces partial API failures instead of labeling failed categories as empty", async () => {
+    getRequestsApplicationAnalytics
+      .mockResolvedValueOnce(BASE_RESPONSE)
+      .mockResolvedValueOnce({
+        statusCode: 200,
+        body: {
+          request_volume_custom_range: [
+            { date: "2026-09-01T00:00:00", count: 3 },
+          ],
+          requests_by_category_region_custom_range: [],
+          has_errors: true,
+          error_message:
+            "Some analytics data couldn't be loaded. Please try refreshing.",
+        },
+      });
+    render(<RequestsAnalytics />);
+    await screen.findByTestId("bar-chart");
+    fireEvent.click(screen.getAllByText("Custom")[1]);
+    fireEvent.change(screen.getByLabelText("Category start date"), {
+      target: { value: "2026-09-01" },
+    });
+    fireEvent.change(screen.getByLabelText("Category end date"), {
+      target: { value: "2026-09-29" },
+    });
+    await screen.findByText(
+      "Error: Some analytics data couldn't be loaded. Please try refreshing.",
+    );
+    expect(
+      screen.queryByText("No data available for the selected period"),
+    ).not.toBeInTheDocument();
+    expect(screen.getByTestId("line-chart")).toBeInTheDocument();
+    expect(screen.queryByTestId("bar-chart")).not.toBeInTheDocument();
   });
 
   it("renders error state when API fails", async () => {
