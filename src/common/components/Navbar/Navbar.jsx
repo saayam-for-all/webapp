@@ -241,9 +241,7 @@ const Navbar = () => {
         // --- Notification COUNT (bell badge) ---
         // Separate POST API from the list below. Feeds the bell badge.
         // Mock returns a count like { count: 5 }.
-        const countResponse = await GET_NOTIFICATION_COUNT(
-          user?.userId || "A1234",
-        );
+        const countResponse = await GET_NOTIFICATION_COUNT(user?.userDbId);
         setNewNotificationCount(
           countResponse?.data?.newNotificationsCount || 0,
         );
