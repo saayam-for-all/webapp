@@ -36,6 +36,24 @@ describe("Navbar", () => {
     expect(tree).toMatchSnapshot();
   });
 
+  // ba#39 FR-01 / AC-02: the bell is an outlined glyph, matching the other
+  // outlined icons in the top navigation rather than the heavier filled variant.
+  // MUI tags the rendered <svg> with the icon name it came from.
+  it("renders the notification bell as the outlined variant", () => {
+    renderWithProviders(<Navbar />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    const bellButton = screen.getByRole("button", {
+      name: "mockTranslate(NOTIFICATIONS)",
+    });
+    const icon = bellButton.querySelector("svg");
+
+    expect(icon.getAttribute("data-testid")).toBe(
+      "NotificationsNoneOutlinedIcon",
+    );
+  });
+
   it("renders correctly when user is logged out", () => {
     const tree = renderWithProviders(<Navbar />, {
       preloadedState: MOCK_STATE_LOGGED_OUT,
