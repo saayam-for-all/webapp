@@ -14,15 +14,19 @@ import "./index.css";
 
 Amplify.configure(awsConfig);
 
+const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>
-        <GoogleReCaptchaProvider
-          reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-        >
+        {recaptchaSiteKey ? (
+          <GoogleReCaptchaProvider reCaptchaKey={recaptchaSiteKey}>
+            <App />
+          </GoogleReCaptchaProvider>
+        ) : (
           <App />
-        </GoogleReCaptchaProvider>
+        )}
       </I18nextProvider>
     </Provider>
   </React.StrictMode>,
