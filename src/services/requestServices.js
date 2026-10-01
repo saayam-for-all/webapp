@@ -97,14 +97,6 @@ export const GET_NOTIFICATIONS = async () => {
   return response.data;
 };
 
-export const GET_NOTIFICATION_COUNT = async (userId) => {
-  // Notification service is on the same server as our other APIs.
-  const response = await api.post("v1/volunteer/notifications/counts", {
-    userId,
-  });
-  return response.data;
-};
-
 export const moreInformation = async (request) => {
   const response = await api.post(endpoints.GENERATE_ANSWER, request);
   return response.data;
