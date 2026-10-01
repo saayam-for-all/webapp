@@ -3101,13 +3101,12 @@ describe("HelpRequestForm — language dropdown (Create Request)", () => {
     expect(languageSelect.value).toBe("Hindi");
   });
 
-  it("falls back to the first language in the list when no preference is saved", () => {
+  it("defaults to English when no preference is saved", () => {
     renderForm();
     const languageSelect = document.getElementById("request_language");
-    // Native <select> has no blank/placeholder option, so with an empty
-    // formData.request_language it falls back to displaying the first
-    // option in the list (Arabic, per languagesData.js) rather than blank.
-    expect(languageSelect.value).toBe("Arabic");
+    // When no userPreferences are stored, request_language defaults to
+    // "English" so the dropdown matches the page content shown to new users.
+    expect(languageSelect.value).toBe("English");
   });
 
   it("updates the selected value and calls changeUiLanguage when the user picks a different language", () => {
