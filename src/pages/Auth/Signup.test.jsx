@@ -115,6 +115,14 @@ describe("SignUp", () => {
     fireEvent.click(screen.getByRole("checkbox"));
   };
 
+  it("keeps the sign up button disabled when mandatory fields are empty", () => {
+    render(<SignUp />);
+
+    fireEvent.click(screen.getByRole("checkbox"));
+
+    expect(screen.getByRole("button", { name: "Sign up" })).toBeDisabled();
+  });
+
   it("disables the button and shows a loading state while sign up is in progress", async () => {
     let resolveSignUp;
     signUp.mockReturnValue(
