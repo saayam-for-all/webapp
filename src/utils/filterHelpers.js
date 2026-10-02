@@ -79,6 +79,24 @@ export const getStatusOptions = (t) => {
   ];
 };
 
+export const STEWARD_STATUSES = [
+  "VOLUNTEER_NOT_FOUND",
+  "VOLUNTEER_REASSIGNMENT",
+];
+
+/**
+ * Get status options restricted to Steward dashboard
+ * @param {Function} t - Translation function from useTranslation
+ * @returns {Array} Array of status objects with key and translated label
+ */
+export const getStewardStatusOptions = (t) => {
+  return STEWARD_STATUSES.map((status) => ({
+    key: status,
+    value: status,
+    label: t(`enums:requestStatus.${status}`, status),
+  }));
+};
+
 /**
  * Get request priorities from enums
  * @param {Function} t - Translation function from useTranslation
