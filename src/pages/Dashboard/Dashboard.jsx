@@ -30,6 +30,7 @@ import {
 } from "../../services/requestServices";
 import {
   getStatusOptions,
+  getStewardStatusOptions,
   getPriorityOptions,
   getTypeOptions,
   getCategoriesFromStorage,
@@ -424,6 +425,7 @@ const Dashboard = ({ userRole }) => {
     }
 
     setSelectedDashboard(newDashboard);
+    setStatusFilter({});
     localStorage.setItem("lastDashboardSelected", newDashboard);
     setSearchParams({ view: newDashboard });
     setAccessDeniedMessage("");
@@ -509,6 +511,10 @@ const Dashboard = ({ userRole }) => {
   }, [data, sortConfig]);
 
   const statusOptions = useMemo(() => {
+    if (selectedDashboard === DASHBOARDS.STEWARD) {
+      return getStewardStatusOptions(t);
+    }
+
     // Get status options from Enums API (with translations)
     const enumStatuses = getStatusOptions(t);
 
@@ -542,7 +548,7 @@ const Dashboard = ({ userRole }) => {
     });
 
     return Array.from(statusMap.values());
-  }, [data, t]);
+  }, [data, t, selectedDashboard]);
 
   const categoryOptions = useMemo(() => {
     return getDashboardCategoryOptions(getRequestRows(data), t);
