@@ -1,12 +1,14 @@
 export const mapHelpRequestPayload = ({
   formData,
   selectedCategoryId,
+  creatorId,
   requesterId,
   enumMaps,
   additionalFields,
   requestId,
 }) => {
   const payload = {
+    creatorId: creatorId,
     requesterId: requesterId,
     requestSubject: formData.subject,
     requestDescription: formData.description,

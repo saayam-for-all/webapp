@@ -1447,11 +1447,13 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         submissionData.attachments = uploadedFileUrls;
       }
 
+      const userIdKey = isEdit ? "creatorId" : "requesterId";
+
       // Build the API payload
       const payload = mapHelpRequestPayload({
         formData: submissionData,
         selectedCategoryId: selectedCategoryId ?? formData.category,
-        requesterId: isEdit
+        [userIdKey]: isEdit
           ? editRequestData?.requesterId || userDbId
           : userDbId,
         enumMaps,
@@ -1460,6 +1462,8 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
           ? editRequestData?.requestId || editRequestData?.id || id
           : undefined,
       });
+
+      console.log({ payload });
 
       // Call updateRequest when editing, createRequest when creating
       let response;
