@@ -105,7 +105,9 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     (state) => state.request,
   );
   const groups = useSelector((state) => state.auth.user?.groups);
-  const userDbId = useSelector((state) => state.auth.user?.userDbId);
+  const userDbId =
+    useSelector((state) => state.auth.user?.userDbId) ||
+    localStorage.getItem("userDbId");
   const user = useSelector((state) => state.auth.user);
   const [location, setLocation] = useState("");
   const [locationCoordinates, setLocationCoordinates] = useState(null);
