@@ -136,7 +136,18 @@ const StewardDashboard = (props) => {
               requestSort={requestSort}
               onRowsPerPageChange={onRowsPerPageChange}
               getLinkPath={getVolunteerLinkPath}
-              getLinkState={(volunteer) => volunteer}
+              getLinkState={(volunteer) => ({
+                ...volunteer,
+                breadcrumbTrail: [
+                  {
+                    label: "DASHBOARD",
+                    path: "/dashboard",
+                  },
+                  {
+                    label: "Steward Volunteer Review",
+                  },
+                ],
+              })}
             />
           )}
         </div>

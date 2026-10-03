@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import StewardVolunteerReview from "./StewardVolunteerReview";
 
@@ -20,99 +20,112 @@ const renderReview = (state = {}) =>
   );
 
 describe("StewardVolunteerReview", () => {
-  test("renders applicant information supplied by the steward dashboard", () => {
+  test("renders applicant name as a link to the profile page", () => {
     renderReview({
       userId: "SID-123",
       name: "Test Applicant",
-      email: "applicant@example.com",
-      phone: "+1 (555) 123-4567",
       "Updated Time": "9/29/2026, 1:00:00 PM",
     });
 
-    expect(screen.getAllByText("Test Applicant").length).toBeGreaterThan(0);
-    expect(screen.getByText("SID-123")).toBeInTheDocument();
-    expect(screen.getByText("applicant@example.com")).toBeInTheDocument();
-    expect(screen.getByText("+1 (555) 123-4567")).toBeInTheDocument();
+    expect(screen.getByText("UserId: SID-123")).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("link", { name: "Test Applicant" }),
+    ).toHaveAttribute("href", "/profile");
 
     expect(
       screen.getByText("Submitted on: 9/29/2026, 1:00:00 PM"),
     ).toBeInTheDocument();
-
-    expect(
-      screen.getByRole("link", { name: "Call applicant" }),
-    ).toHaveAttribute("href", "tel:+1 (555) 123-4567");
-
-    expect(
-      screen.getByRole("link", { name: "Message applicant on WhatsApp" }),
-    ).toHaveAttribute("href", "https://wa.me/15551234567");
   });
 
-  test("renders skills, availability, and government ID data when provided", () => {
+  test("uses mock applicant and government ID values when details are unavailable", () => {
     renderReview({
-      userId: "SID-456",
-      govtIdFilename: "drivers-license.pdf",
-      skills: ["Tutoring", "Medication Management"],
-      availability: [
-        {
-          dayOfWeek: "Monday",
-          startTime: "9:30 AM",
-          endTime: "12:00 PM",
-        },
-      ],
-    });
-
-    expect(screen.getByText("drivers-license.pdf")).toBeInTheDocument();
-    expect(screen.getByText("2 selected")).toBeInTheDocument();
-    expect(screen.getByText("1 time slot selected")).toBeInTheDocument();
-    expect(screen.getByText("Tutoring")).toBeInTheDocument();
-    expect(screen.getByText("Medication Management")).toBeInTheDocument();
-    expect(screen.getByText("Monday")).toBeInTheDocument();
-    expect(screen.getByText("9:30 AM - 12:00 PM")).toBeInTheDocument();
-  });
-
-  test("shows safe fallbacks when application details are unavailable", () => {
-    renderReview({
-      "User Id": "SID-789",
+      "User Id": "SID-456",
       "Updated Time": "9/29/2026",
     });
 
-    expect(screen.getByText("SID-789")).toBeInTheDocument();
-    expect(screen.getAllByText("N/A").length).toBeGreaterThanOrEqual(3);
-
     expect(
-      screen.getByText("Government ID information is not available."),
-    ).toBeInTheDocument();
+      screen.getByRole("link", { name: "Mock Applicant" }),
+    ).toHaveAttribute("href", "/profile");
 
-    expect(
-      screen.getByText("Skill information is not available."),
-    ).toBeInTheDocument();
+    const governmentIdLink = screen.getByRole("link", {
+      name: "government-id.pdf",
+    });
 
-    expect(
-      screen.getByText("Availability information is not available."),
-    ).toBeInTheDocument();
+    expect(governmentIdLink).toHaveAttribute(
+      "href",
+      "data:text/plain;charset=utf-8,Mock%20government%20ID%20document",
+    );
+    expect(governmentIdLink).toHaveAttribute("download", "government-id.pdf");
+  });
 
-    expect(
-      screen.queryByRole("link", { name: "Call applicant" }),
-    ).not.toBeInTheDocument();
+  test("uses supplied government ID filename when provided", () => {
+    renderReview({
+      userId: "SID-789",
+      govtIdFilename: "drivers-license.pdf",
+    });
 
-    expect(
-      screen.queryByRole("link", { name: "Message applicant on WhatsApp" }),
-    ).not.toBeInTheDocument();
+    const governmentIdLink = screen.getByRole("link", {
+      name: "drivers-license.pdf",
+    });
+
+    expect(governmentIdLink).toHaveAttribute("download", "drivers-license.pdf");
+  });
+
+  test("does not render the removed application summary and contact sections", () => {
+    renderReview({
+      userId: "SID-999",
+      name: "Test Applicant",
+      email: "applicant@example.com",
+      phone: "+1 (555) 123-4567",
+    });
+
+    expect(screen.queryByText("Volunteer Application")).not.toBeInTheDocument();
+    expect(screen.queryByText("Application Summary")).not.toBeInTheDocument();
+    expect(screen.queryByText("applicant@example.com")).not.toBeInTheDocument();
+    expect(screen.queryByText("+1 (555) 123-4567")).not.toBeInTheDocument();
+  });
+
+  test("opens the rejection reason modal when Reject is selected", () => {
+    renderReview({ userId: "SID-1000" });
+
+    fireEvent.click(screen.getByRole("button", { name: "Reject" }));
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("Reject Volunteer")).toBeInTheDocument();
+    expect(screen.getByLabelText("Reason for rejection")).toBeInTheDocument();
+  });
+
+  test("requires a rejection reason before closing the modal", () => {
+    renderReview({ userId: "SID-1001" });
+
+    fireEvent.click(screen.getByRole("button", { name: "Reject" }));
+
+    const dialog = screen.getByRole("dialog");
+    const rejectButtons = screen.getAllByRole("button", { name: "Reject" });
+
+    fireEvent.click(rejectButtons[rejectButtons.length - 1]);
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText("Reason for rejection"), {
+      target: { value: "Application information is incomplete." },
+    });
+
+    fireEvent.click(
+      screen.getAllByRole("button", { name: "Reject" }).slice(-1)[0],
+    );
+
+    expect(dialog).not.toBeInTheDocument();
   });
 
   test("renders steward review actions", () => {
-    renderReview({ userId: "SID-999" });
+    renderReview({ userId: "SID-1002" });
 
     expect(screen.getByRole("button", { name: "Reject" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Promote" })).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Request More Information" }),
     ).toBeInTheDocument();
-
-    expect(
-      screen.queryByText("Replace with applicant name"),
-    ).not.toBeInTheDocument();
-    expect(screen.queryByText("4 selected")).not.toBeInTheDocument();
-    expect(screen.queryByText("ID Document")).not.toBeInTheDocument();
   });
 });
