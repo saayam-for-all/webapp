@@ -231,11 +231,11 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     is_calamity: false,
     preferred_language: (() => {
       const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
-      return saved.languagePreference1 || "";
+      return saved.languagePreference1 || "English";
     })(),
     request_language: (() => {
       const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
-      return saved.languagePreference1 || "";
+      return saved.languagePreference1 || "English";
     })(),
     category: "General",
     request_type: "REMOTE",

@@ -40,8 +40,10 @@ import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { logout } from "../../../redux/features/authentication/authActions";
 import { useNotifications } from "../../../context/NotificationContext";
-import { fetchProfileImage } from "../../../services/volunteerServices";
-import { GET_NOTIFICATION_COUNT } from "../../../services/requestServices";
+import {
+  fetchProfileImage,
+  GET_NOTIFICATION_COUNT,
+} from "../../../services/volunteerServices";
 
 const blobToDataUrl = (blob) =>
   new Promise((resolve, reject) => {
@@ -241,10 +243,10 @@ const Navbar = () => {
         // --- Notification COUNT (bell badge) ---
         // Separate POST API from the list below. Feeds the bell badge.
         // Mock returns a count like { count: 5 }.
-        const countResponse = await GET_NOTIFICATION_COUNT(
-          user?.userId || "A1234",
+        const countResponse = await GET_NOTIFICATION_COUNT(user?.userDbId);
+        setNewNotificationCount(
+          countResponse?.data?.newNotificationsCount || 0,
         );
-        setNewNotificationCount(countResponse?.count || 0);
 
         // --- Notification LIST (notifications page) ---
         // Mock JSON data used to populate the notifications page until
