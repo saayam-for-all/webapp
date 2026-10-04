@@ -2,12 +2,14 @@ import "@testing-library/jest-dom";
 import { fireEvent, screen, act, waitFor } from "@testing-library/react";
 import { renderWithProviders, MOCK_STATE_LOGGED_IN } from "#utils/test-utils";
 import RequestDetails from "./RequestDetails";
+import { deleteRequest } from "../../services/requestServices";
 
 let mockLocationState = { id: "123", subject: "Test Request" };
+const mockNavigate = jest.fn();
 
 jest.mock("react-router-dom", () => ({
   useLocation: () => ({ state: mockLocationState }),
-  useNavigate: () => jest.fn(),
+  useNavigate: () => mockNavigate,
   useParams: () => ({ id: "123" }),
 }));
 
@@ -21,6 +23,7 @@ jest.mock("react-i18next", () => ({
 jest.mock("../../services/requestServices", () => ({
   getMyRequests: jest.fn(() => Promise.resolve({ body: [] })),
   getComments: jest.fn(() => Promise.resolve({ body: [] })),
+  deleteRequest: jest.fn(() => Promise.resolve({})),
 }));
 
 jest.mock("./CommentsSection", () => () => (
@@ -223,6 +226,64 @@ describe("RequestDetails - Delete dialog button order and behavior", () => {
       expect(
         screen.queryByRole("button", { name: "DELETE_ACTION" }),
       ).not.toBeInTheDocument();
+    });
+  });
+  it("deletes request and navigates to dashboard with success message", async () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("DETAILS"));
+    fireEvent.click(screen.getByRole("button", { name: "DELETE" }));
+
+    fireEvent.change(screen.getByPlaceholderText("REASON"), {
+      target: { value: "No longer needed" },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "DELETE_ACTION",
+      }),
+    );
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith("/dashboard", {
+        state: {
+          successMessage: "Request #123 is deleted successfully",
+        },
+      });
+    });
+  });
+  it("uses creatorId as requesterId when deleting from All Requests", async () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      creatorId: "creator-456",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByText("DETAILS"));
+    fireEvent.click(screen.getByRole("button", { name: "DELETE" }));
+
+    fireEvent.change(screen.getByPlaceholderText("REASON"), {
+      target: { value: "Duplicate request" },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "DELETE_ACTION",
+      }),
+    );
+
+    await waitFor(() => {
+      expect(deleteRequest).toHaveBeenCalledWith({
+        requestId: "123",
+        requesterId: "creator-456",
+        deletionReason: "Duplicate request",
+      });
     });
   });
 });
