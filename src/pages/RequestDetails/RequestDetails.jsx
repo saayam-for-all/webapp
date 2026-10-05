@@ -39,6 +39,8 @@ const RequestDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const [showEmergency, setShowEmergency] = useState(false);
+  const [findVolunteerDialogOpen, setFindVolunteerDialogOpen] = useState(false);
+  const [leadVolunteerName, setLeadVolunteerName] = useState("Ethan Marshall");
   const requestId = id || location.state?.id;
   const currentUser = useSelector((state) => state.auth.user);
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
@@ -92,6 +94,9 @@ const RequestDetails = () => {
   const isMyRequest =
     requestData?.sourceDashboard === "BENEFICIARY" ||
     requestData?.sourceTab === "myRequests";
+  const isStewardReviewRequest =
+    requestData?.sourceDashboard === "STEWARD" &&
+    requestData?.sourceTab === "reviewRequests";
 
   const creatorName =
     requestData?.creatorName ||
@@ -138,7 +143,7 @@ const RequestDetails = () => {
       isClickable: true,
     },
     {
-      context: "Ethan Marshall",
+      context: leadVolunteerName,
       type: "LEAD_VOLUNTEER",
       icon: <RiUserStarLine size={22} />,
       isClickable: true,
@@ -274,6 +279,16 @@ const RequestDetails = () => {
                   key={index}
                   className="flex items-center gap-2 group relative"
                 >
+                  {header.type === "LEAD_VOLUNTEER" &&
+                    isStewardReviewRequest && (
+                      <button
+                        type="button"
+                        onClick={() => setFindVolunteerDialogOpen(true)}
+                        className="bg-blue-500 text-white text-sm px-3 py-2 rounded-md hover:bg-blue-600 whitespace-nowrap"
+                      >
+                        {t("FIND_VOLUNTEER", "Find Volunteer")}
+                      </button>
+                    )}
                   {header.icon}
                   {header.isClickable ? (
                     <button
@@ -298,6 +313,33 @@ const RequestDetails = () => {
                 </li>
               ))}
             </div>
+
+            <Dialog
+              open={findVolunteerDialogOpen}
+              onClose={() => setFindVolunteerDialogOpen(false)}
+              fullWidth
+              maxWidth="lg"
+            >
+              <DialogTitle>{t("FIND_VOLUNTEER", "Find Volunteer")}</DialogTitle>
+              <DialogContent>
+                <HelpingVolunteers
+                  findVolunteerMode
+                  onAssign={(volunteer) => {
+                    setLeadVolunteerName(volunteer.name);
+                    setFindVolunteerDialogOpen(false);
+                  }}
+                />
+              </DialogContent>
+              <DialogActions>
+                <button
+                  type="button"
+                  className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
+                  onClick={() => setFindVolunteerDialogOpen(false)}
+                >
+                  {t("CLOSE", "Close")}
+                </button>
+              </DialogActions>
+            </Dialog>
 
             <div className="flex flex-row justify-between">
               <RequestButton

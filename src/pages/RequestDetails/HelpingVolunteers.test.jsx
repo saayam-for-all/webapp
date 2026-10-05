@@ -283,6 +283,9 @@ describe("HelpingVolunteers", () => {
 
     fireEvent.change(sortSelect, { target: { value: "Name" } });
     expect(sortSelect.value).toBe("Name");
+
+    fireEvent.change(sortSelect, { target: { value: "Newest" } });
+    expect(sortSelect.value).toBe("Newest");
   });
 
   it("changes rows per view", async () => {
@@ -346,5 +349,55 @@ describe("HelpingVolunteers", () => {
     fireEvent.click(rowCheckbox);
 
     expect(rowCheckbox).toBeInTheDocument();
+  });
+
+  it("searches and assigns a single volunteer in find mode", async () => {
+    const onAssign = jest.fn();
+    render(<HelpingVolunteers findVolunteerMode onAssign={onAssign} />);
+
+    const lookupInput =
+      await screen.findByPlaceholderText(/ENTER_VOLUNTEER_NAME/i);
+    const searchBySelect = screen
+      .getAllByRole("combobox")
+      .find((select) => select.value === "name");
+    fireEvent.change(searchBySelect, {
+      target: { value: "phone" },
+    });
+    fireEvent.change(lookupInput, { target: { value: "123" } });
+
+    expect(screen.getByText("Jane Cooper")).toBeInTheDocument();
+    expect(screen.queryByText("John Doe")).not.toBeInTheDocument();
+    expect(screen.queryByText("REQUEST_VOLUNTEERS")).not.toBeInTheDocument();
+
+    fireEvent.change(lookupInput, { target: { value: "" } });
+    fireEvent.click(screen.getByRole("radio", { name: "Select Jane Cooper" }));
+    fireEvent.click(screen.getByRole("button", { name: "Assign Volunteer" }));
+
+    expect(onAssign).toHaveBeenCalledWith(mockVolunteers[0]);
+  });
+
+  it("shows all find-mode volunteers and supports next and previous pages", async () => {
+    const volunteers = Array.from({ length: 7 }, (_, index) => ({
+      name: `Volunteer ${index + 1}`,
+      cause: "Community support",
+      phone: `${index + 1}`,
+      email: `volunteer${index + 1}@example.com`,
+      location: "Boston",
+      rating: "★★★★★",
+    }));
+    getVolunteersData.mockResolvedValueOnce(volunteers);
+
+    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+
+    expect(await screen.findByText("Volunteer 5")).toBeInTheDocument();
+    expect(screen.queryByText("Volunteer 6")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+    expect(await screen.findByText("Volunteer 6")).toBeInTheDocument();
+    expect(screen.getByText("Volunteer 7")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Previous" }));
+    expect(await screen.findByText("Volunteer 1")).toBeInTheDocument();
+    expect(screen.queryByText("Volunteer 6")).not.toBeInTheDocument();
   });
 });

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { getVolunteersData } from "../../services/volunteerServices";
 import {
@@ -8,7 +9,7 @@ import {
 import { FaVideo } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const HelpingVolunteers = () => {
+const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
   const { t } = useTranslation();
   // Modal state for Zoom meeting scheduling
   const [meetingModalOpen, setMeetingModalOpen] = useState(false);
@@ -37,6 +38,7 @@ const HelpingVolunteers = () => {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [searchBy, setSearchBy] = useState("name");
+  const [lookupTerm, setLookupTerm] = useState("");
   const [filter, setFilter] = useState(""); // State for filter functionality
   const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
   const [volunteerCountError, setVolunteerCountError] = useState("");
@@ -113,14 +115,18 @@ const HelpingVolunteers = () => {
 
   // Sorting and filtering logic
   const filteredAndSortedVolunteers = useMemo(() => {
-    let topN = volunteerData.slice(
-      0,
-      Math.min(volunteerData.length, volunteersCount),
-    );
+    const topN = findVolunteerMode
+      ? volunteerData
+      : volunteerData.slice(0, Math.min(volunteerData.length, volunteersCount));
     let filteredVolunteers = topN.filter((volunteer) => {
-      return (volunteer.name || "")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      return (
+        (volunteer.name || "")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) &&
+        String(volunteer[searchBy] || "")
+          .toLowerCase()
+          .includes(lookupTerm.toLowerCase())
+      );
     });
 
     if (filter) {
@@ -148,7 +154,16 @@ const HelpingVolunteers = () => {
     });
 
     return filteredVolunteers;
-  }, [volunteerData, searchTerm, filter, sortConfig, volunteersCount]);
+  }, [
+    volunteerData,
+    searchTerm,
+    lookupTerm,
+    searchBy,
+    findVolunteerMode,
+    filter,
+    sortConfig,
+    volunteersCount,
+  ]);
 
   const totalRows = filteredAndSortedVolunteers.length;
   const totalPages = Math.ceil(totalRows / itemsPerPage);
@@ -343,55 +358,59 @@ const HelpingVolunteers = () => {
       </div>
       <div className="bg-gray-100 shadow-md p-1 space-y-4 rounded-b-md">
         <div className="flex flex-wrap items-stretch gap-4 p-4 mt-2">
-          {/* Box 1: Request by number of volunteers */}
-          <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
-            <input
-              type="number"
-              min="1"
-              max="5"
-              placeholder={t("NUMBER_OF_VOLUNTEERS")}
-              className="p-3 border rounded-md w-40"
-              value={volunteersCount}
-              onChange={(e) => {
-                setVolunteersCount(e.target.value);
-                setChooseVolunteer(false);
-                if (Number(e.target.value) <= 5) {
+          {!findVolunteerMode && (
+            <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
+              <input
+                type="number"
+                min="1"
+                max="5"
+                placeholder={t("NUMBER_OF_VOLUNTEERS")}
+                className="p-3 border rounded-md w-40"
+                value={volunteersCount}
+                onChange={(e) => {
+                  setVolunteersCount(e.target.value);
+                  setChooseVolunteer(false);
+                  if (Number(e.target.value) <= 5) {
+                    setVolunteerCountError("");
+                  }
+                }}
+              />
+              <button
+                className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
+                onClick={() => {
+                  const requestedCount = Number(volunteersCount);
+                  if (requestedCount > 5) {
+                    setVolunteerCountError(
+                      "Maximum 5 volunteer can be assigned",
+                    );
+                    return;
+                  }
                   setVolunteerCountError("");
-                }
-              }}
-            />
-            <button
-              className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
-              onClick={() => {
-                const requestedCount = Number(volunteersCount);
-                if (requestedCount > 5) {
-                  setVolunteerCountError("Maximum 5 volunteer can be assigned");
-                  return;
-                }
-                setVolunteerCountError("");
-                setChooseVolunteer(true);
-              }}
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+                  setChooseVolunteer(true);
+                }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              {t("REQUEST_VOLUNTEERS")}
-            </button>
-          </div>
+                <svg
+                  className="w-5 h-5 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                {t("REQUEST_VOLUNTEERS")}
+              </button>
+            </div>
+          )}
 
-          {/* Separator line between the two search boxes */}
-          <div className="w-px self-stretch bg-gray-300" aria-hidden="true" />
+          {!findVolunteerMode && (
+            <div className="w-px self-stretch bg-gray-300" aria-hidden="true" />
+          )}
 
           {/* Box 2: Look up a volunteer by name, email or phone */}
           <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
@@ -405,6 +424,8 @@ const HelpingVolunteers = () => {
                     : t("ENTER_VOLUNTEER_NAME")
               }
               className="p-3 border rounded-md w-64"
+              value={lookupTerm}
+              onChange={(event) => setLookupTerm(event.target.value)}
             />
             <select
               value={searchBy}
@@ -458,37 +479,52 @@ const HelpingVolunteers = () => {
               </select>
             </div>
 
-            {/* Right: Zoom + Delete */}
-            <div className="flex flex-row gap-2 items-center">
-              {/* Zoom Meeting Button */}
+            {findVolunteerMode ? (
               <button
-                className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
-                disabled={selectedVolunteers.length === 0}
-                onClick={() => setMeetingModalOpen(true)}
-              >
-                <FaVideo className="text-lg" />
-                <span>Zoom Meeting</span>
-              </button>
-              {/* Delete Button */}
-              <button
-                className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50"
+                type="button"
+                className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
                 disabled={selectedVolunteers.length === 0}
                 onClick={() => {
-                  setVolunteerData((prev) =>
-                    prev.filter(
-                      (volunteer) =>
-                        !selectedVolunteers.includes(volunteer.email),
-                    ),
+                  const volunteer = volunteerData.find(
+                    (item) => item.email === selectedVolunteers[0],
                   );
-                  setSelectedVolunteers([]);
+                  if (volunteer) onAssign?.(volunteer);
                 }}
               >
-                {t("Delete")}
+                Assign Volunteer
               </button>
-            </div>
+            ) : (
+              <div className="flex flex-row gap-2 items-center">
+                {/* Zoom Meeting Button */}
+                <button
+                  className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
+                  disabled={selectedVolunteers.length === 0}
+                  onClick={() => setMeetingModalOpen(true)}
+                >
+                  <FaVideo className="text-lg" />
+                  <span>Zoom Meeting</span>
+                </button>
+                {/* Delete Button */}
+                <button
+                  className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50"
+                  disabled={selectedVolunteers.length === 0}
+                  onClick={() => {
+                    setVolunteerData((prev) =>
+                      prev.filter(
+                        (volunteer) =>
+                          !selectedVolunteers.includes(volunteer.email),
+                      ),
+                    );
+                    setSelectedVolunteers([]);
+                  }}
+                >
+                  {t("Delete")}
+                </button>
+              </div>
+            )}
           </div>
 
-          {chooseVolunteer && (
+          {chooseVolunteer && !findVolunteerMode && (
             <div className="flex justify-between w-full mb-4">
               <div className="text-md text-gray-500 font-bold flex flex-row gap-4 items-center">
                 {`${volunteersCount} Volunteers Requested`}
@@ -547,13 +583,29 @@ const HelpingVolunteers = () => {
                   paginatedData.map((volunteer, index) => (
                     <tr key={index} className="hover:bg-gray-100">
                       <td className="px-4 py-2 border-b">
-                        <input
-                          type="checkbox"
-                          checked={selectedVolunteers.includes(volunteer.email)}
-                          onChange={() => {
-                            handleCheckboxChange(volunteer.email);
-                          }}
-                        />
+                        {findVolunteerMode ? (
+                          <input
+                            type="radio"
+                            name="selected-volunteer"
+                            aria-label={`Select ${volunteer.name}`}
+                            checked={selectedVolunteers.includes(
+                              volunteer.email,
+                            )}
+                            onChange={() =>
+                              setSelectedVolunteers([volunteer.email])
+                            }
+                          />
+                        ) : (
+                          <input
+                            type="checkbox"
+                            checked={selectedVolunteers.includes(
+                              volunteer.email,
+                            )}
+                            onChange={() =>
+                              handleCheckboxChange(volunteer.email)
+                            }
+                          />
+                        )}
                       </td>
                       <td className="px-4 py-2 border-b">
                         <Link
@@ -634,6 +686,11 @@ const HelpingVolunteers = () => {
       </div>
     </div>
   );
+};
+
+HelpingVolunteers.propTypes = {
+  findVolunteerMode: PropTypes.bool,
+  onAssign: PropTypes.func,
 };
 
 export default HelpingVolunteers;
