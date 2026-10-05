@@ -184,4 +184,28 @@ describe("SignUp", () => {
       ).not.toBeDisabled();
     });
   });
+
+  it("renders the 'or use your' text after the Log In button", () => {
+    render(<SignUp />);
+    expect(screen.getByText(/or use your/i)).toBeInTheDocument();
+  });
+
+  it("renders 'social media accounts' in bold", () => {
+    render(<SignUp />);
+    const boldText = screen.getByText("social media accounts");
+    expect(boldText.tagName).toBe("STRONG");
+  });
+
+  it("renders the Log In button that navigates to /login", () => {
+    const mockNavigate = jest.fn();
+    jest
+      .spyOn(require("react-router-dom"), "useNavigate")
+      .mockReturnValue(mockNavigate);
+
+    render(<SignUp />);
+    const loginButton = screen.getByRole("button", { name: "LOGIN" });
+    expect(loginButton).toBeInTheDocument();
+    fireEvent.click(loginButton);
+    expect(mockNavigate).toHaveBeenCalledWith("/login");
+  });
 });

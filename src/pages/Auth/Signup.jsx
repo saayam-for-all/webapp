@@ -440,13 +440,16 @@ const SignUp = () => {
         </div> */}
 
         <div className="mt-8 flex flex-row justify-center">
-          <p>{t("ALREADY_HAVE_ACCOUNT")}</p>
-          <button
-            className="mx-2 text-left underline"
-            onClick={() => navigate("/login")}
-          >
-            {t("LOGIN")}
-          </button>
+          <p>
+            {t("ALREADY_HAVE_ACCOUNT")}{" "}
+            <button
+              className="mx-2 underline"
+              onClick={() => navigate("/login")}
+            >
+              {t("LOGIN")}
+            </button>
+            or use your <strong>social media accounts</strong>
+          </p>
         </div>
       </div>
     </div>
