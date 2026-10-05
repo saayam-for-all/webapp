@@ -521,6 +521,24 @@ describe("Dashboard", () => {
     expect(lastStewardDashboardProps?.serverPaginated).toBe(false);
   });
 
+  it("marks Steward Review Requests navigation as the source of request details", async () => {
+    renderWithProviders(<Dashboard />, { preloadedState: stewardAuthState });
+
+    await waitFor(() => {
+      expect(lastStewardDashboardProps?.filteredData?.length).toBeGreaterThan(
+        0,
+      );
+    });
+
+    const request = lastStewardDashboardProps.filteredData[0];
+    expect(
+      lastStewardDashboardProps.getLinkState(request, "requestId"),
+    ).toMatchObject({
+      sourceDashboard: "STEWARD",
+      sourceTab: "reviewRequests",
+    });
+  });
+
   it("applies userPreferences.defaultDashboard when accessible to the user", () => {
     localStorage.setItem(
       "userPreferences",
