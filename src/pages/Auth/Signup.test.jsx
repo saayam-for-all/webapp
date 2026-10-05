@@ -185,6 +185,27 @@ describe("SignUp", () => {
     });
   });
 
+  it("keeps the Sign up button disabled when email is empty (#1859)", () => {
+    render(<SignUp />);
+
+    fireEvent.change(screen.getByLabelText("FIRST_NAME"), {
+      target: { value: "Jane" },
+    });
+    fireEvent.change(screen.getByLabelText("LAST_NAME"), {
+      target: { value: "Doe" },
+    });
+    fireEvent.change(screen.getByLabelText("PASSWORD"), {
+      target: { value: "Passw0rd!" },
+    });
+    fireEvent.change(screen.getByLabelText("CONFIRM_PASSWORD"), {
+      target: { value: "Passw0rd!" },
+    });
+    fireEvent.click(screen.getByRole("checkbox"));
+
+    const button = screen.getByRole("button", { name: "Sign up" });
+    expect(button).toBeDisabled();
+  });
+
   it("renders the 'or use your' text after the Log In button", () => {
     render(<SignUp />);
     expect(screen.getByText(/or use your/i)).toBeInTheDocument();

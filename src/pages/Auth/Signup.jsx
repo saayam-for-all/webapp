@@ -80,6 +80,15 @@ const SignUp = () => {
   const allRequirementsMet =
     hasNumber && hasUppercase && hasLowercase && hasSpecialChar && hasMinLength;
 
+  const requiredFieldsFilled = [
+    firstName,
+    lastName,
+    emailValue,
+    phone,
+    passwordValue,
+    confirmPasswordValue,
+  ].every((value) => value.trim() !== "");
+
   const navigate = useNavigate();
 
   //name, email and phone number validation functions
@@ -410,10 +419,10 @@ const SignUp = () => {
         </div>
         <button
           className={`my-4 py-2 rounded-xl text-white flex items-center justify-center gap-2
-    ${acceptedTOS && !isSubmitting ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 opacity-50 cursor-not-allowed"}
+    ${acceptedTOS && requiredFieldsFilled && !isSubmitting ? "bg-blue-400 hover:bg-blue-500 cursor-pointer" : "bg-blue-400 hover:bg-blue-400 opacity-50 cursor-not-allowed"}
   `}
           onClick={handleSignUp}
-          disabled={!acceptedTOS || isSubmitting}
+          disabled={!acceptedTOS || !requiredFieldsFilled || isSubmitting}
         >
           <span>{isSubmitting ? "Signing up..." : "Sign up"}</span>
           {isSubmitting && <LoadingIndicator size="20px" />}
