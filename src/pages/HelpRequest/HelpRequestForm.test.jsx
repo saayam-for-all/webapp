@@ -189,11 +189,12 @@ function renderForm({
   isEdit = false,
   editRequestData,
   onClose = jest.fn(),
+  userDbId = "dbUser123",
 } = {}) {
   const store = configureStore({
     reducer: { auth: authReducer, request: requestReducer },
     preloadedState: {
-      auth: { user: { userId: "mockUser", userDbId: "dbUser123" } },
+      auth: { user: { userId: "mockUser", userDbId } },
       request: { categories: mockCategories, categoriesFetched: true },
     },
   });
@@ -994,6 +995,45 @@ describe("HelpRequestForm — successful submission", () => {
     expect(
       screen.queryByText("Help Request submitted successfully!"),
     ).not.toBeInTheDocument();
+  });
+
+  it("uses localStorage userDbId as requesterId when Redux userDbId is missing", async () => {
+    const { createRequest } = require("../../services/requestServices");
+    createRequest.mockResolvedValue({ data: { requestId: "REQ-LOCAL" } });
+    localStorage.setItem("userDbId", "dbUserFromLocalStorage");
+
+    try {
+      renderForm({ userDbId: null });
+
+      selectSubcategory();
+
+      fireEvent.change(document.getElementById("description"), {
+        target: {
+          name: "description",
+          value: "I need help with my college application process.",
+        },
+      });
+
+      await act(async () => {
+        fireEvent.click(
+          screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+        );
+      });
+
+      await waitFor(() => expect(createRequest).toHaveBeenCalled());
+
+      const {
+        mapHelpRequestPayload,
+      } = require("../../utils/mapHelpRequestPayload");
+      const callArgs =
+        mapHelpRequestPayload.mock.calls[
+          mapHelpRequestPayload.mock.calls.length - 1
+        ][0];
+
+      expect(callArgs.requesterId).toBe("dbUserFromLocalStorage");
+    } finally {
+      localStorage.removeItem("userDbId");
+    }
   });
 
   it("navigates with generic message when createRequest response has no requestId", async () => {

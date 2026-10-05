@@ -52,26 +52,57 @@ describe("mapHelpRequestPayload", () => {
     expect(result).not.toHaveProperty("requestId");
   });
 
-  it("includes requestLocation as coordinates when locationCoordinates provided", () => {
+  it("includes latitude and longitude separately for an in-person request", () => {
     const result = mapHelpRequestPayload({
       ...baseArgs,
       formData: {
         ...baseFormData,
+        request_type: "IN_PERSON",
         location: "New York, NY",
-        locationCoordinates: { latitude: 40.7128, longitude: -74.006 },
+        locationCoordinates: {
+          latitude: 40.7128,
+          longitude: -74.006,
+        },
       },
     });
 
-    expect(result.requestLocation).toBe("longitude:-74.006,latitude:40.7128");
+    expect(result.latitude).toBe(40.7128);
+    expect(result.longitude).toBe(-74.006);
+    expect(result).not.toHaveProperty("requestLocation");
   });
 
-  it("includes requestLocation as string when no locationCoordinates provided", () => {
+  it("does not include location coordinates for a remote request", () => {
     const result = mapHelpRequestPayload({
       ...baseArgs,
-      formData: { ...baseFormData, location: "New York, NY" },
+      formData: {
+        ...baseFormData,
+        request_type: "REMOTE",
+        location: "New York, NY",
+        locationCoordinates: {
+          latitude: 40.7128,
+          longitude: -74.006,
+        },
+      },
     });
 
-    expect(result.requestLocation).toBe("New York, NY");
+    expect(result).not.toHaveProperty("latitude");
+    expect(result).not.toHaveProperty("longitude");
+    expect(result).not.toHaveProperty("requestLocation");
+  });
+
+  it("does not include location fields when an in-person request has no coordinates", () => {
+    const result = mapHelpRequestPayload({
+      ...baseArgs,
+      formData: {
+        ...baseFormData,
+        request_type: "IN_PERSON",
+        location: "New York, NY",
+      },
+    });
+
+    expect(result).not.toHaveProperty("latitude");
+    expect(result).not.toHaveProperty("longitude");
+    expect(result).not.toHaveProperty("requestLocation");
   });
 
   it("maps GENERAL_CATEGORY to catId '0.0.0.0.0'", () => {
