@@ -126,6 +126,46 @@ describe("RequestDetails - Tab Translation Tests", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("closes the find volunteer dialog with its Close button", async () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      sourceDashboard: "STEWARD",
+      sourceTab: "reviewRequests",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "FIND_VOLUNTEER" }));
+    fireEvent.click(screen.getByRole("button", { name: "CLOSE" }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  });
+
+  it("closes the find volunteer dialog when Escape is pressed", async () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      sourceDashboard: "STEWARD",
+      sourceTab: "reviewRequests",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "FIND_VOLUNTEER" }));
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
+
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  });
+
   it("shows actual beneficiary and creator names for beneficiary My Requests", () => {
     mockLocationState = {
       id: "123",

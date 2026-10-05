@@ -537,6 +537,9 @@ describe("Dashboard", () => {
       sourceDashboard: "STEWARD",
       sourceTab: "reviewRequests",
     });
+    expect(lastStewardDashboardProps.getLinkState(request, "subject")).toBe(
+      request,
+    );
   });
 
   it("applies userPreferences.defaultDashboard when accessible to the user", () => {
