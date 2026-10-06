@@ -1242,10 +1242,6 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     setAttachedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const removeUploadedFile = (index) => {
-    setUploadedFilesInfo((prev) => prev.filter((_, i) => i !== index));
-  };
-
   // Format long file names (keep first 45 chars + extension)
   const formatFileName = (fileName) => {
     const maxLen = 43;
