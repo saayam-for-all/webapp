@@ -1449,6 +1449,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         submissionData.attachments = uploadedFileUrls;
       }
 
+      // Edit request API expects `creatorId`, create request API expects `requesterId`
       const userIdKey = isEdit ? "creatorId" : "requesterId";
 
       // Build the API payload
