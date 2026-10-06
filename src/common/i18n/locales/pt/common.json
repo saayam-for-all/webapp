@@ -809,5 +809,7 @@
   "without desecrating any beliefs.": "sem desrespeitar quaisquer crenças.",
   "writeComment": "escreva um comentário",
   "FIND_VOLUNTEER": "Encontrar voluntário",
+  "ASSIGN_VOLUNTEER": "Atribuir voluntário",
+  "SELECT_VOLUNTEER": "Selecionar {{name}}",
   "NA": "Não disponível"
 }

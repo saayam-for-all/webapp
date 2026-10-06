@@ -801,5 +801,7 @@
   "without desecrating any beliefs.": "ohne Glaubensrichtungen zu verletzen.",
   "writeComment": "schreibe einen Kommentar",
   "FIND_VOLUNTEER": "Freiwilligen finden",
+  "ASSIGN_VOLUNTEER": "Freiwilligen zuweisen",
+  "SELECT_VOLUNTEER": "{{name}} auswählen",
   "NA": "Nicht verfügbar"
 }

@@ -370,8 +370,14 @@ describe("HelpingVolunteers", () => {
     expect(screen.queryByText("REQUEST_VOLUNTEERS")).not.toBeInTheDocument();
 
     fireEvent.change(lookupInput, { target: { value: "" } });
-    fireEvent.click(screen.getByRole("radio", { name: "Select Jane Cooper" }));
-    fireEvent.click(screen.getByRole("button", { name: "Assign Volunteer" }));
+    fireEvent.click(
+      screen.getAllByRole("radio", {
+        name: "mockTranslate(SELECT_VOLUNTEER)",
+      })[0],
+    );
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(ASSIGN_VOLUNTEER)" }),
+    );
 
     expect(onAssign).toHaveBeenCalledWith(mockVolunteers[0]);
   });

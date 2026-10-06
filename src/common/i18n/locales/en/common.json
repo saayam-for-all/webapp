@@ -824,5 +824,7 @@
   "DELETE_ACTION": "Delete",
   "VOICE_NO_SPEECH_DETECTED": "No speech detected. Please try again and speak into your microphone while recording.",
   "FIND_VOLUNTEER": "Find Volunteer",
+  "ASSIGN_VOLUNTEER": "Assign Volunteer",
+  "SELECT_VOLUNTEER": "Select {{name}}",
   "NA": "NA"
 }

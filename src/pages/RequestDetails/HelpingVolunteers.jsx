@@ -491,7 +491,7 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
                   if (volunteer) onAssign?.(volunteer);
                 }}
               >
-                Assign Volunteer
+                {t("ASSIGN_VOLUNTEER")}
               </button>
             ) : (
               <div className="flex flex-row gap-2 items-center">
@@ -587,7 +587,9 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
                           <input
                             type="radio"
                             name="selected-volunteer"
-                            aria-label={`Select ${volunteer.name}`}
+                            aria-label={t("SELECT_VOLUNTEER", {
+                              name: volunteer.name,
+                            })}
                             checked={selectedVolunteers.includes(
                               volunteer.email,
                             )}
