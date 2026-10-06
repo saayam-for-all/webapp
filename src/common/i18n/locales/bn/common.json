@@ -801,5 +801,7 @@
   "where the ethos of \"Manava Sevaye Madhava": "যেখানে \"মানব সেবায়ে মাধব",
   "without desecrating any beliefs.": "কোনো বিশ্বাসের অবমাননা ছাড়াই।",
   "FIND_VOLUNTEER": "স্বেচ্ছাসেবক খুঁজুন",
+  "ASSIGN_VOLUNTEER": "স্বেচ্ছাসেবক নিয়োগ করুন",
+  "SELECT_VOLUNTEER": "{{name}} নির্বাচন করুন",
   "NA": "উপলব্ধ নয়"
 }

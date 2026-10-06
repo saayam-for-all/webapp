@@ -801,5 +801,7 @@
   "without desecrating any beliefs.": "बिना किसी मान्यता का अपमान किए।",
   "writeComment": "एक टिप्पणी लिखें",
   "FIND_VOLUNTEER": "स्वयंसेवक खोजें",
+  "ASSIGN_VOLUNTEER": "स्वयंसेवक नियुक्त करें",
+  "SELECT_VOLUNTEER": "{{name}} को चुनें",
   "NA": "उपलब्ध नहीं"
 }

@@ -800,5 +800,7 @@
   "without desecrating any beliefs.": "sin profanar ninguna creencia.",
   "writeComment": "escribe un comentario",
   "FIND_VOLUNTEER": "Buscar voluntario",
+  "ASSIGN_VOLUNTEER": "Asignar voluntario",
+  "SELECT_VOLUNTEER": "Seleccionar a {{name}}",
   "NA": "No disponible"
 }

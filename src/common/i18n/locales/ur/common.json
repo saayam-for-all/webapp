@@ -460,5 +460,7 @@
   "DONATION_GRANT": "عطیہ/گرانٹ",
   "CLOSE": "بند کریں",
   "FIND_VOLUNTEER": "رضاکار تلاش کریں",
+  "ASSIGN_VOLUNTEER": "رضاکار مقرر کریں",
+  "SELECT_VOLUNTEER": "{{name}} کو منتخب کریں",
   "NA": "دستیاب نہیں"
 }

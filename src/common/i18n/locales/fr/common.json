@@ -801,5 +801,7 @@
   "without desecrating any beliefs.": "sans profaner aucune croyance.",
   "writeComment": "écrire un commentaire",
   "FIND_VOLUNTEER": "Trouver un bénévole",
+  "ASSIGN_VOLUNTEER": "Affecter un bénévole",
+  "SELECT_VOLUNTEER": "Sélectionner {{name}}",
   "NA": "Non disponible"
 }

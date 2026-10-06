@@ -801,5 +801,7 @@
   "where the ethos of \"Manava Sevaye Madhava": "где этос \"Manava Sevaye Madhava",
   "without desecrating any beliefs.": "без осквернения каких-либо убеждений.",
   "FIND_VOLUNTEER": "Найти волонтёра",
+  "ASSIGN_VOLUNTEER": "Назначить волонтёра",
+  "SELECT_VOLUNTEER": "Выбрать {{name}}",
   "NA": "Недоступно"
 }

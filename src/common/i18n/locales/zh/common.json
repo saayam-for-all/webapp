@@ -793,5 +793,7 @@
   "where the ethos of \"Manava Sevaye Madhava": "其“服务人类即服务神”的理念",
   "without desecrating any beliefs.": "不亵渎任何信仰。",
   "FIND_VOLUNTEER": "查找志愿者",
+  "ASSIGN_VOLUNTEER": "分配志愿者",
+  "SELECT_VOLUNTEER": "选择 {{name}}",
   "NA": "不可用"
 }
