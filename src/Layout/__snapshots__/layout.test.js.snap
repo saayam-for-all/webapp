@@ -11,6 +11,7 @@ exports[`Layout renders correctly 1`] = `
         <mock-navigation-guard />
         <header
           class="sticky z-10"
+          google-side-rail-overlap="false"
           id="header"
         >
           <mock-navbar />
@@ -19,45 +20,17 @@ exports[`Layout renders correctly 1`] = `
           class="flex flex-1"
         >
           <aside
-            class="left-ads-panel flex-1"
+            class="left-ads-panel flex-1 "
           >
             <mock-left-ads />
           </aside>
           <main
             class="flex-[6] overflow-auto"
           >
-            <nav
-              aria-label="breadcrumb"
-              class="breadcrumb-nav"
-            >
-              <ol
-                class="breadcrumbs"
-              >
-                <li
-                  class="breadcrumb-item"
-                >
-                  <a
-                    href="/"
-                  >
-                    mockTranslate(HOME)
-                  </a>
-                </li>
-                <li
-                  aria-current="page"
-                  class="breadcrumb-item active"
-                >
-                  mockTranslate(DASHBOARD)
-                </li>
-              </ol>
-            </nav>
-            <mock-suspense>
-              <div>
-                Outlet
-              </div>
-            </mock-suspense>
+            <mock-suspense />
           </main>
           <aside
-            class="right-ads-panel flex-1"
+            class="right-ads-panel flex-1 "
           >
             <mock-right-ads />
           </aside>
@@ -82,6 +55,7 @@ exports[`Layout renders correctly 1`] = `
       <mock-navigation-guard />
       <header
         class="sticky z-10"
+        google-side-rail-overlap="false"
         id="header"
       >
         <mock-navbar />
@@ -90,45 +64,17 @@ exports[`Layout renders correctly 1`] = `
         class="flex flex-1"
       >
         <aside
-          class="left-ads-panel flex-1"
+          class="left-ads-panel flex-1 "
         >
           <mock-left-ads />
         </aside>
         <main
           class="flex-[6] overflow-auto"
         >
-          <nav
-            aria-label="breadcrumb"
-            class="breadcrumb-nav"
-          >
-            <ol
-              class="breadcrumbs"
-            >
-              <li
-                class="breadcrumb-item"
-              >
-                <a
-                  href="/"
-                >
-                  mockTranslate(HOME)
-                </a>
-              </li>
-              <li
-                aria-current="page"
-                class="breadcrumb-item active"
-              >
-                mockTranslate(DASHBOARD)
-              </li>
-            </ol>
-          </nav>
-          <mock-suspense>
-            <div>
-              Outlet
-            </div>
-          </mock-suspense>
+          <mock-suspense />
         </main>
         <aside
-          class="right-ads-panel flex-1"
+          class="right-ads-panel flex-1 "
         >
           <mock-right-ads />
         </aside>

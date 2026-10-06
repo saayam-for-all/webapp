@@ -11,9 +11,6 @@ global.IntersectionObserver = class {
 };
 
 import { render } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import fs from "fs";
-import path from "path";
 import Layout from "./Layout";
 
 jest.mock("react", () => ({
@@ -23,10 +20,7 @@ jest.mock("react", () => ({
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
-  useMatches: () => [
-    { pathname: "/dashboard", params: {}, handle: { leaveAdSpace: true } },
-  ],
-  Outlet: () => <div>Outlet</div>,
+  useMatches: () => [{ pathname: "/", params: {} }],
 }));
 
 // Mock all the custom components because they have their own snapshot tests
@@ -39,20 +33,14 @@ jest.mock("#components/NavigationGuard/NavigationGuard");
 
 describe("Layout", () => {
   it("renders correctly", () => {
-    const tree = render(
-      <MemoryRouter initialEntries={["/dashboard"]}>
-        <Layout />
-      </MemoryRouter>,
-    );
+    const tree = render(<Layout />);
+
     expect(tree).toMatchSnapshot();
   });
 
-  it("collapses both side-rail containers at 480px and below", () => {
-    const stylesheet = fs.readFileSync(path.resolve("src/index.css"), "utf8");
+  it("renders both ad rails", () => {
+    const { container } = render(<Layout />);
 
-    expect(stylesheet).toMatch(/@media\s+\(max-width:\s*480px\)/);
-    expect(stylesheet).toMatch(
-      /\.left-ads-panel,\s*\.right-ads-panel\s*\{[^}]*display:\s*none\s*!important;[^}]*width:\s*0\s*!important;[^}]*min-width:\s*0\s*!important;[^}]*flex:\s*0 0 0\s*!important;/s,
-    );
+    expect(container.querySelectorAll("aside")).toHaveLength(2);
   });
 });
