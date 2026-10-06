@@ -1506,7 +1506,7 @@ describe("HelpRequestForm — edit mode submission", () => {
         mapHelpRequestPayload.mock.calls.length - 1
       ][0];
     expect(callArgs.selectedCategoryId).toBe("1.3.1");
-    expect(callArgs.requesterId).toBe("SID-00-000-002-622");
+    expect(callArgs.creatorId).toBe("SID-00-000-002-622");
 
     await act(async () => {
       jest.advanceTimersByTime(1200);
@@ -1674,7 +1674,7 @@ describe("HelpRequestForm — edit mode submission", () => {
       mapHelpRequestPayload.mock.calls[
         mapHelpRequestPayload.mock.calls.length - 1
       ][0];
-    expect(callArgs.requesterId).toBe("dbUser123");
+    expect(callArgs.creatorId).toBe("dbUser123");
     expect(callArgs.requestId).toBe("id-fallback-123");
 
     await act(async () => {
