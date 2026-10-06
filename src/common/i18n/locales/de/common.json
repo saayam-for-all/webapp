@@ -86,7 +86,7 @@
   "CHILD_ABUSE": "Kindermissbrauchs‑Hotline",
   "CHOOSE_FILE": "Datei auswählen",
   "CITY": "Stadt",
-  "CLOSE": "SCHLIESSEN",
+  "CLOSE": "Schließen",
   "CLOSE_MENU": "Menü schließen",
   "CLOTHING_SUPPORT": "Unterstützung bei Kleidung",
   "COLLABORATION_NOT_COMPETITION": "Zusammenarbeit, keine Konkurrenz",
@@ -799,5 +799,7 @@
   "volunteers.": "Freiwillige zu motivieren.",
   "where the ethos of \"Manava Sevaye Madhava": "wo der Ethos von „Manava Sevaye Madhava",
   "without desecrating any beliefs.": "ohne Glaubensrichtungen zu verletzen.",
-  "writeComment": "schreibe einen Kommentar"
+  "writeComment": "schreibe einen Kommentar",
+  "FIND_VOLUNTEER": "Freiwilligen finden",
+  "NA": "Nicht verfügbar"
 }
