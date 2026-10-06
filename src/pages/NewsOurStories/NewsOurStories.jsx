@@ -26,15 +26,34 @@ function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
 
   const keys = Object.keys(linksMap)
     .filter(Boolean)
-    .sort((a, b) => b.length - a.length); // longer first
+    .sort((a, b) => b.length - a.length);
 
   if (keys.length === 0) return title;
 
   const escaped = keys.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const regex = new RegExp(`(${escaped.join("|")})`, "g");
+
+  const linkedPattern = escaped.join("|");
+  const regex = new RegExp(`(Our CEO|${linkedPattern})`, "g");
 
   return title.split(regex).map((part, idx) => {
+    if (part === "Our CEO") {
+      return (
+        <React.Fragment key={`our-ceo-${idx}`}>
+          Our{" "}
+          <a
+            href="https://www.linkedin.com/in/raobhethanabotla/?isSelfProfile=false"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={linkClassName}
+          >
+            CEO
+          </a>
+        </React.Fragment>
+      );
+    }
+
     const href = linksMap[part];
+
     if (href) {
       return (
         <a
@@ -48,6 +67,7 @@ function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
         </a>
       );
     }
+
     return <React.Fragment key={`${part}-${idx}`}>{part}</React.Fragment>;
   });
 }
@@ -58,6 +78,8 @@ const stories = [
     title: "STORY_1_TITLE",
     image: withRajaKandRaoC,
     description: "STORY_1_DESC",
+    ceoLink:
+      "https://www.linkedin.com/in/raobhethanabotla/?isSelfProfile=false",
     titleLinks: {
       "Raja Krishnamoorthi":
         "https://en.wikipedia.org/wiki/Raja_Krishnamoorthi",
@@ -204,11 +226,21 @@ export default function NewsOurStories() {
                 {/* <div className="news-date">{story.date}</div> */}
 
                 <h2 className="news-title">
-                  {renderLinkedTitle(t(story.title), story.titleLinks)}
+                  {renderLinkedTitle(
+                    t(story.title),
+                    story.titleLinks,
+                    "news-name-link",
+                    story.ceoLink,
+                  )}
                 </h2>
 
                 <p className="news-desc">
-                  {renderLinkedTitle(t(story.description), story.titleLinks)}
+                  {renderLinkedTitle(
+                    t(story.title),
+                    story.titleLinks,
+                    "news-name-link",
+                    story.ceoLink,
+                  )}
                 </p>
 
                 {/* ✅ Read more ONLY when readMoreLink is provided (Titan news only) */}
