@@ -86,7 +86,7 @@
   "CHILD_ABUSE": "Горячая линия по насилию над детьми",
   "CHOOSE_FILE": "Выбрать файл",
   "CITY": "Город",
-  "CLOSE": "CLOSE",
+  "CLOSE": "Закрыть",
   "CLOSE_MENU": "Close Menu",
   "CLOTHING_SUPPORT": "Clothing Support",
   "COLLABORATION_NOT_COMPETITION": "Collaboration Not Competition",
@@ -799,5 +799,7 @@
   "voluntary organizations without": "волонтерскими организациями без",
   "volunteers.": "волонтеров.",
   "where the ethos of \"Manava Sevaye Madhava": "где этос \"Manava Sevaye Madhava",
-  "without desecrating any beliefs.": "без осквернения каких-либо убеждений."
+  "without desecrating any beliefs.": "без осквернения каких-либо убеждений.",
+  "FIND_VOLUNTEER": "Найти волонтёра",
+  "NA": "Недоступно"
 }

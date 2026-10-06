@@ -87,7 +87,7 @@
   "CHILD_ABUSE": "Linha de Abuso Infantil",
   "CHOOSE_FILE": "Escolher arquivo",
   "CITY": "Cidade",
-  "CLOSE": "FECHAR",
+  "CLOSE": "Fechar",
   "CLOSE_MENU": "Fechar Menu",
   "CLOTHING_SUPPORT": "Apoio com Vestuário",
   "COLLABORATION_NOT_COMPETITION": "Colaboração, Não Competição",
@@ -807,5 +807,7 @@
   "volunteers.": "voluntários.",
   "where the ethos of \"Manava Sevaye Madhava": "onde o ethos de \"Manava Sevaye Madhava",
   "without desecrating any beliefs.": "sem desrespeitar quaisquer crenças.",
-  "writeComment": "escreva um comentário"
+  "writeComment": "escreva um comentário",
+  "FIND_VOLUNTEER": "Encontrar voluntário",
+  "NA": "Não disponível"
 }
