@@ -17,43 +17,74 @@ import leisuewithproductivity from "../../assets/news_our_stories/RameshMaturuAn
 import withRajaKandRaoC from "../../assets/news_our_stories/withRajaKandRaoC_SiliconAndhra.webp";
 import walmartSparkGood from "../../assets/news_our_stories/walmart_spark_good.webp";
 
+// Rao Bhethanabotla's LinkedIn — linked from the word "CEO" in "Our CEO".
+const RAO_LINKEDIN = "https://www.linkedin.com/in/raobhethanabotla";
+
+/**
+ * "Our CEO" across the 10 supported languages. Only the role token inside the
+ * phrase (e.g. "CEO", "PDG") is hyperlinked to Rao's LinkedIn. Matching the
+ * full phrase keeps unrelated CEO mentions (e.g. "CEO of NVIDIA") untouched.
+ * Some languages have two forms of the role word, both are listed.
+ */
+const OUR_CEO_PHRASES = [
+  { phrase: "Our CEO", token: "CEO" }, // en
+  { phrase: "Nuestro CEO", token: "CEO" }, // es
+  { phrase: "Notre PDG", token: "PDG" }, // fr
+  { phrase: "Unser CEO", token: "CEO" }, // de
+  { phrase: "Nosso CEO", token: "CEO" }, // pt
+  { phrase: "Наш генеральный директор", token: "генеральный директор" }, // ru
+  { phrase: "我们的首席执行官", token: "首席执行官" }, // zh
+  { phrase: "我们的CEO", token: "CEO" }, // zh
+  { phrase: "हमारे सीईओ", token: "सीईओ" }, // hi
+  { phrase: "हमारे CEO", token: "CEO" }, // hi
+  { phrase: "మా CEO", token: "CEO" }, // te
+  { phrase: "আমাদের সিইও", token: "সিইও" }, // bn
+  { phrase: "আমাদের CEO", token: "CEO" }, // bn
+];
+
 /**
  * Renders a title string but hyperlinks specific words/names inside it.
  * Keeps original title order (so "With" stays first).
  */
 function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
-  if (!linksMap || Object.keys(linksMap).length === 0) return title;
+  const nameLinks = linksMap || {};
+  const ceoByPhrase = Object.fromEntries(
+    OUR_CEO_PHRASES.map((c) => [c.phrase, c]),
+  );
 
-  const keys = Object.keys(linksMap)
-    .filter(Boolean)
-    .sort((a, b) => b.length - a.length);
+  const keys = [
+    ...Object.keys(nameLinks).filter(Boolean),
+    ...Object.keys(ceoByPhrase),
+  ].sort((a, b) => b.length - a.length); // longer first
 
   if (keys.length === 0) return title;
 
   const escaped = keys.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-
-  const linkedPattern = escaped.join("|");
-  const regex = new RegExp(`(Our CEO|${linkedPattern})`, "g");
+  const regex = new RegExp(`(${escaped.join("|")})`, "g");
 
   return title.split(regex).map((part, idx) => {
-    if (part === "Our CEO") {
+    // "Our CEO" phrase: hyperlink only the role token inside it, leaving the
+    // rest of the phrase (e.g. "Our ", "Notre ") as plain text.
+    const ceo = ceoByPhrase[part];
+    if (ceo) {
+      const at = part.indexOf(ceo.token);
       return (
-        <React.Fragment key={`our-ceo-${idx}`}>
-          Our{" "}
+        <React.Fragment key={`ceo-${idx}`}>
+          {part.slice(0, at)}
           <a
-            href="https://www.linkedin.com/in/raobhethanabotla/?isSelfProfile=false"
+            href={RAO_LINKEDIN}
             target="_blank"
             rel="noopener noreferrer"
             className={linkClassName}
           >
-            CEO
+            {ceo.token}
           </a>
+          {part.slice(at + ceo.token.length)}
         </React.Fragment>
       );
     }
 
-    const href = linksMap[part];
-
+    const href = nameLinks[part];
     if (href) {
       return (
         <a
@@ -67,7 +98,6 @@ function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
         </a>
       );
     }
-
     return <React.Fragment key={`${part}-${idx}`}>{part}</React.Fragment>;
   });
 }
@@ -78,8 +108,6 @@ const stories = [
     title: "STORY_1_TITLE",
     image: withRajaKandRaoC,
     description: "STORY_1_DESC",
-    ceoLink:
-      "https://www.linkedin.com/in/raobhethanabotla/?isSelfProfile=false",
     titleLinks: {
       "Raja Krishnamoorthi":
         "https://en.wikipedia.org/wiki/Raja_Krishnamoorthi",
@@ -148,6 +176,25 @@ const stories = [
       "Dr. Srikar Reddy Koppula":
         "https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/",
       "Indian Consular": "https://www.cgisf.gov.in/",
+      "Indian Consul": "https://www.cgisf.gov.in/",
+      "Indischem Konsul": "https://www.cgisf.gov.in/",
+      "indischen Konsularteam": "https://www.cgisf.gov.in/",
+      "Cónsul de India": "https://www.cgisf.gov.in/",
+      "equipo consular de India": "https://www.cgisf.gov.in/",
+      "consul indien": "https://www.cgisf.gov.in/",
+      "équipe consulaire indienne": "https://www.cgisf.gov.in/",
+      "индийским консулом": "https://www.cgisf.gov.in/",
+      "Индийского консульства": "https://www.cgisf.gov.in/",
+      "भारतीय कौंसुलर टीम": "https://www.cgisf.gov.in/",
+      "भारतीय कौंसुलर": "https://www.cgisf.gov.in/",
+      "భారతీయ కాన్సులర్ బృందంతో": "https://www.cgisf.gov.in/",
+      "భారతీయ కాన్సులర్": "https://www.cgisf.gov.in/",
+      印度驻旧金山领事: "https://www.cgisf.gov.in/",
+      印度领事团队: "https://www.cgisf.gov.in/",
+      "Cônsul Indiano": "https://www.cgisf.gov.in/",
+      "equipe consular indiana": "https://www.cgisf.gov.in/",
+      "ভারতীয় কনস্যুলার দলের": "https://www.cgisf.gov.in/",
+      "ভারতীয় কনস্যুলার": "https://www.cgisf.gov.in/",
     },
   },
 
@@ -226,21 +273,11 @@ export default function NewsOurStories() {
                 {/* <div className="news-date">{story.date}</div> */}
 
                 <h2 className="news-title">
-                  {renderLinkedTitle(
-                    t(story.title),
-                    story.titleLinks,
-                    "news-name-link",
-                    story.ceoLink,
-                  )}
+                  {renderLinkedTitle(t(story.title), story.titleLinks)}
                 </h2>
 
                 <p className="news-desc">
-                  {renderLinkedTitle(
-                    t(story.title),
-                    story.titleLinks,
-                    "news-name-link",
-                    story.ceoLink,
-                  )}
+                  {renderLinkedTitle(t(story.description), story.titleLinks)}
                 </p>
 
                 {/* ✅ Read more ONLY when readMoreLink is provided (Titan news only) */}
