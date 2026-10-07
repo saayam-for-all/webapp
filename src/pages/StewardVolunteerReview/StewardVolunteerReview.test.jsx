@@ -44,9 +44,10 @@ describe("StewardVolunteerReview", () => {
       "Updated Time": "9/29/2026",
     });
 
-    expect(
-      screen.getByRole("link", { name: "Mock Applicant" }),
-    ).toHaveAttribute("href", "/profile");
+    expect(screen.getByRole("link", { name: "Jane Doe" })).toHaveAttribute(
+      "href",
+      "/profile",
+    );
 
     const governmentIdLink = screen.getByRole("link", {
       name: "government-id.pdf",

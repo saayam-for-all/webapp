@@ -9,10 +9,11 @@ const StewardVolunteerReview = () => {
 
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
+  const [showRequestModal, setShowRequestModal] = useState(false);
+  const [requestMessage, setRequestMessage] = useState("");
 
   const userId = volunteer.userId || volunteer["User Id"];
-  const applicantName =
-    volunteer.name || volunteer.fullName || "Mock Applicant";
+  const applicantName = volunteer.name || volunteer.fullName || "Jane Doe";
   const updatedTime = volunteer["Updated Time"] || volunteer.updatedAt;
   const govtIdFilename =
     volunteer.govtIdFilename ||
@@ -83,6 +84,7 @@ const StewardVolunteerReview = () => {
           <button
             type="button"
             className="border border-blue-400 text-blue-500 px-4 py-2 rounded-lg text-sm hover:bg-blue-50"
+            onClick={() => setShowRequestModal(true)}
           >
             Request More Information
           </button>
@@ -98,6 +100,56 @@ const StewardVolunteerReview = () => {
           >
             {govtIdFilename}
           </a>
+        </div>
+        {/* Volunteering Skills */}
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-3">Volunteering Skills</h2>
+          <div className="text-sm text-gray-700 space-y-2">
+            <div>
+              <p className="font-medium">▶ Clothing Assistance</p>
+              <p className="ml-4 text-gray-500">• Donate Clothes</p>
+            </div>
+            <div>
+              <p className="font-medium">▶ Elderly Community Assistance</p>
+              <p className="ml-4 text-gray-500">• Medication Management</p>
+            </div>
+            <div>
+              <p className="font-medium">▶ Education & Career Support</p>
+              <p className="ml-4 text-gray-500">• Tutoring</p>
+              <p className="ml-8 text-gray-400">• Mathematics</p>
+              <p className="ml-8 text-gray-400">• Science</p>
+            </div>
+            <div>
+              <p className="font-medium">▶ Healthcare & Wellness</p>
+              <p className="ml-4 text-gray-500">• Medical Consultation</p>
+              <p className="ml-4 text-gray-500">• Skin / Dermatology</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Availability */}
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-3">
+            Availability{" "}
+            <span className="text-sm font-normal text-gray-500">
+              4 slots selected
+            </span>
+          </h2>
+          <div className="text-sm text-gray-700 space-y-2">
+            <div>
+              <p className="font-medium">Monday</p>
+              <p className="text-gray-500 ml-2">9:30AM - 12:00PM</p>
+              <p className="text-gray-500 ml-2">4:00PM - 7:00PM</p>
+            </div>
+            <div>
+              <p className="font-medium">Wednesday</p>
+              <p className="text-gray-500 ml-2">12:00PM - 5:00PM</p>
+            </div>
+            <div>
+              <p className="font-medium">Saturday</p>
+              <p className="text-gray-500 ml-2">10:00AM - 1:00PM</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -126,6 +178,37 @@ const StewardVolunteerReview = () => {
           required
         />
       </Modal>
+      {/* Request Information Modal */}
+      {showRequestModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-lg font-semibold mb-4">Request Information</h2>
+            <textarea
+              className="w-full border rounded p-2 text-sm h-28 resize-none"
+              placeholder="Enter your message..."
+              value={requestMessage}
+              onChange={(e) => setRequestMessage(e.target.value)}
+            />
+            <div className="flex justify-end gap-3 mt-4">
+              <button
+                className="px-4 py-2 text-gray-500 border rounded hover:bg-gray-50"
+                onClick={() => setShowRequestModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                onClick={() => {
+                  console.log("Request message:", requestMessage);
+                  setShowRequestModal(false);
+                }}
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
