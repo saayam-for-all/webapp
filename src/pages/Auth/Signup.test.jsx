@@ -185,15 +185,32 @@ describe("SignUp", () => {
     });
   });
 
-  it("renders the 'or use your' text after the Log In button", () => {
+  it("renders the social media accounts text in bold", () => {
     render(<SignUp />);
-    expect(screen.getByText(/or use your/i)).toBeInTheDocument();
+
+    const boldText = screen.getByText(
+      (_, element) =>
+        element?.tagName === "STRONG" &&
+        element?.textContent === "SOCIAL_MEDIA_ACCOUNTS",
+    );
+
+    expect(boldText).toBeInTheDocument();
   });
 
-  it("renders 'social media accounts' in bold", () => {
+  it("renders the login section after the mandatory fields message", () => {
     render(<SignUp />);
-    const boldText = screen.getByText("social media accounts");
-    expect(boldText.tagName).toBe("STRONG");
+
+    const mandatoryText = screen.getByText("ALL_FIELDS_MANDATORY");
+    const accountText = screen.getByText(
+      (_, element) =>
+        element?.tagName === "P" &&
+        element?.textContent?.includes("ALREADY_HAVE_ACCOUNT"),
+    );
+
+    expect(
+      mandatoryText.compareDocumentPosition(accountText) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   });
 
   it("renders the Log In button that navigates to /login", () => {
