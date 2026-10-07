@@ -189,11 +189,12 @@ function renderForm({
   isEdit = false,
   editRequestData,
   onClose = jest.fn(),
+  userDbId = "dbUser123",
 } = {}) {
   const store = configureStore({
     reducer: { auth: authReducer, request: requestReducer },
     preloadedState: {
-      auth: { user: { userId: "mockUser", userDbId: "dbUser123" } },
+      auth: { user: { userId: "mockUser", userDbId } },
       request: { categories: mockCategories, categoriesFetched: true },
     },
   });
@@ -996,6 +997,45 @@ describe("HelpRequestForm — successful submission", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("uses localStorage userDbId as requesterId when Redux userDbId is missing", async () => {
+    const { createRequest } = require("../../services/requestServices");
+    createRequest.mockResolvedValue({ data: { requestId: "REQ-LOCAL" } });
+    localStorage.setItem("userDbId", "dbUserFromLocalStorage");
+
+    try {
+      renderForm({ userDbId: null });
+
+      selectSubcategory();
+
+      fireEvent.change(document.getElementById("description"), {
+        target: {
+          name: "description",
+          value: "I need help with my college application process.",
+        },
+      });
+
+      await act(async () => {
+        fireEvent.click(
+          screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+        );
+      });
+
+      await waitFor(() => expect(createRequest).toHaveBeenCalled());
+
+      const {
+        mapHelpRequestPayload,
+      } = require("../../utils/mapHelpRequestPayload");
+      const callArgs =
+        mapHelpRequestPayload.mock.calls[
+          mapHelpRequestPayload.mock.calls.length - 1
+        ][0];
+
+      expect(callArgs.requesterId).toBe("dbUserFromLocalStorage");
+    } finally {
+      localStorage.removeItem("userDbId");
+    }
+  });
+
   it("navigates with generic message when createRequest response has no requestId", async () => {
     const { createRequest } = require("../../services/requestServices");
     createRequest.mockResolvedValue({});
@@ -1466,7 +1506,7 @@ describe("HelpRequestForm — edit mode submission", () => {
         mapHelpRequestPayload.mock.calls.length - 1
       ][0];
     expect(callArgs.selectedCategoryId).toBe("1.3.1");
-    expect(callArgs.requesterId).toBe("SID-00-000-002-622");
+    expect(callArgs.creatorId).toBe("SID-00-000-002-622");
 
     await act(async () => {
       jest.advanceTimersByTime(1200);
@@ -1634,7 +1674,7 @@ describe("HelpRequestForm — edit mode submission", () => {
       mapHelpRequestPayload.mock.calls[
         mapHelpRequestPayload.mock.calls.length - 1
       ][0];
-    expect(callArgs.requesterId).toBe("dbUser123");
+    expect(callArgs.creatorId).toBe("dbUser123");
     expect(callArgs.requestId).toBe("id-fallback-123");
 
     await act(async () => {
@@ -3101,13 +3141,12 @@ describe("HelpRequestForm — language dropdown (Create Request)", () => {
     expect(languageSelect.value).toBe("Hindi");
   });
 
-  it("falls back to the first language in the list when no preference is saved", () => {
+  it("defaults to English when no preference is saved", () => {
     renderForm();
     const languageSelect = document.getElementById("request_language");
-    // Native <select> has no blank/placeholder option, so with an empty
-    // formData.request_language it falls back to displaying the first
-    // option in the list (Arabic, per languagesData.js) rather than blank.
-    expect(languageSelect.value).toBe("Arabic");
+    // When no userPreferences are stored, request_language defaults to
+    // "English" so the dropdown matches the page content shown to new users.
+    expect(languageSelect.value).toBe("English");
   });
 
   it("updates the selected value and calls changeUiLanguage when the user picks a different language", () => {

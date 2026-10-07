@@ -179,3 +179,8 @@ export const signOffUser = async (userId, reason = "") => {
 
   return response.data;
 };
+
+export const GET_NOTIFICATION_COUNT = async (userId) => {
+  const response = await api.post(endpoints.GET_NOTIFICATION_COUNT, { userId });
+  return response.data;
+};

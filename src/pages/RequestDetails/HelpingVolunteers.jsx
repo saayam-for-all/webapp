@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { getVolunteersData } from "../../services/volunteerServices";
 import {
@@ -8,7 +9,7 @@ import {
 import { FaVideo } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const HelpingVolunteers = () => {
+const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
   const { t } = useTranslation();
   // Modal state for Zoom meeting scheduling
   const [meetingModalOpen, setMeetingModalOpen] = useState(false);
@@ -37,6 +38,9 @@ const HelpingVolunteers = () => {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [searchBy, setSearchBy] = useState("name");
+  const [lookupTerm, setLookupTerm] = useState("");
+  const [smartMatchMode, setSmartMatchMode] = useState(false);
+  const [matchScores, setMatchScores] = useState({});
   const [filter, setFilter] = useState(""); // State for filter functionality
   const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
   const [volunteerCountError, setVolunteerCountError] = useState("");
@@ -73,11 +77,31 @@ const HelpingVolunteers = () => {
     fetchVolunteers();
   }, []);
 
+  const handleSmartMatch = () => {
+    const mockScores = {};
+    volunteerData.forEach((v) => {
+      mockScores[v.email] = Math.floor(Math.random() * 41) + 60; // 60-100
+    });
+    setMatchScores(mockScores);
+    setSmartMatchMode(true);
+    setSortConfig({ key: "matchScore", direction: "descending" });
+  };
+
+  const getMatchBarColor = (score) => {
+    if (score >= 90) return "bg-green-500";
+    if (score >= 75) return "bg-blue-500";
+    if (score >= 65) return "bg-yellow-500";
+    return "bg-orange-500";
+  };
+
   // Columns for the table
   const headers = [
     { key: "select", label: "Select" },
     { key: "name", label: "Name" },
-    { key: "cause", label: "Cause" },
+    ...(findVolunteerMode && smartMatchMode
+      ? [{ key: "matchScore", label: t("MATCH_PERCENT") }]
+      : []),
+    ...(!findVolunteerMode ? [{ key: "cause", label: "Cause" }] : []),
     { key: "phone", label: "Phone" },
     { key: "email", label: "Email" },
     { key: "location", label: "Location" },
@@ -113,24 +137,28 @@ const HelpingVolunteers = () => {
 
   // Sorting and filtering logic
   const filteredAndSortedVolunteers = useMemo(() => {
-    let topN = volunteerData.slice(
-      0,
-      Math.min(volunteerData.length, volunteersCount),
-    );
+    const topN = findVolunteerMode
+      ? volunteerData
+      : volunteerData.slice(0, Math.min(volunteerData.length, volunteersCount));
     let filteredVolunteers = topN.filter((volunteer) => {
-      return (volunteer.name || "")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      return (
+        (volunteer.name || "")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) &&
+        String(volunteer[searchBy] || "")
+          .toLowerCase()
+          .includes(lookupTerm.toLowerCase())
+      );
     });
 
-    if (filter) {
-      filteredVolunteers = filteredVolunteers.filter((volunteer) =>
-        volunteer.cause.toLowerCase().includes(filter.toLowerCase()),
-      );
-    }
-
     filteredVolunteers.sort((a, b) => {
-      if (sortConfig.key === "dateAdded") {
+      if (sortConfig.key === "matchScore") {
+        const scoreA = matchScores[a.email] || 0;
+        const scoreB = matchScores[b.email] || 0;
+        return sortConfig.direction === "ascending"
+          ? scoreA - scoreB
+          : scoreB - scoreA;
+      } else if (sortConfig.key === "dateAdded") {
         const dateA = new Date(a.dateAdded);
         const dateB = new Date(b.dateAdded);
         return sortConfig.direction === "ascending"
@@ -148,7 +176,17 @@ const HelpingVolunteers = () => {
     });
 
     return filteredVolunteers;
-  }, [volunteerData, searchTerm, filter, sortConfig, volunteersCount]);
+  }, [
+    volunteerData,
+    searchTerm,
+    lookupTerm,
+    searchBy,
+    findVolunteerMode,
+    filter,
+    sortConfig,
+    volunteersCount,
+    matchScores,
+  ]);
 
   const totalRows = filteredAndSortedVolunteers.length;
   const totalPages = Math.ceil(totalRows / itemsPerPage);
@@ -343,55 +381,59 @@ const HelpingVolunteers = () => {
       </div>
       <div className="bg-gray-100 shadow-md p-1 space-y-4 rounded-b-md">
         <div className="flex flex-wrap items-stretch gap-4 p-4 mt-2">
-          {/* Box 1: Request by number of volunteers */}
-          <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
-            <input
-              type="number"
-              min="1"
-              max="5"
-              placeholder={t("NUMBER_OF_VOLUNTEERS")}
-              className="p-3 border rounded-md w-40"
-              value={volunteersCount}
-              onChange={(e) => {
-                setVolunteersCount(e.target.value);
-                setChooseVolunteer(false);
-                if (Number(e.target.value) <= 5) {
+          {!findVolunteerMode && (
+            <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
+              <input
+                type="number"
+                min="1"
+                max="5"
+                placeholder={t("NUMBER_OF_VOLUNTEERS")}
+                className="p-3 border rounded-md w-40"
+                value={volunteersCount}
+                onChange={(e) => {
+                  setVolunteersCount(e.target.value);
+                  setChooseVolunteer(false);
+                  if (Number(e.target.value) <= 5) {
+                    setVolunteerCountError("");
+                  }
+                }}
+              />
+              <button
+                className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
+                onClick={() => {
+                  const requestedCount = Number(volunteersCount);
+                  if (requestedCount > 5) {
+                    setVolunteerCountError(
+                      "Maximum 5 volunteer can be assigned",
+                    );
+                    return;
+                  }
                   setVolunteerCountError("");
-                }
-              }}
-            />
-            <button
-              className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
-              onClick={() => {
-                const requestedCount = Number(volunteersCount);
-                if (requestedCount > 5) {
-                  setVolunteerCountError("Maximum 5 volunteer can be assigned");
-                  return;
-                }
-                setVolunteerCountError("");
-                setChooseVolunteer(true);
-              }}
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+                  setChooseVolunteer(true);
+                }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              {t("REQUEST_VOLUNTEERS")}
-            </button>
-          </div>
+                <svg
+                  className="w-5 h-5 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                {t("REQUEST_VOLUNTEERS")}
+              </button>
+            </div>
+          )}
 
-          {/* Separator line between the two search boxes */}
-          <div className="w-px self-stretch bg-gray-300" aria-hidden="true" />
+          {!findVolunteerMode && (
+            <div className="w-px self-stretch bg-gray-300" aria-hidden="true" />
+          )}
 
           {/* Box 2: Look up a volunteer by name, email or phone */}
           <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
@@ -405,6 +447,8 @@ const HelpingVolunteers = () => {
                     : t("ENTER_VOLUNTEER_NAME")
               }
               className="p-3 border rounded-md w-64"
+              value={lookupTerm}
+              onChange={(event) => setLookupTerm(event.target.value)}
             />
             <select
               value={searchBy}
@@ -416,6 +460,25 @@ const HelpingVolunteers = () => {
               <option value="phone">{t("FIND_BY_PHONE")}</option>
             </select>
           </div>
+
+          {findVolunteerMode && (
+            <div className="w-px self-stretch bg-gray-300" aria-hidden="true" />
+          )}
+
+          {findVolunteerMode && (
+            <div className="flex items-center bg-white border border-gray-300 rounded-xl p-4">
+              <button
+                className={`px-6 py-3 text-white rounded-lg whitespace-nowrap font-semibold transition ${
+                  smartMatchMode
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-blue-500 hover:bg-blue-600"
+                }`}
+                onClick={handleSmartMatch}
+              >
+                {t("RUN_SMART_MATCH")}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="mt-6 bg-white p-6 shadow-lg">
@@ -458,37 +521,52 @@ const HelpingVolunteers = () => {
               </select>
             </div>
 
-            {/* Right: Zoom + Delete */}
-            <div className="flex flex-row gap-2 items-center">
-              {/* Zoom Meeting Button */}
+            {findVolunteerMode ? (
               <button
-                className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
-                disabled={selectedVolunteers.length === 0}
-                onClick={() => setMeetingModalOpen(true)}
-              >
-                <FaVideo className="text-lg" />
-                <span>Zoom Meeting</span>
-              </button>
-              {/* Delete Button */}
-              <button
-                className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50"
+                type="button"
+                className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
                 disabled={selectedVolunteers.length === 0}
                 onClick={() => {
-                  setVolunteerData((prev) =>
-                    prev.filter(
-                      (volunteer) =>
-                        !selectedVolunteers.includes(volunteer.email),
-                    ),
+                  const volunteer = volunteerData.find(
+                    (item) => item.email === selectedVolunteers[0],
                   );
-                  setSelectedVolunteers([]);
+                  if (volunteer) onAssign?.(volunteer);
                 }}
               >
-                {t("Delete")}
+                {t("ASSIGN_VOLUNTEER")}
               </button>
-            </div>
+            ) : (
+              <div className="flex flex-row gap-2 items-center">
+                {/* Zoom Meeting Button */}
+                <button
+                  className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 disabled:opacity-50"
+                  disabled={selectedVolunteers.length === 0}
+                  onClick={() => setMeetingModalOpen(true)}
+                >
+                  <FaVideo className="text-lg" />
+                  <span>Zoom Meeting</span>
+                </button>
+                {/* Delete Button */}
+                <button
+                  className="bg-red-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50"
+                  disabled={selectedVolunteers.length === 0}
+                  onClick={() => {
+                    setVolunteerData((prev) =>
+                      prev.filter(
+                        (volunteer) =>
+                          !selectedVolunteers.includes(volunteer.email),
+                      ),
+                    );
+                    setSelectedVolunteers([]);
+                  }}
+                >
+                  {t("Delete")}
+                </button>
+              </div>
+            )}
           </div>
 
-          {chooseVolunteer && (
+          {chooseVolunteer && !findVolunteerMode && (
             <div className="flex justify-between w-full mb-4">
               <div className="text-md text-gray-500 font-bold flex flex-row gap-4 items-center">
                 {`${volunteersCount} Volunteers Requested`}
@@ -547,13 +625,31 @@ const HelpingVolunteers = () => {
                   paginatedData.map((volunteer, index) => (
                     <tr key={index} className="hover:bg-gray-100">
                       <td className="px-4 py-2 border-b">
-                        <input
-                          type="checkbox"
-                          checked={selectedVolunteers.includes(volunteer.email)}
-                          onChange={() => {
-                            handleCheckboxChange(volunteer.email);
-                          }}
-                        />
+                        {findVolunteerMode ? (
+                          <input
+                            type="radio"
+                            name="selected-volunteer"
+                            aria-label={t("SELECT_VOLUNTEER", {
+                              name: volunteer.name,
+                            })}
+                            checked={selectedVolunteers.includes(
+                              volunteer.email,
+                            )}
+                            onChange={() =>
+                              setSelectedVolunteers([volunteer.email])
+                            }
+                          />
+                        ) : (
+                          <input
+                            type="checkbox"
+                            checked={selectedVolunteers.includes(
+                              volunteer.email,
+                            )}
+                            onChange={() =>
+                              handleCheckboxChange(volunteer.email)
+                            }
+                          />
+                        )}
                       </td>
                       <td className="px-4 py-2 border-b">
                         <Link
@@ -563,7 +659,28 @@ const HelpingVolunteers = () => {
                           {volunteer.name}
                         </Link>
                       </td>
-                      <td className="px-4 py-2 border-b">{volunteer.cause}</td>
+                      {findVolunteerMode && smartMatchMode && (
+                        <td className="px-4 py-2 border-b">
+                          <div className="flex items-center gap-2">
+                            <div className="w-24 bg-gray-200 rounded-full h-4 overflow-hidden">
+                              <div
+                                className={`h-full rounded-full ${getMatchBarColor(matchScores[volunteer.email] || 0)}`}
+                                style={{
+                                  width: `${matchScores[volunteer.email] || 0}%`,
+                                }}
+                              />
+                            </div>
+                            <span className="text-sm font-semibold">
+                              {matchScores[volunteer.email] || 0}%
+                            </span>
+                          </div>
+                        </td>
+                      )}
+                      {!findVolunteerMode && (
+                        <td className="px-4 py-2 border-b">
+                          {volunteer.cause}
+                        </td>
+                      )}
                       <td className="px-4 py-2 border-b">{volunteer.phone}</td>
                       <td className="px-4 py-2 border-b">{volunteer.email}</td>
                       <td className="px-4 py-2 border-b">
@@ -634,6 +751,11 @@ const HelpingVolunteers = () => {
       </div>
     </div>
   );
+};
+
+HelpingVolunteers.propTypes = {
+  findVolunteerMode: PropTypes.bool,
+  onAssign: PropTypes.func,
 };
 
 export default HelpingVolunteers;

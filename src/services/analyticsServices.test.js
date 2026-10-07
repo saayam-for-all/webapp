@@ -50,7 +50,6 @@ describe("analyticsServices", () => {
       const payload = {
         start_date: "2026-05-01",
         end_date: "2026-05-31",
-        group_by: "day",
       };
 
       it("calls POST to REQUEST_APPLICATION_ANALYTICS with payload and returns data", async () => {

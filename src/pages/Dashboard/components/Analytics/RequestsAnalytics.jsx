@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
+import PropTypes from "prop-types";
 import {
   LineChart,
   Line,
@@ -10,11 +11,115 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ReferenceLine,
 } from "recharts";
 import ChartContainer from "./charts/ChartContainer";
 import { getRequestsApplicationAnalytics } from "../../../../services/analyticsServices";
 import { isoAlpha3ToName } from "../../../../utils/isoCountryNames";
+
+const emptyDataMessage = (data) =>
+  data?.has_errors
+    ? `Error: ${data.error_message || "Some analytics data could not be loaded. Please try refreshing."}`
+    : "No data available for the selected period";
+
+const applyDataForRange = (data, range) => {
+  const volumeKeyMap = {
+    "7d": "request_volume_7_days",
+    "30d": "request_volume_1_month",
+    "1yr": "request_volume_1_year",
+    all: "request_volume_1_year", // Use 1 year for "all" view
+    custom: "request_volume_custom_range",
+  };
+
+  const categoryKeyMap = {
+    "7d": "requests_by_category_region 7 days",
+    "30d": "requests_by_category_region 1 month",
+    "1yr": "requests_by_category_region 1 year",
+    all: "requests_by_category_region 1 year",
+    custom: "requests_by_category_region_custom_range",
+  };
+
+  const volumeKey = volumeKeyMap[range];
+  const categoryKey = categoryKeyMap[range];
+
+  const parsedTrendData = Array.isArray(data?.[volumeKey])
+    ? data[volumeKey].map((item) => ({
+        date: (item.date || "").split("T")[0],
+        count: item.count || 0,
+      }))
+    : [];
+
+  const parsedCategoryData = Array.isArray(data?.[categoryKey])
+    ? data[categoryKey].map((item) => ({
+        category: item.category || "",
+        country: isoAlpha3ToName(item.country) || item.country,
+        countryCode: item.country,
+        count: item.count || 0,
+      }))
+    : [];
+
+  return { trend: parsedTrendData, categoryRegion: parsedCategoryData };
+};
+
+// Independent chart requests prevent one custom range from blocking the other.
+const useRequestRange = (range, startDate, endDate, defaultRequestRef) => {
+  const [result, setResult] = useState({
+    data: null,
+    message: "Loading data...",
+  });
+  const validation =
+    range === "custom"
+      ? !startDate || !endDate
+        ? "Select a start and end date"
+        : startDate > endDate
+          ? "Start date must be on or before end date"
+          : null
+      : null;
+
+  useEffect(() => {
+    let cancelled = false;
+    if (validation) {
+      setResult({ data: null, message: validation });
+      return;
+    }
+    setResult((previous) => ({ ...previous, message: "Loading data..." }));
+    const fetchData = async () => {
+      try {
+        let response;
+        if (range === "custom") {
+          // The API chooses daily or monthly grouping from the date range.
+          response = await getRequestsApplicationAnalytics({
+            start_date: startDate,
+            end_date: endDate,
+          });
+        } else {
+          if (!defaultRequestRef.current) {
+            defaultRequestRef.current = getRequestsApplicationAnalytics(
+              {},
+            ).catch((error) => {
+              defaultRequestRef.current = null;
+              throw error;
+            });
+          }
+          response = await defaultRequestRef.current;
+        }
+        if (!cancelled)
+          setResult({ data: response?.body || response, message: null });
+      } catch (error) {
+        if (!cancelled)
+          setResult({
+            data: null,
+            message: `Error: ${error.message || "Failed to fetch analytics data"}`,
+          });
+      }
+    };
+    fetchData();
+    return () => {
+      cancelled = true;
+    };
+  }, [range, startDate, endDate, validation, defaultRequestRef]);
+
+  return result;
+};
 
 /**
  * RequestsAnalytics Component
@@ -24,21 +129,30 @@ import { isoAlpha3ToName } from "../../../../utils/isoCountryNames";
  * 2. Request by Category & Region (Stacked Bar Chart) - Category distribution by country
  */
 const RequestsAnalytics = () => {
-  // API Response Data
-  const [trendData, setTrendData] = useState([]);
-  const [categoryRegionData, setCategoryRegionData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const defaultApiDataRef = useRef(null);
-
-  // Time range states for trend chart
-  const [timeRange, setTimeRange] = useState("all"); // all, 7d, 30d, 1yr, custom
+  const [timeRange, setTimeRange] = useState("all");
   const [customStartDate, setCustomStartDate] = useState("");
   const [customEndDate, setCustomEndDate] = useState("");
-  const [groupBy, setGroupBy] = useState("day"); // day or month
-
-  // Time range states for category & region chart (independent)
   const [timeRangeCat, setTimeRangeCat] = useState("all");
+  const [customStartDateCat, setCustomStartDateCat] = useState("");
+  const [customEndDateCat, setCustomEndDateCat] = useState("");
+  const trend = useRequestRange(
+    timeRange,
+    customStartDate,
+    customEndDate,
+    defaultApiDataRef,
+  );
+  const category = useRequestRange(
+    timeRangeCat,
+    customStartDateCat,
+    customEndDateCat,
+    defaultApiDataRef,
+  );
+  const trendData = applyDataForRange(trend.data, timeRange).trend;
+  const categoryRegionData = useMemo(
+    () => applyDataForRange(category.data, timeRangeCat).categoryRegion,
+    [category.data, timeRangeCat],
+  );
 
   const [selectedCountry, setSelectedCountry] = useState("all");
   // Category multi-select with limit
@@ -46,129 +160,6 @@ const RequestsAnalytics = () => {
   const [selectedCategories, setSelectedCategories] = useState([]); // array of category names
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [sortBy, setSortBy] = useState("total"); // total, name
-
-  const applyDataForRange = (data, range) => {
-    const volumeKeyMap = {
-      "7d": "request_volume_7_days",
-      "30d": "request_volume_1_month",
-      "1yr": "request_volume_1_year",
-      all: "request_volume_1_year", // Use 1 year for "all" view
-      custom: "request_volume_custom_range",
-    };
-
-    const categoryKeyMap = {
-      "7d": "requests_by_category_region 7 days",
-      "30d": "requests_by_category_region 1 month",
-      "1yr": "requests_by_category_region 1 year",
-      all: "requests_by_category_region 1 year",
-      custom: "requests_by_category_region custom range",
-    };
-
-    const volumeKey = volumeKeyMap[range];
-    const categoryKey = categoryKeyMap[range];
-
-    const parsedTrendData = Array.isArray(data?.[volumeKey])
-      ? data[volumeKey].map((item) => ({
-          date: (item.date || "").split("T")[0],
-          count: item.count || 0,
-        }))
-      : [];
-
-    const parsedCategoryData = Array.isArray(data?.[categoryKey])
-      ? data[categoryKey].map((item) => ({
-          category: item.category || "",
-          country: isoAlpha3ToName(item.country) || item.country,
-          countryCode: item.country,
-          count: item.count || 0,
-        }))
-      : [];
-
-    return { trend: parsedTrendData, categoryRegion: parsedCategoryData };
-  };
-
-  const buildCustomPayload = (startDate, endDate, groupByValue) => ({
-    start_date: startDate,
-    end_date: endDate,
-    group_by: groupByValue,
-    custom_start_date: startDate,
-    custom_end_date: endDate,
-    custom_group_by: groupByValue,
-  });
-
-  // Fetch data from API
-  useEffect(() => {
-    const fetchAnalyticsData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        // If both charts are using preset ranges and we have cached default data, reuse it
-        if (
-          timeRange !== "custom" &&
-          timeRangeCat !== "custom" &&
-          defaultApiDataRef.current
-        ) {
-          const defaultData = defaultApiDataRef.current;
-          const trendParsed = applyDataForRange(defaultData, timeRange);
-          const catParsed = applyDataForRange(defaultData, timeRangeCat);
-          setTrendData(trendParsed.trend);
-          setCategoryRegionData(catParsed.categoryRegion);
-          setLoading(false);
-          return;
-        }
-
-        // For each chart that requests a custom range, call API for that range.
-        // If a chart is not custom, prefer using cached default data if available, else call API without payload.
-
-        // Helper to fetch for a given payload
-        const fetchForPayload = async (payload) => {
-          const resp = await getRequestsApplicationAnalytics(payload);
-          return resp.body || resp;
-        };
-
-        // Determine whether to call API for trend
-        if (timeRange === "custom") {
-          if (!customStartDate || !customEndDate) {
-            setLoading(false);
-            return;
-          }
-          const payload = buildCustomPayload(
-            customStartDate,
-            customEndDate,
-            groupBy,
-          );
-          const data = await fetchForPayload(payload);
-          const parsed = applyDataForRange(data, "custom");
-          setTrendData(parsed.trend);
-        }
-
-        // If we still don't have data for either chart (non-custom and cache missing), fetch default data once
-        if (!defaultApiDataRef.current) {
-          const data = await fetchForPayload({});
-          defaultApiDataRef.current = data;
-        }
-
-        // Apply default data for any chart that isn't custom and hasn't been set yet
-        const defaultApplied = defaultApiDataRef.current;
-        if (timeRange !== "custom" && trendData.length === 0) {
-          const parsed = applyDataForRange(defaultApplied, timeRange);
-          setTrendData(parsed.trend);
-        }
-        if (timeRangeCat !== "custom" && categoryRegionData.length === 0) {
-          const parsedCat = applyDataForRange(defaultApplied, timeRangeCat);
-          setCategoryRegionData(parsedCat.categoryRegion);
-        }
-      } catch (err) {
-        console.error("Error fetching analytics data:", err);
-        setError(err.message || "Failed to fetch analytics data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAnalyticsData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeRange, customStartDate, customEndDate, groupBy, timeRangeCat]);
 
   // Compute top 5 countries by total request count
   const top5Countries = useMemo(() => {
@@ -289,6 +280,18 @@ const RequestsAnalytics = () => {
     return null;
   };
 
+  CustomVolumeTooltip.propTypes = {
+    active: PropTypes.bool,
+    payload: PropTypes.arrayOf(
+      PropTypes.shape({
+        payload: PropTypes.shape({
+          date: PropTypes.string,
+          count: PropTypes.number,
+        }),
+      }),
+    ),
+  };
+
   // Colors for stacked bars
   const COUNTRY_COLORS = {
     India: "#3b82f6",
@@ -317,47 +320,6 @@ const RequestsAnalytics = () => {
     const idx = Math.abs(hash) % FALLBACK_COLORS.length;
     return FALLBACK_COLORS[idx];
   };
-
-  // Show loading or error states
-  if (loading && timeRange !== "custom") {
-    return (
-      <div className="grid grid-cols-2 gap-4">
-        <ChartContainer title="Request Volume Trend" description="">
-          <div className="flex items-center justify-center h-[210px] text-gray-500">
-            Loading data...
-          </div>
-        </ChartContainer>
-        <ChartContainer
-          title="Requests by Category & Region"
-          description="Geographic distribution of requests across categories"
-        >
-          <div className="flex items-center justify-center h-[210px] text-gray-500">
-            Loading data...
-          </div>
-        </ChartContainer>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="grid grid-cols-2 gap-4">
-        <ChartContainer title="Request Volume Trend" description="">
-          <div className="flex items-center justify-center h-[210px] text-red-500">
-            Error: {error}
-          </div>
-        </ChartContainer>
-        <ChartContainer
-          title="Requests by Category & Region"
-          description="Geographic distribution of requests across categories"
-        >
-          <div className="flex items-center justify-center h-[210px] text-red-500">
-            Error: {error}
-          </div>
-        </ChartContainer>
-      </div>
-    );
-  }
 
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -388,6 +350,8 @@ const RequestsAnalytics = () => {
             <>
               <input
                 type="date"
+                aria-label="Request volume start date"
+                max={customEndDate || undefined}
                 value={customStartDate}
                 onChange={(e) => setCustomStartDate(e.target.value)}
                 className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
@@ -395,39 +359,42 @@ const RequestsAnalytics = () => {
               <span className="text-xs text-gray-500">→</span>
               <input
                 type="date"
+                aria-label="Request volume end date"
+                min={customStartDate || undefined}
                 value={customEndDate}
                 onChange={(e) => setCustomEndDate(e.target.value)}
                 className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
               />
-              <select
-                value={groupBy}
-                onChange={(e) => setGroupBy(e.target.value)}
-                className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
-              >
-                <option value="day">Group: Day</option>
-                <option value="month">Group: Month</option>
-              </select>
             </>
           )}
         </div>
 
-        <ResponsiveContainer width="100%" height={210}>
-          <LineChart data={trendData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke="#6b7280" />
-            <YAxis tick={{ fontSize: 12 }} stroke="#6b7280" />
-            <Tooltip content={<CustomVolumeTooltip />} />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="count"
-              stroke="#3b82f6"
-              strokeWidth={2}
-              dot={{ r: 4 }}
-              name="Requests"
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {trend.message || trendData.length === 0 ? (
+          <div
+            role="status"
+            className="flex items-center justify-center h-[210px] text-gray-600"
+          >
+            {trend.message || emptyDataMessage(trend.data)}
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={210}>
+            <LineChart data={trendData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke="#6b7280" />
+              <YAxis tick={{ fontSize: 12 }} stroke="#6b7280" />
+              <Tooltip content={<CustomVolumeTooltip />} />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="count"
+                stroke="#3b82f6"
+                strokeWidth={2}
+                dot={{ r: 4 }}
+                name="Requests"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </ChartContainer>
 
       {/* Chart 2: Request by Category & Region (Stacked Bar) */}
@@ -520,6 +487,7 @@ const RequestsAnalytics = () => {
               { id: "30d", label: "30D" },
               { id: "1yr", label: "1Y" },
               { id: "all", label: "All" },
+              { id: "custom", label: "Custom" },
             ].map(({ id, label }) => (
               <button
                 key={id}
@@ -533,6 +501,27 @@ const RequestsAnalytics = () => {
                 {label}
               </button>
             ))}
+            {timeRangeCat === "custom" && (
+              <>
+                <input
+                  type="date"
+                  aria-label="Category start date"
+                  max={customEndDateCat || undefined}
+                  value={customStartDateCat}
+                  onChange={(e) => setCustomStartDateCat(e.target.value)}
+                  className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+                />
+                <span className="text-xs text-gray-500">to</span>
+                <input
+                  type="date"
+                  aria-label="Category end date"
+                  min={customStartDateCat || undefined}
+                  value={customEndDateCat}
+                  onChange={(e) => setCustomEndDateCat(e.target.value)}
+                  className="px-1.5 py-0.5 border border-gray-300 rounded text-xs"
+                />
+              </>
+            )}
           </div>
 
           <select
@@ -576,43 +565,52 @@ const RequestsAnalytics = () => {
           ))}
         </div>
 
-        <ResponsiveContainer width="100%" height={210}>
-          <BarChart
-            data={processStackedData.data}
-            layout="vertical"
-            margin={{ left: 32, right: 8 }}
+        {category.message || processStackedData.data.length === 0 ? (
+          <div
+            role="status"
+            className="flex items-center justify-center h-[210px] text-gray-600"
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis type="number" tick={{ fontSize: 12 }} stroke="#6b7280" />
-            <YAxis
-              dataKey="category"
-              type="category"
-              tick={{ fontSize: 11 }}
-              tickFormatter={(value) =>
-                String(value || "").replaceAll("_", " ")
-              }
-              stroke="#6b7280"
-              width={170}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "0.375rem",
-              }}
-            />
-            <Legend />
-            {processStackedData.visibleCountries.map((country) => (
-              <Bar
-                key={country}
-                dataKey={country}
-                stackId="a"
-                fill={getCountryColor(country)}
-                radius={[0, 4, 4, 0]}
+            {category.message || emptyDataMessage(category.data)}
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={210}>
+            <BarChart
+              data={processStackedData.data}
+              layout="vertical"
+              margin={{ left: 32, right: 8 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis type="number" tick={{ fontSize: 12 }} stroke="#6b7280" />
+              <YAxis
+                dataKey="category"
+                type="category"
+                tick={{ fontSize: 11 }}
+                tickFormatter={(value) =>
+                  String(value || "").replaceAll("_", " ")
+                }
+                stroke="#6b7280"
+                width={170}
               />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "0.375rem",
+                }}
+              />
+              <Legend />
+              {processStackedData.visibleCountries.map((country) => (
+                <Bar
+                  key={country}
+                  dataKey={country}
+                  stackId="a"
+                  fill={getCountryColor(country)}
+                  radius={[0, 4, 4, 0]}
+                />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        )}
       </ChartContainer>
     </div>
   );

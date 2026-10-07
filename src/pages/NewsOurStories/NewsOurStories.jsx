@@ -17,16 +17,45 @@ import leisuewithproductivity from "../../assets/news_our_stories/RameshMaturuAn
 import withRajaKandRaoC from "../../assets/news_our_stories/withRajaKandRaoC_SiliconAndhra.webp";
 import walmartSparkGood from "../../assets/news_our_stories/walmart_spark_good.webp";
 
+// Rao Bhethanabotla's LinkedIn — linked from the word "CEO" in "Our CEO".
+const RAO_LINKEDIN = "https://www.linkedin.com/in/raobhethanabotla";
+
+/**
+ * "Our CEO" across the 10 supported languages. Only the role token inside the
+ * phrase (e.g. "CEO", "PDG") is hyperlinked to Rao's LinkedIn. Matching the
+ * full phrase keeps unrelated CEO mentions (e.g. "CEO of NVIDIA") untouched.
+ * Some languages have two forms of the role word, both are listed.
+ */
+const OUR_CEO_PHRASES = [
+  { phrase: "Our CEO", token: "CEO" }, // en
+  { phrase: "Nuestro CEO", token: "CEO" }, // es
+  { phrase: "Notre PDG", token: "PDG" }, // fr
+  { phrase: "Unser CEO", token: "CEO" }, // de
+  { phrase: "Nosso CEO", token: "CEO" }, // pt
+  { phrase: "Наш генеральный директор", token: "генеральный директор" }, // ru
+  { phrase: "我们的首席执行官", token: "首席执行官" }, // zh
+  { phrase: "我们的CEO", token: "CEO" }, // zh
+  { phrase: "हमारे सीईओ", token: "सीईओ" }, // hi
+  { phrase: "हमारे CEO", token: "CEO" }, // hi
+  { phrase: "మా CEO", token: "CEO" }, // te
+  { phrase: "আমাদের সিইও", token: "সিইও" }, // bn
+  { phrase: "আমাদের CEO", token: "CEO" }, // bn
+];
+
 /**
  * Renders a title string but hyperlinks specific words/names inside it.
  * Keeps original title order (so "With" stays first).
  */
 function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
-  if (!linksMap || Object.keys(linksMap).length === 0) return title;
+  const nameLinks = linksMap || {};
+  const ceoByPhrase = Object.fromEntries(
+    OUR_CEO_PHRASES.map((c) => [c.phrase, c]),
+  );
 
-  const keys = Object.keys(linksMap)
-    .filter(Boolean)
-    .sort((a, b) => b.length - a.length); // longer first
+  const keys = [
+    ...Object.keys(nameLinks).filter(Boolean),
+    ...Object.keys(ceoByPhrase),
+  ].sort((a, b) => b.length - a.length); // longer first
 
   if (keys.length === 0) return title;
 
@@ -34,7 +63,28 @@ function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
   const regex = new RegExp(`(${escaped.join("|")})`, "g");
 
   return title.split(regex).map((part, idx) => {
-    const href = linksMap[part];
+    // "Our CEO" phrase: hyperlink only the role token inside it, leaving the
+    // rest of the phrase (e.g. "Our ", "Notre ") as plain text.
+    const ceo = ceoByPhrase[part];
+    if (ceo) {
+      const at = part.indexOf(ceo.token);
+      return (
+        <React.Fragment key={`ceo-${idx}`}>
+          {part.slice(0, at)}
+          <a
+            href={RAO_LINKEDIN}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={linkClassName}
+          >
+            {ceo.token}
+          </a>
+          {part.slice(at + ceo.token.length)}
+        </React.Fragment>
+      );
+    }
+
+    const href = nameLinks[part];
     if (href) {
       return (
         <a

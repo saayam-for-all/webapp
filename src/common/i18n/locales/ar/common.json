@@ -802,5 +802,9 @@
   "volunteers.": "المتطوعين.",
   "where the ethos of \"Manava Sevaye Madhava": "حيث تعكس فلسفة \"مانافا سيفا مادهافا\"",
   "without desecrating any beliefs.": "دون الإساءة لأي معتقد.",
-  "writeComment": "اكتب تعليقا"
+  "writeComment": "اكتب تعليقا",
+  "FIND_VOLUNTEER": "البحث عن متطوع",
+  "ASSIGN_VOLUNTEER": "تعيين متطوع",
+  "SELECT_VOLUNTEER": "اختر {{name}}",
+  "NA": "غير متوفر"
 }

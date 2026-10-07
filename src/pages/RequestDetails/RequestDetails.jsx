@@ -39,6 +39,9 @@ const RequestDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const [showEmergency, setShowEmergency] = useState(false);
+  const [findVolunteerDialogOpen, setFindVolunteerDialogOpen] = useState(false);
+  const [leadVolunteerName, setLeadVolunteerName] = useState("Ethan Marshall");
+  const [volunteerAssigned, setVolunteerAssigned] = useState(false);
   const requestId = id || location.state?.id;
   const currentUser = useSelector((state) => state.auth.user);
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
@@ -92,6 +95,9 @@ const RequestDetails = () => {
   const isMyRequest =
     requestData?.sourceDashboard === "BENEFICIARY" ||
     requestData?.sourceTab === "myRequests";
+  const isStewardReviewRequest =
+    requestData?.sourceDashboard === "STEWARD" &&
+    requestData?.sourceTab === "reviewRequests";
 
   const creatorName =
     requestData?.creatorName ||
@@ -138,10 +144,13 @@ const RequestDetails = () => {
       isClickable: true,
     },
     {
-      context: "Ethan Marshall",
+      context:
+        isStewardReviewRequest && !volunteerAssigned
+          ? t("NA")
+          : leadVolunteerName,
       type: "LEAD_VOLUNTEER",
       icon: <RiUserStarLine size={22} />,
-      isClickable: true,
+      isClickable: !(isStewardReviewRequest && !volunteerAssigned),
     },
   ];
 
@@ -274,6 +283,16 @@ const RequestDetails = () => {
                   key={index}
                   className="flex items-center gap-2 group relative"
                 >
+                  {header.type === "LEAD_VOLUNTEER" &&
+                    isStewardReviewRequest && (
+                      <button
+                        type="button"
+                        onClick={() => setFindVolunteerDialogOpen(true)}
+                        className="bg-blue-500 text-white text-sm px-3 py-2 rounded-md hover:bg-blue-600 whitespace-nowrap"
+                      >
+                        {t("FIND_VOLUNTEER")}
+                      </button>
+                    )}
                   {header.icon}
                   {header.isClickable ? (
                     <button
@@ -292,12 +311,40 @@ const RequestDetails = () => {
                   ) : (
                     <span>{header.context}</span>
                   )}
-                  <div className="absolute top-6 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute top-full mt-1 px-5 py-2 bg-gray-50 border shadow-md rounded-xl flex whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
                     {t(header.type)}
                   </div>
                 </li>
               ))}
             </div>
+
+            <Dialog
+              open={findVolunteerDialogOpen}
+              onClose={() => setFindVolunteerDialogOpen(false)}
+              fullWidth
+              maxWidth="lg"
+            >
+              <DialogTitle>{t("FIND_VOLUNTEER")}</DialogTitle>
+              <DialogContent>
+                <HelpingVolunteers
+                  findVolunteerMode
+                  onAssign={(volunteer) => {
+                    setLeadVolunteerName(volunteer.name);
+                    setVolunteerAssigned(true);
+                    setFindVolunteerDialogOpen(false);
+                  }}
+                />
+              </DialogContent>
+              <DialogActions>
+                <button
+                  type="button"
+                  className="bg-blue-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-blue-600"
+                  onClick={() => setFindVolunteerDialogOpen(false)}
+                >
+                  {t("CLOSE")}
+                </button>
+              </DialogActions>
+            </Dialog>
 
             <div className="flex flex-row justify-between">
               <RequestButton

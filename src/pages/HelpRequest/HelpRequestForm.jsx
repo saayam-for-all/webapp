@@ -16,6 +16,7 @@ import {
   useAddRequestMutation,
   useGetAllRequestQuery,
 } from "../../services/requestApi";
+import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import {
   createRequest,
   updateRequest,
@@ -63,8 +64,8 @@ import {
 
 const genderOptions = [
   { value: "Select", label: "Select" },
-  { value: "Woman", label: "Woman" },
-  { value: "Man", label: "Man" },
+  { value: "Female", label: "Female" },
+  { value: "Male", label: "Male" },
   { value: "Non-binary", label: "Non-binary" },
   { value: "Transgender", label: "Transgender" },
   { value: "Intersex", label: "Intersex" },
@@ -104,7 +105,9 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     (state) => state.request,
   );
   const groups = useSelector((state) => state.auth.user?.groups);
-  const userDbId = useSelector((state) => state.auth.user?.userDbId);
+  const userDbId =
+    useSelector((state) => state.auth.user?.userDbId) ||
+    localStorage.getItem("userDbId");
   const user = useSelector((state) => state.auth.user);
   const [location, setLocation] = useState("");
   const [locationCoordinates, setLocationCoordinates] = useState(null);
@@ -130,6 +133,9 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   } = usePlacesSearchBox(setOtherPersonLocation, (coords) => {
     setOtherPersonLocationCoordinates(coords);
   });
+  const [otherPersonCountryCode, setOtherPersonCountryCode] = useState("US");
+  const [otherPersonPhoneError, setOtherPersonPhoneError] = useState(undefined);
+  const [otherPersonAgeError, setOtherPersonAgeError] = useState("");
 
   const [languages, setLanguages] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -211,6 +217,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   // Tracks whether the user has manually edited the subject field.
   // When true, auto-generation from description is suppressed.
   const hasUserEditedSubjectRef = useRef(false);
+  const isVolunteer = groups?.includes("Volunteers");
 
   const [formData, setFormData] = useState({
     is_self: "yes",
@@ -220,15 +227,15 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     phone: "",
     age: "",
     gender: "Select",
-    lead_volunteer: "Ethan Marshall",
+    lead_volunteer: isVolunteer ? "Yes" : "No",
     is_calamity: false,
     preferred_language: (() => {
       const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
-      return saved.languagePreference1 || "";
+      return saved.languagePreference1 || "English";
     })(),
     request_language: (() => {
       const saved = JSON.parse(localStorage.getItem("userPreferences") || "{}");
-      return saved.languagePreference1 || "";
+      return saved.languagePreference1 || "English";
     })(),
     category: "General",
     request_type: "REMOTE",
@@ -416,6 +423,10 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
           requestData.requestDescription,
         subject: requestData.subject || requestData.requestSubject,
         is_calamity: requestData.is_calamity ?? requestData.calamity ?? false,
+        phone: requestData.phone || "",
+        age: requestData.age || "",
+        gender: requestData.gender || "Select",
+        location: requestData.location || "",
         // Map paginated API and nested detail API values to flat form fields.
         request_type: firstString(
           requestData.request_type,
@@ -1338,6 +1349,23 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       });
       return;
     }
+    if (otherPersonPhoneError) {
+      setSnackbar({
+        open: true,
+        message: "Please enter a valid phone number,or leave it blank.",
+        severity: "error",
+      });
+      return;
+    }
+
+    if (otherPersonAgeError) {
+      setSnackbar({
+        open: true,
+        message: "Please enter a valid age(1-120), or leave it blank.",
+        severity: "error",
+      });
+      return;
+    }
 
     // Show spinner immediately so the user knows the form is being processed,
     // even while the generateSubject API call is still in-flight (#1548 follow-up).
@@ -1421,11 +1449,14 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         submissionData.attachments = uploadedFileUrls;
       }
 
+      // Edit request API expects `creatorId`, create request API expects `requesterId`
+      const userIdKey = isEdit ? "creatorId" : "requesterId";
+
       // Build the API payload
       const payload = mapHelpRequestPayload({
         formData: submissionData,
         selectedCategoryId: selectedCategoryId ?? formData.category,
-        requesterId: isEdit
+        [userIdKey]: isEdit
           ? editRequestData?.requesterId || userDbId
           : userDbId,
         enumMaps,
@@ -1434,6 +1465,8 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
           ? editRequestData?.requestId || editRequestData?.id || id
           : undefined,
       });
+
+      console.log({ payload });
 
       // Call updateRequest when editing, createRequest when creating
       let response;
@@ -2047,9 +2080,14 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
 
                   <div className="flex-1 relative">
                     <select
+                      disabled={isEdit}
                       id="request_for"
                       value={formData.request_for || ""}
-                      className="appearance-none bg-white border p-2 w-full rounded-lg text-gray-700"
+                      className={`appearance-none border p-2 w-full rounded-lg text-gray-700 ${
+                        isEdit
+                          ? "bg-gray-100 cursor-not-allowed opacity-70"
+                          : "bg-white"
+                      }`}
                       onChange={(e) => {
                         const selected = e.target.value;
                         const isOther = selected !== enums?.requestFor?.[0]; // not SELF = OTHER
@@ -2131,8 +2169,9 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                         name="lead_volunteer"
                         value={formData.lead_volunteer}
                         onChange={handleChange}
+                        disabled={!isVolunteer}
                         className="block w-full appearance-none bg-white border border-gray-300 rounded-lg
-                                  py-2 px-3 pr-8 text-gray-700 focus:outline-none"
+                                  py-2 px-3 pr-8 text-gray-700 focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
                       >
                         <option value="No">{t("No")}</option>
                         <option value="Yes">{t("Yes")}</option>
@@ -2208,6 +2247,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                     </div>
 
                     <div className="mt-3 grid grid-cols-2 gap-4">
+                      {/* OLD: replaced by PhoneNumberInputWithCountry for #702 integration
                       <div>
                         <label
                           htmlFor="phone"
@@ -2223,6 +2263,24 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           className="w-full rounded-lg border py-2 px-3"
                         />
                       </div>
+                      */}
+                      <div>
+                        <PhoneNumberInputWithCountry
+                          phone={formData.phone}
+                          setPhone={(value) =>
+                            setFormData((prev) => ({ ...prev, phone: value }))
+                          }
+                          countryCode={otherPersonCountryCode}
+                          setCountryCode={setOtherPersonCountryCode}
+                          error={otherPersonPhoneError}
+                          setError={setOtherPersonPhoneError}
+                          label={t("PHONE")}
+                          required={false}
+                          t={t}
+                        />
+                      </div>
+
+                      {/*OLD: plain input with no validation — replaced with range-validated version (1–120).
                       <div>
                         <label
                           htmlFor="age"
@@ -2237,6 +2295,45 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           onChange={handleChange}
                           className="w-full rounded-lg border py-2 px-3"
                         />
+                      </div>
+                      */}
+                      <div>
+                        <label
+                          htmlFor="age"
+                          className="block text-gray-700 mb-1 font-medium"
+                        >
+                          {t("AGE")}
+                        </label>
+                        <input
+                          type="number"
+                          id="age"
+                          value={formData.age}
+                          onChange={(e) => {
+                            handleChange(e);
+                            const val = e.target.value;
+                            if (val === "") {
+                              setOtherPersonAgeError("");
+                            } else if (
+                              !/^\d+$/.test(val) ||
+                              Number(val) < 1 ||
+                              Number(val) > 120
+                            ) {
+                              setOtherPersonAgeError(
+                                "Please enter a valid age (1–120)",
+                              );
+                            } else {
+                              setOtherPersonAgeError("");
+                            }
+                          }}
+                          className={`w-full rounded-lg border py-2 px-3 ${
+                            otherPersonAgeError ? "border-red-500" : ""
+                          }`}
+                        />
+                        {otherPersonAgeError && (
+                          <p className="text-sm text-red-500">
+                            {otherPersonAgeError}
+                          </p>
+                        )}
                       </div>
                       <div className="mt-3" data-testid="parentDivFour">
                         <label
@@ -2354,6 +2451,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                   <div className="relative">
                     <select
                       id="requestType"
+                      disabled={isEdit}
                       value={formData.request_type || "REMOTE"}
                       onChange={(e) => {
                         const value = e.target.value;
@@ -2372,13 +2470,18 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           getUserLocation();
                         }
                       }}
-                      className="
+                      className={`
                     block w-full appearance-none
-                    bg-white border border-gray-300
+                    border border-gray-300
                     rounded-lg py-2 px-3 pr-8
                     text-gray-700
                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                  "
+                    ${
+                      isEdit
+                        ? "bg-gray-100 cursor-not-allowed opacity-70"
+                        : "bg-white"
+                    }
+                  `}
                     >
                       {enums?.requestType &&
                         Object.values(enums.requestType).map((val) => (
@@ -2470,6 +2573,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                       <input
                         id="calamity"
                         type="checkbox"
+                        disabled={isEdit}
                         checked={formData.is_calamity}
                         onChange={(e) =>
                           setFormData({

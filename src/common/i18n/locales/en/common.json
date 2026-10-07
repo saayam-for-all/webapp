@@ -70,7 +70,7 @@
   "CHAT_COMMUNITY_TOUCH_ORGANIZATIONS": "Chat Community Touch Organizations",
   "CHAT_WITH_COMMUNITY_GET_IN_TOUCH": "Chat With Community Get In Touch",
   "CITY": "City",
-  "CLOSE": "CLOSE",
+  "CLOSE": "Close",
   "PROMOTE_TO_VOLUNTEER": "Promote To Volunteer",
   "SITEMAP": "Sitemap",
   "THANKS": "Thanks",
@@ -801,6 +801,8 @@
   "FIND_BY_PHONE": "Find by Phone",
   "ENTER_VOLUNTEER_EMAIL": "Enter volunteer email",
   "ENTER_VOLUNTEER_PHONE": "Enter volunteer phone",
+  "RUN_SMART_MATCH": "Run Smart Match",
+  "MATCH_PERCENT": "Match %",
   "SEARCH_TAGLINE": "google with human touch*",
   "CREATED": "Created",
   "MATCHING_VOLUNTEER": "Matching Volunteer",
@@ -822,5 +824,9 @@
   "STEP_NUMBER_4": "4",
   "STEP_NUMBER_5": "5",
   "DELETE_ACTION": "Delete",
-  "VOICE_NO_SPEECH_DETECTED": "No speech detected. Please try again and speak into your microphone while recording."
+  "VOICE_NO_SPEECH_DETECTED": "No speech detected. Please try again and speak into your microphone while recording.",
+  "FIND_VOLUNTEER": "Find Volunteer",
+  "ASSIGN_VOLUNTEER": "Assign Volunteer",
+  "SELECT_VOLUNTEER": "Select {{name}}",
+  "NA": "NA"
 }

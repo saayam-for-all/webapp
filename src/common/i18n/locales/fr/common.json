@@ -86,7 +86,7 @@
   "CHILD_ABUSE": "Ligne abus sur mineurs",
   "CHOOSE_FILE": "Choisir un fichier",
   "CITY": "Ville",
-  "CLOSE": "FERMER",
+  "CLOSE": "Fermer",
   "CLOSE_MENU": "Fermer le menu",
   "CLOTHING_SUPPORT": "Soutien vestimentaire",
   "COLLABORATION_NOT_COMPETITION": "Collaboration, pas concurrence",
@@ -799,5 +799,9 @@
   "volunteers.": "les bénévoles.",
   "where the ethos of \"Manava Sevaye Madhava": "où l'éthos de \"Manava Sevaye Madhava",
   "without desecrating any beliefs.": "sans profaner aucune croyance.",
-  "writeComment": "écrire un commentaire"
+  "writeComment": "écrire un commentaire",
+  "FIND_VOLUNTEER": "Trouver un bénévole",
+  "ASSIGN_VOLUNTEER": "Affecter un bénévole",
+  "SELECT_VOLUNTEER": "Sélectionner {{name}}",
+  "NA": "Non disponible"
 }

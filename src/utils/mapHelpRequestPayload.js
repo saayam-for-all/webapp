@@ -1,12 +1,14 @@
 export const mapHelpRequestPayload = ({
   formData,
   selectedCategoryId,
+  creatorId,
   requesterId,
   enumMaps,
   additionalFields,
   requestId,
 }) => {
   const payload = {
+    creatorId: creatorId,
     requesterId: requesterId,
     requestSubject: formData.subject,
     requestDescription: formData.description,
@@ -50,13 +52,10 @@ export const mapHelpRequestPayload = ({
     payload.requestId = requestId;
   }
 
-  // Include location if provided
-  if (formData.location) {
-    if (formData.locationCoordinates) {
-      payload.requestLocation = `longitude:${formData.locationCoordinates.longitude},latitude:${formData.locationCoordinates.latitude}`;
-    } else {
-      payload.requestLocation = formData.location;
-    }
+  // Include latitude and longitude separately for in-person requests
+  if (formData.request_type === "IN_PERSON" && formData.locationCoordinates) {
+    payload.latitude = formData.locationCoordinates.latitude;
+    payload.longitude = formData.locationCoordinates.longitude;
   }
 
   // Include audio description if provided

@@ -283,6 +283,9 @@ describe("HelpingVolunteers", () => {
 
     fireEvent.change(sortSelect, { target: { value: "Name" } });
     expect(sortSelect.value).toBe("Name");
+
+    fireEvent.change(sortSelect, { target: { value: "Newest" } });
+    expect(sortSelect.value).toBe("Newest");
   });
 
   it("changes rows per view", async () => {
@@ -346,5 +349,162 @@ describe("HelpingVolunteers", () => {
     fireEvent.click(rowCheckbox);
 
     expect(rowCheckbox).toBeInTheDocument();
+  });
+
+  it("searches and assigns a single volunteer in find mode", async () => {
+    const onAssign = jest.fn();
+    render(<HelpingVolunteers findVolunteerMode onAssign={onAssign} />);
+
+    const lookupInput =
+      await screen.findByPlaceholderText(/ENTER_VOLUNTEER_NAME/i);
+    const searchBySelect = screen
+      .getAllByRole("combobox")
+      .find((select) => select.value === "name");
+    fireEvent.change(searchBySelect, {
+      target: { value: "phone" },
+    });
+    fireEvent.change(lookupInput, { target: { value: "123" } });
+
+    expect(screen.getByText("Jane Cooper")).toBeInTheDocument();
+    expect(screen.queryByText("John Doe")).not.toBeInTheDocument();
+    expect(screen.queryByText("REQUEST_VOLUNTEERS")).not.toBeInTheDocument();
+
+    fireEvent.change(lookupInput, { target: { value: "" } });
+    fireEvent.click(
+      screen.getAllByRole("radio", {
+        name: "mockTranslate(SELECT_VOLUNTEER)",
+      })[0],
+    );
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(ASSIGN_VOLUNTEER)" }),
+    );
+
+    expect(onAssign).toHaveBeenCalledWith(mockVolunteers[0]);
+  });
+
+  it("does not show Cause column in find volunteer mode", async () => {
+    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+
+    await screen.findByText("Jane Cooper");
+
+    expect(screen.queryByText("Cause")).not.toBeInTheDocument();
+    expect(screen.queryByText("Cooking")).not.toBeInTheDocument();
+  });
+
+  it("shows Cause column in default mode", async () => {
+    render(<HelpingVolunteers />);
+
+    await screen.findByText("Jane Cooper");
+
+    expect(screen.getByText("Cause")).toBeInTheDocument();
+    expect(screen.getByText("Cooking")).toBeInTheDocument();
+  });
+
+  it("shows Run Smart Match button only in find volunteer mode", async () => {
+    const { unmount } = render(<HelpingVolunteers />);
+
+    await screen.findByText("Jane Cooper");
+    expect(
+      screen.queryByText("mockTranslate(RUN_SMART_MATCH)"),
+    ).not.toBeInTheDocument();
+
+    unmount();
+
+    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+    await screen.findByText("Jane Cooper");
+    expect(
+      screen.getByText("mockTranslate(RUN_SMART_MATCH)"),
+    ).toBeInTheDocument();
+  });
+
+  it("clicking Run Smart Match shows Match % column with progress bars", async () => {
+    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+
+    await screen.findByText("Jane Cooper");
+
+    fireEvent.click(screen.getByText("mockTranslate(RUN_SMART_MATCH)"));
+
+    expect(
+      screen.getByText("mockTranslate(MATCH_PERCENT)"),
+    ).toBeInTheDocument();
+
+    const percentLabels = screen.getAllByText(/%$/);
+    expect(percentLabels.length).toBeGreaterThan(0);
+  });
+
+  it("smart match sorts volunteers by score descending", async () => {
+    jest
+      .spyOn(Math, "random")
+      .mockReturnValueOnce(0.5) // Jane: 60 + floor(0.5*41) = 80
+      .mockReturnValueOnce(0.9); // John: 60 + floor(0.9*41) = 96
+
+    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+
+    await screen.findByText("Jane Cooper");
+
+    fireEvent.click(screen.getByText("mockTranslate(RUN_SMART_MATCH)"));
+
+    const rows = screen.getAllByRole("row");
+    // row[0] is header, row[1] should be John (96%), row[2] should be Jane (80%)
+    expect(rows[1]).toHaveTextContent("John Doe");
+    expect(rows[1]).toHaveTextContent("96%");
+    expect(rows[2]).toHaveTextContent("Jane Cooper");
+    expect(rows[2]).toHaveTextContent("80%");
+
+    // Click Match % header to toggle to ascending sort
+    fireEvent.click(screen.getByText("mockTranslate(MATCH_PERCENT)"));
+
+    const rowsAsc = screen.getAllByRole("row");
+    expect(rowsAsc[1]).toHaveTextContent("Jane Cooper");
+    expect(rowsAsc[1]).toHaveTextContent("80%");
+    expect(rowsAsc[2]).toHaveTextContent("John Doe");
+    expect(rowsAsc[2]).toHaveTextContent("96%");
+
+    Math.random.mockRestore();
+  });
+
+  it("smart match progress bar colors reflect score ranges", async () => {
+    jest
+      .spyOn(Math, "random")
+      .mockReturnValueOnce(0.8) // Jane: 60 + floor(0.8*41) = 92 -> green
+      .mockReturnValueOnce(0.1); // John: 60 + floor(0.1*41) = 64 -> orange
+
+    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+
+    await screen.findByText("Jane Cooper");
+
+    fireEvent.click(screen.getByText("mockTranslate(RUN_SMART_MATCH)"));
+
+    const rows = screen.getAllByRole("row");
+    // row[1] = Jane (92%, green), row[2] = John (64%, orange) after desc sort
+    expect(rows[1]).toHaveTextContent("92%");
+    expect(rows[2]).toHaveTextContent("64%");
+
+    Math.random.mockRestore();
+  });
+
+  it("shows all find-mode volunteers and supports next and previous pages", async () => {
+    const volunteers = Array.from({ length: 7 }, (_, index) => ({
+      name: `Volunteer ${index + 1}`,
+      cause: "Community support",
+      phone: `${index + 1}`,
+      email: `volunteer${index + 1}@example.com`,
+      location: "Boston",
+      rating: "★★★★★",
+    }));
+    getVolunteersData.mockResolvedValueOnce(volunteers);
+
+    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+
+    expect(await screen.findByText("Volunteer 5")).toBeInTheDocument();
+    expect(screen.queryByText("Volunteer 6")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+    expect(await screen.findByText("Volunteer 6")).toBeInTheDocument();
+    expect(screen.getByText("Volunteer 7")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Previous" }));
+    expect(await screen.findByText("Volunteer 1")).toBeInTheDocument();
+    expect(screen.queryByText("Volunteer 6")).not.toBeInTheDocument();
   });
 });

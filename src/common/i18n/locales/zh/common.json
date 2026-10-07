@@ -86,7 +86,7 @@
   "CHILD_ABUSE": "儿童虐待热线",
   "CHOOSE_FILE": "选择文件",
   "CITY": "城市",
-  "CLOSE": "CLOSE",
+  "CLOSE": "关闭",
   "CLOSE_MENU": "Close Menu",
   "CLOTHING_SUPPORT": "Clothing Support",
   "COLLABORATION_NOT_COMPETITION": "Collaboration Not Competition",
@@ -791,5 +791,9 @@
   "voluntary organizations without": "志愿组织匹配，而不",
   "volunteers.": "志愿者。",
   "where the ethos of \"Manava Sevaye Madhava": "其“服务人类即服务神”的理念",
-  "without desecrating any beliefs.": "不亵渎任何信仰。"
+  "without desecrating any beliefs.": "不亵渎任何信仰。",
+  "FIND_VOLUNTEER": "查找志愿者",
+  "ASSIGN_VOLUNTEER": "分配志愿者",
+  "SELECT_VOLUNTEER": "选择 {{name}}",
+  "NA": "不可用"
 }
