@@ -1,4 +1,4 @@
-﻿{
+{
   "*By clicking Submit, you are agreeing to our": "بالنقر على إرسال، فإنك توافق على شروطنا",
   "ABOUT": "معلومات عنا",
   "ACCEPT": "قبول",
@@ -21,10 +21,13 @@
   "AI_ML_TEAM_LEAD": "قائد فريق الذكاء الاصطناعي وتعلم الآلة",
   "ALL": "الكل",
   "ALL_CATEGORIES": "جميع الفئات",
-  "ALL_FIELDS_MANDATORY": "جميع الحقول إلزامية",
+  "ALL_FIELDS_MANDATORY": "جميع الحقول إلزامية.",
   "All": "الجميع",
   "All Categories": "جميع الفئات",
   "ALREADY_HAVE_ACCOUNT": "هل لديك حساب بالفعل؟",
+  "OR_USE_YOUR": "أو استخدم",
+  "SOCIAL_MEDIA_ACCOUNTS": "حسابات وسائل التواصل الاجتماعي",
+  "SOCIAL_MEDIA_ACCOUNTS_SUFFIX": " الخاصة بك",
   "AMBULANCE": "الإسعاف",
   "AMERICAN_RED_CROSS": "الصليب الأحمر الأمريكي",
   "AMERICAN_RED_CROSS_DESC": "يعمل متطوعو وموظفو الصليب الأحمر على تقديم خدمات حيوية — من توفير الدعم والمساعدة للمحتاجين.",
