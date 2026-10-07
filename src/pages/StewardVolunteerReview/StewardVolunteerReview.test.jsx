@@ -129,4 +129,78 @@ describe("StewardVolunteerReview", () => {
       screen.getByRole("button", { name: "Request More Information" }),
     ).toBeInTheDocument();
   });
+
+  test("renders volunteering skills and availability", () => {
+    renderReview({ userId: "SID-1003" });
+
+    expect(screen.getByText("Volunteering Skills")).toBeInTheDocument();
+    expect(screen.getByText(/Clothing Assistance/)).toBeInTheDocument();
+    expect(screen.getByText(/Donate Clothes/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Elderly Community Assistance/),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Medication Management/)).toBeInTheDocument();
+    expect(screen.getByText(/Education & Career Support/)).toBeInTheDocument();
+    expect(screen.getByText(/Mathematics/)).toBeInTheDocument();
+    expect(screen.getByText(/Science/)).toBeInTheDocument();
+    expect(screen.getByText(/Healthcare & Wellness/)).toBeInTheDocument();
+    expect(screen.getByText(/Medical Consultation/)).toBeInTheDocument();
+    expect(screen.getByText(/Skin \/ Dermatology/)).toBeInTheDocument();
+
+    expect(screen.getByText(/Availability/)).toBeInTheDocument();
+    expect(screen.getByText("4 slots selected")).toBeInTheDocument();
+    expect(screen.getByText("Monday")).toBeInTheDocument();
+    expect(screen.getByText("Wednesday")).toBeInTheDocument();
+    expect(screen.getByText("Saturday")).toBeInTheDocument();
+    expect(screen.getByText("9:30AM - 12:00PM")).toBeInTheDocument();
+    expect(screen.getByText("12:00PM - 5:00PM")).toBeInTheDocument();
+    expect(screen.getByText("10:00AM - 1:00PM")).toBeInTheDocument();
+  });
+
+  test("opens and cancels the request information dialog", () => {
+    renderReview({ userId: "SID-1004" });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Request More Information" }),
+    );
+
+    expect(screen.getByText("Request Information")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Enter your message..."),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+    expect(screen.queryByText("Request Information")).not.toBeInTheDocument();
+  });
+
+  test("allows a steward to enter and send a request information message", () => {
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+
+    renderReview({ userId: "SID-1005" });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Request More Information" }),
+    );
+
+    const messageInput = screen.getByPlaceholderText("Enter your message...");
+
+    fireEvent.change(messageInput, {
+      target: { value: "Please provide additional volunteer information." },
+    });
+
+    expect(messageInput).toHaveValue(
+      "Please provide additional volunteer information.",
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Send" }));
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      "Request message:",
+      "Please provide additional volunteer information.",
+    );
+    expect(screen.queryByText("Request Information")).not.toBeInTheDocument();
+
+    consoleSpy.mockRestore();
+  });
 });
