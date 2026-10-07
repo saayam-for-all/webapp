@@ -445,6 +445,15 @@ describe("HelpingVolunteers", () => {
     expect(rows[2]).toHaveTextContent("Jane Cooper");
     expect(rows[2]).toHaveTextContent("80%");
 
+    // Click Match % header to toggle to ascending sort
+    fireEvent.click(screen.getByText("mockTranslate(MATCH_PERCENT)"));
+
+    const rowsAsc = screen.getAllByRole("row");
+    expect(rowsAsc[1]).toHaveTextContent("Jane Cooper");
+    expect(rowsAsc[1]).toHaveTextContent("80%");
+    expect(rowsAsc[2]).toHaveTextContent("John Doe");
+    expect(rowsAsc[2]).toHaveTextContent("96%");
+
     Math.random.mockRestore();
   });
 
