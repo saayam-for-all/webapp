@@ -39,6 +39,8 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchBy, setSearchBy] = useState("name");
   const [lookupTerm, setLookupTerm] = useState("");
+  const [smartMatchMode, setSmartMatchMode] = useState(false);
+  const [matchScores, setMatchScores] = useState({});
   const [filter, setFilter] = useState(""); // State for filter functionality
   const [sortBy, setSortBy] = useState("Newest"); // State for sort functionality
   const [volunteerCountError, setVolunteerCountError] = useState("");
@@ -75,11 +77,31 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
     fetchVolunteers();
   }, []);
 
+  const handleSmartMatch = () => {
+    const mockScores = {};
+    volunteerData.forEach((v) => {
+      mockScores[v.email] = Math.floor(Math.random() * 41) + 60; // 60-100
+    });
+    setMatchScores(mockScores);
+    setSmartMatchMode(true);
+    setSortConfig({ key: "matchScore", direction: "descending" });
+  };
+
+  const getMatchBarColor = (score) => {
+    if (score >= 90) return "bg-green-500";
+    if (score >= 75) return "bg-blue-500";
+    if (score >= 65) return "bg-yellow-500";
+    return "bg-orange-500";
+  };
+
   // Columns for the table
   const headers = [
     { key: "select", label: "Select" },
     { key: "name", label: "Name" },
-    { key: "cause", label: "Cause" },
+    ...(findVolunteerMode && smartMatchMode
+      ? [{ key: "matchScore", label: t("MATCH_PERCENT") }]
+      : []),
+    ...(!findVolunteerMode ? [{ key: "cause", label: "Cause" }] : []),
     { key: "phone", label: "Phone" },
     { key: "email", label: "Email" },
     { key: "location", label: "Location" },
@@ -129,14 +151,14 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
       );
     });
 
-    if (filter) {
-      filteredVolunteers = filteredVolunteers.filter((volunteer) =>
-        volunteer.cause.toLowerCase().includes(filter.toLowerCase()),
-      );
-    }
-
     filteredVolunteers.sort((a, b) => {
-      if (sortConfig.key === "dateAdded") {
+      if (sortConfig.key === "matchScore") {
+        const scoreA = matchScores[a.email] || 0;
+        const scoreB = matchScores[b.email] || 0;
+        return sortConfig.direction === "ascending"
+          ? scoreA - scoreB
+          : scoreB - scoreA;
+      } else if (sortConfig.key === "dateAdded") {
         const dateA = new Date(a.dateAdded);
         const dateB = new Date(b.dateAdded);
         return sortConfig.direction === "ascending"
@@ -163,6 +185,7 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
     filter,
     sortConfig,
     volunteersCount,
+    matchScores,
   ]);
 
   const totalRows = filteredAndSortedVolunteers.length;
@@ -437,6 +460,25 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
               <option value="phone">{t("FIND_BY_PHONE")}</option>
             </select>
           </div>
+
+          {findVolunteerMode && (
+            <div className="w-px self-stretch bg-gray-300" aria-hidden="true" />
+          )}
+
+          {findVolunteerMode && (
+            <div className="flex items-center bg-white border border-gray-300 rounded-xl p-4">
+              <button
+                className={`px-6 py-3 text-white rounded-lg whitespace-nowrap font-semibold transition ${
+                  smartMatchMode
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-blue-500 hover:bg-blue-600"
+                }`}
+                onClick={handleSmartMatch}
+              >
+                {t("RUN_SMART_MATCH")}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="mt-6 bg-white p-6 shadow-lg">
@@ -617,7 +659,28 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
                           {volunteer.name}
                         </Link>
                       </td>
-                      <td className="px-4 py-2 border-b">{volunteer.cause}</td>
+                      {findVolunteerMode && smartMatchMode && (
+                        <td className="px-4 py-2 border-b">
+                          <div className="flex items-center gap-2">
+                            <div className="w-24 bg-gray-200 rounded-full h-4 overflow-hidden">
+                              <div
+                                className={`h-full rounded-full ${getMatchBarColor(matchScores[volunteer.email] || 0)}`}
+                                style={{
+                                  width: `${matchScores[volunteer.email] || 0}%`,
+                                }}
+                              />
+                            </div>
+                            <span className="text-sm font-semibold">
+                              {matchScores[volunteer.email] || 0}%
+                            </span>
+                          </div>
+                        </td>
+                      )}
+                      {!findVolunteerMode && (
+                        <td className="px-4 py-2 border-b">
+                          {volunteer.cause}
+                        </td>
+                      )}
                       <td className="px-4 py-2 border-b">{volunteer.phone}</td>
                       <td className="px-4 py-2 border-b">{volunteer.email}</td>
                       <td className="px-4 py-2 border-b">
