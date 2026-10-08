@@ -197,20 +197,17 @@ describe("SignUp", () => {
     expect(boldText).toBeInTheDocument();
   });
 
-  it("renders the login section after the mandatory fields message", () => {
+  it("renders the mandatory fields and login text in the same paragraph", () => {
     render(<SignUp />);
 
-    const mandatoryText = screen.getByText("ALL_FIELDS_MANDATORY");
-    const accountText = screen.getByText(
+    const paragraph = screen.getByText(
       (_, element) =>
         element?.tagName === "P" &&
+        element?.textContent?.includes("ALL_FIELDS_MANDATORY") &&
         element?.textContent?.includes("ALREADY_HAVE_ACCOUNT"),
     );
 
-    expect(
-      mandatoryText.compareDocumentPosition(accountText) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
+    expect(paragraph).toBeInTheDocument();
   });
 
   it("renders the Log In button that navigates to /login", () => {
