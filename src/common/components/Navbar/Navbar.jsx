@@ -253,45 +253,50 @@ const Navbar = () => {
         // the real list API is available. Do not remove.
         const rawNotifications = [
           {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "You have new Volunteer match request in Logistics",
-            date: "Mar 15, 2023, 10:30 AM",
+            notificationId: 101,
+            status: "new",
+            typeName: "volunteer_match",
+            message: "You have a new volunteer match request in Logistics",
+            createDttm: "2026-10-07T10:30:00.000+00:00",
+            ActionItem: "True",
           },
           {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "Hospital",
-            date: "Jun 15, 2023, 10:30 AM",
+            notificationId: 102,
+            status: "new",
+            typeName: "help_request",
+            message: "New help request: Educational Help needed",
+            createDttm: "2026-10-06T14:15:00.000+00:00",
+            ActionItem: "False",
           },
           {
-            type: "Volunteer",
-            titleKey: "LOGISTIC_HELP",
-            title: "Logistic Help",
-            message: "Logistics",
-            date: "Nov 15, 2023, 10:30 AM",
+            notificationId: 103,
+            status: "old",
+            typeName: "volunteer_match",
+            message: "Volunteer match request at the Hospital",
+            createDttm: "2026-09-20T09:00:00.000+00:00",
+            ActionItem: "True",
           },
           {
-            type: "helpRequest",
-            titleKey: "EDUCATIONAL_HELP",
-            title: "Educational Help",
-            message: "Need help with Logistics",
-            date: "Dec 16, 2023, 10:30 AM",
+            notificationId: 104,
+            status: "old",
+            typeName: "help_request",
+            message: "Logistic help request near you",
+            createDttm: "2026-09-10T16:45:00.000+00:00",
+            ActionItem: "False",
           },
           {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "Education",
-            date: "Jan 15, 2023, 10:30 AM",
+            notificationId: 105,
+            status: "old",
+            typeName: "welcome",
+            message: "Your account details were successfully updated.",
+            createDttm: "2026-08-14T17:16:49.456+00:00",
+            ActionItem: "False",
           },
         ];
 
         const notificationsWithIds = rawNotifications.map((note) => ({
           ...note,
-          id: crypto.randomUUID(),
+          id: note.notificationId,
         }));
 
         notificationDispatch({
@@ -299,10 +304,10 @@ const Navbar = () => {
           payload: notificationsWithIds,
         });
         const existing = new Set(
-          state.notifications.map((n) => n.message + n.date),
+          state.notifications.map((n) => n.message + n.createDttm),
         );
         const newOnes = notificationsWithIds.filter(
-          (n) => !existing.has(n.message + n.date),
+          (n) => !existing.has(n.message + n.createDttm),
         );
         if (newOnes.length > 0) {
           notificationDispatch({
