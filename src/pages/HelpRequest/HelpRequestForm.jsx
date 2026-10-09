@@ -219,6 +219,8 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   const hasUserEditedSubjectRef = useRef(false);
   const isVolunteer = groups?.includes("Volunteers");
 
+  const [countryCode, setCountryCode] = useState("US");
+  const [phoneError, setPhoneError] = useState("");
   const [formData, setFormData] = useState({
     is_self: "yes",
     requester_first_name: "",
@@ -1367,6 +1369,19 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       return;
     }
 
+    if (
+      formData.request_for === "OTHER" &&
+      formData.age !== "" &&
+      (Number(formData.age) < 0 || Number(formData.age) > 120)
+    ) {
+      setSnackbar({
+        open: true,
+        message: "Please enter a valid age between 0 and 120.",
+        severity: "error",
+      });
+      return;
+    }
+
     // Show spinner immediately so the user knows the form is being processed,
     // even while the generateSubject API call is still in-flight (#1548 follow-up).
     setIsSubmitting(true);
@@ -2249,18 +2264,20 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                     <div className="mt-3 grid grid-cols-2 gap-4">
                       {/* OLD: replaced by PhoneNumberInputWithCountry for #702 integration
                       <div>
-                        <label
-                          htmlFor="phone"
-                          className="block text-gray-700 mb-1 font-medium"
-                        >
-                          {t("PHONE")}
-                        </label>
-                        <input
-                          type="text"
-                          id="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="w-full rounded-lg border py-2 px-3"
+                        <PhoneNumberInputWithCountry
+                          phone={formData.phone}
+                          setPhone={(phone) =>
+                            setFormData((prev) => ({ ...prev, phone }))
+                          }
+                          countryCode={countryCode}
+                          setCountryCode={setCountryCode}
+                          setError={setPhoneError}
+                          error={phoneError}
+                          label={t("PHONE")}
+                          required={false}
+                          t={t}
+                          name="phone"
+                          autoComplete="tel-national"
                         />
                       </div>
                       */}
@@ -2293,6 +2310,8 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           id="age"
                           value={formData.age}
                           onChange={handleChange}
+                          min="0"
+                          max="120"
                           className="w-full rounded-lg border py-2 px-3"
                         />
                       </div>
