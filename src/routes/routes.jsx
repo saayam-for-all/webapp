@@ -99,11 +99,7 @@ const routes = [
     element: <NewsOurStories />,
     handle: { leaveAdSpace: true },
   },
-  {
-    path: "notifications",
-    element: <Notifications />,
-    handle: { leaveAdSpace: true },
-  },
+
   {
     path: "our-mission",
     element: <OurMission />,
@@ -115,6 +111,11 @@ const routes = [
       {
         path: "dashboard",
         element: <Dashboard />,
+        handle: { leaveAdSpace: true },
+      },
+      {
+        path: "notifications",
+        element: <Notifications />,
         handle: { leaveAdSpace: true },
       },
       {
