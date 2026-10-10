@@ -453,6 +453,7 @@ const Navbar = () => {
         {user?.userId && (
           <div className="relative md:hidden flex-1 mx-2">
             <TextField
+              key={user?.userId ?? "guest"}
               name="navbar-search"
               autoComplete="off"
               value={searchText}
@@ -527,6 +528,7 @@ const Navbar = () => {
           {user?.userId && (
             <div className="relative flex-1 min-w-0 mr-4">
               <TextField
+                key={user?.userId ?? "guest"}
                 name="navbar-search"
                 autoComplete="off"
                 value={searchText}

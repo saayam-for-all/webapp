@@ -88,6 +88,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
               ref={currentPasswordRef}
               type={showPassword ? "text" : "password"}
               value={currentPassword}
+              autoComplete="current-password"
               onChange={(e) => setCurrentPassword(e.target.value)}
               autoComplete="new-password"
               readOnly={passwordFieldsReadOnly}
@@ -110,6 +111,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
             <input
               type={showPassword ? "text" : "password"}
               value={newPassword}
+              autoComplete="new-password"
               onChange={(e) => setNewPassword(e.target.value)}
               autoComplete="new-password"
               readOnly={passwordFieldsReadOnly}
@@ -138,6 +140,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
             <input
               type={showPassword ? "text" : "password"}
               value={confirmPassword}
+              autoComplete="new-password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               autoComplete="new-password"
               readOnly={passwordFieldsReadOnly}
