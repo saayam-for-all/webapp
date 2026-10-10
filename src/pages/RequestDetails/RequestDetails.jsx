@@ -175,25 +175,25 @@ const RequestDetails = () => {
     setDeleteError("");
     try {
       // requesterId resolution mirrors the Edit flow:
-      // - My Requests tab -> logged-in user's userDbId (from Redux)
-      // - All Requests tab -> requesterId comes from the request object itself
+      // - My Requests tab -> use Logged-in user's DB id
+      // - All Requests tab -> use the request creatorId
       const payload = {
         requestId: requestData?.id || requestId,
         requesterId: isMyRequest
           ? userDbId
-          : requestData?.requesterId || userDbId,
-        deletionReason: deleteReason,
+          : requestData?.creatorId || requestData?.requesterId || userDbId,
+        deletionReason: deleteReason.trim(),
       };
 
-      // NOTE (SAAYAM-1700): "reason" (deleteReason) is captured in the UI but
-      // NOT sent yet — the delete API doesn't accept a reason param yet.
-      // Once backend adds support, include it here, e.g.:
-      //   await deleteRequest({ ...payload, reason: deleteReason });
       await deleteRequest(payload);
 
       setDeleteDialogOpen(false);
       setDeleteReason("");
-      navigate("/dashboard");
+      navigate("/dashboard", {
+        state: {
+          successMessage: `Request #${requestData?.id || requestId} is deleted successfully`,
+        },
+      });
     } catch (error) {
       console.error("Delete failed:", error);
       setDeleteError("Failed to delete request. Please try again.");
