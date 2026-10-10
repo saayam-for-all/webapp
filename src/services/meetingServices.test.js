@@ -11,7 +11,7 @@ describe("meetingServices", () => {
   });
 
   it("createZoomMeeting returns data on success", async () => {
-    const mockData = { zoomLink: "link", meetingId: "id" };
+    const mockData = { message: "Meeting created successfully" };
     api.post.mockResolvedValueOnce({ data: mockData });
     const payload = {
       emails: ["test@example.com"],
@@ -19,15 +19,19 @@ describe("meetingServices", () => {
       time: "12:00",
     };
     const result = await createZoomMeeting(payload);
-    expect(api.post).toHaveBeenCalledWith("/v1/meeting/create", payload);
+    expect(api.post).toHaveBeenCalledWith("/0.0.1/meetings", {
+      topic: "Volunteer Coordination Meeting",
+      startTime: new Date("2026-03-10T12:00:00").toISOString(),
+      durationMinutes: 30,
+      hostUserId: "test-host-123",
+      attendeeEmails: ["test@example.com"],
+    });
     expect(result).toEqual(mockData);
   });
 
-  it("storeMeetingDetails returns data on success", async () => {
+  it("storeMeetingDetails returns meeting details unchanged", async () => {
     const mockDetails = { meetingId: "id", zoomLink: "link" };
-    api.post.mockResolvedValueOnce({ data: mockDetails });
     const result = await storeMeetingDetails(mockDetails);
-    expect(api.post).toHaveBeenCalledWith("/v1/meeting/store", mockDetails);
     expect(result).toEqual(mockDetails);
   });
 });

@@ -81,11 +81,7 @@ export const getUserId = async (email) => {
 
 export const getVolunteersData = async () => {
   const { data } = await api.get(endpoints.GET_VOLUNTEERS_DATA);
-  return Array.isArray(data?.body)
-    ? data.body
-    : Array.isArray(data)
-      ? data
-      : [];
+  return Array.isArray(data?.data?.items) ? data.data.items : [];
 };
 
 export const getMockVolunteersData = async () => {
