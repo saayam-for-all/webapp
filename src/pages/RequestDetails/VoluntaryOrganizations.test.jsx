@@ -264,7 +264,8 @@ describe("VoluntaryOrganizations", () => {
     renderWithProviders(<VoluntaryOrganizations />, {
       preloadedState: MOCK_STATE,
     });
-    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
+    await screen.findByText("No organizations found");
+    expect(getOrganizations).toHaveBeenCalledTimes(1);
     expect(getOrganizations).toHaveBeenCalledWith(
       expect.objectContaining({
         request_id: "REQ-00-000-000-0001",
@@ -279,7 +280,8 @@ describe("VoluntaryOrganizations", () => {
     renderWithProviders(<VoluntaryOrganizations />, {
       preloadedState: MOCK_STATE,
     });
-    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
+    await screen.findByText("No organizations found");
+    expect(getOrganizations).toHaveBeenCalledTimes(1);
     // requestData.userId = "SID-00-000-000-001" from mock useLocation
     // userDbId from redux = "SID-00-000-000-999"
     // requestData.userId takes priority
@@ -299,7 +301,8 @@ describe("VoluntaryOrganizations", () => {
         auth: { user: { userId: "mockUser" }, idToken: "mockToken" },
       },
     });
-    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
+    await screen.findByText("No organizations found");
+    expect(getOrganizations).toHaveBeenCalledTimes(1);
     const call = getOrganizations.mock.calls[0][0];
     // beneficiary_id should be requestData.userId ("SID-00-000-000-001") since mock location has it
     expect(call.beneficiary_id).toBeTruthy();
@@ -312,7 +315,8 @@ describe("VoluntaryOrganizations", () => {
     renderWithProviders(<VoluntaryOrganizations />, {
       preloadedState: MOCK_STATE,
     });
-    await waitFor(() => expect(getOrganizations).toHaveBeenCalledTimes(1));
+    await screen.findByText("No organizations found");
+    expect(getOrganizations).toHaveBeenCalledTimes(1);
     expect.objectContaining({
       request_id: expect.any(String),
       beneficiary_id: expect.any(String),
@@ -364,5 +368,8 @@ describe("VoluntaryOrganizations", () => {
       preloadedState: MOCK_STATE,
     });
     expect(screen.getByText("Organizations")).toBeInTheDocument();
+    expect(
+      await screen.findByText("No organizations found"),
+    ).toBeInTheDocument();
   });
 });
