@@ -351,9 +351,9 @@ describe("HelpingVolunteers", () => {
     expect(rowCheckbox).toBeInTheDocument();
   });
 
-  it("searches and assigns a single volunteer in find mode", async () => {
-    const onAssign = jest.fn();
-    render(<HelpingVolunteers findVolunteerMode onAssign={onAssign} />);
+  it("selects multiple volunteers for notification in find mode", async () => {
+    const onNotify = jest.fn();
+    render(<HelpingVolunteers findVolunteerMode onNotify={onNotify} />);
 
     const lookupInput =
       await screen.findByPlaceholderText(/ENTER_VOLUNTEER_NAME/i);
@@ -370,20 +370,22 @@ describe("HelpingVolunteers", () => {
     expect(screen.queryByText("REQUEST_VOLUNTEERS")).not.toBeInTheDocument();
 
     fireEvent.change(lookupInput, { target: { value: "" } });
+    const volunteerCheckboxes = screen.getAllByRole("checkbox", {
+      name: "mockTranslate(SELECT_VOLUNTEER)",
+    });
+
+    fireEvent.click(volunteerCheckboxes[0]);
+    fireEvent.click(volunteerCheckboxes[1]);
+
     fireEvent.click(
-      screen.getAllByRole("radio", {
-        name: "mockTranslate(SELECT_VOLUNTEER)",
-      })[0],
-    );
-    fireEvent.click(
-      screen.getByRole("button", { name: "mockTranslate(ASSIGN_VOLUNTEER)" }),
+      screen.getByRole("button", { name: "mockTranslate(NOTIFY)" }),
     );
 
-    expect(onAssign).toHaveBeenCalledWith(mockVolunteers[0]);
+    expect(onNotify).toHaveBeenCalledWith(mockVolunteers);
   });
 
   it("does not show Cause column in find volunteer mode", async () => {
-    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
 
     await screen.findByText("Jane Cooper");
 
@@ -410,7 +412,7 @@ describe("HelpingVolunteers", () => {
 
     unmount();
 
-    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
     await screen.findByText("Jane Cooper");
     expect(
       screen.getByText("mockTranslate(RUN_SMART_MATCH)"),
@@ -418,7 +420,7 @@ describe("HelpingVolunteers", () => {
   });
 
   it("clicking Run Smart Match shows Match % column with progress bars", async () => {
-    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
 
     await screen.findByText("Jane Cooper");
 
@@ -438,7 +440,7 @@ describe("HelpingVolunteers", () => {
       .mockReturnValueOnce(0.5) // Jane: 60 + floor(0.5*41) = 80
       .mockReturnValueOnce(0.9); // John: 60 + floor(0.9*41) = 96
 
-    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
 
     await screen.findByText("Jane Cooper");
 
@@ -469,7 +471,7 @@ describe("HelpingVolunteers", () => {
       .mockReturnValueOnce(0.8) // Jane: 60 + floor(0.8*41) = 92 -> green
       .mockReturnValueOnce(0.1); // John: 60 + floor(0.1*41) = 64 -> orange
 
-    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
 
     await screen.findByText("Jane Cooper");
 
@@ -494,7 +496,7 @@ describe("HelpingVolunteers", () => {
     }));
     getVolunteersData.mockResolvedValueOnce(volunteers);
 
-    render(<HelpingVolunteers findVolunteerMode onAssign={jest.fn()} />);
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
 
     expect(await screen.findByText("Volunteer 5")).toBeInTheDocument();
     expect(screen.queryByText("Volunteer 6")).not.toBeInTheDocument();

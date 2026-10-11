@@ -30,15 +30,15 @@ jest.mock("./HelpingVolunteers", () => {
   const MockHelpingVolunteers = (props) => (
     <div data-testid="helping-volunteers">
       {props.findVolunteerMode && (
-        <button onClick={() => props.onAssign({ name: "Jordan Lee" })}>
-          Assign selected volunteer
+        <button onClick={() => props.onNotify([{ name: "Jordan Lee" }])}>
+          Notify selected volunteers
         </button>
       )}
     </div>
   );
   MockHelpingVolunteers.propTypes = {
     findVolunteerMode: require("prop-types").bool,
-    onAssign: require("prop-types").func,
+    onNotify: require("prop-types").func,
   };
   return MockHelpingVolunteers;
 });
@@ -103,17 +103,56 @@ describe("RequestDetails - Tab Translation Tests", () => {
     });
 
     fireEvent.click(screen.getByRole("button", { name: "FIND_VOLUNTEER" }));
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+
     fireEvent.click(
-      screen.getByRole("button", { name: "Assign selected volunteer" }),
+      screen.getByRole("button", { name: "Notify selected volunteers" }),
     );
 
-    await waitFor(() => {
-      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    });
+    expect(alertSpy).toHaveBeenCalledWith("VOLUNTEER_NOTIFICATION_UNAVAILABLE");
+    alertSpy.mockRestore();
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByTestId("helping-volunteers")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Jordan Lee" }),
+      screen.queryByRole("button", { name: "Jordan Lee" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("hides Find Volunteer for volunteer reassignment requests", () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      sourceDashboard: "STEWARD",
+      sourceTab: "reviewRequests",
+      status: "VOLUNTEER_REASSIGNMENT",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    expect(
+      screen.queryByRole("button", { name: "FIND_VOLUNTEER" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows Find Volunteer when no volunteer was found", () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      sourceDashboard: "STEWARD",
+      sourceTab: "reviewRequests",
+      status: "VOLUNTEER_NOT_FOUND",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    expect(
+      screen.getByRole("button", { name: "FIND_VOLUNTEER" }),
     ).toBeInTheDocument();
-    expect(screen.queryByTestId("helping-volunteers")).not.toBeInTheDocument();
   });
 
   it("does not show Find Volunteer for requests opened from other pages", () => {

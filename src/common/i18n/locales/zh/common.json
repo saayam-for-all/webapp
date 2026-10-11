@@ -798,5 +798,6 @@
   "FIND_VOLUNTEER": "查找志愿者",
   "ASSIGN_VOLUNTEER": "分配志愿者",
   "SELECT_VOLUNTEER": "选择 {{name}}",
-  "NA": "不可用"
+  "NA": "不可用",
+  "NOTIFY": "通知"
 }

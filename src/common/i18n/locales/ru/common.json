@@ -806,5 +806,6 @@
   "FIND_VOLUNTEER": "Найти волонтёра",
   "ASSIGN_VOLUNTEER": "Назначить волонтёра",
   "SELECT_VOLUNTEER": "Выбрать {{name}}",
-  "NA": "Недоступно"
+  "NA": "Недоступно",
+  "NOTIFY": "Уведомить"
 }
