@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { screen, waitFor, fireEvent } from "@testing-library/react";
 import { renderWithProviders } from "#utils/test-utils";
 import VoluntaryOrganizations from "./VoluntaryOrganizations";
 
@@ -30,19 +30,44 @@ jest.mock("../../services/mlServices", () => ({
   getOrganizations: jest.fn(),
 }));
 
-jest.mock("../../common/components/Loading/Loading", () => () => (
-  <div data-testid="loading-indicator" />
-));
+jest.mock("../../common/components/Loading/Loading", () => {
+  function MockLoadingIndicator() {
+    return <div data-testid="loading-indicator" />;
+  }
+  return MockLoadingIndicator;
+});
 
-jest.mock("../../common/components/DataTable/Table", () => (props) => (
-  <div data-testid="org-table">
-    {props.rows.map((row, i) => (
-      <div key={i} data-testid="org-row">
-        {row.name}
+jest.mock("../../common/components/DataTable/Table", () => {
+  const PropTypes = require("prop-types");
+
+  function MockTable({ rows, getLinkPath, getLinkState }) {
+    return (
+      <div data-testid="org-table">
+        {rows.map((row, i) => (
+          <div key={i} data-testid="org-row">
+            <a
+              href={getLinkPath?.(row, "name")}
+              data-testid={`org-link-${i}`}
+              data-navigation-state={JSON.stringify(
+                getLinkState?.(row, "name"),
+              )}
+            >
+              {row.name}
+            </a>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-));
+    );
+  }
+
+  MockTable.propTypes = {
+    rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+    getLinkPath: PropTypes.func,
+    getLinkState: PropTypes.func,
+  };
+
+  return MockTable;
+});
 
 jest.mock("../../common/components/BreadCrumbs/breadcrumbUtils", () => ({
   createOrganizationDetailsTrail: jest.fn(() => []),
@@ -84,6 +109,77 @@ const mockOrgs = [
 ];
 
 // ── Tests ────────────────────────────────────────────────────────────────────
+
+describe("Issue #1301 organization navigation", () => {
+  it("passes the clicked organization to the details route", async () => {
+    getOrganizations.mockResolvedValue([
+      { name: "Helping Hands", location: "Tampa, FL" },
+    ]);
+
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+
+    const link = await screen.findByRole("link", {
+      name: "Helping Hands",
+    });
+
+    expect(link).toHaveAttribute("href", "/organization/1");
+
+    const navigationState = JSON.parse(
+      link.getAttribute("data-navigation-state"),
+    );
+
+    expect(navigationState.organizationName).toBe("Helping Hands");
+    expect(navigationState.organizationData.name).toBe("Helping Hands");
+  });
+});
+
+describe("Issue #1301 latest UI requirements", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
+  });
+
+  it("displays the request subject on the Organizations page", () => {
+    getOrganizations.mockReturnValue(new Promise(() => {}));
+
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+
+    expect(screen.getByTestId("request-subject")).toHaveTextContent(
+      "Subject: Need help",
+    );
+  });
+
+  it("positions the loader inside the Organizations results area", () => {
+    getOrganizations.mockReturnValue(new Promise(() => {}));
+
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+
+    const container = screen.getByTestId("organizations-loading");
+
+    expect(container).toContainElement(screen.getByTestId("loading-indicator"));
+    expect(container).toHaveClass("min-h-[200px]");
+  });
+
+  it("passes the selected organization name to the details page", async () => {
+    getOrganizations.mockResolvedValue([
+      { name: "Helping Hands", location: "Tampa, FL" },
+    ]);
+
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Helping Hands")).toBeInTheDocument();
+    });
+  });
+});
 
 describe("VoluntaryOrganizations", () => {
   beforeEach(() => {
@@ -145,14 +241,21 @@ describe("VoluntaryOrganizations", () => {
   });
 
   // 5. Handles API error gracefully
-  it("shows empty state when API call throws error", async () => {
+  it("shows an error message instead of empty results when the API fails", async () => {
     getOrganizations.mockRejectedValue(new Error("Network error"));
+
     renderWithProviders(<VoluntaryOrganizations />, {
       preloadedState: MOCK_STATE,
     });
-    await waitFor(() =>
-      expect(screen.getByText("No organizations found")).toBeInTheDocument(),
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Unable to load organizations",
     );
+
+    expect(screen.getByText("Please try again later.")).toBeInTheDocument();
+    expect(
+      screen.queryByText("No organizations found"),
+    ).not.toBeInTheDocument();
   });
 
   // 6. API called with correct payload — request_id and beneficiary_id
