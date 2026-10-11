@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
@@ -100,6 +100,7 @@ const Table = ({
     calamity: t("Calamity"),
     beneficiaryCreatorDisplayId: t("Beneficiary ID / Creator ID"),
     leadVolunteerDisplayId: t("Lead Volunteer ID"),
+    distance: "Distance from",
   };
 
   const getCategoryLabel = (code) => {
@@ -187,8 +188,6 @@ const Table = ({
     }
     return "px-6 py-2";
   };
-
-  const shouldLinkCell = (header) => header === "requestId" || header === "id";
 
   return (
     <div className="relative h-full" data-testid="container">
