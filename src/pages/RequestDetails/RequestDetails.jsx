@@ -40,8 +40,8 @@ const RequestDetails = () => {
   const navigate = useNavigate();
   const [showEmergency, setShowEmergency] = useState(false);
   const [findVolunteerDialogOpen, setFindVolunteerDialogOpen] = useState(false);
-  const [leadVolunteerName, setLeadVolunteerName] = useState("Ethan Marshall");
-  const [volunteerAssigned, setVolunteerAssigned] = useState(false);
+  const leadVolunteerName = "Ethan Marshall";
+
   const requestId = id || location.state?.id;
   const currentUser = useSelector((state) => state.auth.user);
   const userDbId = useSelector((state) => state.auth.user?.userDbId);
@@ -144,13 +144,10 @@ const RequestDetails = () => {
       isClickable: true,
     },
     {
-      context:
-        isStewardReviewRequest && !volunteerAssigned
-          ? t("NA")
-          : leadVolunteerName,
+      context: isStewardReviewRequest ? t("NA") : leadVolunteerName,
       type: "LEAD_VOLUNTEER",
       icon: <RiUserStarLine size={22} />,
-      isClickable: !(isStewardReviewRequest && !volunteerAssigned),
+      isClickable: !isStewardReviewRequest,
     },
   ];
 
@@ -284,7 +281,8 @@ const RequestDetails = () => {
                   className="flex items-center gap-2 group relative"
                 >
                   {header.type === "LEAD_VOLUNTEER" &&
-                    isStewardReviewRequest && (
+                    isStewardReviewRequest &&
+                    requestData?.status !== "VOLUNTEER_REASSIGNMENT" && (
                       <button
                         type="button"
                         onClick={() => setFindVolunteerDialogOpen(true)}
@@ -328,10 +326,14 @@ const RequestDetails = () => {
               <DialogContent>
                 <HelpingVolunteers
                   findVolunteerMode
-                  onAssign={(volunteer) => {
-                    setLeadVolunteerName(volunteer.name);
-                    setVolunteerAssigned(true);
-                    setFindVolunteerDialogOpen(false);
+                  onNotify={() => {
+                    // TODO: Connect notification API when available.
+                    window.alert(
+                      t("VOLUNTEER_NOTIFICATION_UNAVAILABLE", {
+                        defaultValue:
+                          "Volunteer notifications cannot be sent yet. Please try again when notification support is available.",
+                      }),
+                    );
                   }}
                 />
               </DialogContent>

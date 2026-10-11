@@ -831,5 +831,7 @@
   "FIND_VOLUNTEER": "Find Volunteer",
   "ASSIGN_VOLUNTEER": "Assign Volunteer",
   "SELECT_VOLUNTEER": "Select {{name}}",
-  "NA": "NA"
+  "NA": "NA",
+  "NOTIFY": "Notify",
+  "VOLUNTEER_NOTIFICATION_UNAVAILABLE": "Volunteer notifications cannot be sent yet. Please try again when notification support is available."
 }

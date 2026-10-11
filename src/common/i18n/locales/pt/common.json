@@ -814,5 +814,6 @@
   "FIND_VOLUNTEER": "Encontrar voluntário",
   "ASSIGN_VOLUNTEER": "Atribuir voluntário",
   "SELECT_VOLUNTEER": "Selecionar {{name}}",
-  "NA": "Não disponível"
+  "NA": "Não disponível",
+  "NOTIFY": "Notificar"
 }

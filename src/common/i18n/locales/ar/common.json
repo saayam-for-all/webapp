@@ -809,5 +809,6 @@
   "FIND_VOLUNTEER": "البحث عن متطوع",
   "ASSIGN_VOLUNTEER": "تعيين متطوع",
   "SELECT_VOLUNTEER": "اختر {{name}}",
-  "NA": "غير متوفر"
+  "NA": "غير متوفر",
+  "NOTIFY": "إشعار"
 }

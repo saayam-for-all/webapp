@@ -806,5 +806,6 @@
   "FIND_VOLUNTEER": "Freiwilligen finden",
   "ASSIGN_VOLUNTEER": "Freiwilligen zuweisen",
   "SELECT_VOLUNTEER": "{{name}} auswählen",
-  "NA": "Nicht verfügbar"
+  "NA": "Nicht verfügbar",
+  "NOTIFY": "Benachrichtigen"
 }

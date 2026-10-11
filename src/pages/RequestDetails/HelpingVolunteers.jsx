@@ -9,7 +9,7 @@ import {
 import { FaVideo } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
+const HelpingVolunteers = ({ findVolunteerMode = false, onNotify }) => {
   const { t } = useTranslation();
   // Modal state for Zoom meeting scheduling
   const [meetingModalOpen, setMeetingModalOpen] = useState(false);
@@ -527,13 +527,13 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
                 className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
                 disabled={selectedVolunteers.length === 0}
                 onClick={() => {
-                  const volunteer = volunteerData.find(
-                    (item) => item.email === selectedVolunteers[0],
+                  const volunteers = volunteerData.filter((item) =>
+                    selectedVolunteers.includes(item.email),
                   );
-                  if (volunteer) onAssign?.(volunteer);
+                  if (volunteers.length > 0) onNotify?.(volunteers);
                 }}
               >
-                {t("ASSIGN_VOLUNTEER")}
+                {t("NOTIFY", { defaultValue: "Notify" })}
               </button>
             ) : (
               <div className="flex flex-row gap-2 items-center">
@@ -627,8 +627,7 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
                       <td className="px-4 py-2 border-b">
                         {findVolunteerMode ? (
                           <input
-                            type="radio"
-                            name="selected-volunteer"
+                            type="checkbox"
                             aria-label={t("SELECT_VOLUNTEER", {
                               name: volunteer.name,
                             })}
@@ -636,7 +635,7 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
                               volunteer.email,
                             )}
                             onChange={() =>
-                              setSelectedVolunteers([volunteer.email])
+                              handleCheckboxChange(volunteer.email)
                             }
                           />
                         ) : (
@@ -755,7 +754,7 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onAssign }) => {
 
 HelpingVolunteers.propTypes = {
   findVolunteerMode: PropTypes.bool,
-  onAssign: PropTypes.func,
+  onNotify: PropTypes.func,
 };
 
 export default HelpingVolunteers;

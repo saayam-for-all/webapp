@@ -806,5 +806,6 @@
   "FIND_VOLUNTEER": "स्वयंसेवक खोजें",
   "ASSIGN_VOLUNTEER": "स्वयंसेवक नियुक्त करें",
   "SELECT_VOLUNTEER": "{{name}} को चुनें",
-  "NA": "उपलब्ध नहीं"
+  "NA": "उपलब्ध नहीं",
+  "NOTIFY": "सूचित करें"
 }
