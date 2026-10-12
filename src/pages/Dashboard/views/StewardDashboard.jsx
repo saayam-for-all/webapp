@@ -28,9 +28,6 @@ const StewardDashboard = (props) => {
   const volunteerHeaders = ["User Id", "Updated Time", "Volunteering Request"];
 
   const getVolunteerLinkPath = (volunteer, header) => {
-    if (header === "User Id") {
-      return `/profile`;
-    }
     if (header === "Volunteering Request") {
       return `/steward-volunteer-review`;
     }
@@ -38,6 +35,7 @@ const StewardDashboard = (props) => {
   };
 
   const volunteerRows = volunteerData.map((v) => ({
+    ...v,
     "User Id": v.userId,
     "Updated Time": v.updatedAt ? new Date(v.updatedAt).toLocaleString() : "",
     "Volunteering Request": "Review",
@@ -138,7 +136,18 @@ const StewardDashboard = (props) => {
               requestSort={requestSort}
               onRowsPerPageChange={onRowsPerPageChange}
               getLinkPath={getVolunteerLinkPath}
-              getLinkState={(volunteer) => volunteer}
+              getLinkState={(volunteer) => ({
+                ...volunteer,
+                breadcrumbTrail: [
+                  {
+                    label: "DASHBOARD",
+                    path: "/dashboard",
+                  },
+                  {
+                    label: "Steward Volunteer Review",
+                  },
+                ],
+              })}
             />
           )}
         </div>

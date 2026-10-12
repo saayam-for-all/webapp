@@ -6,7 +6,7 @@ exports[`Layout renders correctly 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="flex flex-col h-screen"
+        class="flex flex-col min-h-screen"
       >
         <mock-navigation-guard />
         <header
@@ -24,7 +24,7 @@ exports[`Layout renders correctly 1`] = `
             <mock-left-ads />
           </aside>
           <main
-            class="flex-[6] overflow-auto"
+            class="flex-[6] min-w-0"
           >
             <nav
               aria-label="breadcrumb"
@@ -67,17 +67,12 @@ exports[`Layout renders correctly 1`] = `
         >
           <mock-footer />
         </footer>
-        <button
-          class="fixed bottom-4 right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gray-200 text-black hover:bg-gray-300 rounded-full z-50 flex items-center justify-center text-xl sm:text-2xl font-extrabold"
-        >
-          ↑
-        </button>
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="flex flex-col h-screen"
+      class="flex flex-col min-h-screen"
     >
       <mock-navigation-guard />
       <header
@@ -95,7 +90,7 @@ exports[`Layout renders correctly 1`] = `
           <mock-left-ads />
         </aside>
         <main
-          class="flex-[6] overflow-auto"
+          class="flex-[6] min-w-0"
         >
           <nav
             aria-label="breadcrumb"
@@ -138,11 +133,6 @@ exports[`Layout renders correctly 1`] = `
       >
         <mock-footer />
       </footer>
-      <button
-        class="fixed bottom-4 right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gray-200 text-black hover:bg-gray-300 rounded-full z-50 flex items-center justify-center text-xl sm:text-2xl font-extrabold"
-      >
-        ↑
-      </button>
     </div>
   </div>,
   "debug": [Function],

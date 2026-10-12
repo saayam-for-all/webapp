@@ -26,9 +26,22 @@ jest.mock("../../services/requestServices", () => ({
 jest.mock("./CommentsSection", () => () => (
   <div data-testid="comments-section" />
 ));
-jest.mock("./HelpingVolunteers", () => () => (
-  <div data-testid="helping-volunteers" />
-));
+jest.mock("./HelpingVolunteers", () => {
+  const MockHelpingVolunteers = (props) => (
+    <div data-testid="helping-volunteers">
+      {props.findVolunteerMode && (
+        <button onClick={() => props.onNotify([{ name: "Jordan Lee" }])}>
+          Notify selected volunteers
+        </button>
+      )}
+    </div>
+  );
+  MockHelpingVolunteers.propTypes = {
+    findVolunteerMode: require("prop-types").bool,
+    onNotify: require("prop-types").func,
+  };
+  return MockHelpingVolunteers;
+});
 jest.mock("./RequestDescription", () => () => (
   <div data-testid="request-description" />
 ));
@@ -75,6 +88,121 @@ describe("RequestDetails - Tab Translation Tests", () => {
       await screen.findByRole("button", { name: "Ethan Marshall" }),
     ).toBeInTheDocument();
     expect(screen.getByText("LEAD_VOLUNTEER")).toBeInTheDocument();
+  });
+
+  it("shows Find Volunteer only for requests opened from Steward review", async () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      sourceDashboard: "STEWARD",
+      sourceTab: "reviewRequests",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "FIND_VOLUNTEER" }));
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Notify selected volunteers" }),
+    );
+
+    expect(alertSpy).toHaveBeenCalledWith("VOLUNTEER_NOTIFICATION_UNAVAILABLE");
+    alertSpy.mockRestore();
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByTestId("helping-volunteers")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Jordan Lee" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("hides Find Volunteer for volunteer reassignment requests", () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      sourceDashboard: "STEWARD",
+      sourceTab: "reviewRequests",
+      status: "VOLUNTEER_REASSIGNMENT",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    expect(
+      screen.queryByRole("button", { name: "FIND_VOLUNTEER" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows Find Volunteer when no volunteer was found", () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      sourceDashboard: "STEWARD",
+      sourceTab: "reviewRequests",
+      status: "VOLUNTEER_NOT_FOUND",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    expect(
+      screen.getByRole("button", { name: "FIND_VOLUNTEER" }),
+    ).toBeInTheDocument();
+  });
+
+  it("does not show Find Volunteer for requests opened from other pages", () => {
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    expect(
+      screen.queryByRole("button", { name: "FIND_VOLUNTEER" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("closes the find volunteer dialog with its Close button", async () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      sourceDashboard: "STEWARD",
+      sourceTab: "reviewRequests",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "FIND_VOLUNTEER" }));
+    fireEvent.click(screen.getByRole("button", { name: "CLOSE" }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  });
+
+  it("closes the find volunteer dialog when Escape is pressed", async () => {
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      sourceDashboard: "STEWARD",
+      sourceTab: "reviewRequests",
+    };
+
+    renderWithProviders(<RequestDetails />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "FIND_VOLUNTEER" }));
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
+
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
   });
 
   it("shows actual beneficiary and creator names for beneficiary My Requests", () => {

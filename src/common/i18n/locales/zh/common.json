@@ -22,8 +22,11 @@
   "AI_ML_TEAM_LEAD": "AI/ML Team Lead",
   "ALL": "全部",
   "ALL_CATEGORIES": "所有类别",
-  "ALL_FIELDS_MANDATORY": "所有字段均为必填项",
+  "ALL_FIELDS_MANDATORY": "所有字段均为必填项。",
   "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+  "OR_USE_YOUR": "或使用您的",
+  "SOCIAL_MEDIA_ACCOUNTS": "社交媒体账户",
+  "SOCIAL_MEDIA_ACCOUNTS_SUFFIX": "",
   "AMBULANCE": "救护车",
   "AMERICAN_RED_CROSS": "American Red Cross",
   "AMERICAN_RED_CROSS_DESC": "Red Cross volunteers and staff work to deliver vital services – from providing relief and support to those in crisis.",
@@ -86,7 +89,7 @@
   "CHILD_ABUSE": "儿童虐待热线",
   "CHOOSE_FILE": "选择文件",
   "CITY": "城市",
-  "CLOSE": "CLOSE",
+  "CLOSE": "关闭",
   "CLOSE_MENU": "Close Menu",
   "CLOTHING_SUPPORT": "Clothing Support",
   "COLLABORATION_NOT_COMPETITION": "Collaboration Not Competition",
@@ -791,5 +794,10 @@
   "voluntary organizations without": "志愿组织匹配，而不",
   "volunteers.": "志愿者。",
   "where the ethos of \"Manava Sevaye Madhava": "其“服务人类即服务神”的理念",
-  "without desecrating any beliefs.": "不亵渎任何信仰。"
+  "without desecrating any beliefs.": "不亵渎任何信仰。",
+  "FIND_VOLUNTEER": "查找志愿者",
+  "ASSIGN_VOLUNTEER": "分配志愿者",
+  "SELECT_VOLUNTEER": "选择 {{name}}",
+  "NA": "不可用",
+  "NOTIFY": "通知"
 }

@@ -22,8 +22,11 @@
   "AI_ML_TEAM_LEAD": "AI/ML Team Lead",
   "ALL": "Todos",
   "ALL_CATEGORIES": "Todas las categorías",
-  "ALL_FIELDS_MANDATORY": "Todos los campos son obligatorios",
+  "ALL_FIELDS_MANDATORY": "Todos los campos son obligatorios.",
   "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+  "OR_USE_YOUR": "o usa tus",
+  "SOCIAL_MEDIA_ACCOUNTS": "cuentas de redes sociales",
+  "SOCIAL_MEDIA_ACCOUNTS_SUFFIX": "",
   "AMBULANCE": "Ambulancia",
   "AMERICAN_RED_CROSS": "American Red Cross",
   "AMERICAN_RED_CROSS_DESC": "Red Cross volunteers and staff work to deliver vital services – from providing relief and support to those in crisis.",
@@ -86,7 +89,7 @@
   "CHILD_ABUSE": "Línea de Abuso Infantil",
   "CHOOSE_FILE": "Seleccionar archivo",
   "CITY": "Ciudad",
-  "CLOSE": "CLOSE",
+  "CLOSE": "Cerrar",
   "CLOSE_MENU": "Close Menu",
   "CLOTHING_SUPPORT": "Clothing Support",
   "COLLABORATION_NOT_COMPETITION": "Collaboration Not Competition",
@@ -798,5 +801,10 @@
   "volunteers.": "voluntarios.",
   "where the ethos of \"Manava Sevaye Madhava": "donde la ética de \"Manava Sevaye Madhava",
   "without desecrating any beliefs.": "sin profanar ninguna creencia.",
-  "writeComment": "escribe un comentario"
+  "writeComment": "escribe un comentario",
+  "FIND_VOLUNTEER": "Buscar voluntario",
+  "ASSIGN_VOLUNTEER": "Asignar voluntario",
+  "SELECT_VOLUNTEER": "Seleccionar a {{name}}",
+  "NA": "No disponible",
+  "NOTIFY": "Notificar"
 }

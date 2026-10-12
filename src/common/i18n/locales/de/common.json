@@ -22,8 +22,11 @@
   "AI_ML_TEAM_LEAD": "KI/ML-Teamleiter",
   "ALL": "Alle",
   "ALL_CATEGORIES": "Alle Kategorien",
-  "ALL_FIELDS_MANDATORY": "Alle Felder sind Pflichtfelder",
+  "ALL_FIELDS_MANDATORY": "Alle Felder sind Pflichtfelder.",
   "ALREADY_HAVE_ACCOUNT": "Sie haben bereits ein Konto?",
+  "OR_USE_YOUR": "oder verwenden Sie Ihre",
+  "SOCIAL_MEDIA_ACCOUNTS": "Social-Media-Konten",
+  "SOCIAL_MEDIA_ACCOUNTS_SUFFIX": "",
   "AMBULANCE": "Krankenwagen",
   "AMERICAN_RED_CROSS": "Amerikanisches Rotes Kreuz",
   "AMERICAN_RED_CROSS_DESC": "Freiwillige und Mitarbeiter des Roten Kreuzes arbeiten daran, lebenswichtige Dienste zu erbringen – von der Bereitstellung von Hilfe und Unterstützung für Menschen in Krisensituationen.",
@@ -86,7 +89,7 @@
   "CHILD_ABUSE": "Kindermissbrauchs‑Hotline",
   "CHOOSE_FILE": "Datei auswählen",
   "CITY": "Stadt",
-  "CLOSE": "SCHLIESSEN",
+  "CLOSE": "Schließen",
   "CLOSE_MENU": "Menü schließen",
   "CLOTHING_SUPPORT": "Unterstützung bei Kleidung",
   "COLLABORATION_NOT_COMPETITION": "Zusammenarbeit, keine Konkurrenz",
@@ -799,5 +802,10 @@
   "volunteers.": "Freiwillige zu motivieren.",
   "where the ethos of \"Manava Sevaye Madhava": "wo der Ethos von „Manava Sevaye Madhava",
   "without desecrating any beliefs.": "ohne Glaubensrichtungen zu verletzen.",
-  "writeComment": "schreibe einen Kommentar"
+  "writeComment": "schreibe einen Kommentar",
+  "FIND_VOLUNTEER": "Freiwilligen finden",
+  "ASSIGN_VOLUNTEER": "Freiwilligen zuweisen",
+  "SELECT_VOLUNTEER": "{{name}} auswählen",
+  "NA": "Nicht verfügbar",
+  "NOTIFY": "Benachrichtigen"
 }

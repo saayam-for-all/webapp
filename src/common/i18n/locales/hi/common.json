@@ -22,8 +22,11 @@
   "AI_ML_TEAM_LEAD": "AI/ML Team Lead",
   "ALL": "सभी",
   "ALL_CATEGORIES": "सभी वर्ग",
-  "ALL_FIELDS_MANDATORY": "सभी फ़ील्ड अनिवार्य हैं",
+  "ALL_FIELDS_MANDATORY": "सभी फ़ील्ड अनिवार्य हैं।",
   "ALREADY_HAVE_ACCOUNT": "क्या आपके पास पहले से खाता है?",
+  "OR_USE_YOUR": "या अपने",
+  "SOCIAL_MEDIA_ACCOUNTS": "सोशल मीडिया खातों",
+  "SOCIAL_MEDIA_ACCOUNTS_SUFFIX": " का उपयोग करें",
   "AMBULANCE": "एम्बुलेंस",
   "AMERICAN_RED_CROSS": "American Red Cross",
   "AMERICAN_RED_CROSS_DESC": "Red Cross volunteers and staff work to deliver vital services – from providing relief and support to those in crisis.",
@@ -86,7 +89,7 @@
   "CHILD_ABUSE": "बाल शोषण हॉटलाइन",
   "CHOOSE_FILE": "फ़ाइल चुनें",
   "CITY": "शहर",
-  "CLOSE": "CLOSE",
+  "CLOSE": "बंद करें",
   "CLOSE_MENU": "Close Menu",
   "CLOTHING_SUPPORT": "Clothing Support",
   "COLLABORATION_NOT_COMPETITION": "Collaboration Not Competition",
@@ -799,5 +802,10 @@
   "volunteers.": "सायम डॉलर का उपयोग करें।",
   "where the ethos of \"Manava Sevaye Madhava": "जहाँ \"मानव सेवाये माधव",
   "without desecrating any beliefs.": "बिना किसी मान्यता का अपमान किए।",
-  "writeComment": "एक टिप्पणी लिखें"
+  "writeComment": "एक टिप्पणी लिखें",
+  "FIND_VOLUNTEER": "स्वयंसेवक खोजें",
+  "ASSIGN_VOLUNTEER": "स्वयंसेवक नियुक्त करें",
+  "SELECT_VOLUNTEER": "{{name}} को चुनें",
+  "NA": "उपलब्ध नहीं",
+  "NOTIFY": "सूचित करें"
 }

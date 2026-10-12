@@ -181,11 +181,16 @@ const SignUp = () => {
 
   return (
     <div className="flex items-center h-full justify-center">
-      <div className="px-4 py-4 flex flex-col relative w-1/2">
+      <div className="px-4 py-4 flex flex-col relative w-full md:w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">{t("SIGNUP")}</h1>
         <p className="mb-3 text-sm text-gray-600">
           <span className="text-red-500 font-semibold">*</span>{" "}
-          {t("ALL_FIELDS_MANDATORY")}
+          {t("ALL_FIELDS_MANDATORY")} {t("ALREADY_HAVE_ACCOUNT")}{" "}
+          <button className="mx-2 underline" onClick={() => navigate("/login")}>
+            {t("LOGIN")}
+          </button>
+          {t("OR_USE_YOUR")} <strong>{t("SOCIAL_MEDIA_ACCOUNTS")}</strong>
+          {t("SOCIAL_MEDIA_ACCOUNTS_SUFFIX")}
         </p>
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}
@@ -447,19 +452,6 @@ const SignUp = () => {
             <span>Google</span>
           </button>
         </div> */}
-
-        <div className="mt-8 flex flex-row justify-center">
-          <p>
-            {t("ALREADY_HAVE_ACCOUNT")}{" "}
-            <button
-              className="mx-2 underline"
-              onClick={() => navigate("/login")}
-            >
-              {t("LOGIN")}
-            </button>
-            or use your <strong>social media accounts</strong>
-          </p>
-        </div>
       </div>
     </div>
   );

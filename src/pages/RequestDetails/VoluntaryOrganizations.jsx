@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../../common/components/DataTable/Table";
 import { getOrganizations } from "../../services/mlServices";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LoadingIndicator from "../../common/components/Loading/Loading";
 import { createOrganizationDetailsTrail } from "../../common/components/BreadCrumbs/breadcrumbUtils";
@@ -17,8 +17,8 @@ const VoluntaryOrganizations = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [selectedOrg, setSelectedOrg] = useState(null);
-  const navigate = useNavigate();
   const headers = [
     "name",
     "organization_type",
@@ -31,6 +31,7 @@ const VoluntaryOrganizations = () => {
   const [organizations, setOrganizations] = useState([]);
   const location = useLocation();
   const requestData = location.state || {};
+  const requestSubject = requestData?.subject || requestData?.requestSubject;
   const breadcrumbTrail = Array.isArray(location.state?.breadcrumbTrail)
     ? location.state.breadcrumbTrail
     : [];
@@ -50,73 +51,68 @@ const VoluntaryOrganizations = () => {
     console.warn("No requestData passed through navigation");
   }
 
-  const getVoluntaryOrganizations = async () => {
-    try {
-      setIsLoading(true);
-      const personalInfo = JSON.parse(
-        localStorage.getItem("personalInfo") || "{}",
-      );
+  const organizationRequestId = requestData?.id || "";
 
-      // request_id comes from the request row the user clicked
-      const request_id = requestData?.id || "";
-
-      // beneficiary_id:
-      // - All Requests: use userId from the request row (the person who made the request)
-      // - My Requests: use logged-in user's userDbId
-      const beneficiary_id =
-        requestData?.beneficiaryId ||
-        requestData?.userId ||
-        requestData?.beneficiary_id ||
-        userDbId ||
-        "";
-
-      const payload = {
-        request_id,
-        beneficiary_id,
-      };
-
-      console.log("Org API payload:", payload);
-
-      const response = await getOrganizations(payload);
-
-      const organizationsArray =
-        response?.body || response?.data || response || [];
-
-      // Sort: Collaborators first
-      const sortedArray = [...organizationsArray].sort((a, b) => {
-        if (a.Collaborator && !b.Collaborator) return -1;
-        if (!a.Collaborator && b.Collaborator) return 1;
-        return 0;
-      });
-
-      const formattedOrganizations = sortedArray.map((org, index) => ({
-        id: index + 1,
-        name: org.Name || org.name || "N/A",
-        organization_type: org["Org-type"] || org.organization_type || "N/A",
-        collaborator: org.Collaborator ? (
-          <span className="text-green-600 text-lg">✓</span>
-        ) : (
-          ""
-        ),
-        location: org.location || org.Location || "N/A",
-        size: org.size || org.Size || "N/A",
-        rating: org.rating || org.Rating || "N/A",
-        distance: org.distance || org.Distance || "N/A",
-        _rawData: org,
-      }));
-
-      setOrganizations(formattedOrganizations);
-    } catch (error) {
-      console.error("Error fetching organizations:", error);
-      setOrganizations([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const beneficiaryId =
+    requestData?.beneficiaryId ||
+    requestData?.userId ||
+    requestData?.beneficiary_id ||
+    userDbId ||
+    "";
 
   useEffect(() => {
+    const getVoluntaryOrganizations = async () => {
+      try {
+        setIsLoading(true);
+        setLoadError(false);
+
+        const payload = {
+          request_id: organizationRequestId,
+          beneficiary_id: beneficiaryId,
+        };
+
+        console.log("Org API payload:", payload);
+
+        const response = await getOrganizations(payload);
+
+        const organizationsArray =
+          response?.body || response?.data || response || [];
+
+        // Sort: Collaborators first
+        const sortedArray = [...organizationsArray].sort((a, b) => {
+          if (a.Collaborator && !b.Collaborator) return -1;
+          if (!a.Collaborator && b.Collaborator) return 1;
+          return 0;
+        });
+
+        const formattedOrganizations = sortedArray.map((org, index) => ({
+          id: index + 1,
+          name: org.Name || org.name || "N/A",
+          organization_type: org["Org-type"] || org.organization_type || "N/A",
+          collaborator: org.Collaborator ? (
+            <span className="text-green-600 text-lg">✓</span>
+          ) : (
+            ""
+          ),
+          location: org.location || org.Location || "N/A",
+          size: org.size || org.Size || "N/A",
+          rating: org.rating || org.Rating || "N/A",
+          distance: org.distance || org.Distance || "N/A",
+          _rawData: org,
+        }));
+
+        setOrganizations(formattedOrganizations);
+      } catch (error) {
+        console.error("Error fetching organizations:", error);
+        setLoadError(true);
+        setOrganizations([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     getVoluntaryOrganizations();
-  }, []);
+  }, [organizationRequestId, beneficiaryId]);
 
   const sortedOrganizations = (organizations) => {
     if (!organizations || organizations.length === 0) {
@@ -145,9 +141,7 @@ const VoluntaryOrganizations = () => {
     return sortableOrganizations;
   };
 
-  const sortedData = useMemo(() => {
-    return sortedOrganizations(organizations || []);
-  }, [organizations, sortConfig]);
+  const sortedData = sortedOrganizations(organizations || []);
 
   const filteredOrganizations = (organizations) =>
     organizations.filter((org) =>
@@ -158,9 +152,7 @@ const VoluntaryOrganizations = () => {
       ),
     );
 
-  const filteredData = useMemo(() => {
-    return filteredOrganizations(sortedData);
-  }, [sortedData, searchTerm]);
+  const filteredData = filteredOrganizations(sortedData);
 
   const totalPages = (filteredData) => {
     if (!filteredData || filteredData.length == 0) return 1;
@@ -205,6 +197,13 @@ const VoluntaryOrganizations = () => {
         </button>
       </div>
 
+      {requestSubject && (
+        <p className="mb-4 text-gray-700" data-testid="request-subject">
+          <span className="font-semibold">Subject: </span>
+          {requestSubject}
+        </p>
+      )}
+
       {/* Beneficiary location */}
       <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
         <p className="text-sm text-gray-600">
@@ -243,11 +242,22 @@ const VoluntaryOrganizations = () => {
       </div>
 
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <div
+          className="flex flex-col items-center justify-center min-h-[200px]"
+          data-testid="organizations-loading"
+        >
           <LoadingIndicator size="80px" position="center" />
           <p className="mt-4 text-gray-600 font-medium">
             Fetching best organizations for you...
           </p>
+        </div>
+      ) : loadError ? (
+        <div
+          role="alert"
+          className="flex flex-col items-center justify-center min-h-[200px] text-gray-600"
+        >
+          <p className="text-lg font-medium">Unable to load organizations</p>
+          <p className="text-sm mt-1">Please try again later.</p>
         </div>
       ) : organizations.length === 0 ? (
         <div className="flex flex-col items-center justify-center min-h-[200px] text-gray-500">
@@ -274,6 +284,7 @@ const VoluntaryOrganizations = () => {
           }}
           getLinkState={(row) => ({
             organizationData: row._rawData,
+            organizationName: row.name,
             breadcrumbTrail: createOrganizationDetailsTrail({
               organizationName: row.name,
               requestId,

@@ -22,8 +22,11 @@
   "AI_ML_TEAM_LEAD": "Líder da Equipe de IA/ML",
   "ALL": "Todos",
   "ALL_CATEGORIES": "Todas as categorias",
-  "ALL_FIELDS_MANDATORY": "Todos os campos são obrigatórios",
+  "ALL_FIELDS_MANDATORY": "Todos os campos são obrigatórios.",
   "ALREADY_HAVE_ACCOUNT": "Já tem uma conta?",
+  "OR_USE_YOUR": "ou use suas",
+  "SOCIAL_MEDIA_ACCOUNTS": "contas de mídia social",
+  "SOCIAL_MEDIA_ACCOUNTS_SUFFIX": "",
   "AMBULANCE": "Ambulância",
   "AMERICAN_RED_CROSS": "Cruz Vermelha Americana",
   "AMERICAN_RED_CROSS_DESC": "Voluntários e funcionários da Cruz Vermelha trabalham para entregar serviços vitais – desde o fornecimento de alívio e apoio a pessoas em crise.",
@@ -87,7 +90,7 @@
   "CHILD_ABUSE": "Linha de Abuso Infantil",
   "CHOOSE_FILE": "Escolher arquivo",
   "CITY": "Cidade",
-  "CLOSE": "FECHAR",
+  "CLOSE": "Fechar",
   "CLOSE_MENU": "Fechar Menu",
   "CLOTHING_SUPPORT": "Apoio com Vestuário",
   "COLLABORATION_NOT_COMPETITION": "Colaboração, Não Competição",
@@ -807,5 +810,10 @@
   "volunteers.": "voluntários.",
   "where the ethos of \"Manava Sevaye Madhava": "onde o ethos de \"Manava Sevaye Madhava",
   "without desecrating any beliefs.": "sem desrespeitar quaisquer crenças.",
-  "writeComment": "escreva um comentário"
+  "writeComment": "escreva um comentário",
+  "FIND_VOLUNTEER": "Encontrar voluntário",
+  "ASSIGN_VOLUNTEER": "Atribuir voluntário",
+  "SELECT_VOLUNTEER": "Selecionar {{name}}",
+  "NA": "Não disponível",
+  "NOTIFY": "Notificar"
 }

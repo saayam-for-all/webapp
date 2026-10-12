@@ -1729,7 +1729,15 @@ const Dashboard = ({ userRole }) => {
                     ? `/request/${request[resolveKey(header)]}`
                     : null
                 }
-                getLinkState={(request) => request}
+                getLinkState={(request, header) =>
+                  header === "requestId" || header === "id"
+                    ? {
+                        ...request,
+                        sourceDashboard: "STEWARD",
+                        sourceTab: "reviewRequests",
+                      }
+                    : request
+                }
                 searchFilters={dashboardSearchFilters}
                 serverPaginated={serverPagination.isServerPaginated}
                 serverTotalRows={serverPagination.totalRecords}

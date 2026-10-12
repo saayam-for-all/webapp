@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   FaMapMarkerAlt,
@@ -6,15 +5,17 @@ import {
   FaGlobe,
   FaEnvelope,
 } from "react-icons/fa";
-import { useTranslation } from "react-i18next";
 
 const OrganizationDetails = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const organization = location.state?.organizationData;
+  const organizationName =
+    organization?.Name ||
+    organization?.name ||
+    location.state?.organizationName;
 
-  if (!organization) {
+  if (!organizationName) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
         <p className="text-lg font-semibold text-gray-700 mb-4">
@@ -42,7 +43,7 @@ const OrganizationDetails = () => {
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
-                {organization.Name}
+                {organizationName}
               </h1>
 
               {/* Category Badge */}

@@ -22,8 +22,11 @@
   "AI_ML_TEAM_LEAD": "AI/ML టీమ్ లీడ్",
   "ALL": "అన్ని",
   "ALL_CATEGORIES": "అన్ని వర్గాలు",
-  "ALL_FIELDS_MANDATORY": "అన్ని ఫీల్డ్‌లు తప్పనిసరి",
+  "ALL_FIELDS_MANDATORY": "అన్ని ఫీల్డ్‌లు తప్పనిసరి.",
   "ALREADY_HAVE_ACCOUNT": "ఇప్పటికే ఖాతా ఉందా?",
+  "OR_USE_YOUR": "లేదా మీ",
+  "SOCIAL_MEDIA_ACCOUNTS": "సోషల్ మీడియా ఖాతాలను",
+  "SOCIAL_MEDIA_ACCOUNTS_SUFFIX": " ఉపయోగించండి",
   "AMBULANCE": "ఆంబులెన్స్",
   "AMERICAN_RED_CROSS": "అమెరికన్ రెడ్‌క్రాస్",
   "AMERICAN_RED_CROSS_DESC": "రెడ్‌క్రాస్ వాలంటీర్లు మరియు సిబ్బంది సంక్షోభంలో ఉన్న వారికి ఉపశమనం మరియు మద్దతును అందించడం నుండి కీలకమైన సేవలను అందించడానికి పని చేస్తారు.",
@@ -798,5 +801,10 @@
   "volunteers.": "సాయం డాలర్లను ఉపయోగించండి.",
   "where the ethos of \"Manava Sevaye Madhava": "ఇక్కడ \"మానవ సేవయే మాధవ",
   "without desecrating any beliefs.": "ఎవరి నమ్మకాలను కూడా దూషించకుండా.",
-  "writeComment": "వ్యాఖ్య వ్రాయండి"
+  "writeComment": "వ్యాఖ్య వ్రాయండి",
+  "FIND_VOLUNTEER": "వాలంటీర్‌ను కనుగొనండి",
+  "ASSIGN_VOLUNTEER": "వాలంటీర్‌ను కేటాయించండి",
+  "SELECT_VOLUNTEER": "{{name}}ను ఎంచుకోండి",
+  "NA": "అందుబాటులో లేదు",
+  "NOTIFY": "తెలియజేయండి"
 }
