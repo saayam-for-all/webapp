@@ -1,12 +1,17 @@
 /* global process */
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import RecaptchaProvider, { RECAPTCHA_BADGE_ID } from "./RecaptchaProvider";
 
 const SITE_KEY = "test-site-key";
 
 const mockGrecaptcha = () => {
   const grecaptcha = {
-    render: jest.fn(() => 0),
+    render: jest.fn((containerId) => {
+      const badge = document.createElement("div");
+      badge.className = "grecaptcha-badge";
+      document.getElementById(containerId).appendChild(badge);
+      return 0;
+    }),
     ready: jest.fn((callback) => callback()),
     execute: jest.fn(),
   };
@@ -36,16 +41,6 @@ describe("RecaptchaProvider", () => {
     expect(screen.getByText("app content")).toBeTruthy();
   });
 
-  it("renders the badge container so Google can mount into it", () => {
-    render(
-      <RecaptchaProvider>
-        <p>app content</p>
-      </RecaptchaProvider>,
-    );
-
-    expect(document.getElementById(RECAPTCHA_BADGE_ID)).toBeTruthy();
-  });
-
   it("loads reCAPTCHA in explicit mode so the badge position can be configured", () => {
     render(
       <RecaptchaProvider>
@@ -58,7 +53,7 @@ describe("RecaptchaProvider", () => {
     expect(script.getAttribute("src")).toContain("render=explicit");
   });
 
-  it("renders the badge at the bottom-left, away from the scroll-to-top button", () => {
+  it("uses Google's bottom-left badge positioning", () => {
     render(
       <RecaptchaProvider>
         <p>app content</p>
@@ -76,5 +71,68 @@ describe("RecaptchaProvider", () => {
         badge: "bottomleft",
       }),
     );
+  });
+
+  it("keeps the badge container mounted when the page content changes", () => {
+    const { rerender } = render(
+      <RecaptchaProvider>
+        <main>First page</main>
+      </RecaptchaProvider>,
+    );
+    const badge = document.getElementById(RECAPTCHA_BADGE_ID);
+    expect(badge).toBeTruthy();
+    expect(document.querySelector("main").contains(badge)).toBe(false);
+
+    rerender(
+      <RecaptchaProvider>
+        <main>Next page</main>
+      </RecaptchaProvider>,
+    );
+    expect(document.getElementById(RECAPTCHA_BADGE_ID)).toBe(badge);
+  });
+
+  it("shows a compact badge that can be expanded and collapsed by tapping", async () => {
+    render(
+      <RecaptchaProvider>
+        <main>Page content</main>
+      </RecaptchaProvider>,
+    );
+    expect(screen.queryByRole("button")).toBeNull();
+    mockGrecaptcha();
+    await act(async () => window.onRecaptchaLoadCallback());
+
+    const toggle = screen.getByRole("button", {
+      name: "Expand reCAPTCHA information",
+    });
+    const widget = document.querySelector(".grecaptcha-badge");
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
+    fireEvent.click(toggle);
+    expect(
+      screen
+        .getByRole("button", { name: "Collapse reCAPTCHA information" })
+        .getAttribute("aria-expanded"),
+    ).toBe("true");
+    expect(document.querySelector(".grecaptcha-badge")).toBe(widget);
+    fireEvent.click(toggle);
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
+  });
+
+  it("collapses an expanded badge when the user taps elsewhere", async () => {
+    render(
+      <RecaptchaProvider>
+        <main>Page content</main>
+      </RecaptchaProvider>,
+    );
+    mockGrecaptcha();
+    await act(async () => window.onRecaptchaLoadCallback());
+    fireEvent.click(
+      screen.getByRole("button", { name: "Expand reCAPTCHA information" }),
+    );
+    fireEvent.pointerDown(screen.getByText("Page content"));
+    expect(
+      screen
+        .getByRole("button", { name: "Expand reCAPTCHA information" })
+        .getAttribute("aria-expanded"),
+    ).toBe("false");
   });
 });

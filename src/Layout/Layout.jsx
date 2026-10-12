@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "#components/Navbar/Navbar";
 import MainLoader from "#components/Loader/MainLoader";
@@ -19,10 +19,9 @@ const Layout = () => {
   const shouldHideBreadcrumbs = hideBreadcrumbRoutes.includes(
     location.pathname.toLowerCase(),
   );
-  const isDonateRoute = location.pathname.toLowerCase() === "/donate";
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <NotificationProvider>
         <NavigationGuard />
 
@@ -35,9 +34,7 @@ const Layout = () => {
             {showAds && <LeftAds />}
           </aside>
 
-          <main
-            className={`flex-[6] ${isDonateRoute ? "overflow-visible" : "overflow-auto"}`}
-          >
+          <main className="flex-[6] min-w-0">
             {!shouldHideBreadcrumbs && <Breadcrumbs />}
             <Suspense fallback={<MainLoader />}>
               <Outlet />

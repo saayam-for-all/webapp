@@ -15,13 +15,15 @@ import "./index.css";
 Amplify.configure(awsConfig);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <I18nextProvider i18n={i18n}>
-        <RecaptchaProvider>
+  // The script provider stays outside StrictMode's development effect replay:
+  // replaying a third-party script can render reCAPTCHA twice in one container.
+  <RecaptchaProvider>
+    <React.StrictMode>
+      <Provider store={store}>
+        <I18nextProvider i18n={i18n}>
           <App />
-        </RecaptchaProvider>
-      </I18nextProvider>
-    </Provider>
-  </React.StrictMode>,
+        </I18nextProvider>
+      </Provider>
+    </React.StrictMode>
+  </RecaptchaProvider>,
 );
