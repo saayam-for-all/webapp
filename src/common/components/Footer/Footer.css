@@ -3,7 +3,8 @@
 --------------------------------------------------- */
 .footer {
   background-color: #333;
-  padding: 24px 20px;
+  /* Keep the last links above the two floating controls at the page bottom. */
+  padding: 24px 20px calc(100px + env(safe-area-inset-bottom, 0px));
   font-family: sans-serif;
   color: #fff;
 }

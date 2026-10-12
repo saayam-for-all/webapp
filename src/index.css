@@ -7,7 +7,7 @@
   font-family: "Roboto", sans-serif;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1023px) {
   .left-ads-panel,
   .right-ads-panel {
     display: none !important;
