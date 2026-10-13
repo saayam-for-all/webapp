@@ -4,12 +4,10 @@ import StepperControl from "./StepperControl";
 import Availability from "./steps/Availability";
 import Review from "./steps/Review";
 import Skills from "./steps/Skills";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import TermsConditions from "./steps/TermsConditions";
 import VolunteerCourse from "./steps/VolunteerCourse";
 import {
-  createVolunteer,
-  updateVolunteer,
   updateUserSkills,
   saveVolunteerStep1,
 } from "../../services/volunteerServices";
@@ -55,7 +53,6 @@ const PromoteToVolunteer = () => {
     const cachedStep = getSessionStorageItem("volunteer_wizard_step");
     return cachedStep ? parseInt(cachedStep, 10) : stepParam;
   });
-  const navigate = useNavigate();
   const [isAcknowledged, setIsAcknowledged] = useState(() => {
     const cachedData = getSessionStorageItem("volunteer_form_data");
     if (cachedData) {
@@ -69,6 +66,23 @@ const PromoteToVolunteer = () => {
     return false;
   });
   const [govtIdFile, setGovtIdFile] = useState(null);
+  const [expiryDate, setExpiryDate] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (!cachedData) return "";
+    try {
+      return JSON.parse(cachedData).expiryDate ?? "";
+    } catch {
+      return "";
+    }
+  });
+
+  const today = new Date();
+  const todayString = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0"),
+  ].join("-");
+  const isExpiryDateValid = Boolean(expiryDate && expiryDate > todayString);
   const userDBId = useSelector(
     (state) => state.auth?.user?.userDbId || state.auth?.userDBId,
   );
@@ -143,6 +157,7 @@ const PromoteToVolunteer = () => {
       const formData = {
         isAcknowledged,
         isUploaded,
+        expiryDate,
         selectedSkills,
         availabilitySlots: availabilitySlots.map((slot) => ({
           ...slot,
@@ -156,6 +171,7 @@ const PromoteToVolunteer = () => {
   }, [
     isAcknowledged,
     isUploaded,
+    expiryDate,
     selectedSkills,
     availabilitySlots,
     tobeNotified,
@@ -201,6 +217,8 @@ const PromoteToVolunteer = () => {
             selectedFile={govtIdFile}
             setSelectedFile={setGovtIdFile}
             setIsUploaded={setIsUploaded}
+            expiryDate={expiryDate}
+            setExpiryDate={setExpiryDate}
           />
         );
       case 3:
@@ -289,7 +307,11 @@ const PromoteToVolunteer = () => {
         case 2:
           // isValidStep = govtIdFile && govtIdFile.name !== "";
           handleSaveFile();
-          isValidStep = govtIdFile;
+          isValidStep = Boolean(govtIdFile && isExpiryDateValid);
+          if (!isExpiryDateValid) {
+            setErrorMessage(t("DOCUMENT_EXPIRED_ERROR", { ns: "identity" }));
+            return;
+          }
           updateVolunteerData({
             step: currentStep,
             userId: userDBId,
@@ -377,14 +399,9 @@ const PromoteToVolunteer = () => {
           steps={steps}
           isAcknowledged={isAcknowledged}
           isUploaded={isUploaded}
+          isExpiryDateValid={isExpiryDateValid}
           isCheckedCategories={selectedSkills.length > 0}
           isAvailabilityValid={isAvailabilityValid}
-          disableNext={
-            (currentStep === 1 && !isAcknowledged) ||
-            (currentStep === 2 && !isUploaded) ||
-            (currentStep === 3 && selectedSkills.length === 0) ||
-            (currentStep === 4 && !isAvailabilityValid)
-          }
         />
       )}
     </div>

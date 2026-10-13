@@ -1,4 +1,4 @@
-import { screen, fireEvent, waitFor, within } from "@testing-library/react";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import PromoteToVolunteer from "./PromoteToVolunteer";
 import {
@@ -28,6 +28,28 @@ jest.mock("../../services/volunteerServices", () => ({
   updateVolunteer: jest.fn(),
   saveVolunteerStep1: jest.fn(() => Promise.resolve({ success: true })),
 }));
+
+jest.mock("./StepperControl", () => {
+  const ActualStepperControl = jest.requireActual("./StepperControl").default;
+  const React = require("react");
+
+  return function TestStepperControl(props) {
+    return React.createElement(
+      React.Fragment,
+      null,
+      React.createElement(ActualStepperControl, props),
+      React.createElement(
+        "button",
+        {
+          type: "button",
+          "data-testid": "force-next-button",
+          onClick: () => props.handleClick("next"),
+        },
+        "Force Next",
+      ),
+    );
+  };
+});
 
 describe("PromoteToVolunteer Component", () => {
   beforeEach(() => {
@@ -1682,6 +1704,22 @@ describe("PromoteToVolunteer Component", () => {
       expect(screen.getByText("valid.png")).toBeInTheDocument();
     });
 
+    // Select a future document expiry date before proceeding.
+    const expiryDateInput = screen.getByLabelText(
+      "mockTranslate(DOCUMENT_EXPIRY_DATE)",
+    );
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 30);
+    const validExpiryDate = [
+      futureDate.getFullYear(),
+      String(futureDate.getMonth() + 1).padStart(2, "0"),
+      String(futureDate.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    fireEvent.change(expiryDateInput, {
+      target: { value: validExpiryDate },
+    });
+
     nextButton = screen.getByTestId("next-button");
     fireEvent.click(nextButton);
 
@@ -2061,6 +2099,164 @@ describe("PromoteToVolunteer Component", () => {
 
     expect(
       screen.getByText("mockTranslate(TERMS_AND_CONDITIONS)"),
+    ).toBeInTheDocument();
+  });
+});
+
+describe("Issue #1914 - Document Expiry Date", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  const formatLocalDate = (date) =>
+    [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0"),
+    ].join("-");
+
+  const dateOffset = (days) => {
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    return formatLocalDate(date);
+  };
+
+  const renderIdentification = async () => {
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByRole("checkbox"));
+    fireEvent.click(screen.getByTestId("next-button"));
+
+    await waitFor(() => {
+      expect(
+        screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)"),
+      ).toBeInTheDocument();
+    });
+
+    return screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)");
+  };
+
+  const uploadValidFile = () => {
+    const fileInput = document.querySelector('input[type="file"]');
+    fireEvent.change(fileInput, {
+      target: {
+        files: [new File(["valid"], "identity.png", { type: "image/png" })],
+      },
+    });
+  };
+
+  it("requires an expiry date even when a valid file is uploaded", async () => {
+    await renderIdentification();
+    uploadValidFile();
+
+    expect(screen.getByTestId("next-button")).toBeDisabled();
+  });
+
+  it("rejects today's date", async () => {
+    const input = await renderIdentification();
+    uploadValidFile();
+
+    fireEvent.change(input, { target: { value: dateOffset(0) } });
+
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(
+      screen.getByText("mockTranslate(DOCUMENT_EXPIRED_ERROR)"),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("next-button")).toBeDisabled();
+  });
+
+  it("rejects an expired document date", async () => {
+    const input = await renderIdentification();
+    uploadValidFile();
+
+    fireEvent.change(input, { target: { value: dateOffset(-1) } });
+
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(screen.getByTestId("next-button")).toBeDisabled();
+  });
+
+  it("preserves the expiry date when navigating back from Skills", async () => {
+    const input = await renderIdentification();
+    uploadValidFile();
+
+    const futureDate = dateOffset(30);
+    fireEvent.change(input, { target: { value: futureDate } });
+
+    await waitFor(() => {
+      expect(
+        JSON.parse(sessionStorage.getItem("volunteer_form_data")).expiryDate,
+      ).toBe(futureDate);
+    });
+
+    fireEvent.click(screen.getByTestId("next-button"));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(common:SKILLS_SELECTOR_TITLE)"),
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(common:BACK)" }),
+    );
+
+    expect(
+      screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)"),
+    ).toHaveValue(futureDate);
+  });
+
+  it("accepts a future expiry date and enables Next", async () => {
+    const input = await renderIdentification();
+    uploadValidFile();
+
+    fireEvent.change(input, { target: { value: dateOffset(30) } });
+
+    expect(input).toHaveAttribute("aria-invalid", "false");
+    expect(screen.getByTestId("next-button")).not.toBeDisabled();
+
+    fireEvent.click(screen.getByTestId("next-button"));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(common:SKILLS_SELECTOR_TITLE)"),
+      ).toBeInTheDocument();
+    });
+  });
+});
+
+describe("Issue #1914 - Defensive expiry validation", () => {
+  it("prevents navigation when Next is invoked without a valid expiry date", async () => {
+    sessionStorage.clear();
+    sessionStorage.setItem("volunteer_wizard_step", "2");
+
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)"),
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId("next-button")).toBeDisabled();
+
+    fireEvent.click(screen.getByTestId("force-next-button"));
+
+    expect(
+      await screen.findByText("mockTranslate(DOCUMENT_EXPIRED_ERROR)"),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)"),
     ).toBeInTheDocument();
   });
 });
