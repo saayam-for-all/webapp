@@ -107,27 +107,128 @@ const REGION_SHARE = {
   West: 0.24,
 };
 
-// Locations rolled up per region, so the location bar chart responds to the
-// region filter instead of showing the same five rows every time.
-const LOCATIONS_BY_REGION = {
-  North: [
-    { location: "Illinois", organizations: 12 },
-    { location: "New York", organizations: 18 },
-    { location: "Other", organizations: 10 },
-  ],
-  South: [
-    { location: "Texas", organizations: 24 },
-    { location: "Georgia", organizations: 10 },
-    { location: "Other", organizations: 8 },
-  ],
-  East: [
-    { location: "New York", organizations: 11 },
-    { location: "Other", organizations: 6 },
-  ],
-  West: [
-    { location: "California", organizations: 32 },
-    { location: "Other", organizations: 6 },
-  ],
+// Location data varies by both date range AND region.
+// The location bar chart responds to both the date range AND region filters.
+const LOCATIONS_BY_RANGE = {
+  "7d": {
+    North: [
+      { location: "Illinois", organizations: 3 },
+      { location: "New York", organizations: 4 },
+      { location: "Other", organizations: 2 },
+    ],
+    South: [
+      { location: "Texas", organizations: 5 },
+      { location: "Georgia", organizations: 2 },
+      { location: "Other", organizations: 1 },
+    ],
+    East: [
+      { location: "New York", organizations: 2 },
+      { location: "Other", organizations: 1 },
+    ],
+    West: [
+      { location: "California", organizations: 7 },
+      { location: "Other", organizations: 1 },
+    ],
+  },
+  "30d": {
+    North: [
+      { location: "Illinois", organizations: 10 },
+      { location: "New York", organizations: 14 },
+      { location: "Other", organizations: 8 },
+    ],
+    South: [
+      { location: "Texas", organizations: 18 },
+      { location: "Georgia", organizations: 8 },
+      { location: "Other", organizations: 6 },
+    ],
+    East: [
+      { location: "New York", organizations: 8 },
+      { location: "Other", organizations: 5 },
+    ],
+    West: [
+      { location: "California", organizations: 24 },
+      { location: "Other", organizations: 4 },
+    ],
+  },
+  "12m": {
+    North: [
+      { location: "Illinois", organizations: 12 },
+      { location: "New York", organizations: 18 },
+      { location: "Other", organizations: 10 },
+    ],
+    South: [
+      { location: "Texas", organizations: 24 },
+      { location: "Georgia", organizations: 10 },
+      { location: "Other", organizations: 8 },
+    ],
+    East: [
+      { location: "New York", organizations: 11 },
+      { location: "Other", organizations: 6 },
+    ],
+    West: [
+      { location: "California", organizations: 32 },
+      { location: "Other", organizations: 6 },
+    ],
+  },
+};
+
+// Distinct data breakdowns based on the selected time window.
+// These update when the user changes the date range filter.
+const DATA_BY_RANGE = {
+  "7d": {
+    bySize: [
+      { size: "Small", organizations: 12 },
+      { size: "Medium", organizations: 8 },
+      { size: "Large", organizations: 5 },
+    ],
+    byRating: [
+      { rating: "1 Star", stars: 1, organizations: 0 },
+      { rating: "2 Stars", stars: 2, organizations: 1 },
+      { rating: "3 Stars", stars: 3, organizations: 3 },
+      { rating: "4 Stars", stars: 4, organizations: 10 },
+      { rating: "5 Stars", stars: 5, organizations: 11 },
+    ],
+    collaboratorSplit: [
+      { name: "Collaborator", value: 14 },
+      { name: "Contributor (Non-Collaborator)", value: 11 },
+    ],
+  },
+  "30d": {
+    bySize: [
+      { size: "Small", organizations: 35 },
+      { size: "Medium", organizations: 30 },
+      { size: "Large", organizations: 20 },
+    ],
+    byRating: [
+      { rating: "1 Star", stars: 1, organizations: 1 },
+      { rating: "2 Stars", stars: 2, organizations: 3 },
+      { rating: "3 Stars", stars: 3, organizations: 8 },
+      { rating: "4 Stars", stars: 4, organizations: 30 },
+      { rating: "5 Stars", stars: 5, organizations: 45 },
+    ],
+    collaboratorSplit: [
+      { name: "Collaborator", value: 42 },
+      { name: "Contributor (Non-Collaborator)", value: 43 },
+    ],
+  },
+  "12m": {
+    bySize: [
+      { size: "Small", organizations: 50 },
+      { size: "Medium", organizations: 45 },
+      { size: "Large", organizations: 31 },
+    ],
+    byRating: [
+      { rating: "1 Star", stars: 1, organizations: 1 },
+      { rating: "2 Stars", stars: 2, organizations: 3 },
+      { rating: "3 Stars", stars: 3, organizations: 12 },
+      { rating: "4 Stars", stars: 4, organizations: 46 },
+      { rating: "5 Stars", stars: 5, organizations: 64 },
+    ],
+    collaboratorSplit: [
+      { name: "Collaborator", value: 94 },
+      { name: "Contributor (Non-Collaborator)", value: 35 },
+    ],
+  },
 };
 
 const TOTAL_ORGS = 126;
@@ -178,7 +279,7 @@ const filterDataByDateRange = (data, startDate, endDate) => {
  * supplied date range / region / org type.
  */
 export const getOrganizationAnalytics = ({
-  dateRange = "12m",
+  dateRange = "1Y",
   region = "All",
   orgType = "All",
   customStartDate = "",
@@ -208,7 +309,7 @@ export const getOrganizationAnalytics = ({
     window = filtered.length > 0 ? filtered : DAILY_DATA;
     isDaily = true;
   } else {
-    // Monthly data for 12m or all
+    // Monthly data for 1Y or all
     window = MONTHLY;
     isDaily = false;
   }
@@ -257,10 +358,25 @@ export const getOrganizationAnalytics = ({
     },
   };
 
-  // Locations: the selected region's rows, or every region rolled up.
+  // MAP DATE RANGE TO DATA_BY_RANGE KEY FIRST
+  // "1Y" and "all" both map to "12m" in the data structure
+  // "custom" ranges default to "12m" as well for consistent data
+  let dataRangeKey = "12m"; // default
+  if (dateRange === "7d") {
+    dataRangeKey = "7d";
+  } else if (dateRange === "30d") {
+    dataRangeKey = "30d";
+  }
+  // For "1Y", "all", and "custom", use "12m" data
+
+  // Locations: the selected region's rows for the selected date range,
+  // or every region rolled up if "All" is selected.
+  const rangeLocations =
+    LOCATIONS_BY_RANGE[dataRangeKey] || LOCATIONS_BY_RANGE["12m"];
+
   const rawLocations =
     region === "All"
-      ? Object.values(LOCATIONS_BY_REGION)
+      ? Object.values(rangeLocations)
           .flat()
           .reduce((acc, row) => {
             const existing = acc.find((a) => a.location === row.location);
@@ -268,7 +384,7 @@ export const getOrganizationAnalytics = ({
             else acc.push({ ...row });
             return acc;
           }, [])
-      : LOCATIONS_BY_REGION[region].map((row) => ({ ...row }));
+      : (rangeLocations[region] || []).map((row) => ({ ...row }));
 
   const typeFactor =
     orgType === "All" ? 1 : factor / (REGION_SHARE[region] ?? 1);
@@ -296,27 +412,25 @@ export const getOrganizationAnalytics = ({
           : 0,
     }));
 
-  const bySize = [
-    { size: "Small", organizations: round(50 * factor) },
-    { size: "Medium", organizations: round(45 * factor) },
-    { size: "Large", organizations: round(31 * factor) },
-  ];
+  // GET DATA FOR THE SELECTED TIME RANGE
+  const rangeData = DATA_BY_RANGE[dataRangeKey] || DATA_BY_RANGE["12m"];
 
-  const collaboratorSplit = [
-    { name: "Collaborator", value: latest.collaborator },
-    {
-      name: "Contributor (Non-Collaborator)",
-      value: Math.max(0, latest.total - latest.collaborator),
-    },
-  ];
+  // Use the time-range-specific data; apply scaling if needed
+  const bySize = rangeData.bySize.map((item) => ({
+    ...item,
+    organizations: round(item.organizations * factor),
+  }));
 
-  const byRating = [
-    { rating: "1 Star", stars: 1, organizations: round(1 * factor) },
-    { rating: "2 Stars", stars: 2, organizations: round(3 * factor) },
-    { rating: "3 Stars", stars: 3, organizations: round(12 * factor) },
-    { rating: "4 Stars", stars: 4, organizations: round(46 * factor) },
-    { rating: "5 Stars", stars: 5, organizations: round(64 * factor) },
-  ];
+  const byRating = rangeData.byRating.map((item) => ({
+    ...item,
+    organizations: round(item.organizations * factor),
+  }));
+
+  // Use time-range-specific collaborator split data
+  const collaboratorSplit = rangeData.collaboratorSplit.map((item) => ({
+    ...item,
+    value: round(item.value * factor),
+  }));
 
   return {
     kpis,

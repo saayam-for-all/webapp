@@ -119,7 +119,6 @@ const ResetIcon = () => (
   </svg>
 );
 
-/* ── KPI tile ── */
 const KpiTile = ({ icon, iconClass, label, value, suffix, change }) => (
   <div className="flex items-center gap-3 bg-white rounded-lg border border-gray-200 shadow-sm px-4 py-3 text-left">
     <div
@@ -182,8 +181,6 @@ ChartTooltip.propTypes = {
   formatter: PropTypes.func,
 };
 
-/* Recharts v3 re-sorts its own legend payload, so the legend is rendered here
-   to keep its order matching the order the series are drawn in. */
 const ChartLegend = ({ items }) => (
   <ul className="flex flex-wrap justify-center gap-x-4 gap-y-1 pt-1">
     {items.map((item) => (
@@ -209,8 +206,6 @@ ChartLegend.propTypes = {
 };
 
 const axisTick = { fontSize: 11, fill: "#6b7280" };
-
-// Column definitions backing each chart's table view and CSV export.
 const EXPORT_COLUMNS = {
   growthTrend: [
     { key: "month", label: "Month" },
@@ -242,8 +237,6 @@ const EXPORT_COLUMNS = {
   ],
 };
 
-/* Rating axis tick — a coloured star beside the label, so the ordinal scale
-   reads at a glance without repeating itself in a second row. */
 const RatingTick = ({ x, y, payload, index }) => (
   <g transform={`translate(${x},${y})`}>
     <text x={0} y={0} dy={12} textAnchor="middle" fontSize={11} fill="#6b7280">
@@ -266,7 +259,6 @@ const OrganizationAnalytics = () => {
   const [customStartDate, setCustomStartDate] = useState("");
   const [customEndDate, setCustomEndDate] = useState("");
 
-  // Fetch data with memoization - includes custom dates in dependency array
   const data = useMemo(() => {
     return getOrganizationAnalytics({
       dateRange: filters.dateRange,
@@ -297,7 +289,6 @@ const OrganizationAnalytics = () => {
 
   return (
     <div className="px-2 sm:px-3 pb-3 pt-1 bg-gray-50 min-h-screen">
-      {/* ── Title + filters ── */}
       <div className="flex flex-col gap-3 mb-3">
         <div className="text-left">
           <h2 className="text-base sm:text-lg font-bold text-gray-800 tracking-tight">
@@ -308,7 +299,6 @@ const OrganizationAnalytics = () => {
           </p>
         </div>
 
-        {/* Filters - Stack on mobile, flex on desktop */}
         <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-end gap-2">
           <label className="flex flex-col text-left w-full sm:w-auto">
             <span className="text-[11px] font-medium text-gray-500 mb-0.5">
@@ -339,7 +329,6 @@ const OrganizationAnalytics = () => {
             </div>
           </label>
 
-          {/* Custom date range inputs */}
           {filters.dateRange === "custom" && (
             <div className="flex gap-2 items-center w-full sm:w-auto">
               <input
@@ -393,7 +382,6 @@ const OrganizationAnalytics = () => {
         </div>
       </div>
 
-      {/* ── KPI tiles ── RESPONSIVE: 1 col on mobile, 2 on sm, 4 on lg */}
       <div
         aria-label="Key metrics"
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-3"
@@ -446,8 +434,6 @@ const OrganizationAnalytics = () => {
           </button>
         ))}
       </div>
-
-      {/* ── Tab 1: Overview ── RESPONSIVE: 1 col on mobile, 2 cols on md+ */}
       {activeTab === "overview" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <ChartContainer
@@ -460,49 +446,95 @@ const OrganizationAnalytics = () => {
               rows: data.growthTrend,
             }}
           >
-            <ResponsiveContainer width="100%" height={200} minWidth={250}>
-              <LineChart
-                data={data.growthTrend}
-                margin={{ top: 8, right: 12, bottom: 4, left: -12 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis
-                  dataKey={data.growthTrend[0]?.date ? "date" : "month"}
-                  tick={axisTick}
-                  stroke="#9ca3af"
-                />
-                <YAxis tick={axisTick} stroke="#9ca3af" />
-                <Tooltip content={<ChartTooltip />} />
-                <Legend content={<ChartLegend items={GROWTH_LEGEND} />} />
-                <Line
-                  type="monotone"
-                  dataKey="total"
-                  name="Total Organizations"
-                  stroke={ORG_SERIES.total}
-                  strokeWidth={2}
-                  dot={{ r: 4, strokeWidth: 2, stroke: SURFACE }}
-                  activeDot={{ r: 6 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="active"
-                  name="Total Collaborators"
-                  stroke={ORG_SERIES.active}
-                  strokeWidth={2}
-                  dot={{ r: 4, strokeWidth: 2, stroke: SURFACE }}
-                  activeDot={{ r: 6 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="collaborator"
-                  name="Total Contributors"
-                  stroke={ORG_SERIES.collaborator}
-                  strokeWidth={2}
-                  dot={{ r: 4, strokeWidth: 2, stroke: SURFACE }}
-                  activeDot={{ r: 6 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            {(() => {
+              const growthTrendTicks = [];
+              const totalPoints = data.growthTrend.length;
+              data.growthTrend.forEach((item, index) => {
+                if (
+                  totalPoints <= 7 ||
+                  index % 5 === 0 ||
+                  index === totalPoints - 1
+                ) {
+                  growthTrendTicks.push(item.date || item.month);
+                }
+              });
+
+              const formatXAxisTick = (dateStr) => {
+                if (!dateStr) return "";
+                const [year, month, day] = dateStr.split("-");
+                if (!year || !month || !day) return dateStr;
+                return `${month}/${day}/${year.slice(-2)}`;
+              };
+
+              return (
+                <ResponsiveContainer width="100%" height={200} minWidth={250}>
+                  <LineChart
+                    data={data.growthTrend}
+                    margin={{ top: 8, right: 12, bottom: 4, left: 8 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis
+                      dataKey={data.growthTrend[0]?.date ? "date" : "month"}
+                      ticks={growthTrendTicks}
+                      tickFormatter={formatXAxisTick}
+                      tick={axisTick}
+                      stroke="#9ca3af"
+                      label={{
+                        value: "Time Period",
+                        position: "insideBottomRight",
+                        offset: -4,
+                        fill: "#6b7280",
+                        fontSize: 11,
+                      }}
+                    />
+                    <YAxis
+                      tick={axisTick}
+                      stroke="#9ca3af"
+                      label={{
+                        value: "Organization Count",
+                        angle: -90,
+                        position: "insideLeft",
+                        style: {
+                          textAnchor: "middle",
+                          fill: "#6b7280",
+                          fontSize: 11,
+                        },
+                        dx: -2,
+                      }}
+                    />
+                    <Tooltip content={<ChartTooltip />} />
+                    <Legend content={<ChartLegend items={GROWTH_LEGEND} />} />
+                    <Line
+                      type="monotone"
+                      dataKey="total"
+                      name="Total Organizations"
+                      stroke={ORG_SERIES.total}
+                      strokeWidth={2}
+                      dot={{ r: 4, strokeWidth: 2, stroke: SURFACE }}
+                      activeDot={{ r: 6 }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="active"
+                      name="Total Collaborators"
+                      stroke={ORG_SERIES.active}
+                      strokeWidth={2}
+                      dot={{ r: 4, strokeWidth: 2, stroke: SURFACE }}
+                      activeDot={{ r: 6 }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="collaborator"
+                      name="Total Contributors"
+                      stroke={ORG_SERIES.collaborator}
+                      strokeWidth={2}
+                      dot={{ r: 4, strokeWidth: 2, stroke: SURFACE }}
+                      activeDot={{ r: 6 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              );
+            })()}
           </ChartContainer>
 
           <ChartContainer
@@ -535,13 +567,34 @@ const OrganizationAnalytics = () => {
                   stroke="#e5e7eb"
                   horizontal={false}
                 />
-                <XAxis type="number" tick={axisTick} stroke="#9ca3af" />
+                <XAxis
+                  type="number"
+                  tick={axisTick}
+                  stroke="#9ca3af"
+                  label={{
+                    value: "Organization Count",
+                    position: "insideBottomRight",
+                    offset: -4,
+                    fill: "#6b7280",
+                    fontSize: 11,
+                  }}
+                />
                 <YAxis
                   type="category"
                   dataKey="location"
                   width={70}
                   tick={{ ...axisTick, fontSize: 10 }}
                   stroke="#9ca3af"
+                  label={{
+                    value: "Location",
+                    angle: -90,
+                    position: "insideLeft",
+                    style: {
+                      textAnchor: "middle",
+                      fill: "#6b7280",
+                      fontSize: 11,
+                    },
+                  }}
                 />
                 <Tooltip
                   cursor={{ fill: "rgba(59,130,246,0.06)" }}
@@ -582,7 +635,6 @@ const OrganizationAnalytics = () => {
         </div>
       )}
 
-      {/* ── Tab 2: Performance ── RESPONSIVE: 1 col on mobile, 2 cols on md+ */}
       {activeTab === "performance" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <ChartContainer
@@ -597,12 +649,37 @@ const OrganizationAnalytics = () => {
             <ResponsiveContainer width="100%" height={200} minWidth={250}>
               <BarChart
                 data={data.bySize}
-                margin={{ top: 20, right: 12, bottom: 4, left: -12 }}
+                margin={{ top: 20, right: 12, bottom: 4, left: 0 }}
                 barCategoryGap="34%"
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="size" tick={axisTick} stroke="#9ca3af" />
-                <YAxis tick={axisTick} stroke="#9ca3af" />
+                <XAxis
+                  dataKey="size"
+                  tick={axisTick}
+                  stroke="#9ca3af"
+                  label={{
+                    value: "Organization Size",
+                    position: "insideBottomRight",
+                    offset: -4,
+                    fill: "#6b7280",
+                    fontSize: 11,
+                  }}
+                />
+                <YAxis
+                  tick={axisTick}
+                  stroke="#9ca3af"
+                  label={{
+                    value: "Organization Count",
+                    angle: -90,
+                    position: "insideLeft",
+                    style: {
+                      textAnchor: "middle",
+                      fill: "#6b7280",
+                      fontSize: 11,
+                    },
+                    dx: 25,
+                  }}
+                />
                 <Tooltip
                   cursor={{ fill: "rgba(59,130,246,0.06)" }}
                   content={<ChartTooltip />}
@@ -686,7 +763,6 @@ const OrganizationAnalytics = () => {
                 </PieChart>
               </ResponsiveContainer>
 
-              {/* Direct labels stand in for a legend box — identity is never colour alone */}
               <ul className="flex-1 space-y-3 text-left">
                 {data.collaboratorSplit.map((entry, index) => (
                   <li key={entry.name} className="flex items-start gap-2">
@@ -722,7 +798,6 @@ const OrganizationAnalytics = () => {
         </div>
       )}
 
-      {/* ── Tab 3: Distribution ── RESPONSIVE: 1 col on mobile, 2 cols on md+ */}
       {activeTab === "distribution" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <ChartContainer
@@ -737,7 +812,7 @@ const OrganizationAnalytics = () => {
             <ResponsiveContainer width="100%" height={200} minWidth={250}>
               <BarChart
                 data={data.byRating}
-                margin={{ top: 20, right: 12, bottom: 4, left: -12 }}
+                margin={{ top: 20, right: 12, bottom: 4, left: 0 }}
                 barCategoryGap="26%"
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -746,8 +821,29 @@ const OrganizationAnalytics = () => {
                   tick={<RatingTick />}
                   stroke="#9ca3af"
                   interval={0}
+                  label={{
+                    value: "Star Rating",
+                    position: "insideBottomRight",
+                    offset: -4,
+                    fill: "#6b7280",
+                    fontSize: 11,
+                  }}
                 />
-                <YAxis tick={axisTick} stroke="#9ca3af" />
+                <YAxis
+                  tick={axisTick}
+                  stroke="#9ca3af"
+                  label={{
+                    value: "Organization Count",
+                    angle: -90,
+                    position: "insideLeft",
+                    style: {
+                      textAnchor: "middle",
+                      fill: "#6b7280",
+                      fontSize: 11,
+                    },
+                    dx: 20,
+                  }}
+                />
                 <Tooltip
                   cursor={{ fill: "rgba(74,58,167,0.06)" }}
                   content={<ChartTooltip />}
@@ -784,7 +880,7 @@ const OrganizationAnalytics = () => {
             <ResponsiveContainer width="100%" height={200} minWidth={250}>
               <BarChart
                 data={data.profitTrend}
-                margin={{ top: 20, right: 12, bottom: 4, left: -12 }}
+                margin={{ top: 20, right: 12, bottom: 4, left: 0 }}
                 barCategoryGap="24%"
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -792,8 +888,29 @@ const OrganizationAnalytics = () => {
                   dataKey={data.profitTrend[0]?.date ? "date" : "month"}
                   tick={axisTick}
                   stroke="#9ca3af"
+                  label={{
+                    value: "Time Period",
+                    position: "insideBottomRight",
+                    offset: -4,
+                    fill: "#6b7280",
+                    fontSize: 11,
+                  }}
                 />
-                <YAxis tick={axisTick} stroke="#9ca3af" />
+                <YAxis
+                  tick={axisTick}
+                  stroke="#9ca3af"
+                  label={{
+                    value: "Organization Count",
+                    angle: -90,
+                    position: "insideLeft",
+                    style: {
+                      textAnchor: "middle",
+                      fill: "#6b7280",
+                      fontSize: 11,
+                    },
+                    dx: 15,
+                  }}
+                />
                 <Tooltip
                   cursor={{ fill: "rgba(59,130,246,0.06)" }}
                   content={<ChartTooltip />}
@@ -822,7 +939,6 @@ const OrganizationAnalytics = () => {
         </div>
       )}
 
-      {/* ── Footer ── */}
       <div className="flex flex-col sm:flex-row flex-wrap justify-between gap-2 mt-3 pt-2 border-t border-gray-200 text-[10px] sm:text-[11px] text-gray-400">
         <span>Data as of {data.asOf}</span>
         <span>All values are indicative and for dashboard purposes only.</span>
