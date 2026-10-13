@@ -17,5 +17,7 @@
   "UPLOAD_FAILED": "File upload failed",
   "UPLOAD_ERROR": "An error occurred during file upload",
   "CHOOSE_FILE": "Choose File",
-  "NO_FILE_CHOSEN": "No file chosen"
+  "NO_FILE_CHOSEN": "No file chosen",
+  "DOCUMENT_EXPIRY_DATE": "Document Expiry Date",
+  "DOCUMENT_EXPIRED_ERROR": "Document has already expired. Please enter valid document."
 }

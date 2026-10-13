@@ -2,11 +2,35 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
-const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
+const VolunteerCourse = ({
+  selectedFile,
+  setSelectedFile,
+  setIsUploaded,
+  expiryDate,
+  setExpiryDate,
+}) => {
   const { t } = useTranslation("identity");
 
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
+
+  const getToday = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const today = getToday();
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const minimumExpiryDate = [
+    tomorrow.getFullYear(),
+    String(tomorrow.getMonth() + 1).padStart(2, "0"),
+    String(tomorrow.getDate()).padStart(2, "0"),
+  ].join("-");
+  const isInvalidExpiryDate = Boolean(expiryDate && expiryDate <= today);
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();
@@ -132,6 +156,37 @@ const VolunteerCourse = ({ selectedFile, setSelectedFile, setIsUploaded }) => {
         </p>
       </div>
 
+      {/* Document Expiry Date */}
+      <div className="mb-4">
+        <label
+          htmlFor="document-expiry-date"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          {t("DOCUMENT_EXPIRY_DATE")}
+        </label>
+        <input
+          id="document-expiry-date"
+          type="date"
+          value={expiryDate}
+          min={minimumExpiryDate}
+          onChange={(event) => setExpiryDate(event.target.value)}
+          aria-invalid={isInvalidExpiryDate}
+          aria-describedby={
+            isInvalidExpiryDate ? "document-expiry-error" : undefined
+          }
+          className="w-full border border-gray-300 rounded-md p-2"
+        />
+        {isInvalidExpiryDate && (
+          <p
+            id="document-expiry-error"
+            role="alert"
+            className="mt-1 text-sm text-red-600"
+          >
+            {t("DOCUMENT_EXPIRED_ERROR")}
+          </p>
+        )}
+      </div>
+
       {/* Selected File */}
       {selectedFile && (
         <div className="mb-4">
@@ -164,6 +219,8 @@ VolunteerCourse.propTypes = {
   selectedFile: PropTypes.object,
   setSelectedFile: PropTypes.func.isRequired,
   setIsUploaded: PropTypes.func.isRequired,
+  expiryDate: PropTypes.string.isRequired,
+  setExpiryDate: PropTypes.func.isRequired,
 };
 
 VolunteerCourse.defaultProps = {
