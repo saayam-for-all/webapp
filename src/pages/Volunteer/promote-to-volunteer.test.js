@@ -29,6 +29,28 @@ jest.mock("../../services/volunteerServices", () => ({
   saveVolunteerStep1: jest.fn(() => Promise.resolve({ success: true })),
 }));
 
+jest.mock("./StepperControl", () => {
+  const ActualStepperControl = jest.requireActual("./StepperControl").default;
+  const React = require("react");
+
+  return function TestStepperControl(props) {
+    return React.createElement(
+      React.Fragment,
+      null,
+      React.createElement(ActualStepperControl, props),
+      React.createElement(
+        "button",
+        {
+          type: "button",
+          "data-testid": "force-next-button",
+          onClick: () => props.handleClick("next"),
+        },
+        "Force Next",
+      ),
+    );
+  };
+});
+
 describe("PromoteToVolunteer Component", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -2207,5 +2229,34 @@ describe("Issue #1914 - Document Expiry Date", () => {
         screen.getByText("mockTranslate(common:SKILLS_SELECTOR_TITLE)"),
       ).toBeInTheDocument();
     });
+  });
+});
+
+describe("Issue #1914 - Defensive expiry validation", () => {
+  it("prevents navigation when Next is invoked without a valid expiry date", async () => {
+    sessionStorage.clear();
+    sessionStorage.setItem("volunteer_wizard_step", "2");
+
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)"),
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId("next-button")).toBeDisabled();
+
+    fireEvent.click(screen.getByTestId("force-next-button"));
+
+    expect(
+      await screen.findByText("mockTranslate(DOCUMENT_EXPIRED_ERROR)"),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)"),
+    ).toBeInTheDocument();
   });
 });
