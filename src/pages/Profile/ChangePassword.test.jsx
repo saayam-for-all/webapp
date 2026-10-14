@@ -131,18 +131,16 @@ describe("ChangePassword", () => {
       expect(input).toHaveAttribute("type", "password");
     });
   });
-
-  it("toggles all inputs to type=text when the eye icon is clicked", () => {
+  it("toggles only the clicked field to type=text when eye icon is clicked", () => {
     renderComponent();
 
-    // Click any eye icon (they all share the same toggle)
     const eyeIcons = screen.getAllByTestId("eye-icon");
-    fireEvent.click(eyeIcons[0]);
+    fireEvent.click(eyeIcons[0]); // click first field's eye icon
 
     const inputs = document.querySelectorAll("input");
-    inputs.forEach((input) => {
-      expect(input).toHaveAttribute("type", "text");
-    });
+    expect(inputs[0]).toHaveAttribute("type", "text"); // first field visible
+    expect(inputs[1]).toHaveAttribute("type", "password"); // second still hidden
+    expect(inputs[2]).toHaveAttribute("type", "password"); // third still hidden
   });
 
   it("toggles back to type=password when eye icon is clicked a second time", () => {
@@ -152,9 +150,7 @@ describe("ChangePassword", () => {
     fireEvent.click(screen.getAllByTestId("eye-invisible-icon")[0]); // hide
 
     const inputs = document.querySelectorAll("input");
-    inputs.forEach((input) => {
-      expect(input).toHaveAttribute("type", "password");
-    });
+    expect(inputs[0]).toHaveAttribute("type", "password");
   });
 
   // ── Cancel ─────────────────────────────────────────────────────────────────

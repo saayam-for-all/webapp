@@ -11,7 +11,9 @@ function ChangePassword({ setHasUnsavedChanges }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
   // Starts readOnly so Chrome's autofill does not populate the navbar search bar;
@@ -86,7 +88,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
           <div className="relative">
             <input
               ref={currentPasswordRef}
-              type={showPassword ? "text" : "password"}
+              type={showCurrentPassword ? "text" : "password"}
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               autoComplete="new-password"
@@ -95,10 +97,14 @@ function ChangePassword({ setHasUnsavedChanges }) {
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
             <div
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowCurrentPassword(!showCurrentPassword)}
               className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer"
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              {showCurrentPassword ? (
+                <AiOutlineEyeInvisible />
+              ) : (
+                <AiOutlineEye />
+              )}
             </div>
           </div>
         </div>
@@ -108,7 +114,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
           </label>
           <div className="relative">
             <input
-              type={showPassword ? "text" : "password"}
+              type={showNewPassword ? "text" : "password"}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               autoComplete="new-password"
@@ -119,10 +125,10 @@ function ChangePassword({ setHasUnsavedChanges }) {
               } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
             />
             <div
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowNewPassword(!showNewPassword)}
               className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer"
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              {showNewPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </div>
           </div>
           {errorMessage && (
@@ -136,7 +142,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
           </label>
           <div className="relative">
             <input
-              type={showPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               autoComplete="new-password"
@@ -147,10 +153,14 @@ function ChangePassword({ setHasUnsavedChanges }) {
               } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
             />
             <div
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer"
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              {showConfirmPassword ? (
+                <AiOutlineEyeInvisible />
+              ) : (
+                <AiOutlineEye />
+              )}
             </div>
           </div>
           {passwordMatchError && (
