@@ -12,8 +12,12 @@ describe("NewsOurStories", () => {
     render(<NewsOurStories />);
 
     expect(screen.getAllByRole("img")).toHaveLength(11);
-    expect(screen.getByRole("img", { name: "STORY_1_TITLE" })).toBeTruthy();
-    expect(screen.getByRole("img", { name: "STORY_2_TITLE" })).toBeTruthy();
+    expect(
+      screen.getByRole("img", { name: "mockTranslate(STORY_1_TITLE)" }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("img", { name: "mockTranslate(STORY_2_TITLE)" }),
+    ).toBeTruthy();
   });
 
   it("contains the new English content and removes the deleted story", () => {

@@ -134,6 +134,7 @@ const stories = [
     description: "STORY_3_DESC",
     titleLinks: {
       "Jensen Huang": "https://www.linkedin.com/in/jenhsunhuang/",
+      "जेनसन हुआंग": "https://www.linkedin.com/in/jenhsunhuang/",
       NVIDIA: "https://www.nvidia.com/",
     },
   },
@@ -144,7 +145,7 @@ const stories = [
     description: "STORY_4_DESC",
     titleLinks: {
       "Vishal Sikka": "https://www.linkedin.com/in/vishal-sikka-869a6b2/",
-      "Vianai Systems": "https://www.vian.ai/",
+      "Hang Ten Systems": "https://hangten.ai/",
     },
   },
   {
@@ -266,7 +267,11 @@ export default function NewsOurStories() {
           {stories.map((story) => (
             <div key={story.title} className="news-card">
               <div className="news-img-wrap">
-                <img src={story.image} alt={story.title} className="news-img" />
+                <img
+                  src={story.image}
+                  alt={t(story.title)}
+                  className="news-img"
+                />
               </div>
 
               <div className="news-card-body">
