@@ -5,6 +5,51 @@ import { useNotifications } from "../../context/NotificationContext";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../common/components/Pagination/Pagination";
 
+// Interim mock shaped like the details API response.
+// TODO: replace with the real details API call when the backend is ready.
+const MOCK_NOTIFICATIONS = [
+  {
+    notificationId: 101,
+    status: "new",
+    typeName: "volunteer_match",
+    message: "You have a new volunteer match request in Logistics",
+    createDttm: "2026-10-07T10:30:00.000+00:00",
+    ActionItem: "True",
+  },
+  {
+    notificationId: 102,
+    status: "new",
+    typeName: "help_request",
+    message: "New help request: Educational Help needed",
+    createDttm: "2026-10-06T14:15:00.000+00:00",
+    ActionItem: "False",
+  },
+  {
+    notificationId: 103,
+    status: "old",
+    typeName: "volunteer_match",
+    message: "Volunteer match request at the Hospital",
+    createDttm: "2026-09-20T09:00:00.000+00:00",
+    ActionItem: "True",
+  },
+  {
+    notificationId: 104,
+    status: "old",
+    typeName: "help_request",
+    message: "Logistic help request near you",
+    createDttm: "2026-09-10T16:45:00.000+00:00",
+    ActionItem: "False",
+  },
+  {
+    notificationId: 105,
+    status: "old",
+    typeName: "welcome",
+    message: "Your account details were successfully updated.",
+    createDttm: "2026-08-14T17:16:49.456+00:00",
+    ActionItem: "False",
+  },
+];
+
 export default function NotificationUI() {
   const [filter, setFilter] = useState("all");
   const { t } = useTranslation(["common"]);
@@ -12,6 +57,16 @@ export default function NotificationUI() {
   const notifications = state.notifications;
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  // Load the notifications list when this page mounts (the "All" tab).
+  // TODO: swap MOCK_NOTIFICATIONS for the real details API response.
+  useEffect(() => {
+    const withIds = MOCK_NOTIFICATIONS.map((note) => ({
+      ...note,
+      id: note.notificationId,
+    }));
+    dispatch({ type: "SET_NOTIFICATIONS", payload: withIds });
+  }, [dispatch]);
 
   // Icon + display label per notification type (API `typeName`).
   // Looked up case-insensitively so "HELP_REQUEST" / "help_request" both match.
