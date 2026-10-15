@@ -189,8 +189,14 @@ const SignUp = () => {
           <button className="mx-2 underline" onClick={() => navigate("/login")}>
             {t("LOGIN")}
           </button>
-          {t("OR_USE_YOUR")} <strong>{t("SOCIAL_MEDIA_ACCOUNTS")}</strong>
-          {t("SOCIAL_MEDIA_ACCOUNTS_SUFFIX")}
+          <button
+            type="button"
+            className="underline"
+            onClick={() => navigate("/login")}
+          >
+            {t("OR_USE_YOUR")} <strong>{t("SOCIAL_MEDIA_ACCOUNTS")}</strong>
+            {t("SOCIAL_MEDIA_ACCOUNTS_SUFFIX")}
+          </button>
         </p>
         <div className="my-1 flex flex-row gap-4">
           {/* First Name */}

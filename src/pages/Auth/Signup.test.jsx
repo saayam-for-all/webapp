@@ -231,6 +231,29 @@ describe("SignUp", () => {
     expect(paragraph).toBeInTheDocument();
   });
 
+  it("navigates to /login when the social media accounts link is clicked", () => {
+    const mockNavigate = jest.fn();
+    jest
+      .spyOn(require("react-router-dom"), "useNavigate")
+      .mockReturnValue(mockNavigate);
+
+    render(<SignUp />);
+
+    const socialMediaLink = screen.getByRole("button", {
+      name: /OR_USE_YOUR.*SOCIAL_MEDIA_ACCOUNTS/,
+    });
+
+    expect(socialMediaLink).toBeInTheDocument();
+    expect(socialMediaLink).toHaveAttribute("type", "button");
+    expect(socialMediaLink.querySelector("strong")).toHaveTextContent(
+      "SOCIAL_MEDIA_ACCOUNTS",
+    );
+
+    fireEvent.click(socialMediaLink);
+
+    expect(mockNavigate).toHaveBeenCalledWith("/login");
+  });
+
   it("renders the Log In button that navigates to /login", () => {
     const mockNavigate = jest.fn();
     jest
