@@ -7,8 +7,12 @@ import LoginPage from "./Login";
 
 const mockNavigate = jest.fn();
 let mockLocationState = null;
+let mockLocationSearch = "";
 
-jest.mock("aws-amplify/auth", () => ({ signIn: jest.fn() }));
+jest.mock("aws-amplify/auth", () => ({
+  signIn: jest.fn(),
+  signInWithRedirect: jest.fn(),
+}));
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key) => key }),
@@ -16,7 +20,11 @@ jest.mock("react-i18next", () => ({
 
 jest.mock("react-router-dom", () => ({
   useNavigate: () => mockNavigate,
-  useLocation: () => ({ state: mockLocationState, pathname: "/login" }),
+  useLocation: () => ({
+    state: mockLocationState,
+    search: mockLocationSearch,
+    pathname: "/login",
+  }),
 }));
 
 jest.mock(
@@ -49,6 +57,7 @@ describe("LoginPage", () => {
 
   beforeEach(() => {
     mockLocationState = null;
+    mockLocationSearch = "";
     mockNavigate.mockClear();
     signIn.mockReset();
   });
@@ -65,6 +74,101 @@ describe("LoginPage", () => {
     expect(
       screen.getByText("common:ACCOUNT_CREATED_SUCCESS"),
     ).toBeInTheDocument();
+  });
+
+  it("shows an error banner when social sign-in was blocked by an existing native account", () => {
+    mockLocationSearch = "?authError=SOCIAL_SIGNIN_BLOCKED_NATIVE_EXISTS";
+    renderLogin();
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "auth:login.social_blocked_native_exists",
+    );
+  });
+
+  it.each([
+    [
+      "SOCIAL_SIGNIN_BLOCKED_DIFFERENT_PROVIDER_EXISTS",
+      "auth:login.social_blocked_different_provider_exists",
+    ],
+    ["OAUTH_SIGNIN_FAILED", "auth:login.oauth_signin_failed"],
+  ])("shows the banner for %s", (authError, key) => {
+    mockLocationSearch = `?authError=${authError}`;
+    renderLogin();
+    expect(screen.getByRole("alert")).toHaveTextContent(key);
+  });
+
+  it("removes the authError code from the URL but keeps the banner", () => {
+    mockLocationSearch = "?authError=OAUTH_SIGNIN_FAILED";
+    renderLogin();
+    expect(mockNavigate).toHaveBeenCalledWith("/login", { replace: true });
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+  });
+
+  it("does not touch the URL when there is no authError", () => {
+    renderLogin();
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  describe("social buttons", () => {
+    const { signInWithRedirect } = require("aws-amplify/auth");
+
+    beforeEach(() => signInWithRedirect.mockReset());
+
+    it("always asks Google to show its account chooser", () => {
+      renderLogin();
+      fireEvent.click(screen.getByRole("button", { name: /GOOGLE/ }));
+      expect(signInWithRedirect).toHaveBeenCalledWith({
+        provider: "Google",
+        options: { prompt: "SELECT_ACCOUNT" },
+      });
+    });
+
+    it("keeps the account chooser for Google after a failed attempt", () => {
+      mockLocationSearch = "?authError=SOCIAL_SIGNIN_BLOCKED_NATIVE_EXISTS";
+      renderLogin();
+      fireEvent.click(screen.getByRole("button", { name: /GOOGLE/ }));
+      expect(signInWithRedirect).toHaveBeenCalledWith({
+        provider: "Google",
+        options: { prompt: "SELECT_ACCOUNT" },
+      });
+    });
+
+    it("always asks LinkedIn to show its login screen", () => {
+      renderLogin();
+      fireEvent.click(screen.getByRole("button", { name: /LinkedIn/ }));
+      expect(signInWithRedirect).toHaveBeenCalledWith({
+        provider: { custom: "LinkedIn" },
+        options: { prompt: "LOGIN" },
+      });
+    });
+
+    it("keeps the login prompt for LinkedIn after a failed attempt", () => {
+      mockLocationSearch = "?authError=SOCIAL_SIGNIN_BLOCKED_NATIVE_EXISTS";
+      renderLogin();
+      fireEvent.click(screen.getByRole("button", { name: /LinkedIn/ }));
+      expect(signInWithRedirect).toHaveBeenCalledWith({
+        provider: { custom: "LinkedIn" },
+        options: { prompt: "LOGIN" },
+      });
+    });
+
+    it("signs in with Facebook without extra options", () => {
+      renderLogin();
+      fireEvent.click(screen.getByRole("button", { name: /FACEBOOK/ }));
+      expect(signInWithRedirect).toHaveBeenCalledWith({
+        provider: "Facebook",
+      });
+    });
+  });
+
+  it("ignores unknown authError values", () => {
+    mockLocationSearch = "?authError=<script>";
+    renderLogin();
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
+
+  it("does not show the blocked-sign-in banner by default", () => {
+    renderLogin();
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
   });
 
   it("does not show success banner when accountCreated is not in location state", () => {
