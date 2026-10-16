@@ -5,6 +5,7 @@ import { loginFailure } from "./redux/features/authentication/authSlice";
 
 const mockDispatch = jest.fn();
 const mockHubListen = jest.fn();
+let mockRouter;
 let authListener;
 
 jest.mock("react-redux", () => ({
@@ -12,8 +13,12 @@ jest.mock("react-redux", () => ({
 }));
 
 jest.mock("react-router-dom", () => ({
-  RouterProvider: () => <div>Router</div>,
-  createBrowserRouter: () => ({ routes: [] }),
+  RouterProvider: ({ router }) => {
+    mockRouter = router;
+    return <div>Router</div>;
+  },
+  createBrowserRouter: (routes) => ({ routes }),
+  redirect: (path) => ({ redirectedTo: path }),
 }));
 
 jest.mock("./Layout/Layout", () => ({
@@ -92,6 +97,60 @@ describe("App auth bootstrap", () => {
 
     await waitFor(() => {
       expect(mockDispatch).toHaveBeenCalledWith(loginFailure("OAuth failed"));
+    });
+  });
+
+  it("redirects OAuth error URLs to login from a route loader, before any page renders", () => {
+    render(<App />);
+    const [{ loader }] = mockRouter.routes;
+
+    expect(
+      loader({
+        request: {
+          url: "http://localhost:5173/dashboard?error_description=PreSignUp+failed+with+error+SOCIAL_SIGNIN_BLOCKED_DIFFERENT_PROVIDER_EXISTS.",
+        },
+      }),
+    ).toEqual({
+      redirectedTo:
+        "/login?authError=SOCIAL_SIGNIN_BLOCKED_DIFFERENT_PROVIDER_EXISTS",
+    });
+    expect(
+      loader({ request: { url: "http://localhost:5173/dashboard" } }),
+    ).toBeNull();
+  });
+
+  it("keeps the real provider error message from the Hub failure event", async () => {
+    window.history.pushState({}, "", "/dashboard");
+
+    render(<App />);
+
+    authListener({
+      payload: {
+        event: "signInWithRedirect_failure",
+        data: { error: { message: "PreSignUp failed" } },
+      },
+    });
+
+    await waitFor(() => {
+      expect(mockDispatch).toHaveBeenCalledWith(
+        loginFailure("PreSignUp failed"),
+      );
+    });
+  });
+
+  it("uses a default message when the Hub failure has no message", async () => {
+    window.history.pushState({}, "", "/dashboard");
+
+    render(<App />);
+
+    authListener({
+      payload: { event: "signInWithRedirect_failure", data: {} },
+    });
+
+    await waitFor(() => {
+      expect(mockDispatch).toHaveBeenCalledWith(
+        loginFailure("OAuth sign-in failed"),
+      );
     });
   });
 });

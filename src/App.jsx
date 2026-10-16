@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { Hub } from "aws-amplify/utils";
 import { useDispatch } from "react-redux";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  redirect,
+} from "react-router-dom";
 import Layout from "./Layout/Layout";
 import Error404 from "./pages/Error404/Error404";
 import { checkAuthStatus } from "./redux/features/authentication/authActions";
@@ -9,11 +13,21 @@ import { loginFailure } from "./redux/features/authentication/authSlice";
 import routes from "./routes/routes";
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
+import { getOAuthErrorRedirectPath } from "./utils/auth/authErrorCodes";
 import { completePendingLinkedInLogout } from "./utils/auth/linkedInLogout";
+
+// Cognito reports failed social sign-ins on the redirect URL. Redirect to the
+// login page (with an error code) before any protected page can render and
+// bounce the user to the home page.
+const oauthErrorLoader = ({ request }) => {
+  const path = getOAuthErrorRedirectPath(request.url);
+  return path ? redirect(path) : null;
+};
 
 const router = createBrowserRouter([
   {
     element: <Layout />,
+    loader: oauthErrorLoader,
     errorElement: <Error404 />,
     children: routes,
   },
@@ -51,7 +65,11 @@ const App = () => {
             window.clearTimeout(fallbackTimer);
           }
           dispatch(
-            loginFailure(payload.data?.message || "OAuth sign-in failed"),
+            loginFailure(
+              payload.data?.error?.message ||
+                payload.data?.message ||
+                "OAuth sign-in failed",
+            ),
           );
           break;
         default:

@@ -12,6 +12,7 @@ import { z } from "zod";
 import { INACTIVITY_TIMEOUT } from "../../common/components/InactivityTimer/InactivityTimer.jsx";
 import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
+import { LOGIN_ERROR_MESSAGE_KEYS } from "../../utils/auth/authErrorCodes";
 import "./Login.css";
 import { FaAmazon, FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -33,7 +34,12 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-
+  const [authErrorMessageKey] = useState(
+    () =>
+      LOGIN_ERROR_MESSAGE_KEYS[
+        new URLSearchParams(location.search).get("authError")
+      ],
+  );
   const loginSchema = z.object({
     email: z
       .string()
@@ -44,7 +50,10 @@ const LoginPage = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      await signInWithRedirect({ provider: "Google" });
+      await signInWithRedirect({
+        provider: "Google",
+        options: { prompt: "SELECT_ACCOUNT" },
+      });
     } catch (error) {
       console.error("Error redirecting to Google:", error);
     }
@@ -59,7 +68,10 @@ const LoginPage = () => {
   };
   const handleLinkedInLogin = async () => {
     try {
-      await signInWithRedirect({ provider: { custom: "LinkedIn" } });
+      await signInWithRedirect({
+        provider: { custom: "LinkedIn" },
+        options: { prompt: "LOGIN" },
+      });
     } catch (error) {
       console.error("Error starting redirect flow:", error);
     }
@@ -97,6 +109,14 @@ const LoginPage = () => {
       navigate("/dashboard");
     }
   }, [navigate, user]);
+
+  // The error code is kept in state above; drop it from the URL so a refresh
+  // starts from a clean login page.
+  useEffect(() => {
+    if (new URLSearchParams(location.search).has("authError")) {
+      navigate("/login", { replace: true });
+    }
+  }, [location.search, navigate]);
 
   const getLoginErrorMessage = (error) => {
     const errorName = String(error?.name || error?.code || "").toLowerCase();
@@ -201,6 +221,16 @@ const LoginPage = () => {
             <IoCheckmarkCircle className="text-green-600 text-2xl shrink-0" />
             <p className="text-green-800 text-sm font-medium">
               {t("common:ACCOUNT_CREATED_SUCCESS")}
+            </p>
+          </div>
+        )}
+        {authErrorMessageKey && (
+          <div
+            role="alert"
+            className="flex items-center gap-3 px-4 py-3 mb-4 bg-red-50 border border-red-200 rounded-xl"
+          >
+            <p className="text-red-800 text-sm font-medium">
+              {t(authErrorMessageKey)}
             </p>
           </div>
         )}

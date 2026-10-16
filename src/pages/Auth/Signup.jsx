@@ -7,6 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import CountryList from "react-select-country-list";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
+import {
+  AUTH_ERROR_CODES,
+  getAuthErrorCode,
+} from "../../utils/auth/authErrorCodes";
 import PHONECODESEN from "../../utils/phone-codes-en";
 import "./Login.css";
 const signUpSchema = z.object({
@@ -45,7 +49,7 @@ const signUpSchema = z.object({
 });
 
 const SignUp = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["common", "auth"]);
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -157,11 +161,36 @@ const SignUp = () => {
         navigate("/verify-otp", { state: { email: emailValue } });
       }
     } catch (error) {
-      if (error.name === "UsernameExistsException") {
-        setErrors({ email: t("USER_ALREADY_EXISTS") });
-      }
       console.log("Sign up error:", error);
+      setErrors(getSignUpErrors(error));
     }
+  };
+
+  const getSignUpErrors = (error) => {
+    const code = getAuthErrorCode(error);
+    if (code === AUTH_ERROR_CODES.SIGNUP_FAILED_SOCIAL_EXISTS) {
+      return { email: t("auth:signup.social_exists") };
+    }
+    if (code === AUTH_ERROR_CODES.SIGNUP_FAILED_NATIVE_EXISTS) {
+      return { email: t("auth:signup.native_exists") };
+    }
+    if (error?.name === "UsernameExistsException") {
+      return { email: t("USER_ALREADY_EXISTS") };
+    }
+    const isNetworkError =
+      String(error?.name ?? "")
+        .toLowerCase()
+        .includes("network") ||
+      String(error?.message ?? "")
+        .toLowerCase()
+        .includes("network error");
+    return {
+      root: t(
+        isNetworkError
+          ? "auth:shared.network_error"
+          : "auth:shared.server_error",
+      ),
+    };
   };
 
   return (
@@ -395,6 +424,7 @@ const SignUp = () => {
         >
           Sign up
         </button>
+        {errors.root && <p className="text-sm text-red-500">{errors.root}</p>}
 
         <div className="mt-8 flex flex-row justify-center">
           <p>{t("ALREADY_HAVE_ACCOUNT")}</p>
