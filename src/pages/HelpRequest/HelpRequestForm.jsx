@@ -1456,9 +1456,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       const payload = mapHelpRequestPayload({
         formData: submissionData,
         selectedCategoryId: selectedCategoryId ?? formData.category,
-        [userIdKey]: isEdit
-          ? editRequestData?.requesterId || userDbId
-          : userDbId,
+        [userIdKey]: isEdit ? editRequestData?.creatorId || userDbId : userDbId,
         enumMaps,
         additionalFields: additionalFieldValues,
         requestId: isEdit
