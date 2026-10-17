@@ -370,7 +370,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     routeRequestData?.requestId ||
     routeRequestData?.id;
   const additionalFieldsRequesterId =
-    editRequestData?.requesterId || routeRequestData?.requesterId || userDbId;
+    editRequestData?.creatorId || routeRequestData?.requesterId || userDbId;
 
   // Restore request for edit
   // Supports two data sources:
