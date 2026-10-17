@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { BiCog, BiDonateHeart } from "react-icons/bi";
 import { FaHandshakeAngle } from "react-icons/fa6";
 import { useSelector } from "react-redux";
@@ -11,6 +12,7 @@ import Pagination from "../../common/components/Pagination/Pagination";
 export default function NotificationUI() {
   const [filter, setFilter] = useState("all");
   const { t } = useTranslation(["common"]);
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const { dispatch, state } = useNotifications();
   const notifications = state.notifications;
@@ -28,7 +30,10 @@ export default function NotificationUI() {
 
   const filteredNotifications = sortedNotifications.filter((note) => {
     if (filter === "all") return true;
-    if (filter === "help") return note.type !== "Volunteer";
+    // Match the help-request type explicitly. The old "anything that is not a
+    // Volunteer match" rule swept up every future notification type as well,
+    // so a new category would silently surface under Help Request.
+    if (filter === "help") return note.type === "helpRequest";
     if (filter === "volunteer") return note.type === "Volunteer";
     return true;
   });
@@ -83,7 +88,9 @@ export default function NotificationUI() {
   };
 
   const handleSettingsClick = () => {
-    console.log("Settings clicked");
+    // Notification preferences live on the Preferences tab of the profile page,
+    // which reads its initial tab from router state.
+    navigate("/profile", { state: { tab: "preferences" } });
   };
 
   return (
@@ -116,7 +123,11 @@ export default function NotificationUI() {
           </button>
         ))}
         <div className="ml-auto">
-          <button className="p-2" onClick={handleSettingsClick}>
+          <button
+            className="p-2"
+            onClick={handleSettingsClick}
+            aria-label={t("NOTIFICATION_SETTINGS")}
+          >
             <BiCog className="text-2xl text-gray-600 hover:text-blue-600 transition-colors duration-200" />
           </button>
         </div>
