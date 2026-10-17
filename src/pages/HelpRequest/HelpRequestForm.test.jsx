@@ -1472,7 +1472,7 @@ describe("HelpRequestForm — edit mode submission", () => {
       isEdit: true,
       editRequestData: {
         requestId: "REQ-00-000-000-0360",
-        requesterId: "SID-00-000-002-622",
+        creatorId: "SID-00-000-002-622",
         subject: "Meal Prep help",
         type: "REMOTE",
         priority: "MEDIUM",
