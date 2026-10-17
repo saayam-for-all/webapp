@@ -1452,7 +1452,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       // Edit request API expects `creatorId`, create request API expects `requesterId`
       const userIdKey = isEdit ? "creatorId" : "requesterId";
 
-      // Build the API payload
+      // Bu ild the API payload
       const payload = mapHelpRequestPayload({
         formData: submissionData,
         selectedCategoryId: selectedCategoryId ?? formData.category,
