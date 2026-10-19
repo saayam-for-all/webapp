@@ -2707,13 +2707,13 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
           <Button
             onClick={handleConfirmCategorySelection}
             variant="contained"
-            color="primary"
+            className="bg-blue-500 hover:bg-blue-600 text-white hover:text-white"
           >
             Select
           </Button>
           <Button
             onClick={() => setShowModal(false)}
-            color="primary"
+            className="bg-gray-500 hover:bg-gray-600 text-white hover:text-white"
             variant="contained"
           >
             Cancel
