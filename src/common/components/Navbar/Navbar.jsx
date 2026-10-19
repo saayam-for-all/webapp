@@ -39,7 +39,6 @@ import { Tooltip, styled, tooltipClasses } from "@mui/material";
 import { IoLogInOutline } from "react-icons/io5";
 import DEFAULT_PROFILE_ICON from "../../../assets/Landingpage_images/ProfileImage.jpg";
 import { logout } from "../../../redux/features/authentication/authActions";
-import { useNotifications } from "../../../context/NotificationContext";
 import {
   fetchProfileImage,
   GET_NOTIFICATION_COUNT,
@@ -106,7 +105,6 @@ const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { state, dispatch: notificationDispatch } = useNotifications();
 
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [profileIcon, setProfileIcon] = useState(DEFAULT_PROFILE_ICON);
@@ -238,84 +236,21 @@ const Navbar = () => {
     if (notificationButton) {
       notificationButton.style.display = user ? "flex" : "none";
     }
-    const fetchNotifications = async () => {
+
+    // Fetch the unread notification count for the bell badge.
+    // The notifications list itself is loaded by the Notifications page.
+    const fetchNotificationCount = async () => {
       try {
-        // --- Notification COUNT (bell badge) ---
-        // Separate POST API from the list below. Feeds the bell badge.
-        // Mock returns a count like { count: 5 }.
         const countResponse = await GET_NOTIFICATION_COUNT(user?.userDbId);
         setNewNotificationCount(
           countResponse?.data?.newNotificationsCount || 0,
         );
-
-        // --- Notification LIST (notifications page) ---
-        // Mock JSON data used to populate the notifications page until
-        // the real list API is available. Do not remove.
-        const rawNotifications = [
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "You have new Volunteer match request in Logistics",
-            date: "Mar 15, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "Hospital",
-            date: "Jun 15, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "LOGISTIC_HELP",
-            title: "Logistic Help",
-            message: "Logistics",
-            date: "Nov 15, 2023, 10:30 AM",
-          },
-          {
-            type: "helpRequest",
-            titleKey: "EDUCATIONAL_HELP",
-            title: "Educational Help",
-            message: "Need help with Logistics",
-            date: "Dec 16, 2023, 10:30 AM",
-          },
-          {
-            type: "Volunteer",
-            titleKey: "NEW_MATCH_REQUEST",
-            title: "New Match Request",
-            message: "Education",
-            date: "Jan 15, 2023, 10:30 AM",
-          },
-        ];
-
-        const notificationsWithIds = rawNotifications.map((note) => ({
-          ...note,
-          id: crypto.randomUUID(),
-        }));
-
-        notificationDispatch({
-          type: "SET_NOTIFICATIONS",
-          payload: notificationsWithIds,
-        });
-        const existing = new Set(
-          state.notifications.map((n) => n.message + n.date),
-        );
-        const newOnes = notificationsWithIds.filter(
-          (n) => !existing.has(n.message + n.date),
-        );
-        if (newOnes.length > 0) {
-          notificationDispatch({
-            type: "SET_NOTIFICATIONS",
-            payload: [...state.notifications, ...newOnes],
-          });
-        }
       } catch (error) {
-        console.error("Error fetching Notifications:", error);
+        console.error("Error fetching notification count:", error);
       }
     };
 
-    fetchNotifications(); // Comment it after call ing the funciton below
+    fetchNotificationCount();
 
     // Use the interval fetched from getAppEnv (stored on login),
     // falling back to 5 min (300000 ms) if it isn't available.
@@ -327,10 +262,10 @@ const Navbar = () => {
         ? storedInterval
         : 5 * 60 * 1000;
 
-    const interval = setInterval(fetchNotifications, pollInterval); // fetch every pollInterval ms
+    const interval = setInterval(fetchNotificationCount, pollInterval); // poll every pollInterval ms
 
     return () => clearInterval(interval);
-  }, [notificationDispatch, user]);
+  }, [user]);
 
   const handleLinkClick = (e, route) => {
     if (hasUnsavedChanges) {
@@ -495,7 +430,7 @@ const Navbar = () => {
         {/* Mobile Donate (guest = full button, logged-in = icon-only) */}
         <div className="flex md:hidden items-center">
           {user?.userId ? (
-            // ✅ After login: icon-only
+            //  After login: icon-only
             <ModernTooltip title={t("DONATE")}>
               <button
                 onClick={(e) => handleLinkClick(e, "/donate")}
@@ -507,7 +442,7 @@ const Navbar = () => {
               </button>
             </ModernTooltip>
           ) : (
-            // ✅ Before login: full Donate button (keep your original)
+            //  Before login: full Donate button (keep your original)
             <ModernTooltip title={t("DONATE")}>
               <button
                 onClick={(e) => handleLinkClick(e, "/donate")}
@@ -739,27 +674,9 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/*/!* Donate button aligned to the rightmost *!/*/}
-        {/*{user?.userId && (*/}
-        {/*  <div className="hidden md:flex relative items-center mr-4">*/}
-        {/*    <Tooltip title={t("EMERGENCY_CONTACTS")} arrow>*/}
-        {/*      <button*/}
-        {/*        onClick={(e) => handleLinkClick(e, "/emergency-contact")}*/}
-        {/*        className="text-black hover:text-red-600 flex items-center text-base p-1"*/}
-        {/*        aria-label={t("EMERGENCY_CONTACTS")}*/}
-        {/*      >*/}
-        {/*        <PhoneInTalkOutlinedIcon fontSize="medium" />*/}
-        {/*      </button>*/}
-        {/*    </Tooltip>*/}
-        {/*  </div>*/}
-        {/*)}*/}
-
         {/* Login Part */}
         {user?.userId ? (
-          <div
-            className="relative flex flex-col items-center mr-2"
-            // ref={profileDropdownRef}
-          >
+          <div className="relative flex flex-col items-center mr-2">
             <div className="flex items-center">
               <IconButton
                 color="inherit"
@@ -866,7 +783,6 @@ const Navbar = () => {
             color="inherit"
             edge="end"
             onClick={() => toggleDrawer(true)}
-            // sx={{ display: { xs: "block", sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -918,7 +834,6 @@ const Navbar = () => {
             <div className="block text-black py-2 flex items-center">
               <button
                 onClick={(e) => handleLinkClick(e, "/dashboard")}
-                // className="text-black flex items-center hover:text-gray-600 text-base"
                 className="text-black flex items-center hover:text-blue-600"
               >
                 <DashboardCustomizeIcon className="mr-2" /> {t("DASHBOARD")}
@@ -1003,19 +918,6 @@ const Navbar = () => {
               </Menu>
             )}
           </div>
-
-          {/*/!* Emergency Contact button for sidebar - visible only when logged in *!/*/}
-          {/*{user?.userId && (*/}
-          {/*  <div className="block text-black py-2 flex items-center">*/}
-          {/*    <button*/}
-          {/*      onClick={(e) => handleDrawerClick(e, "/emergency-contact")}*/}
-          {/*      className="text-black flex items-center hover:text-red-600"*/}
-          {/*    >*/}
-          {/*      <PhoneInTalkOutlinedIcon className="mr-2" />*/}
-          {/*      {t("EMERGENCY_CONTACT")}*/}
-          {/*    </button>*/}
-          {/*  </div>*/}
-          {/*)}*/}
 
           <div className="block text-black py-2 flex items-center">
             <button
