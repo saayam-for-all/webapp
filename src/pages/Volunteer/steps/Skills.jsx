@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
@@ -7,6 +7,17 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
   const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
   const [mobileActiveCategory, setMobileActiveCategory] = useState(null);
   const [mobileActiveSubcategory, setMobileActiveSubcategory] = useState(null);
+
+  // Keyboard navigation state
+  const [activeColumn, setActiveColumn] = useState(0); // 0: Cat, 1: SubCat, 2: SubSubCat
+  const [focusedCatIndex, setFocusedCatIndex] = useState(0);
+  const [focusedSubCatIndex, setFocusedSubCatIndex] = useState(0);
+  const [focusedSubSubCatIndex, setFocusedSubSubCatIndex] = useState(0);
+
+  // Refs to focus DOM elements directly
+  const col1ItemRefs = useRef([]);
+  const col2ItemRefs = useRef([]);
+  const col3ItemRefs = useRef([]);
 
   // Sort categories alphabetically by translated label, push General to end
   const sortedCategories = useMemo(() => {
@@ -28,14 +39,36 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
     return sorted;
   }, [categories, i18n.language, t]);
 
-  // Check if a category node is a leaf (no subcategories)
+  // Set default hoveredCategory on initial load
+  useEffect(() => {
+    if (sortedCategories.length > 0 && !hoveredCategory) {
+      setHoveredCategory(sortedCategories[0]);
+    }
+  }, [sortedCategories, hoveredCategory]);
+
+  // Handle automatic DOM focus shifting when column or indexes change
+  useEffect(() => {
+    if (activeColumn === 0) {
+      col1ItemRefs.current[focusedCatIndex]?.focus();
+    } else if (activeColumn === 1) {
+      col2ItemRefs.current[focusedSubCatIndex]?.focus();
+    } else if (activeColumn === 2) {
+      col3ItemRefs.current[focusedSubSubCatIndex]?.focus();
+    }
+  }, [
+    activeColumn,
+    focusedCatIndex,
+    focusedSubCatIndex,
+    focusedSubSubCatIndex,
+    hoveredCategory,
+    hoveredSubcategory,
+  ]);
+
   const isLeaf = (node) =>
     !node.subCategories || node.subCategories.length === 0;
 
-  // Check if a skill is selected
   const isSelected = (catId) => selectedSkills.includes(catId);
 
-  // Toggle a leaf skill selection
   const toggleSkill = (catId) => {
     if (isSelected(catId)) {
       setSelectedSkills(selectedSkills.filter((id) => id !== catId));
@@ -44,26 +77,20 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
     }
   };
 
-  // Resolve the full hierarchy path label for a selected skill catId
   const resolveSkillPath = (catId) => {
     for (const cat of categories) {
-      // Level 1 leaf
       if (cat.catId === catId && isLeaf(cat)) {
         return {
           categoryName: t(
             `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
-            {
-              defaultValue: cat.catName,
-            },
+            { defaultValue: cat.catName },
           ),
           skillName: t(`categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`, {
             defaultValue: cat.catName,
           }),
-          isLevel1: true,
         };
       }
       for (const sub of cat.subCategories || []) {
-        // Level 2 leaf
         if (sub.catId === catId && isLeaf(sub)) {
           const catLabel = t(
             `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
@@ -73,14 +100,9 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
             `categories:REQUEST_CATEGORIES.${cat.catName}.SUBCATEGORIES.${sub.catName}.LABEL`,
             { defaultValue: sub.catName },
           );
-          return {
-            categoryName: catLabel,
-            skillName: subLabel,
-            isLevel1: false,
-          };
+          return { categoryName: catLabel, skillName: subLabel };
         }
         for (const subSub of sub.subCategories || []) {
-          // Level 3 leaf
           if (subSub.catId === catId) {
             const catLabel = t(
               `categories:REQUEST_CATEGORIES.${cat.catName}.LABEL`,
@@ -98,16 +120,14 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
               categoryName: catLabel,
               parentName: subLabel,
               skillName: subSubLabel,
-              isLevel1: false,
             };
           }
         }
       }
     }
-    return { categoryName: catId, skillName: catId, isLevel1: true };
+    return { categoryName: catId, skillName: catId };
   };
 
-  // Group selected skills by category for display
   const groupedSelectedSkills = useMemo(() => {
     const groups = {};
     selectedSkills.forEach((catId) => {
@@ -130,13 +150,86 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
     return Object.values(groups);
   }, [selectedSkills, categories, i18n.language]);
 
-  // Remove all skills from a category
   const removeCategorySkills = (catIds) => {
     setSelectedSkills(selectedSkills.filter((id) => !catIds.includes(id)));
   };
 
   const hasSubCats = hoveredCategory?.subCategories?.length > 0;
   const hasSubSubCats = hoveredSubcategory?.subCategories?.length > 0;
+
+  // Keyboard Handlers
+  const handleCol1KeyDown = (e, index, category) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const nextIndex = (index + 1) % sortedCategories.length;
+      setFocusedCatIndex(nextIndex);
+      const nextCat = sortedCategories[nextIndex];
+      setHoveredCategory(nextCat);
+      setHoveredSubcategory(null);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prevIndex =
+        (index - 1 + sortedCategories.length) % sortedCategories.length;
+      setFocusedCatIndex(prevIndex);
+      const prevCat = sortedCategories[prevIndex];
+      setHoveredCategory(prevCat);
+      setHoveredSubcategory(null);
+    } else if (e.key === "ArrowRight" || e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (isLeaf(category)) {
+        toggleSkill(category.catId);
+      } else if (category.subCategories?.length > 0) {
+        setHoveredSubcategory(category.subCategories[0]);
+        setFocusedSubCatIndex(0);
+        setActiveColumn(1);
+      }
+    }
+  };
+
+  const handleCol2KeyDown = (e, index, subcategory) => {
+    const subList = hoveredCategory?.subCategories || [];
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const nextIndex = (index + 1) % subList.length;
+      setFocusedSubCatIndex(nextIndex);
+      setHoveredSubcategory(subList[nextIndex]);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prevIndex = (index - 1 + subList.length) % subList.length;
+      setFocusedSubCatIndex(prevIndex);
+      setHoveredSubcategory(subList[prevIndex]);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      setActiveColumn(0);
+    } else if (e.key === "ArrowRight" || e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (isLeaf(subcategory)) {
+        toggleSkill(subcategory.catId);
+      } else if (subcategory.subCategories?.length > 0) {
+        setFocusedSubSubCatIndex(0);
+        setActiveColumn(2);
+      }
+    }
+  };
+
+  const handleCol3KeyDown = (e, index, subSubCat) => {
+    const subSubList = hoveredSubcategory?.subCategories || [];
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const nextIndex = (index + 1) % subSubList.length;
+      setFocusedSubSubCatIndex(nextIndex);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prevIndex = (index - 1 + subSubList.length) % subSubList.length;
+      setFocusedSubSubCatIndex(prevIndex);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      setActiveColumn(1);
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleSkill(subSubCat.catId);
+    }
+  };
 
   return (
     <div>
@@ -170,20 +263,27 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
             }
             style={{ maxHeight: "280px" }}
           >
-            {sortedCategories.map((category) => {
+            {sortedCategories.map((category, index) => {
               const leaf = isLeaf(category);
               const selected = leaf && isSelected(category.catId);
+              const isFocused = activeColumn === 0 && focusedCatIndex === index;
               return (
                 <div
                   key={category.catId}
-                  className={`p-2 flex items-center justify-between ${
+                  ref={(el) => (col1ItemRefs.current[index] = el)}
+                  tabIndex={isFocused ? 0 : -1}
+                  className={`p-2 flex items-center justify-between outline-none ${
                     leaf ? "cursor-pointer" : "cursor-default"
-                  } hover:bg-gray-100 ${
+                  } hover:bg-gray-100 focus:bg-gray-100 ${
                     hoveredCategory?.catId === category.catId
                       ? "font-semibold bg-gray-50"
                       : ""
                   } ${selected ? "bg-blue-50" : "bg-white"}`}
                   onClick={() => {
+                    setActiveColumn(0);
+                    setFocusedCatIndex(index);
+                    setHoveredCategory(category);
+                    setHoveredSubcategory(null);
                     if (leaf) {
                       toggleSkill(category.catId);
                     }
@@ -192,6 +292,7 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
                     setHoveredCategory(category);
                     setHoveredSubcategory(null);
                   }}
+                  onKeyDown={(e) => handleCol1KeyDown(e, index, category)}
                 >
                   <span
                     title={t(
@@ -233,12 +334,16 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
                 {hoveredCategory.subCategories.map((subcategory, index) => {
                   const leaf = isLeaf(subcategory);
                   const selected = leaf && isSelected(subcategory.catId);
+                  const isFocused =
+                    activeColumn === 1 && focusedSubCatIndex === index;
                   return (
                     <div
                       key={subcategory.catId}
-                      className={`p-2 flex items-center justify-between ${
+                      ref={(el) => (col2ItemRefs.current[index] = el)}
+                      tabIndex={isFocused ? 0 : -1}
+                      className={`p-2 flex items-center justify-between outline-none ${
                         leaf ? "cursor-pointer" : "cursor-default"
-                      } hover:bg-gray-200 ${
+                      } hover:bg-gray-200 focus:bg-gray-200 ${
                         index !== 0 ? " border-t border-gray-200" : ""
                       } ${
                         hoveredSubcategory?.catId === subcategory.catId
@@ -249,10 +354,16 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
                         setHoveredSubcategory(subcategory);
                       }}
                       onClick={() => {
+                        setActiveColumn(1);
+                        setFocusedSubCatIndex(index);
+                        setHoveredSubcategory(subcategory);
                         if (leaf) {
                           toggleSkill(subcategory.catId);
                         }
                       }}
+                      onKeyDown={(e) =>
+                        handleCol2KeyDown(e, index, subcategory)
+                      }
                     >
                       <span
                         title={t(
@@ -295,15 +406,22 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
               >
                 {hoveredSubcategory.subCategories.map((subSubCat, index) => {
                   const selected = isSelected(subSubCat.catId);
+                  const isFocused =
+                    activeColumn === 2 && focusedSubSubCatIndex === index;
                   return (
                     <div
                       key={subSubCat.catId}
-                      className={`cursor-pointer hover:bg-gray-200 p-2 flex items-center justify-between ${
+                      ref={(el) => (col3ItemRefs.current[index] = el)}
+                      tabIndex={isFocused ? 0 : -1}
+                      className={`cursor-pointer hover:bg-gray-200 focus:bg-gray-200 p-2 flex items-center justify-between outline-none ${
                         index !== 0 ? " border-t border-gray-200" : ""
                       } ${selected ? "bg-blue-50" : "bg-white"}`}
                       onClick={() => {
+                        setActiveColumn(2);
+                        setFocusedSubSubCatIndex(index);
                         toggleSkill(subSubCat.catId);
                       }}
+                      onKeyDown={(e) => handleCol3KeyDown(e, index, subSubCat)}
                     >
                       <span
                         title={t(
@@ -330,7 +448,6 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
 
       {/* Mobile: Single-column drill-down selector */}
       <div className="md:hidden bg-white border rounded shadow-lg w-full">
-        {/* Level 1: Main categories (or back button + subcategories) */}
         {!mobileActiveCategory ? (
           <div className="overflow-y-auto" style={{ maxHeight: "280px" }}>
             {sortedCategories.map((category) => {
@@ -371,7 +488,6 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
           </div>
         ) : !mobileActiveSubcategory ? (
           <div>
-            {/* Back button */}
             <div
               className="p-3 flex items-center gap-2 border-b border-gray-300 bg-gray-50 active:bg-gray-200 sticky top-0"
               onClick={() => setMobileActiveCategory(null)}
@@ -384,7 +500,6 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
                 )}
               </span>
             </div>
-            {/* Subcategories */}
             <div className="overflow-y-auto" style={{ maxHeight: "240px" }}>
               {mobileActiveCategory.subCategories?.map((subcategory) => {
                 const leaf = isLeaf(subcategory);
@@ -424,7 +539,6 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
           </div>
         ) : (
           <div>
-            {/* Back button */}
             <div
               className="p-3 flex items-center gap-2 border-b border-gray-300 bg-gray-50 active:bg-gray-200 sticky top-0"
               onClick={() => setMobileActiveSubcategory(null)}
@@ -437,7 +551,6 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
                 )}
               </span>
             </div>
-            {/* Sub-subcategories */}
             <div className="overflow-y-auto" style={{ maxHeight: "240px" }}>
               {mobileActiveSubcategory.subCategories?.map((subSubCat) => {
                 const selected = isSelected(subSubCat.catId);
