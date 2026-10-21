@@ -253,14 +253,16 @@ const Navbar = () => {
     fetchNotificationCount();
 
     // Use the interval fetched from getAppEnv (stored on login),
-    // falling back to 5 min (300000 ms) if it isn't available.
+    // falling back to the env-configured value (default 5 min / 300000 ms)
+    // if it isn't available.
     const storedInterval = Number(
       JSON.parse(localStorage.getItem("notification_interval_ms")),
     );
+    // Fallback source: VITE_NOTIFICATION_INTERVAL_MS from .env (300000 ms = 5 min).
     const pollInterval =
       Number.isFinite(storedInterval) && storedInterval > 0
         ? storedInterval
-        : 5 * 60 * 1000;
+        : Number(import.meta.env.VITE_NOTIFICATION_INTERVAL_MS) || 300000;
 
     const interval = setInterval(fetchNotificationCount, pollInterval); // poll every pollInterval ms
 
