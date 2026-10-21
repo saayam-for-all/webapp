@@ -258,6 +258,7 @@ const Navbar = () => {
     const storedInterval = Number(
       JSON.parse(localStorage.getItem("notification_interval_ms")),
     );
+    // Fallback source: VITE_NOTIFICATION_INTERVAL_MS from .env (300000 ms = 5 min).
     const pollInterval =
       Number.isFinite(storedInterval) && storedInterval > 0
         ? storedInterval
