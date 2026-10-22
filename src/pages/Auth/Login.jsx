@@ -1,4 +1,4 @@
-import { signIn } from "aws-amplify/auth";
+import { signIn, signInWithRedirect } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -12,7 +12,10 @@ import { z } from "zod";
 import { INACTIVITY_TIMEOUT } from "../../common/components/InactivityTimer/InactivityTimer.jsx";
 import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
+import { LOGIN_ERROR_MESSAGE_KEYS } from "../../utils/auth/authErrorCodes";
 import "./Login.css";
+import { FaAmazon, FaFacebookF, FaLinkedinIn } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 const LoginPage = () => {
   const { t } = useTranslation(["auth", "common"]);
@@ -31,7 +34,12 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-
+  const [authErrorMessageKey] = useState(
+    () =>
+      LOGIN_ERROR_MESSAGE_KEYS[
+        new URLSearchParams(location.search).get("authError")
+      ],
+  );
   const loginSchema = z.object({
     email: z
       .string()
@@ -39,6 +47,62 @@ const LoginPage = () => {
       .email({ message: t("auth:login.email_invalid") }),
     password: z.string().min(1, { message: t("auth:login.password_required") }),
   });
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithRedirect({
+        provider: "Google",
+        options: { prompt: "SELECT_ACCOUNT" },
+      });
+    } catch (error) {
+      console.error("Error redirecting to Google:", error);
+    }
+  };
+
+  const handleFacebookLogin = async () => {
+    try {
+      await signInWithRedirect({ provider: "Facebook" });
+    } catch (error) {
+      console.error("Error redirecting to Facebook:", error);
+    }
+  };
+  const handleLinkedInLogin = async () => {
+    try {
+      await signInWithRedirect({
+        provider: { custom: "LinkedIn" },
+        options: { prompt: "LOGIN" },
+      });
+    } catch (error) {
+      console.error("Error starting redirect flow:", error);
+    }
+  };
+
+  const socialProviders = [
+    {
+      label: "Amazon",
+      icon: <FaAmazon className="mx-2 text-xl text-gray-700" />,
+      onClick: undefined,
+      disabled: true,
+    },
+    {
+      label: t("common:FACEBOOK"),
+      icon: <FaFacebookF className="mx-2 text-xl text-blue-800" />,
+      onClick: handleFacebookLogin,
+      disabled: false,
+    },
+    {
+      label: t("common:GOOGLE"),
+      icon: <FcGoogle className="mx-2 text-xl" />,
+      onClick: handleGoogleLogin,
+      disabled: false,
+    },
+    {
+      label: "LinkedIn",
+      icon: <FaLinkedinIn className="mx-2 text-xl text-[#0A66C2]" />,
+      onClick: handleLinkedInLogin,
+      disabled: false,
+    },
+  ];
 
   useEffect(() => {
     setEmailValue("");
@@ -49,7 +113,15 @@ const LoginPage = () => {
     if (user) {
       navigate("/dashboard");
     }
-  }, [user]);
+  }, [navigate, user]);
+
+  // The error code is kept in state above; drop it from the URL so a refresh
+  // starts from a clean login page.
+  useEffect(() => {
+    if (new URLSearchParams(location.search).has("authError")) {
+      navigate("/login", { replace: true });
+    }
+  }, [location.search, navigate]);
 
   const getLoginErrorMessage = (error) => {
     const errorName = String(error?.name || error?.code || "").toLowerCase();
@@ -157,6 +229,16 @@ const LoginPage = () => {
             </p>
           </div>
         )}
+        {authErrorMessageKey && (
+          <div
+            role="alert"
+            className="flex items-center gap-3 px-4 py-3 mb-4 bg-red-50 border border-red-200 rounded-xl"
+          >
+            <p className="text-red-800 text-sm font-medium">
+              {t(authErrorMessageKey)}
+            </p>
+          </div>
+        )}
         <h1 className="my-4 text-3xl font-bold text-center">
           {t("common:LOGIN")}
         </h1>
@@ -239,23 +321,30 @@ const LoginPage = () => {
             not reliably receive that signal. */}
 
         {/* Uncommment for Google and Facebook signin is fully functional*/}
-        {/* <div className="flex items-center my-4">
+        <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="px-4 text-gray-500">{t("common:OR_WITH")}</span>
           <div className="flex-grow border-t border-gray-300"></div>
-        </div> 
+        </div>
 
-         <div className="flex flex-row items-center">
-          <button className="mr-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
-            <FaFacebookF className="mx-2 text-xl text-blue-800" />
-            <span>{t("common:FACEBOOK")}</span>
-          </button>
-
-          <button className="ml-2 px-4 py-2 w-1/2 flex items-center justify-center border border-gray-300 rounded-xl">
-            <FcGoogle className="mx-2 text-xl" />
-            <span>{t("common:GOOGLE")}</span>
-          </button>
-        </div> */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {socialProviders.map((provider) => (
+            <button
+              key={provider.label}
+              type="button"
+              disabled={provider.disabled}
+              onClick={provider.onClick}
+              className={`px-4 py-2 flex items-center justify-center border border-gray-300 rounded-xl ${
+                provider.disabled
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white hover:bg-gray-50"
+              }`}
+            >
+              {provider.icon}
+              <span>{provider.label}</span>
+            </button>
+          ))}
+        </div>
 
         <div className="mt-16 flex flex-row justify-center">
           <p>{t("common:NONE_ACCOUNT")}</p>
