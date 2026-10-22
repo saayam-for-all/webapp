@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/saayam-for-all/webapp/graph/badge.svg?token=9PBXMY2VAP)](https://codecov.io/gh/saayam-for-all/webapp)
+
 # Project Title
 
 Saayam Web Application.
@@ -110,5 +112,3 @@ For questions, feedback, or suggestions, please contact
 [LinkedIn - Rao K](https://linkedin.com/in/raobhethanabotla).
 
 [Mailto -Rao K ](mailto:kbhethan@yahoo.com)
-
-[Whatsapp](https://wa.me/+14083901725)

@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "정부 발급 ID 업로드",
+  "SELECT_SOURCE": "소스 선택",
+  "DEVICE": "기기",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "파일 업로드",
+  "FILE": "파일",
+  "FILE_PREVIEW": "미리보기",
+  "UPLOAD": "업로드",
+  "UPLOADING": "업로드 중...",
+  "REMOVE": "제거",
+  "FILE_SIZE_ERROR": "파일 크기는 2MB를 초과할 수 없습니다",
+  "FILE_TYPE_ERROR": "JPEG, JPG, PNG, PDF 파일만 허용됩니다. 감지된 파일 유형: {{fileType}}, 확장자: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "JPEG, JPG, PNG 또는 PDF 파일만 가능. 최대 크기: 2MB.",
+  "UPLOAD_SUCCESS": "파일이 성공적으로 업로드되었습니다",
+  "UPLOAD_FAILED": "파일 업로드 실패",
+  "UPLOAD_ERROR": "파일 업로드 중 오류가 발생했습니다"
+}

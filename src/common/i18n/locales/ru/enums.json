@@ -1,0 +1,28 @@
+{
+  "requestFor": {
+    "SELF": "Себя",
+    "OTHER": "Другой"
+  },
+  "requestPriority": {
+    "LOW": "Низкий",
+    "MEDIUM": "Средний",
+    "HIGH": "Высокий",
+    "CRITICAL": "Критический"
+  },
+  "requestStatus": {
+    "CREATED": "Создано",
+    "MATCHING_VOLUNTEER": "Поиск волонтёра",
+    "MANAGED": "Управляется",
+    "RESOLVED": "Решено",
+    "CANCELLED": "Отменено",
+    "DELETED": "Удалено",
+    "RATED_BY_REQUESTER": "Оценено запросившим",
+    "RATED_BY_VOLUNTEER": "Оценено волонтёром",
+    "VOLUNTEER_NOT_FOUND": "Волонтёр не найден",
+    "VOLUNTEER_REASSIGNMENT": "Переназначение волонтёра"
+  },
+  "requestType": {
+    "IN_PERSON": "Лично",
+    "REMOTE": "Удалённо"
+  }
+}

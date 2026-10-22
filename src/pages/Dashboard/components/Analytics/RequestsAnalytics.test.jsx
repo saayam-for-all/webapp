@@ -1,0 +1,567 @@
+import "@testing-library/jest-dom";
+import React from "react";
+import {
+  render,
+  screen,
+  waitFor,
+  fireEvent,
+  act,
+} from "@testing-library/react";
+import RequestsAnalytics from "./RequestsAnalytics";
+import { getRequestsApplicationAnalytics } from "../../../../services/analyticsServices";
+
+jest.mock("../../../../services/analyticsServices", () => ({
+  getRequestsApplicationAnalytics: jest.fn(),
+}));
+
+jest.mock("./charts/ChartContainer", () => ({
+  __esModule: true,
+  default: ({ title, children }) => (
+    <section>
+      <h2>{title}</h2>
+      {children}
+    </section>
+  ),
+}));
+
+jest.mock("recharts", () => ({
+  LineChart: ({ children, data }) => (
+    <div data-testid="line-chart" data-points={data?.length || 0}>
+      {children}
+    </div>
+  ),
+  Line: () => null,
+  BarChart: ({ children, data }) => (
+    <div data-testid="bar-chart" data-points={data?.length || 0}>
+      {children}
+    </div>
+  ),
+  Bar: ({ dataKey }) => <div data-testid={`bar-${String(dataKey)}`} />,
+  XAxis: () => null,
+  YAxis: () => null,
+  CartesianGrid: () => null,
+  Tooltip: ({ content }) => {
+    let rendered = null;
+    if (content && typeof content.type === "function") {
+      rendered = content.type({
+        active: true,
+        payload: [{ payload: { date: "2026-06-24", count: 6 } }],
+      });
+      // Also run inactive path for coverage
+      content.type({ active: false, payload: [] });
+    }
+    return <div data-testid="tooltip">{rendered}</div>;
+  },
+  Legend: () => null,
+  ResponsiveContainer: ({ children }) => <div>{children}</div>,
+  ReferenceLine: () => null,
+}));
+
+const BASE_RESPONSE = {
+  statusCode: 200,
+  body: {
+    request_volume_7_days: [
+      { date: "2026-06-20T00:00:00", count: 1 },
+      { date: "2026-06-24T00:00:00", count: 6 },
+    ],
+    request_volume_1_month: [
+      { date: "2026-06-01T00:00:00", count: 2 },
+      { date: "2026-06-24T00:00:00", count: 10 },
+    ],
+    request_volume_1_year: [
+      { date: "2026-01-01T00:00:00", count: 21 },
+      { date: "2026-06-01T00:00:00", count: 79 },
+    ],
+    request_volume_custom_range: [{ date: "2026-05-01T00:00:00", count: 3 }],
+    "requests_by_category_region 7 days": [
+      { category: "GENERAL_CATEGORY", country: "USA", count: 2 },
+      { category: "GENERAL_CATEGORY", country: "AFG", count: 1 },
+      { category: "MEDICINE_DELIVERY", country: "USA", count: 4 },
+    ],
+    "requests_by_category_region 1 month": [
+      { category: "GENERAL_CATEGORY", country: "USA", count: 10 },
+      { category: "GENERAL_CATEGORY", country: "AFG", count: 5 },
+      { category: "DONATE_CLOTHES", country: "USA", count: 3 },
+    ],
+    "requests_by_category_region 1 year": [
+      { category: "GENERAL_CATEGORY", country: "USA", count: 45 },
+      { category: "GENERAL_CATEGORY", country: "USA", count: 1 },
+      { category: "GENERAL_CATEGORY", country: "AFG", count: 33 },
+      { category: "DONATE_CLOTHES", country: "USA", count: 17 },
+      { category: "MATH", country: "XXX", count: 2 },
+    ],
+    requests_by_category_region_custom_range: [
+      { category: "GENERAL_CATEGORY", country: "USA", count: 1 },
+    ],
+  },
+};
+
+describe("RequestsAnalytics", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("shows loading state initially", () => {
+    getRequestsApplicationAnalytics.mockReturnValue(new Promise(() => {}));
+    render(<RequestsAnalytics />);
+    expect(screen.getAllByText(/Loading data/i).length).toBeGreaterThan(0);
+  });
+
+  it("calls API with empty payload on mount and renders charts", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledWith({});
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("line-chart")).toBeInTheDocument();
+      expect(screen.getByTestId("bar-chart")).toBeInTheDocument();
+    });
+
+    expect(screen.getByText("Request Volume Trend")).toBeInTheDocument();
+    expect(
+      screen.getByText("Requests by Category & Region"),
+    ).toBeInTheDocument();
+  });
+
+  it("maps ISO codes to names and falls back to code when unknown", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText(/Afghanistan/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/United States/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/XXX/i).length).toBeGreaterThan(0);
+    });
+  });
+
+  it("does not refetch when switching between preset ranges due to cache", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("line-chart")).toBeInTheDocument();
+      expect(screen.getByTestId("bar-chart")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getAllByText("7D")[0]);
+    fireEvent.click(screen.getAllByText("30D")[0]);
+    fireEvent.click(screen.getAllByText("1Y")[0]);
+    fireEvent.click(screen.getAllByText("All")[0]);
+
+    await waitFor(() => {
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it("shows custom controls and fetches only when both dates are set", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
+    });
+
+    await waitFor(() => {
+      expect(screen.getAllByText("Custom")[0]).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getAllByText("Custom")[0]);
+
+    await waitFor(() => {
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
+    });
+
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+    fireEvent.change(dateInputs[0], { target: { value: "2026-05-01" } });
+
+    await waitFor(() => {
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
+    });
+
+    fireEvent.change(dateInputs[1], { target: { value: "2026-05-31" } });
+
+    await waitFor(() => {
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledWith({
+        start_date: "2026-05-01",
+        end_date: "2026-05-31",
+      });
+    });
+  });
+
+  it("uses independent category custom dates and omits grouping for multi-year ranges", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+    await screen.findByTestId("bar-chart");
+    fireEvent.click(screen.getAllByText("Custom")[1]);
+    fireEvent.change(screen.getByLabelText("Category start date"), {
+      target: { value: "2024-01-01" },
+    });
+    fireEvent.change(screen.getByLabelText("Category end date"), {
+      target: { value: "2026-06-01" },
+    });
+    await waitFor(() =>
+      expect(getRequestsApplicationAnalytics).toHaveBeenLastCalledWith({
+        start_date: "2024-01-01",
+        end_date: "2026-06-01",
+      }),
+    );
+    await waitFor(() =>
+      expect(screen.getByTestId("bar-chart")).toHaveAttribute(
+        "data-points",
+        "1",
+      ),
+    );
+    expect(screen.getByTestId("line-chart")).toHaveAttribute(
+      "data-points",
+      "2",
+    );
+    expect(screen.queryByText("Group: Day")).not.toBeInTheDocument();
+    fireEvent.click(screen.getAllByText("All")[1]);
+    await waitFor(() =>
+      expect(screen.getByTestId("bar-chart")).toHaveAttribute(
+        "data-points",
+        "3",
+      ),
+    );
+    expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(2);
+  });
+
+  it("rejects reversed dates while the other chart stays usable", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+    await screen.findByTestId("bar-chart");
+    fireEvent.click(screen.getAllByText("Custom")[0]);
+    fireEvent.change(screen.getByLabelText("Request volume start date"), {
+      target: { value: "2026-06-01" },
+    });
+    fireEvent.change(screen.getByLabelText("Request volume end date"), {
+      target: { value: "2026-01-01" },
+    });
+    expect(
+      await screen.findByText("Start date must be on or before end date"),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getAllByText("7D")[1]);
+    await waitFor(() =>
+      expect(screen.getByTestId("bar-chart")).toHaveAttribute(
+        "data-points",
+        "2",
+      ),
+    );
+    expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
+  });
+
+  it("ignores a custom response after switching back to a preset", async () => {
+    let resolveCustom;
+    getRequestsApplicationAnalytics
+      .mockResolvedValueOnce(BASE_RESPONSE)
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            resolveCustom = resolve;
+          }),
+      );
+    render(<RequestsAnalytics />);
+    await screen.findByTestId("line-chart");
+    fireEvent.click(screen.getAllByText("Custom")[0]);
+    fireEvent.change(screen.getByLabelText("Request volume start date"), {
+      target: { value: "2026-05-01" },
+    });
+    fireEvent.change(screen.getByLabelText("Request volume end date"), {
+      target: { value: "2026-05-31" },
+    });
+    fireEvent.click(screen.getAllByText("All")[0]);
+    await screen.findByTestId("line-chart");
+    await act(async () => resolveCustom(BASE_RESPONSE));
+    expect(screen.getByTestId("line-chart")).toHaveAttribute(
+      "data-points",
+      "2",
+    );
+  });
+
+  it.each([
+    {},
+    { request_volume_1_year: [], "requests_by_category_region 1 year": [] },
+  ])(
+    "shows explicit empty states for missing or empty data: %j",
+    async (body) => {
+      getRequestsApplicationAnalytics.mockResolvedValue({ body });
+      render(<RequestsAnalytics />);
+      await waitFor(() =>
+        expect(
+          screen.getAllByText("No data available for the selected period"),
+        ).toHaveLength(2),
+      );
+      expect(screen.queryByTestId("line-chart")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("bar-chart")).not.toBeInTheDocument();
+    },
+  );
+
+  it("supports both custom ranges independently and shows empty custom responses", async () => {
+    getRequestsApplicationAnalytics
+      .mockResolvedValueOnce(BASE_RESPONSE)
+      .mockResolvedValueOnce({ body: { request_volume_custom_range: [] } })
+      .mockResolvedValueOnce(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+    await screen.findByTestId("line-chart");
+    fireEvent.click(screen.getAllByText("Custom")[0]);
+    fireEvent.change(screen.getByLabelText("Request volume start date"), {
+      target: { value: "2026-05-01" },
+    });
+    fireEvent.change(screen.getByLabelText("Request volume end date"), {
+      target: { value: "2026-05-31" },
+    });
+    await screen.findByText("No data available for the selected period");
+    fireEvent.click(screen.getAllByText("Custom")[1]);
+    fireEvent.change(screen.getByLabelText("Category start date"), {
+      target: { value: "2026-04-01" },
+    });
+    fireEvent.change(screen.getByLabelText("Category end date"), {
+      target: { value: "2026-04-30" },
+    });
+    await waitFor(() =>
+      expect(screen.getByTestId("bar-chart")).toHaveAttribute(
+        "data-points",
+        "1",
+      ),
+    );
+    expect(
+      screen.getByText("No data available for the selected period"),
+    ).toBeInTheDocument();
+    expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(3);
+    expect(getRequestsApplicationAnalytics).toHaveBeenLastCalledWith({
+      start_date: "2026-04-01",
+      end_date: "2026-04-30",
+    });
+  });
+
+  it.each([
+    [
+      Promise.resolve({
+        body: { requests_by_category_region_custom_range: [] },
+      }),
+      "No data available for the selected period",
+    ],
+    [null, "Error: Custom range unavailable"],
+  ])(
+    "keeps the trend visible when custom categories are empty or fail",
+    async (response, message) => {
+      getRequestsApplicationAnalytics.mockResolvedValueOnce(BASE_RESPONSE);
+      if (response)
+        getRequestsApplicationAnalytics.mockReturnValueOnce(response);
+      else
+        getRequestsApplicationAnalytics.mockRejectedValueOnce(
+          new Error("Custom range unavailable"),
+        );
+      render(<RequestsAnalytics />);
+      await screen.findByTestId("line-chart");
+      fireEvent.click(screen.getAllByText("Custom")[1]);
+      fireEvent.change(screen.getByLabelText("Category start date"), {
+        target: { value: "2026-05-01" },
+      });
+      fireEvent.change(screen.getByLabelText("Category end date"), {
+        target: { value: "2026-05-31" },
+      });
+      await screen.findByText(message);
+      expect(screen.queryByTestId("bar-chart")).not.toBeInTheDocument();
+      expect(screen.getByTestId("line-chart")).toHaveAttribute(
+        "data-points",
+        "2",
+      );
+    },
+  );
+
+  it("reuses cached default data when switching back to All after custom", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(1);
+    });
+
+    await waitFor(() => {
+      expect(screen.getAllByText("Custom")[0]).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getAllByText("Custom")[0]);
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+    fireEvent.change(dateInputs[0], { target: { value: "2026-05-01" } });
+    fireEvent.change(dateInputs[1], { target: { value: "2026-05-31" } });
+
+    await waitFor(() => {
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(2);
+    });
+
+    fireEvent.click(screen.getAllByText("All")[0]);
+
+    await waitFor(() => {
+      expect(getRequestsApplicationAnalytics).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  it("supports category/country/sort filters and renders matching bars", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Top 5:")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("bar-chart")).toBeInTheDocument();
+    });
+
+    fireEvent.change(screen.getByDisplayValue("Sort: Total"), {
+      target: { value: "name" },
+    });
+
+    fireEvent.change(screen.getByDisplayValue("Top 5"), {
+      target: { value: "7" },
+    });
+
+    fireEvent.click(screen.getByText("All Categories"));
+    fireEvent.click(screen.getAllByRole("checkbox")[0]);
+    fireEvent.click(screen.getAllByRole("checkbox")[1]);
+    fireEvent.click(screen.getByText("Clear"));
+    fireEvent.click(screen.getByText("Done"));
+
+    fireEvent.click(screen.getAllByText("7D")[1]);
+    fireEvent.click(screen.getAllByText("30D")[1]);
+    fireEvent.click(screen.getAllByText("1Y")[1]);
+    fireEvent.click(screen.getAllByText("All")[1]);
+
+    fireEvent.change(screen.getByDisplayValue("All Countries"), {
+      target: { value: "United States" },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("bar-United States")).toBeInTheDocument();
+    });
+  });
+
+  it("uses the configured color for a country that matches the color map", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue({
+      statusCode: 200,
+      body: {
+        request_volume_1_year: [{ date: "2026-06-01T00:00:00", count: 7 }],
+        "requests_by_category_region 1 year": [
+          { category: "GENERAL_CATEGORY", country: "India", count: 4 },
+          { category: "DONATE_CLOTHES", country: "India", count: 2 },
+        ],
+      },
+    });
+
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText(/India/i).length).toBeGreaterThan(0);
+    });
+
+    expect(screen.getByTestId("bar-India")).toBeInTheDocument();
+  });
+
+  it("surfaces partial API failures instead of labeling failed categories as empty", async () => {
+    getRequestsApplicationAnalytics
+      .mockResolvedValueOnce(BASE_RESPONSE)
+      .mockResolvedValueOnce({
+        statusCode: 200,
+        body: {
+          request_volume_custom_range: [
+            { date: "2026-09-01T00:00:00", count: 3 },
+          ],
+          requests_by_category_region_custom_range: [],
+          has_errors: true,
+          error_message:
+            "Some analytics data couldn't be loaded. Please try refreshing.",
+        },
+      });
+    render(<RequestsAnalytics />);
+    await screen.findByTestId("bar-chart");
+    fireEvent.click(screen.getAllByText("Custom")[1]);
+    fireEvent.change(screen.getByLabelText("Category start date"), {
+      target: { value: "2026-09-01" },
+    });
+    fireEvent.change(screen.getByLabelText("Category end date"), {
+      target: { value: "2026-09-29" },
+    });
+    await screen.findByText(
+      "Error: Some analytics data couldn't be loaded. Please try refreshing.",
+    );
+    expect(
+      screen.queryByText("No data available for the selected period"),
+    ).not.toBeInTheDocument();
+    expect(screen.getByTestId("line-chart")).toBeInTheDocument();
+    expect(screen.queryByTestId("bar-chart")).not.toBeInTheDocument();
+  });
+
+  it("renders error state when API fails", async () => {
+    const errSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    getRequestsApplicationAnalytics.mockRejectedValue(
+      new Error("Network down"),
+    );
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(
+        screen.getAllByText(/Error: Network down/i).length,
+      ).toBeGreaterThan(0);
+    });
+
+    errSpy.mockRestore();
+  });
+
+  it("uses fallback error message when error has no message", async () => {
+    const errSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    getRequestsApplicationAnalytics.mockRejectedValue({});
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(
+        screen.getAllByText(/Error: Failed to fetch analytics data/i).length,
+      ).toBeGreaterThan(0);
+    });
+
+    errSpy.mockRestore();
+  });
+
+  it("handles non-array response blocks gracefully", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue({
+      statusCode: 200,
+      body: {
+        request_volume_1_year: null,
+        "requests_by_category_region 1 year": { not: "an array" },
+      },
+    });
+
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(
+        screen.getAllByText("No data available for the selected period"),
+      ).toHaveLength(2);
+      expect(screen.queryByText("#1")).not.toBeInTheDocument();
+    });
+  });
+
+  it("handles direct response shape without body wrapper", async () => {
+    const directResponse = {
+      request_volume_1_year: [{ date: "2026-06-01T00:00:00", count: 7 }],
+      "requests_by_category_region 1 year": [
+        { category: "GENERAL_CATEGORY", country: "USA", count: 2 },
+      ],
+    };
+
+    getRequestsApplicationAnalytics.mockResolvedValue(directResponse);
+    render(<RequestsAnalytics />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText(/United States/i).length).toBeGreaterThan(0);
+    });
+  });
+});

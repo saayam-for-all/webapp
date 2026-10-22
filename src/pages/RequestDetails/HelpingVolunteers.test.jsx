@@ -1,0 +1,512 @@
+import "@testing-library/jest-dom";
+
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+
+import HelpingVolunteers from "./HelpingVolunteers";
+
+import { getVolunteersData } from "../../services/volunteerServices";
+
+jest.mock("react-router-dom", () => ({
+  Link: ({ children, to }) => <a href={to}>{children}</a>,
+}));
+
+jest.mock("../../services/volunteerServices", () => ({
+  getVolunteersData: jest.fn(),
+}));
+
+const mockVolunteers = [
+  {
+    name: "Jane Cooper",
+    cause: "Cooking",
+    phone: "123",
+    email: "jane@example.com",
+    location: "Boston",
+    rating: "★★★★★",
+  },
+  {
+    name: "John Doe",
+    cause: "Medical",
+    phone: "456",
+    email: "john@example.com",
+    location: "NYC",
+    rating: "★★★☆☆",
+  },
+];
+
+beforeEach(() => {
+  jest.clearAllMocks();
+
+  getVolunteersData.mockResolvedValue(mockVolunteers);
+});
+
+describe("HelpingVolunteers", () => {
+  it("renders volunteer management title", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(await screen.findByText("Volunteer Management")).toBeInTheDocument();
+  });
+
+  it("renders volunteers", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(await screen.findByText("Jane Cooper")).toBeInTheDocument();
+
+    expect(screen.getByText("John Doe")).toBeInTheDocument();
+  });
+
+  it("shows loading state", async () => {
+    getVolunteersData.mockImplementationOnce(() => new Promise(() => {}));
+
+    render(<HelpingVolunteers />);
+
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+  });
+
+  it("shows error state", async () => {
+    getVolunteersData.mockRejectedValueOnce(new Error("API error"));
+
+    render(<HelpingVolunteers />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/API error/i)).toBeInTheDocument();
+    });
+  });
+
+  it("renders profile links", async () => {
+    render(<HelpingVolunteers />);
+
+    const links = await screen.findAllByRole("link");
+
+    expect(links.length).toBeGreaterThan(0);
+
+    expect(links[0]).toHaveAttribute("href", "/profile");
+  });
+
+  it("renders search input", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(
+      await screen.findByPlaceholderText(/SEARCH_BY_NAME/i),
+    ).toBeInTheDocument();
+  });
+
+  it("search input changes value", async () => {
+    render(<HelpingVolunteers />);
+
+    const input = await screen.findByPlaceholderText(/SEARCH_BY_NAME/i);
+
+    fireEvent.change(input, {
+      target: { value: "Jane" },
+    });
+
+    expect(input.value).toBe("Jane");
+  });
+
+  it("renders request volunteers button", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(await screen.findByText(/REQUEST_VOLUNTEERS/i)).toBeInTheDocument();
+  });
+
+  it("shows validation error for more than 5 volunteers", async () => {
+    render(<HelpingVolunteers />);
+
+    const input = await screen.findByRole("spinbutton");
+
+    fireEvent.change(input, {
+      target: { value: "10" },
+    });
+
+    fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
+
+    expect(
+      screen.getByText(/Maximum 5 volunteer can be assigned/i),
+    ).toBeInTheDocument();
+  });
+
+  it("renders checkboxes", async () => {
+    render(<HelpingVolunteers />);
+
+    const checkboxes = await screen.findAllByRole("checkbox");
+
+    expect(checkboxes.length).toBeGreaterThan(0);
+  });
+
+  it("select all checkbox can be clicked", async () => {
+    render(<HelpingVolunteers />);
+
+    const checkboxes = await screen.findAllByRole("checkbox");
+
+    fireEvent.click(checkboxes[0]);
+
+    expect(checkboxes[0]).toBeChecked();
+  });
+
+  it("renders sorting headers", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(await screen.findByText("Name")).toBeInTheDocument();
+
+    expect(screen.getByText("Email")).toBeInTheDocument();
+  });
+
+  it("sorting header click works", async () => {
+    render(<HelpingVolunteers />);
+
+    const nameHeader = await screen.findByText("Name");
+
+    fireEvent.click(nameHeader);
+
+    expect(nameHeader).toBeInTheDocument();
+  });
+
+  it("delete button exists", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(await screen.findByText(/Delete/i)).toBeInTheDocument();
+  });
+
+  it("zoom meeting button exists", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(await screen.findByText(/Zoom Meeting/i)).toBeInTheDocument();
+  });
+
+  it("opens the zoom meeting modal after selecting volunteers", async () => {
+    render(<HelpingVolunteers />);
+
+    const checkboxes = await screen.findAllByRole("checkbox");
+    // The first checkbox is "select all" and selects volunteers by email,
+    // which enables the Zoom Meeting button.
+    fireEvent.click(checkboxes[0]);
+
+    fireEvent.click(screen.getByText(/Zoom Meeting/i));
+
+    expect(screen.getByText(/Schedule Zoom Meeting/i)).toBeInTheDocument();
+  });
+
+  it("shows validation error when confirming without date and time", async () => {
+    render(<HelpingVolunteers />);
+
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(screen.getByText(/Zoom Meeting/i));
+
+    fireEvent.click(screen.getByText(/^Confirm$/i));
+
+    expect(
+      screen.getByText(/Please select both date and time/i),
+    ).toBeInTheDocument();
+  });
+
+  it("shows success message and auto-hides it after confirming with date and time", async () => {
+    render(<HelpingVolunteers />);
+
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(screen.getByText(/Zoom Meeting/i));
+
+    fireEvent.change(screen.getByLabelText("Date"), {
+      target: { value: "2030-01-01" },
+    });
+    fireEvent.change(screen.getByLabelText("Time"), {
+      target: { value: "10:30" },
+    });
+
+    fireEvent.click(screen.getByText(/^Confirm$/i));
+
+    expect(
+      screen.getByText(/Need to integrate with backend/i),
+    ).toBeInTheDocument();
+
+    // The success message auto-hides after 2 seconds.
+    await waitFor(
+      () =>
+        expect(
+          screen.queryByText(/Need to integrate with backend/i),
+        ).not.toBeInTheDocument(),
+      { timeout: 3000 },
+    );
+  });
+
+  it("closes the modal with the cancel button", async () => {
+    render(<HelpingVolunteers />);
+
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(screen.getByText(/Zoom Meeting/i));
+
+    expect(screen.getByText(/Schedule Zoom Meeting/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText(/Cancel/i));
+
+    expect(
+      screen.queryByText(/Schedule Zoom Meeting/i),
+    ).not.toBeInTheDocument();
+  });
+
+  it("closes the modal with the close (×) button", async () => {
+    render(<HelpingVolunteers />);
+
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(screen.getByText(/Zoom Meeting/i));
+
+    fireEvent.click(screen.getByLabelText(/Close/i));
+
+    expect(
+      screen.queryByText(/Schedule Zoom Meeting/i),
+    ).not.toBeInTheDocument();
+  });
+
+  it("deletes selected volunteers", async () => {
+    render(<HelpingVolunteers />);
+
+    expect(await screen.findByText("Jane Cooper")).toBeInTheDocument();
+
+    const checkboxes = await screen.findAllByRole("checkbox");
+    fireEvent.click(checkboxes[0]); // select all
+
+    fireEvent.click(screen.getByText(/Delete/i));
+
+    expect(screen.queryByText("Jane Cooper")).not.toBeInTheDocument();
+    expect(screen.queryByText("John Doe")).not.toBeInTheDocument();
+  });
+
+  it("changes the sort dropdown selection", async () => {
+    render(<HelpingVolunteers />);
+
+    const sortSelect = await screen.findByDisplayValue(/Sort by: Newest/i);
+
+    fireEvent.change(sortSelect, { target: { value: "Oldest" } });
+    expect(sortSelect.value).toBe("Oldest");
+
+    fireEvent.change(sortSelect, { target: { value: "Name" } });
+    expect(sortSelect.value).toBe("Name");
+
+    fireEvent.change(sortSelect, { target: { value: "Newest" } });
+    expect(sortSelect.value).toBe("Newest");
+  });
+
+  it("changes rows per view", async () => {
+    render(<HelpingVolunteers />);
+
+    const rowsSelect = await screen.findByDisplayValue(/5 rows/i);
+
+    fireEvent.change(rowsSelect, { target: { value: "10" } });
+
+    expect(rowsSelect.value).toBe("10");
+  });
+
+  it("updates the volunteer count input", async () => {
+    render(<HelpingVolunteers />);
+
+    const input = await screen.findByRole("spinbutton");
+
+    fireEvent.change(input, { target: { value: "3" } });
+
+    expect(input.value).toBe("3");
+  });
+
+  it("requests volunteers successfully with a valid count", async () => {
+    render(<HelpingVolunteers />);
+
+    const input = await screen.findByRole("spinbutton");
+    fireEvent.change(input, { target: { value: "2" } });
+
+    fireEvent.click(screen.getByText(/REQUEST_VOLUNTEERS/i));
+
+    expect(
+      screen.queryByText(/Maximum 5 volunteer can be assigned/i),
+    ).not.toBeInTheDocument();
+  });
+
+  it("changes the search-by dropdown", async () => {
+    render(<HelpingVolunteers />);
+
+    const selects = await screen.findAllByRole("combobox");
+    const searchBySelect = selects.find((s) => s.value === "name");
+
+    fireEvent.change(searchBySelect, { target: { value: "email" } });
+    expect(searchBySelect.value).toBe("email");
+
+    fireEvent.change(searchBySelect, { target: { value: "phone" } });
+    expect(searchBySelect.value).toBe("phone");
+  });
+
+  it("toggles an individual row checkbox", async () => {
+    render(<HelpingVolunteers />);
+
+    // Wait for the volunteer rows to render before grabbing checkboxes,
+    // otherwise only the header "select all" checkbox is present.
+    await screen.findByText("Jane Cooper");
+
+    const checkboxes = screen.getAllByRole("checkbox");
+    // checkboxes[0] is "select all"; the rest are per-row checkboxes.
+    const rowCheckbox = checkboxes[1];
+
+    fireEvent.click(rowCheckbox);
+    fireEvent.click(rowCheckbox);
+
+    expect(rowCheckbox).toBeInTheDocument();
+  });
+
+  it("selects multiple volunteers for notification in find mode", async () => {
+    const onNotify = jest.fn();
+    render(<HelpingVolunteers findVolunteerMode onNotify={onNotify} />);
+
+    const lookupInput =
+      await screen.findByPlaceholderText(/ENTER_VOLUNTEER_NAME/i);
+    const searchBySelect = screen
+      .getAllByRole("combobox")
+      .find((select) => select.value === "name");
+    fireEvent.change(searchBySelect, {
+      target: { value: "phone" },
+    });
+    fireEvent.change(lookupInput, { target: { value: "123" } });
+
+    expect(screen.getByText("Jane Cooper")).toBeInTheDocument();
+    expect(screen.queryByText("John Doe")).not.toBeInTheDocument();
+    expect(screen.queryByText("REQUEST_VOLUNTEERS")).not.toBeInTheDocument();
+
+    fireEvent.change(lookupInput, { target: { value: "" } });
+    const volunteerCheckboxes = screen.getAllByRole("checkbox", {
+      name: "mockTranslate(SELECT_VOLUNTEER)",
+    });
+
+    fireEvent.click(volunteerCheckboxes[0]);
+    fireEvent.click(volunteerCheckboxes[1]);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(NOTIFY)" }),
+    );
+
+    expect(onNotify).toHaveBeenCalledWith(mockVolunteers);
+  });
+
+  it("does not show Cause column in find volunteer mode", async () => {
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
+
+    await screen.findByText("Jane Cooper");
+
+    expect(screen.queryByText("Cause")).not.toBeInTheDocument();
+    expect(screen.queryByText("Cooking")).not.toBeInTheDocument();
+  });
+
+  it("shows Cause column in default mode", async () => {
+    render(<HelpingVolunteers />);
+
+    await screen.findByText("Jane Cooper");
+
+    expect(screen.getByText("Cause")).toBeInTheDocument();
+    expect(screen.getByText("Cooking")).toBeInTheDocument();
+  });
+
+  it("shows Run Smart Match button only in find volunteer mode", async () => {
+    const { unmount } = render(<HelpingVolunteers />);
+
+    await screen.findByText("Jane Cooper");
+    expect(
+      screen.queryByText("mockTranslate(RUN_SMART_MATCH)"),
+    ).not.toBeInTheDocument();
+
+    unmount();
+
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
+    await screen.findByText("Jane Cooper");
+    expect(
+      screen.getByText("mockTranslate(RUN_SMART_MATCH)"),
+    ).toBeInTheDocument();
+  });
+
+  it("clicking Run Smart Match shows Match % column with progress bars", async () => {
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
+
+    await screen.findByText("Jane Cooper");
+
+    fireEvent.click(screen.getByText("mockTranslate(RUN_SMART_MATCH)"));
+
+    expect(
+      screen.getByText("mockTranslate(MATCH_PERCENT)"),
+    ).toBeInTheDocument();
+
+    const percentLabels = screen.getAllByText(/%$/);
+    expect(percentLabels.length).toBeGreaterThan(0);
+  });
+
+  it("smart match sorts volunteers by score descending", async () => {
+    jest
+      .spyOn(Math, "random")
+      .mockReturnValueOnce(0.5) // Jane: 60 + floor(0.5*41) = 80
+      .mockReturnValueOnce(0.9); // John: 60 + floor(0.9*41) = 96
+
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
+
+    await screen.findByText("Jane Cooper");
+
+    fireEvent.click(screen.getByText("mockTranslate(RUN_SMART_MATCH)"));
+
+    const rows = screen.getAllByRole("row");
+    // row[0] is header, row[1] should be John (96%), row[2] should be Jane (80%)
+    expect(rows[1]).toHaveTextContent("John Doe");
+    expect(rows[1]).toHaveTextContent("96%");
+    expect(rows[2]).toHaveTextContent("Jane Cooper");
+    expect(rows[2]).toHaveTextContent("80%");
+
+    // Click Match % header to toggle to ascending sort
+    fireEvent.click(screen.getByText("mockTranslate(MATCH_PERCENT)"));
+
+    const rowsAsc = screen.getAllByRole("row");
+    expect(rowsAsc[1]).toHaveTextContent("Jane Cooper");
+    expect(rowsAsc[1]).toHaveTextContent("80%");
+    expect(rowsAsc[2]).toHaveTextContent("John Doe");
+    expect(rowsAsc[2]).toHaveTextContent("96%");
+
+    Math.random.mockRestore();
+  });
+
+  it("smart match progress bar colors reflect score ranges", async () => {
+    jest
+      .spyOn(Math, "random")
+      .mockReturnValueOnce(0.8) // Jane: 60 + floor(0.8*41) = 92 -> green
+      .mockReturnValueOnce(0.1); // John: 60 + floor(0.1*41) = 64 -> orange
+
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
+
+    await screen.findByText("Jane Cooper");
+
+    fireEvent.click(screen.getByText("mockTranslate(RUN_SMART_MATCH)"));
+
+    const rows = screen.getAllByRole("row");
+    // row[1] = Jane (92%, green), row[2] = John (64%, orange) after desc sort
+    expect(rows[1]).toHaveTextContent("92%");
+    expect(rows[2]).toHaveTextContent("64%");
+
+    Math.random.mockRestore();
+  });
+
+  it("shows all find-mode volunteers and supports next and previous pages", async () => {
+    const volunteers = Array.from({ length: 7 }, (_, index) => ({
+      name: `Volunteer ${index + 1}`,
+      cause: "Community support",
+      phone: `${index + 1}`,
+      email: `volunteer${index + 1}@example.com`,
+      location: "Boston",
+      rating: "★★★★★",
+    }));
+    getVolunteersData.mockResolvedValueOnce(volunteers);
+
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
+
+    expect(await screen.findByText("Volunteer 5")).toBeInTheDocument();
+    expect(screen.queryByText("Volunteer 6")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+    expect(await screen.findByText("Volunteer 6")).toBeInTheDocument();
+    expect(screen.getByText("Volunteer 7")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Previous" }));
+    expect(await screen.findByText("Volunteer 1")).toBeInTheDocument();
+    expect(screen.queryByText("Volunteer 6")).not.toBeInTheDocument();
+  });
+});

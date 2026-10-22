@@ -1,0 +1,26 @@
+{
+  "requestFor": {
+    "SELF": "Bản thân",
+    "OTHER": "Người khác"
+  },
+  "requestPriority": {
+    "LOW": "Thấp",
+    "MEDIUM": "Trung bình",
+    "HIGH": "Cao",
+    "CRITICAL": "Khẩn cấp"
+  },
+  "requestStatus": {
+    "CREATED": "Đã tạo",
+    "MATCHING VOLUNTEER": "Đang tìm tình nguyện viên",
+    "MANAGED": "Đã quản lý",
+    "RESOLVED": "Đã giải quyết",
+    "CANCELLED": "Đã hủy",
+    "DELETED": "Đã xóa",
+    "VOLUNTEER_NOT_FOUND": "Không tìm thấy tình nguyện viên",
+    "VOLUNTEER_REASSIGNMENT": "Tái phân công tình nguyện viên"
+  },
+  "requestType": {
+    "INPERSON": "Trực tiếp",
+    "REMOTE": "Từ xa"
+  }
+}

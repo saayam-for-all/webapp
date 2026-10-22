@@ -17,7 +17,8 @@ exports[`Pagination renders correctly 1`] = `
             <span
               class="mr-2 text-gray-600"
             >
-              Showing data 
+              Showing data
+               
               1
               -
               10
@@ -128,7 +129,8 @@ exports[`Pagination renders correctly 1`] = `
           <span
             class="mr-2 text-gray-600"
           >
-            Showing data 
+            Showing data
+             
             1
             -
             10

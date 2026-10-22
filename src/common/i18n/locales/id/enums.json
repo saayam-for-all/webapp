@@ -1,0 +1,26 @@
+{
+  "requestFor": {
+    "SELF": "Diri Sendiri",
+    "OTHER": "Orang Lain"
+  },
+  "requestPriority": {
+    "LOW": "Rendah",
+    "MEDIUM": "Sedang",
+    "HIGH": "Tinggi",
+    "CRITICAL": "Kritis"
+  },
+  "requestStatus": {
+    "CREATED": "Dibuat",
+    "MATCHING VOLUNTEER": "Mencocokkan Relawan",
+    "MANAGED": "Dikelola",
+    "RESOLVED": "Diselesaikan",
+    "CANCELLED": "Dibatalkan",
+    "DELETED": "Dihapus",
+    "VOLUNTEER_NOT_FOUND": "Sukarelawan tidak ditemukan",
+    "VOLUNTEER_REASSIGNMENT": "Penugasan ulang sukarelawan"
+  },
+  "requestType": {
+    "INPERSON": "Langsung",
+    "REMOTE": "Jarak Jauh"
+  }
+}

@@ -1,0 +1,13 @@
+.scroll-to-top {
+  position: fixed;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  z-index: 40;
+}
+
+/* Leave room for the full badge on narrow phones and at increased zoom. */
+@media (max-width: 360px) {
+  .scroll-to-top {
+    bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+}

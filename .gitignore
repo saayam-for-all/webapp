@@ -16,12 +16,13 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+.claude
+.history
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-package.json
-package-lock.json
+.env.local
+/coverage/.history/

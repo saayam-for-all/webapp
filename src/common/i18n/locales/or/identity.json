@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "ସରକାରୀ ID ଅପଲୋଡ୍ କରନ୍ତୁ",
+  "SELECT_SOURCE": "ଉତ୍ସ ଚୟନ କରନ୍ତୁ",
+  "DEVICE": "ଉପକରଣ",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "ଫାଇଲ୍ ଅପଲୋଡ୍ କରନ୍ତୁ",
+  "FILE": "ଫାଇଲ୍",
+  "FILE_PREVIEW": "ପୂର୍ବାବଲୋକନ",
+  "UPLOAD": "ଅପଲୋଡ୍",
+  "UPLOADING": "ଅପଲୋଡ୍ ହେଉଛି...",
+  "REMOVE": "ଅପସାରଣ କରନ୍ତୁ",
+  "FILE_SIZE_ERROR": "ଫାଇଲ୍ ଆକାର 2MB ରୁ ଅଧିକ ହେବା ଉଚିତ୍ ନୁହେଁ",
+  "FILE_TYPE_ERROR": "କେବଳ JPEG, JPG, PNG, ଏବଂ PDF ଫାଇଲ୍‌କୁ ଅନୁମତି ଦିଆଯାଇଛି। ଚିହ୍ନଟ ହୋଇଥିବା ଫାଇଲ୍ ପ୍ରକାର: {{fileType}}, ସମ୍ପ୍ରସାରଣ: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "କେବଳ JPEG, JPG, PNG, କିମ୍ବା PDF ଫାଇଲ୍। ସର୍ବାଧିକ ଆକାର: 2MB।",
+  "UPLOAD_SUCCESS": "ଫାଇଲ୍ ସଫଳତାର ସହିତ ଅପଲୋଡ୍ ହୋଇଛି",
+  "UPLOAD_FAILED": "ଫାଇଲ୍ ଅପଲୋଡ୍ ବିଫଳ ହୋଇଛି",
+  "UPLOAD_ERROR": "ଫାଇଲ୍ ଅପଲୋଡ୍ ସମୟରେ ଏକ ତ୍ରୁଟି ଘଟିଛି"
+}
