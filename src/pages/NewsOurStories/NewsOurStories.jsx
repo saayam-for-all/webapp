@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import "./NewsOurStories.css";
@@ -40,6 +39,8 @@ const OUR_CEO_PHRASES = [
   { phrase: "మా CEO", token: "CEO" }, // te
   { phrase: "আমাদের সিইও", token: "সিইও" }, // bn
   { phrase: "আমাদের CEO", token: "CEO" }, // bn
+  { phrase: "رئيسنا التنفيذي", token: "رئيسنا التنفيذي" }, // ar
+  { phrase: "ہمارے CEO", token: "CEO" }, // ur
 ];
 
 /**
@@ -177,6 +178,10 @@ const stories = [
         "https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/",
       "Indian Consular": "https://www.cgisf.gov.in/",
       "Indian Consul": "https://www.cgisf.gov.in/",
+      "القنصل الهندي": "https://www.cgisf.gov.in/",
+      "الفريق القنصلي الهندي": "https://www.cgisf.gov.in/",
+      "بھارتی قونصل": "https://www.cgisf.gov.in/",
+      "بھارتی قونصلر ٹیم": "https://www.cgisf.gov.in/",
       "Indischem Konsul": "https://www.cgisf.gov.in/",
       "indischen Konsularteam": "https://www.cgisf.gov.in/",
       "Cónsul de India": "https://www.cgisf.gov.in/",
@@ -251,7 +256,6 @@ const stories = [
 
 export default function NewsOurStories() {
   const { t } = useTranslation(["news"]);
-  const navigate = useNavigate();
 
   return (
     <div className="news-our-stories-container px-4 md:px-0">

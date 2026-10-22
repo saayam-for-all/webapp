@@ -26,3 +26,6 @@ dist-ssr
 *.sw?
 .env.local
 /coverage/.history/
+
+# Jest coverage output
+/coverage/
