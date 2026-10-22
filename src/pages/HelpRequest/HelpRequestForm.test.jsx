@@ -2187,6 +2187,60 @@ describe("HelpRequestForm — prefill In Person location from Other person's loc
     expect(mockGetCurrentPosition).not.toHaveBeenCalled();
   });
 
+  it("rejects an invalid age when For Self is Other", async () => {
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    const ageInput = document.getElementById("age");
+
+    fireEvent.change(ageInput, {
+      target: { name: "age", value: "121" },
+    });
+
+    fireEvent.click(screen.getByText("mockTranslate(DESCRIPTION)"));
+
+    fireEvent.change(document.getElementById("description"), {
+      target: { name: "description", value: "Detailed description here" },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(SUBMIT)" }),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Please enter a valid age between 0 and 120."),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("updates phone when For Self is Other", async () => {
+    renderForm();
+
+    fireEvent.click(screen.getByText("mockTranslate(DETAILS)"));
+
+    await act(async () => {
+      fireEvent.change(document.getElementById("request_for"), {
+        target: { value: "OTHER" },
+      });
+    });
+
+    const phoneInput = document.getElementById("phone");
+
+    fireEvent.change(phoneInput, {
+      target: { value: "7165551234" },
+    });
+
+    expect(phoneInput.value).toBe("7165551234");
+  });
+
   it("also copies coordinates when the Other person's location included them", async () => {
     capturedSetCoordinates = null;
 
