@@ -205,6 +205,13 @@ const Donate = () => {
               </button>
             ))}
           </div>
+          <div className="mt-6 border-t border-gray-300 pt-4 text-center">
+            <p className="text-gray-500 mb-2">{t("Or")}</p>
+            <p className="font-semibold">
+              {t('Checks payable to "Saayam For All"')}
+            </p>
+            <p>{t("Mail to: 3046 Rosato Ct. San Jose CA 95135")}</p>
+          </div>
         </div>
       </div>
       <div data-testid="faq-section" className="faq-section">
