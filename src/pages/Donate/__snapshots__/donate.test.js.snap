@@ -79,11 +79,6 @@ exports[`Donate renders correctly 1`] = `
               class="mt-6 border-t border-gray-300 pt-4 text-center"
             >
               <p
-                class="text-gray-500 mb-2"
-              >
-                mockTranslate(Or)
-              </p>
-              <p
                 class="font-semibold"
               >
                 mockTranslate(Checks payable to "Saayam For All")
@@ -272,11 +267,6 @@ exports[`Donate renders correctly 1`] = `
           <div
             class="mt-6 border-t border-gray-300 pt-4 text-center"
           >
-            <p
-              class="text-gray-500 mb-2"
-            >
-              mockTranslate(Or)
-            </p>
             <p
               class="font-semibold"
             >

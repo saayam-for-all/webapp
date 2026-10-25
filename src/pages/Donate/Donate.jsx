@@ -206,7 +206,6 @@ const Donate = () => {
             ))}
           </div>
           <div className="mt-6 border-t border-gray-300 pt-4 text-center">
-            <p className="text-gray-500 mb-2">{t("Or")}</p>
             <p className="font-semibold">
               {t('Checks payable to "Saayam For All"')}
             </p>
