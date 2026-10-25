@@ -1,0 +1,26 @@
+{
+  "requestFor": {
+    "SELF": "নিজে",
+    "OTHER": "আন"
+  },
+  "requestPriority": {
+    "LOW": "কম",
+    "MEDIUM": "মধ্যম",
+    "HIGH": "উচ্চ",
+    "CRITICAL": "গুৰুত্বপূৰ্ণ"
+  },
+  "requestStatus": {
+    "CREATED": "সৃষ্টি কৰা হৈছে",
+    "MATCHING VOLUNTEER": "স্বেচ্ছাসেৱক বিচাৰি আছে",
+    "MANAGED": "পৰিচালিত",
+    "RESOLVED": "সমাধান কৰা হৈছে",
+    "CANCELLED": "বাতিল কৰা হৈছে",
+    "DELETED": "মচি পেলোৱা হৈছে",
+    "VOLUNTEER_NOT_FOUND": "স্বেচ্ছাসেৱক পোৱা নগ'ল",
+    "VOLUNTEER_REASSIGNMENT": "স্বেচ্ছাসেৱকৰ পুনঃ-নিয়োগ"
+  },
+  "requestType": {
+    "INPERSON": "ব্যক্তিগতভাৱে",
+    "REMOTE": "দূৰৱৰ্তী"
+  }
+}

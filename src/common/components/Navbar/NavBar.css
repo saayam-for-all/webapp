@@ -1,3 +1,15 @@
+/* Override Chrome's blue :-webkit-autofill highlight on the navbar search bar.
+   Chrome ignores `background-color` on autofilled inputs, so we paint over it
+   with an inset box-shadow and delay the transition for 5000s so it never fires. */
+input[name="navbar-search"]:-webkit-autofill,
+input[name="navbar-search"]:-webkit-autofill:hover,
+input[name="navbar-search"]:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+  box-shadow: 0 0 0 1000px #fff inset !important;
+  -webkit-text-fill-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
 .navbar-gradient-bg {
   background: linear-gradient(
     90deg,

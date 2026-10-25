@@ -1,0 +1,522 @@
+[
+  {
+    "month": "2024-12",
+    "category": "Education",
+    "avgResolutionHours": 127.0
+  },
+  {
+    "month": "2024-12",
+    "category": "Emergency",
+    "avgResolutionHours": 163.0
+  },
+  {
+    "month": "2024-12",
+    "category": "Food",
+    "avgResolutionHours": 220.0
+  },
+  {
+    "month": "2024-12",
+    "category": "Legal Aid",
+    "avgResolutionHours": 234.33333333333334
+  },
+  {
+    "month": "2024-12",
+    "category": "Medical",
+    "avgResolutionHours": 221.6
+  },
+  {
+    "month": "2024-12",
+    "category": "Mental Health",
+    "avgResolutionHours": 302.5
+  },
+  {
+    "month": "2024-12",
+    "category": "Others",
+    "avgResolutionHours": 238.6
+  },
+  {
+    "month": "2024-12",
+    "category": "Shelter",
+    "avgResolutionHours": 366.6666666666667
+  },
+  {
+    "month": "2025-01",
+    "category": "Education",
+    "avgResolutionHours": 312.0
+  },
+  {
+    "month": "2025-01",
+    "category": "Emergency",
+    "avgResolutionHours": 241.66666666666666
+  },
+  {
+    "month": "2025-01",
+    "category": "Food",
+    "avgResolutionHours": 335.75
+  },
+  {
+    "month": "2025-01",
+    "category": "Legal Aid",
+    "avgResolutionHours": 117.0
+  },
+  {
+    "month": "2025-01",
+    "category": "Medical",
+    "avgResolutionHours": 341.0
+  },
+  {
+    "month": "2025-01",
+    "category": "Mental Health",
+    "avgResolutionHours": 161.5
+  },
+  {
+    "month": "2025-01",
+    "category": "Others",
+    "avgResolutionHours": 243.14285714285714
+  },
+  {
+    "month": "2025-01",
+    "category": "Shelter",
+    "avgResolutionHours": 139.4
+  },
+  {
+    "month": "2025-02",
+    "category": "Education",
+    "avgResolutionHours": 165.75
+  },
+  {
+    "month": "2025-02",
+    "category": "Emergency",
+    "avgResolutionHours": 100.6
+  },
+  {
+    "month": "2025-02",
+    "category": "Food",
+    "avgResolutionHours": 157.25
+  },
+  {
+    "month": "2025-02",
+    "category": "Legal Aid",
+    "avgResolutionHours": 223.14285714285714
+  },
+  {
+    "month": "2025-02",
+    "category": "Medical",
+    "avgResolutionHours": 174.4
+  },
+  {
+    "month": "2025-02",
+    "category": "Mental Health",
+    "avgResolutionHours": 237.125
+  },
+  {
+    "month": "2025-02",
+    "category": "Others",
+    "avgResolutionHours": 216.16666666666666
+  },
+  {
+    "month": "2025-02",
+    "category": "Shelter",
+    "avgResolutionHours": 202.0
+  },
+  {
+    "month": "2025-03",
+    "category": "Education",
+    "avgResolutionHours": 168.57142857142858
+  },
+  {
+    "month": "2025-03",
+    "category": "Emergency",
+    "avgResolutionHours": 180.33333333333334
+  },
+  {
+    "month": "2025-03",
+    "category": "Food",
+    "avgResolutionHours": 220.16666666666666
+  },
+  {
+    "month": "2025-03",
+    "category": "Legal Aid",
+    "avgResolutionHours": 264.6
+  },
+  {
+    "month": "2025-03",
+    "category": "Medical",
+    "avgResolutionHours": 237.4
+  },
+  {
+    "month": "2025-03",
+    "category": "Mental Health",
+    "avgResolutionHours": 217.33333333333334
+  },
+  {
+    "month": "2025-03",
+    "category": "Others",
+    "avgResolutionHours": 262.875
+  },
+  {
+    "month": "2025-03",
+    "category": "Shelter",
+    "avgResolutionHours": 327.0
+  },
+  {
+    "month": "2025-04",
+    "category": "Education",
+    "avgResolutionHours": 94.0
+  },
+  {
+    "month": "2025-04",
+    "category": "Emergency",
+    "avgResolutionHours": 396.0
+  },
+  {
+    "month": "2025-04",
+    "category": "Food",
+    "avgResolutionHours": 233.25
+  },
+  {
+    "month": "2025-04",
+    "category": "Legal Aid",
+    "avgResolutionHours": 313.5
+  },
+  {
+    "month": "2025-04",
+    "category": "Medical",
+    "avgResolutionHours": 444.0
+  },
+  {
+    "month": "2025-04",
+    "category": "Mental Health",
+    "avgResolutionHours": 288.3333333333333
+  },
+  {
+    "month": "2025-04",
+    "category": "Others",
+    "avgResolutionHours": 239.66666666666666
+  },
+  {
+    "month": "2025-04",
+    "category": "Shelter",
+    "avgResolutionHours": 303.0
+  },
+  {
+    "month": "2025-05",
+    "category": "Education",
+    "avgResolutionHours": 197.66666666666666
+  },
+  {
+    "month": "2025-05",
+    "category": "Emergency",
+    "avgResolutionHours": 279.3333333333333
+  },
+  {
+    "month": "2025-05",
+    "category": "Food",
+    "avgResolutionHours": 227.75
+  },
+  {
+    "month": "2025-05",
+    "category": "Legal Aid",
+    "avgResolutionHours": 304.5
+  },
+  {
+    "month": "2025-05",
+    "category": "Medical",
+    "avgResolutionHours": 276.42857142857144
+  },
+  {
+    "month": "2025-05",
+    "category": "Mental Health",
+    "avgResolutionHours": 223.4
+  },
+  {
+    "month": "2025-05",
+    "category": "Others",
+    "avgResolutionHours": 233.0
+  },
+  {
+    "month": "2025-05",
+    "category": "Shelter",
+    "avgResolutionHours": 258.3333333333333
+  },
+  {
+    "month": "2025-06",
+    "category": "Education",
+    "avgResolutionHours": 303.25
+  },
+  {
+    "month": "2025-06",
+    "category": "Emergency",
+    "avgResolutionHours": 238.16666666666666
+  },
+  {
+    "month": "2025-06",
+    "category": "Food",
+    "avgResolutionHours": 295.4
+  },
+  {
+    "month": "2025-06",
+    "category": "Legal Aid",
+    "avgResolutionHours": 176.25
+  },
+  {
+    "month": "2025-06",
+    "category": "Medical",
+    "avgResolutionHours": 217.0
+  },
+  {
+    "month": "2025-06",
+    "category": "Mental Health",
+    "avgResolutionHours": 212.2
+  },
+  {
+    "month": "2025-06",
+    "category": "Others",
+    "avgResolutionHours": 209.0
+  },
+  {
+    "month": "2025-06",
+    "category": "Shelter",
+    "avgResolutionHours": 178.75
+  },
+  {
+    "month": "2025-07",
+    "category": "Education",
+    "avgResolutionHours": 250.875
+  },
+  {
+    "month": "2025-07",
+    "category": "Emergency",
+    "avgResolutionHours": 255.0
+  },
+  {
+    "month": "2025-07",
+    "category": "Food",
+    "avgResolutionHours": 257.8333333333333
+  },
+  {
+    "month": "2025-07",
+    "category": "Legal Aid",
+    "avgResolutionHours": 210.5
+  },
+  {
+    "month": "2025-07",
+    "category": "Medical",
+    "avgResolutionHours": 322.8
+  },
+  {
+    "month": "2025-07",
+    "category": "Mental Health",
+    "avgResolutionHours": 262.5
+  },
+  {
+    "month": "2025-07",
+    "category": "Others",
+    "avgResolutionHours": 376.5
+  },
+  {
+    "month": "2025-07",
+    "category": "Shelter",
+    "avgResolutionHours": 239.83333333333334
+  },
+  {
+    "month": "2025-08",
+    "category": "Education",
+    "avgResolutionHours": 280.0
+  },
+  {
+    "month": "2025-08",
+    "category": "Emergency",
+    "avgResolutionHours": 291.5
+  },
+  {
+    "month": "2025-08",
+    "category": "Food",
+    "avgResolutionHours": 214.0
+  },
+  {
+    "month": "2025-08",
+    "category": "Legal Aid",
+    "avgResolutionHours": 191.33333333333334
+  },
+  {
+    "month": "2025-08",
+    "category": "Medical",
+    "avgResolutionHours": 252.2
+  },
+  {
+    "month": "2025-08",
+    "category": "Mental Health",
+    "avgResolutionHours": 260.7142857142857
+  },
+  {
+    "month": "2025-08",
+    "category": "Others",
+    "avgResolutionHours": 216.0
+  },
+  {
+    "month": "2025-08",
+    "category": "Shelter",
+    "avgResolutionHours": 230.5
+  },
+  {
+    "month": "2025-09",
+    "category": "Education",
+    "avgResolutionHours": 310.8
+  },
+  {
+    "month": "2025-09",
+    "category": "Emergency",
+    "avgResolutionHours": 266.3333333333333
+  },
+  {
+    "month": "2025-09",
+    "category": "Food",
+    "avgResolutionHours": 183.0
+  },
+  {
+    "month": "2025-09",
+    "category": "Legal Aid",
+    "avgResolutionHours": 193.5
+  },
+  {
+    "month": "2025-09",
+    "category": "Medical",
+    "avgResolutionHours": 219.85714285714286
+  },
+  {
+    "month": "2025-09",
+    "category": "Mental Health",
+    "avgResolutionHours": 165.5
+  },
+  {
+    "month": "2025-09",
+    "category": "Others",
+    "avgResolutionHours": 159.5
+  },
+  {
+    "month": "2025-09",
+    "category": "Shelter",
+    "avgResolutionHours": 147.66666666666666
+  },
+  {
+    "month": "2025-10",
+    "category": "Education",
+    "avgResolutionHours": 249.2
+  },
+  {
+    "month": "2025-10",
+    "category": "Emergency",
+    "avgResolutionHours": 335.3333333333333
+  },
+  {
+    "month": "2025-10",
+    "category": "Food",
+    "avgResolutionHours": 312.8
+  },
+  {
+    "month": "2025-10",
+    "category": "Legal Aid",
+    "avgResolutionHours": 267.0
+  },
+  {
+    "month": "2025-10",
+    "category": "Medical",
+    "avgResolutionHours": 233.25
+  },
+  {
+    "month": "2025-10",
+    "category": "Mental Health",
+    "avgResolutionHours": 184.33333333333334
+  },
+  {
+    "month": "2025-10",
+    "category": "Others",
+    "avgResolutionHours": 238.5
+  },
+  {
+    "month": "2025-10",
+    "category": "Shelter",
+    "avgResolutionHours": 272.2
+  },
+  {
+    "month": "2025-11",
+    "category": "Education",
+    "avgResolutionHours": 337.375
+  },
+  {
+    "month": "2025-11",
+    "category": "Emergency",
+    "avgResolutionHours": 204.875
+  },
+  {
+    "month": "2025-11",
+    "category": "Food",
+    "avgResolutionHours": 209.4
+  },
+  {
+    "month": "2025-11",
+    "category": "Legal Aid",
+    "avgResolutionHours": 308.25
+  },
+  {
+    "month": "2025-11",
+    "category": "Medical",
+    "avgResolutionHours": 176.9
+  },
+  {
+    "month": "2025-11",
+    "category": "Mental Health",
+    "avgResolutionHours": 141.33333333333334
+  },
+  {
+    "month": "2025-11",
+    "category": "Others",
+    "avgResolutionHours": 279.6666666666667
+  },
+  {
+    "month": "2025-11",
+    "category": "Shelter",
+    "avgResolutionHours": 238.0
+  },
+  {
+    "month": "2025-12",
+    "category": "Education",
+    "avgResolutionHours": 14.0
+  },
+  {
+    "month": "2025-12",
+    "category": "Emergency",
+    "avgResolutionHours": 155.5
+  },
+  {
+    "month": "2025-12",
+    "category": "Food",
+    "avgResolutionHours": 316.0
+  },
+  {
+    "month": "2025-12",
+    "category": "Legal Aid",
+    "avgResolutionHours": 280.5
+  },
+  {
+    "month": "2025-12",
+    "category": "Medical",
+    "avgResolutionHours": 296.3333333333333
+  },
+  {
+    "month": "2025-12",
+    "category": "Mental Health",
+    "avgResolutionHours": 392.5
+  },
+  {
+    "month": "2025-12",
+    "category": "Others",
+    "avgResolutionHours": 272.6666666666667
+  },
+  {
+    "month": "2025-12",
+    "category": "Shelter",
+    "avgResolutionHours": 365.2
+  }
+]

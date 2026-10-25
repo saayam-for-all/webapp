@@ -32,7 +32,7 @@ jobs:
 
       - name: Inject env variable
         run: |
-          echo "VITE_BASE_API_URL=${{ secrets.VITE_BASE_API_URL }}" > .env.production
+          echo "VITE_BASE_API_URL=${{ secrets.NEW_VITE_API_BASE_URL }}" > .env.production
 
       - name: Install dependencies
         run: npm ci

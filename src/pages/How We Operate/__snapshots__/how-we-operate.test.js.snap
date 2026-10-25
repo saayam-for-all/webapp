@@ -31,6 +31,7 @@ exports[`HowWeOperate renders correctly 1`] = `
             >
               <div
                 class="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+                style="height: calc(NaN% - 40px);"
               />
               <div
                 class="step-box"
@@ -58,7 +59,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                   >
                     <div
                       class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -69,7 +70,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                         mockTranslate(Request for Help)
                       </h3>
                       <p
-                        class="text-sm md:text-base text-gray-600 text-left"
+                        class="text-sm md:text-base text-gray-600 text-left whitespace-pre-line"
                       >
                         mockTranslate(Submit a request for the support you need—just like booking a ride through an app.)
                       </p>
@@ -84,7 +85,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pr-[1.5rem] p-2"
                   >
                     <img
-                      alt="mockTranslate(Get Matching With a Volunteer)"
+                      alt="mockTranslate(Get Matched with a Volunteer)"
                       class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                       src="s5"
                     />
@@ -99,7 +100,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-2"
                   >
                     <div
                       class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -107,12 +108,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                       <h3
                         class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                       >
-                        mockTranslate(Get Matching With a Volunteer)
+                        mockTranslate(Get Matched with a Volunteer)
                       </h3>
                       <p
-                        class="text-sm md:text-base text-gray-600 text-left"
+                        class="text-sm md:text-base text-gray-600 text-left whitespace-pre-line"
                       >
-                        mockTranslate(We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .)
+                        mockTranslate(We don't just match—you get the smartest match possible. Our AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app—but smarter, more human, and built for community care.)
                       </p>
                     </div>
                   </div>
@@ -140,7 +141,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                   >
                     <div
                       class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -151,7 +152,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                         mockTranslate(Confirm Your Volunteer)
                       </h3>
                       <p
-                        class="text-sm md:text-base text-gray-600 text-left"
+                        class="text-sm md:text-base text-gray-600 text-left whitespace-pre-line"
                       >
                         mockTranslate(From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.)
                       </p>
@@ -181,7 +182,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-2"
                   >
                     <div
                       class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -192,7 +193,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                         mockTranslate(Connect and Coordinate)
                       </h3>
                       <p
-                        class="text-sm md:text-base text-gray-600 text-left"
+                        class="text-sm md:text-base text-gray-600 text-left whitespace-pre-line"
                       >
                         mockTranslate(Your volunteer reaches out to finalize details and schedule the support you need.)
                       </p>
@@ -222,7 +223,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                    class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                   >
                     <div
                       class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -233,7 +234,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                         mockTranslate(Receive Assistance)
                       </h3>
                       <p
-                        class="text-sm md:text-base text-gray-600 text-left"
+                        class="text-sm md:text-base text-gray-600 text-left whitespace-pre-line"
                       >
                         mockTranslate(The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.)
                       </p>
@@ -267,7 +268,7 @@ exports[`HowWeOperate renders correctly 1`] = `
               <button
                 class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
               >
-                mockTranslate(Join the community)
+                mockTranslate(Join our community)
               </button>
             </div>
           </div>
@@ -302,6 +303,7 @@ exports[`HowWeOperate renders correctly 1`] = `
           >
             <div
               class="absolute left-1/2 top-32 md:top-32 lg:top-36 transform -translate-x-1/2 w-0.5 border-l-2 border-dashed border-blue-300 z-10"
+              style="height: calc(NaN% - 40px);"
             />
             <div
               class="step-box"
@@ -329,7 +331,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                 >
                   <div
                     class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -340,7 +342,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                       mockTranslate(Request for Help)
                     </h3>
                     <p
-                      class="text-sm md:text-base text-gray-600 text-left"
+                      class="text-sm md:text-base text-gray-600 text-left whitespace-pre-line"
                     >
                       mockTranslate(Submit a request for the support you need—just like booking a ride through an app.)
                     </p>
@@ -355,7 +357,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                     sm:pr-[1.5rem] p-2"
                 >
                   <img
-                    alt="mockTranslate(Get Matching With a Volunteer)"
+                    alt="mockTranslate(Get Matched with a Volunteer)"
                     class="rounded-xl object-contain h-auto sm:max-h-64 md:max-h-72 lg:max-h-80 w-auto max-w-full"
                     src="s5"
                   />
@@ -370,7 +372,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-2"
                 >
                   <div
                     class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -378,12 +380,12 @@ exports[`HowWeOperate renders correctly 1`] = `
                     <h3
                       class="text-lg md:text-xl font-bold leading-tight mb-2 text-left"
                     >
-                      mockTranslate(Get Matching With a Volunteer)
+                      mockTranslate(Get Matched with a Volunteer)
                     </h3>
                     <p
-                      class="text-sm md:text-base text-gray-600 text-left"
+                      class="text-sm md:text-base text-gray-600 text-left whitespace-pre-line"
                     >
-                      mockTranslate(We don't just match—you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .)
+                      mockTranslate(We don't just match—you get the smartest match possible. Our AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app—but smarter, more human, and built for community care.)
                     </p>
                   </div>
                 </div>
@@ -411,7 +413,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                 >
                   <div
                     class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -422,7 +424,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                       mockTranslate(Confirm Your Volunteer)
                     </h3>
                     <p
-                      class="text-sm md:text-base text-gray-600 text-left"
+                      class="text-sm md:text-base text-gray-600 text-left whitespace-pre-line"
                     >
                       mockTranslate(From these potential matches, one volunteer will be chosen to assist you, much like selecting a specific car.)
                     </p>
@@ -452,7 +454,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-0"
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pl-2"
                 >
                   <div
                     class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -463,7 +465,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                       mockTranslate(Connect and Coordinate)
                     </h3>
                     <p
-                      class="text-sm md:text-base text-gray-600 text-left"
+                      class="text-sm md:text-base text-gray-600 text-left whitespace-pre-line"
                     >
                       mockTranslate(Your volunteer reaches out to finalize details and schedule the support you need.)
                     </p>
@@ -493,7 +495,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-0"
+                  class="w-full sm:w-1/2 flex items-stretch order-3 sm:order-none p-2 sm:pr-2"
                 >
                   <div
                     class="bg-blue-50 rounded-2xl p-6 sm:p-8 md:p-10 w-full flex flex-col justify-center"
@@ -504,7 +506,7 @@ exports[`HowWeOperate renders correctly 1`] = `
                       mockTranslate(Receive Assistance)
                     </h3>
                     <p
-                      class="text-sm md:text-base text-gray-600 text-left"
+                      class="text-sm md:text-base text-gray-600 text-left whitespace-pre-line"
                     >
                       mockTranslate(The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.)
                     </p>
@@ -538,7 +540,7 @@ exports[`HowWeOperate renders correctly 1`] = `
             <button
               class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
             >
-              mockTranslate(Join the community)
+              mockTranslate(Join our community)
             </button>
           </div>
         </div>

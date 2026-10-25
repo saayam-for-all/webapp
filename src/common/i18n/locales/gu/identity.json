@@ -1,0 +1,19 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "સરકારી ઓળખપત્ર અપલોડ કરો",
+  "SELECT_SOURCE": "સ્રોત પસંદ કરો",
+  "DEVICE": "ઉપકરણ",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "ફાઇલ અપલોડ કરો",
+  "FILE": "ફાઇલ",
+  "FILE_PREVIEW": "પૂર્વાવલોકન",
+  "UPLOAD": "અપલોડ",
+  "UPLOADING": "અપલોડ થઈ રહ્યું છે...",
+  "REMOVE": "દૂર કરો",
+  "FILE_SIZE_ERROR": "ફાઇલનું કદ 2MB કરતાં વધુ ન હોવું જોઈએ",
+  "FILE_TYPE_ERROR": "ફક્ત JPEG, JPG, PNG, અને PDF ફાઇલોને જ મંજૂરી છે. શોધાયેલ ફાઇલ પ્રકાર: {{fileType}}, એક્સ્ટેન્શન: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "ફક્ત JPEG, JPG, PNG, અથવા PDF ફાઇલો. મહત્તમ કદ: 2MB.",
+  "UPLOAD_SUCCESS": "ફાઇલ સફળતાપૂર્વક અપલોડ થઈ",
+  "UPLOAD_FAILED": "ફાઇલ અપલોડ નિષ્ફળ થયું",
+  "UPLOAD_ERROR": "ફાઇલ અપલોડ દરમિયાન એક ભૂલ આવી"
+}

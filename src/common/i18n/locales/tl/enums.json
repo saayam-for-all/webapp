@@ -1,0 +1,26 @@
+{
+  "requestFor": {
+    "SELF": "Sarili",
+    "OTHER": "Iba"
+  },
+  "requestPriority": {
+    "LOW": "Mababa",
+    "MEDIUM": "Katamtaman",
+    "HIGH": "Mataas",
+    "CRITICAL": "Kritikal"
+  },
+  "requestStatus": {
+    "CREATED": "Nilikha",
+    "MATCHING VOLUNTEER": "Naghahanap ng Boluntaryo",
+    "MANAGED": "Pinamamahalaan",
+    "RESOLVED": "Nalutas",
+    "CANCELLED": "Kinansela",
+    "DELETED": "Tinanggal",
+    "VOLUNTEER_NOT_FOUND": "Hindi nahanap ang boluntaryo",
+    "VOLUNTEER_REASSIGNMENT": "Muling pagtatalaga ng boluntaryo"
+  },
+  "requestType": {
+    "INPERSON": "Personal",
+    "REMOTE": "Malayuan"
+  }
+}

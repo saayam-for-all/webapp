@@ -1,0 +1,21 @@
+{
+  "UPLOAD_GOVERNMENT_ID": "Regierungsausweis hochladen",
+  "SELECT_SOURCE": "Quelle auswählen",
+  "DEVICE": "Gerät",
+  "GOOGLE_DRIVE": "Google Drive",
+  "DROPBOX": "Dropbox",
+  "UPLOAD_FILE": "Datei hochladen",
+  "FILE": "Datei",
+  "FILE_PREVIEW": "Vorschau",
+  "UPLOAD": "Hochladen",
+  "UPLOADING": "Wird hochgeladen...",
+  "REMOVE": "Entfernen",
+  "FILE_SIZE_ERROR": "Die Dateigröße sollte 5MB nicht überschreiten",
+  "FILE_TYPE_ERROR": "Nur JPEG-, JPG-, PNG- und PDF-Dateien sind zulässig. Erkannter Dateityp: {{fileType}}, Erweiterung: {{extension}}",
+  "FILE_TYPE_REQUIREMENT": "Nur JPEG-, JPG-, PNG- oder PDF-Dateien. Maximale Größe: 5MB.",
+  "UPLOAD_SUCCESS": "Datei erfolgreich hochgeladen",
+  "UPLOAD_FAILED": "Datei-Upload fehlgeschlagen",
+  "UPLOAD_ERROR": "Beim Hochladen der Datei ist ein Fehler aufgetreten",
+  "CHOOSE_FILE": "Datei auswählen",
+  "NO_FILE_CHOSEN": "Keine Datei ausgewählt"
+}

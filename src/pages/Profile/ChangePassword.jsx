@@ -5,17 +5,24 @@ import { updatePassword } from "aws-amplify/auth";
 import LoadingIndicator from "../../common/components/Loading/Loading";
 
 function ChangePassword({ setHasUnsavedChanges }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("profile");
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
+  // Starts readOnly so Chrome's autofill does not populate the navbar search bar;
+  // flipped to false on first user interaction with any password field.
+  const [passwordFieldsReadOnly, setPasswordFieldsReadOnly] = useState(true);
 
   const currentPasswordRef = useRef(null);
+
+  const handlePasswordFocus = () => setPasswordFieldsReadOnly(false);
 
   const handleSaveClick = async () => {
     let valid = true;
@@ -48,6 +55,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
+        setPasswordFieldsReadOnly(true);
         alert(t("PASSWORD_CHANGE_SUCCESS"));
       } catch (error) {
         alert(error.message);
@@ -66,6 +74,7 @@ function ChangePassword({ setHasUnsavedChanges }) {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
+    setPasswordFieldsReadOnly(true);
     setHasUnsavedChanges(false);
   };
 
@@ -79,16 +88,23 @@ function ChangePassword({ setHasUnsavedChanges }) {
           <div className="relative">
             <input
               ref={currentPasswordRef}
-              type={showPassword ? "text" : "password"}
+              type={showCurrentPassword ? "text" : "password"}
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
+              autoComplete="new-password"
+              readOnly={passwordFieldsReadOnly}
+              onFocus={handlePasswordFocus}
               className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             />
             <div
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowCurrentPassword(!showCurrentPassword)}
               className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer"
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              {showCurrentPassword ? (
+                <AiOutlineEyeInvisible />
+              ) : (
+                <AiOutlineEye />
+              )}
             </div>
           </div>
         </div>
@@ -98,18 +114,21 @@ function ChangePassword({ setHasUnsavedChanges }) {
           </label>
           <div className="relative">
             <input
-              type={showPassword ? "text" : "password"}
+              type={showNewPassword ? "text" : "password"}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              autoComplete="new-password"
+              readOnly={passwordFieldsReadOnly}
+              onFocus={handlePasswordFocus}
               className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                 errorMessage ? "border-red-500" : "border-gray-200"
               } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
             />
             <div
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowNewPassword(!showNewPassword)}
               className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer"
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              {showNewPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </div>
           </div>
           {errorMessage && (
@@ -123,18 +142,25 @@ function ChangePassword({ setHasUnsavedChanges }) {
           </label>
           <div className="relative">
             <input
-              type={showPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              autoComplete="new-password"
+              readOnly={passwordFieldsReadOnly}
+              onFocus={handlePasswordFocus}
               className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                 passwordMatchError ? "border-red-500" : "border-gray-200"
               } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
             />
             <div
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer"
             >
-              {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              {showConfirmPassword ? (
+                <AiOutlineEyeInvisible />
+              ) : (
+                <AiOutlineEye />
+              )}
             </div>
           </div>
           {passwordMatchError && (

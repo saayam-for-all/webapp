@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import "./TermsAndConditions.css";
 
 const TermsAndConditions = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("termsAndConditions");
 
   return (
     <div className="terms-container">

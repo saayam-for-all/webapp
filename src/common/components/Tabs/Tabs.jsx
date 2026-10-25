@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 const Tabs = ({ children }) => {
-  const [activeTab, setActiveTab] = useState(children[0].props.label);
+  const [activeTab, setActiveTab] = useState(0);
 
-  const handleClick = (e, newActiveTab) => {
-    setActiveTab(newActiveTab);
+  const handleClick = (e, newActiveTabIndex) => {
+    setActiveTab(newActiveTabIndex);
   };
 
   return (
@@ -12,15 +12,15 @@ const Tabs = ({ children }) => {
       <div className="flex">
         <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200">
           <ul className="flex flex-wrap -mb-px">
-            {children.map((child) => (
+            {children.map((child, index) => (
               <li
-                key={child.props.label}
+                key={index}
                 className={`${
-                  activeTab === child.props.label
+                  activeTab === index
                     ? "text-blue-600 border-blue-600"
                     : "border-transparent hover:text-gray-600 hover:border-gray-300"
                 } inline-block p-4 border-b-2 rounded-t-lg hover:cursor-pointer  me-2`}
-                onClick={(e) => handleClick(e, child.props.label)}
+                onClick={(e) => handleClick(e, index)}
               >
                 {child.props.label}
               </li>
@@ -29,10 +29,10 @@ const Tabs = ({ children }) => {
         </div>
       </div>
       <div>
-        {children.map((child) => {
-          if (child.props.label === activeTab) {
+        {children.map((child, index) => {
+          if (index === activeTab) {
             return (
-              <div key={child.props.label} className="mt-4">
+              <div key={index} className="mt-4">
                 {child.props.children}
               </div>
             );
