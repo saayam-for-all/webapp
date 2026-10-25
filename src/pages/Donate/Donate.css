@@ -560,44 +560,12 @@ body {
 
 /* ---------- FOR SCREENS <= 724px (Smaller Phones) ---------- */
 @media (max-width: 724px) {
-  .donate-image-overlay-bg {
-    position: relative;
-    height: auto;
-    min-height: 480px;
-    overflow: visible;
-  }
-
-  .donate-bg-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    filter: brightness(0.9);
-  }
-
   .donate-card-overlay {
-    position: absolute;
-    top: 50%;
-    left: 70%; /* Slight right alignment */
-    transform: translate(-50%, -50%);
-    width: 230px;
-    height: auto; /* Square card */
-    min-height: 230px;
-    background: white;
-    border-radius: 14px;
-    z-index: 2;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-    text-align: center;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0.4rem;
+    width: 92%;
+    height: auto;
+    left: auto;
+    padding: 0.25rem;
+    border-radius: 12px;
   }
 
   .donate-title {
@@ -625,8 +593,7 @@ body {
 @media (max-width: 400px) {
   .donate-card-overlay {
     width: 170px;
-    height: auto; /* Smaller square card */
-    min-height: 170px;
+    height: 170px; /* Smaller square card */
     left: 72%; /* Further right to accommodate narrower view */
     padding: 0.25rem;
     border-radius: 12px;
@@ -664,5 +631,40 @@ body {
     font-size: 0.65rem;
     padding: 5px 6px;
     width: 90%;
+  }
+}
+
+/* Mobile: stack photo on top, donation card below */
+@media (max-width: 724px) {
+  .donate-image-overlay-bg {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .donate-bg-image {
+    position: static;
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 14px;
+  }
+
+  .donate-card-overlay {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 92%;
+    max-width: 360px;
+    height: auto;
+    min-height: 0;
+    margin: 12px auto 16px;
+    padding: 0.8rem;
   }
 }
