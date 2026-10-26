@@ -238,6 +238,28 @@ const Dashboard = ({ userRole }) => {
       };
     });
 
+  // Maps the request service's RequestSummaryDTO (GET volunteers/{id}/requests)
+  // to the flat row shape the Managed Requests table and filters expect.
+  const normalizeManagedRequestRecords = (records) =>
+    (Array.isArray(records) ? records : []).map((r) => ({
+      ...r,
+      id: r.requestId,
+      subject: r.requestSubject,
+      description: r.requestDescription,
+      category: r.helpCategory?.catName,
+      requestCategory: r.helpCategory?.catName,
+      catId: r.helpCategory?.catId,
+      status: r.requestStatus?.status,
+      priority: r.requestPriority?.priority,
+      updatedDate: r.lastUpdatedAt,
+      creationDate: r.submittedAt,
+      calamity: r.isCalamity ? "Yes" : "No",
+      volunteerType:
+        r.leadVolunteerUserId === userDbId
+          ? "Lead Volunteer"
+          : "Helping Volunteer",
+    }));
+
   const getAllRequests = async (tab, page = currentPage - 1, sizeOverride) => {
     try {
       setIsLoading(true);
@@ -339,7 +361,27 @@ const Dashboard = ({ userRole }) => {
       } else if (tab === "othersRequests") {
         response = await getOthersRequests();
       } else if (tab === "managedRequests") {
-        response = await getManagedRequests();
+        response = await getManagedRequests({
+          volunteerId: userDbId,
+          page,
+          size: sizeOverride || rowsPerPage,
+        });
+
+        const records = response?.data?.content || [];
+        setData({
+          ...response,
+          data: {
+            ...(response?.data || {}),
+            content: normalizeManagedRequestRecords(records),
+          },
+        });
+        setServerPagination({
+          totalPages: response?.data?.totalPages || 1,
+          totalRecords: response?.data?.totalElements || 0,
+          currentServerPage: page,
+          isServerPaginated: true,
+        });
+        return;
       }
 
       setData(response || { content: [], body: [], totalPages: 1 });
@@ -1754,6 +1796,7 @@ const Dashboard = ({ userRole }) => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 totalPages={totalPages}
+                totalRows={totalRows()}
                 rowsPerPage={rowsPerPage}
                 sortConfig={sortConfig}
                 requestSort={requestSort}
