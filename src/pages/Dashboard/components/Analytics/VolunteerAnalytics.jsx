@@ -202,7 +202,7 @@ const VolunteerAnalytics = () => {
       {/* Chart 1: Volunteer Activity Trend */}
       <ChartContainer
         title="Volunteer Activity Trend"
-        description="New, active, and total volunteers over time"
+        description="Active and total volunteers over time"
       >
         <div className="flex gap-1.5 mb-2 flex-wrap items-center">
           {TIME_RANGE_BUTTONS.map(({ id, label }) => (
