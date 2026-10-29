@@ -18,13 +18,13 @@ const awsConfig = {
           ],
           redirectSignIn: [
             "http://localhost:5173/dashboard",
-            "https://idptest-saayam.netlify.app/dashboard",
             "https://test-saayam.netlify.app/dashboard",
+            "https://idptest-saayam.netlify.app/dashboard",
           ],
           redirectSignOut: [
             "http://localhost:5173/login",
-            "https://idptest-saayam.netlify.app/login",
             "https://test-saayam.netlify.app/login",
+            "https://idptest-saayam.netlify.app/login",
           ],
           responseType: "code",
         },
