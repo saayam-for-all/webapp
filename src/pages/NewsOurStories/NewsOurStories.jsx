@@ -145,7 +145,7 @@ const stories = [
     description: "STORY_4_DESC",
     titleLinks: {
       "Vishal Sikka": "https://www.linkedin.com/in/vishal-sikka-869a6b2/",
-      "Vianai Systems": "https://www.vian.ai/",
+      "Hang Ten Systems": "https://hangtensystem.com/",
     },
   },
   {
@@ -255,10 +255,18 @@ const stories = [
 ];
 
 export default function NewsOurStories() {
-  const { t } = useTranslation(["news"]);
+  const { t, i18n } = useTranslation(["news"]);
+  const language = (i18n.resolvedLanguage || i18n.language || "en").split(
+    "-",
+  )[0];
+  const isRtl = ["ar", "ur"].includes(language);
 
   return (
-    <div className="news-our-stories-container px-4 md:px-0">
+    <div
+      className="news-our-stories-container px-4 md:px-0"
+      lang={language}
+      dir={isRtl ? "rtl" : "ltr"}
+    >
       <section className="news-our-stories-hero">
         <h1 className="news-our-stories-title">{t("TITLE")}</h1>
         <p className="news-our-stories-subtitle">{t("SUBTITLE")}</p>
@@ -270,7 +278,11 @@ export default function NewsOurStories() {
           {stories.map((story) => (
             <div key={story.title} className="news-card">
               <div className="news-img-wrap">
-                <img src={story.image} alt={story.title} className="news-img" />
+                <img
+                  src={story.image}
+                  alt={t(story.title)}
+                  className="news-img"
+                />
               </div>
 
               <div className="news-card-body">
