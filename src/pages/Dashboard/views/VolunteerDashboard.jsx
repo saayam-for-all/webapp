@@ -13,6 +13,7 @@ const VolunteerDashboard = (props) => {
     currentPage,
     setCurrentPage,
     totalPages,
+    totalRows,
     rowsPerPage,
     sortConfig,
     requestSort,
@@ -52,13 +53,14 @@ const VolunteerDashboard = (props) => {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             totalPages={totalPages(filteredData)}
-            totalRows={filteredData.length}
+            totalRows={totalRows}
             itemsPerPage={rowsPerPage}
             sortConfig={sortConfig}
             requestSort={requestSort}
             onRowsPerPageChange={onRowsPerPageChange}
             getLinkPath={getLinkPath}
             getLinkState={getLinkState}
+            serverPaginated
           />
         )}
       </div>
@@ -75,6 +77,7 @@ VolunteerDashboard.propTypes = {
   currentPage: PropTypes.number.isRequired,
   setCurrentPage: PropTypes.func.isRequired,
   totalPages: PropTypes.func.isRequired,
+  totalRows: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
   sortConfig: PropTypes.object,
   requestSort: PropTypes.func.isRequired,
