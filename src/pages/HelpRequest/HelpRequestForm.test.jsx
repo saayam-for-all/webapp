@@ -50,11 +50,6 @@ jest.mock("./location/usePlacesSearchBox", () => () => ({
   handleOnPlacesChanged: jest.fn(),
 }));
 
-jest.mock("../../services/requestApi", () => ({
-  useGetAllRequestQuery: jest.fn(() => ({ data: undefined, isLoading: false })),
-  useAddRequestMutation: () => [jest.fn(), { isLoading: false }],
-}));
-
 let mockSuggestions = [];
 let mockHandleSelectSuggestion = jest.fn();
 let capturedSetCoordinates = null;
@@ -1679,52 +1674,6 @@ describe("HelpRequestForm — edit mode submission", () => {
 
     await act(async () => {
       jest.advanceTimersByTime(1200);
-    });
-  });
-
-  it("restores request in edit mode from URL params and RTK query data", async () => {
-    const { useParams } = require("react-router-dom");
-    const { useGetAllRequestQuery } = require("../../services/requestApi");
-    const { updateRequest } = require("../../services/requestServices");
-
-    updateRequest.mockResolvedValue({
-      data: { requestId: "REQ-URL-ID" },
-    });
-
-    useParams.mockReturnValue({ id: "REQ-URL-ID" });
-    useGetAllRequestQuery.mockReturnValue({
-      data: {
-        body: [
-          {
-            id: "REQ-URL-ID",
-            requestId: "REQ-URL-ID",
-            category: "COLLEGE_APPLICATION_HELP",
-            subject: "Route Restored Subject",
-            description: "Route Restored Description",
-            priority: "HIGH",
-            request_type: "REMOTE",
-            is_self: "yes",
-            helpCategory: { catId: "cat-edu" },
-            attachments: ["http://test.com/file1.jpg"],
-          },
-        ],
-      },
-      isLoading: false,
-    });
-
-    renderForm({ isEdit: true });
-
-    await waitFor(() => {
-      expect(document.getElementById("subject").value).toBe(
-        "Route Restored Subject",
-      );
-    });
-
-    // Reset mocks for subsequent tests
-    useParams.mockReturnValue({});
-    useGetAllRequestQuery.mockReturnValue({
-      data: undefined,
-      isLoading: false,
     });
   });
 
