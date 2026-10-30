@@ -1,4 +1,9 @@
 import { useTranslation } from "react-i18next";
+import visionImg1 from "../../../assets/images/our-mission/vision-img-1.png";
+import visionImg2 from "../../../assets/images/our-mission/vision-img-2.png";
+import visionImg3 from "../../../assets/images/our-mission/vision-img-3.png";
+import visionImg4 from "../../../assets/images/our-mission/vision-img-4.png";
+
 export function Vision() {
   const { t } = useTranslation();
   return (
@@ -23,22 +28,22 @@ export function Vision() {
         {/* Right Image Grid */}
         <div className="grid grid-cols-2 gap-2 w-full md:w-[40%] md:ml-[-20px]">
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/9e489c91f28508597741986fff385e42dcf07f04"
+            src={visionImg1}
             alt="Vision image 1"
             className="object-cover h-[150px] w-full rounded-tl-[20px]"
           />
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/96f2577da3ff33600f091becd5353f37e9ec91fd"
+            src={visionImg2}
             alt="Vision image 2"
             className="object-cover h-[210px] w-full rounded-tr-[20px]"
           />
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/d69a9a1b73ece3f214ca700fdad2926ac86ffb47"
+            src={visionImg3}
             alt="Vision image 3"
             className="object-cover h-[150px] w-full mt-[-50px] rounded-bl-[20px]"
           />
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/7eed748020e8f83d968948c1754918c0f51ff363"
+            src={visionImg4}
             alt="Vision image 4"
             className="object-cover h-[100px] w-full rounded-br-[20px]"
           />
