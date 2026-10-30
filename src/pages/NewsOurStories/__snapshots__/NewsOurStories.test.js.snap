@@ -7,6 +7,8 @@ exports[`NewsOurStories renders correctly 1`] = `
     <div>
       <div
         class="news-our-stories-container px-4 md:px-0"
+        dir="ltr"
+        lang="en"
       >
         <section
           class="news-our-stories-hero"
@@ -40,7 +42,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_1_TITLE"
+                  alt="mockTranslate(STORY_1_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -67,7 +69,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_2_TITLE"
+                  alt="mockTranslate(STORY_2_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -94,7 +96,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_3_TITLE"
+                  alt="mockTranslate(STORY_3_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -121,7 +123,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_4_TITLE"
+                  alt="mockTranslate(STORY_4_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -148,7 +150,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_5_TITLE"
+                  alt="mockTranslate(STORY_5_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -175,7 +177,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_6_TITLE"
+                  alt="mockTranslate(STORY_6_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -202,7 +204,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_7_TITLE"
+                  alt="mockTranslate(STORY_7_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -229,7 +231,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_8_TITLE"
+                  alt="mockTranslate(STORY_8_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -256,7 +258,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_9_TITLE"
+                  alt="mockTranslate(STORY_9_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -283,7 +285,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_10_TITLE"
+                  alt="mockTranslate(STORY_10_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -310,7 +312,7 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_11_TITLE"
+                  alt="mockTranslate(STORY_11_TITLE)"
                   class="news-img"
                   src=""
                 />
@@ -358,6 +360,8 @@ exports[`NewsOurStories renders correctly 1`] = `
   "container": <div>
     <div
       class="news-our-stories-container px-4 md:px-0"
+      dir="ltr"
+      lang="en"
     >
       <section
         class="news-our-stories-hero"
@@ -391,7 +395,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_1_TITLE"
+                alt="mockTranslate(STORY_1_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -418,7 +422,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_2_TITLE"
+                alt="mockTranslate(STORY_2_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -445,7 +449,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_3_TITLE"
+                alt="mockTranslate(STORY_3_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -472,7 +476,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_4_TITLE"
+                alt="mockTranslate(STORY_4_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -499,7 +503,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_5_TITLE"
+                alt="mockTranslate(STORY_5_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -526,7 +530,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_6_TITLE"
+                alt="mockTranslate(STORY_6_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -553,7 +557,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_7_TITLE"
+                alt="mockTranslate(STORY_7_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -580,7 +584,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_8_TITLE"
+                alt="mockTranslate(STORY_8_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -607,7 +611,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_9_TITLE"
+                alt="mockTranslate(STORY_9_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -634,7 +638,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_10_TITLE"
+                alt="mockTranslate(STORY_10_TITLE)"
                 class="news-img"
                 src=""
               />
@@ -661,7 +665,7 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_11_TITLE"
+                alt="mockTranslate(STORY_11_TITLE)"
                 class="news-img"
                 src=""
               />
