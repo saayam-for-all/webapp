@@ -344,6 +344,55 @@ describe("Dashboard", () => {
     });
   });
 
+  it("shows one All option plus only the Enums API values in the Status dropdown", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestStatus: {
+          0: "CREATED",
+          1: "MATCHING_VOLUNTEER",
+          2: "IN_PROGRESS",
+          3: "RESOLVED",
+        },
+      }),
+    );
+    mockI18n.language = "en";
+    getMyRequests.mockResolvedValueOnce({
+      data: {
+        content: [
+          { requestId: "REQ-A", status: "IN_PROGRESS" },
+          { requestId: "REQ-B", status: "MANAGED" },
+        ],
+        totalPages: 1,
+        totalElements: 2,
+      },
+    });
+
+    const { getByRole, getByText, getAllByText, queryByText } =
+      renderWithProviders(<Dashboard />, {
+        preloadedState: beneficiaryAuthState,
+      });
+
+    await waitFor(() => {
+      expect(lastBeneficiaryDashboardProps?.filteredData).toHaveLength(2);
+    });
+
+    fireEvent.click(getByRole("button", { name: "Status" }));
+
+    expect(getAllByText("All")).toHaveLength(1);
+    expect(getByText("MATCHING_VOLUNTEER")).toBeInTheDocument();
+    expect(queryByText("MANAGED")).not.toBeInTheDocument();
+
+    fireEvent.click(getByText("IN_PROGRESS"));
+
+    await waitFor(() => {
+      expect(
+        lastBeneficiaryDashboardProps.filteredData.map((row) => row.requestId),
+      ).toEqual(["REQ-A"]);
+    });
+  });
+
   it("keeps the localized shared filters when Beneficiary switches to Others Requests", async () => {
     const {
       getMyRequests,
