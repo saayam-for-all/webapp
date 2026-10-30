@@ -31,7 +31,7 @@ const countryNameToCode = Object.entries(countryCodes).reduce(
   {},
 );
 
-export const getLocaleAndFormat = (countryName) => {
+export const getLocaleAndFormat = async (countryName) => {
   try {
     const countryCode = countryNameToCode[countryName] || "US";
     const locale = new Intl.Locale("en", {
@@ -152,14 +152,19 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   localStorage.setItem("addressFlag", complete ? "true" : "false");
 
   useEffect(() => {
-    const selectedCountry = countries.find(
-      (option) => option.value === personalInfo.country,
-    );
-    const countryName = selectedCountry?.label || "United States";
-    const { locale, dateFormat, placeholder } = getLocaleAndFormat(countryName);
-    setLocale(locale);
-    setDateFormat(dateFormat);
-    setPlaceholder(placeholder);
+    const updateDateFormat = async () => {
+      const selectedCountry = countries.find(
+        (option) => option.value === personalInfo.country,
+      );
+      const countryName = selectedCountry?.label || "United States";
+      const { locale, dateFormat, placeholder } =
+        await getLocaleAndFormat(countryName);
+      setLocale(locale);
+      setDateFormat(dateFormat);
+      setPlaceholder(placeholder);
+    };
+
+    updateDateFormat();
   }, [personalInfo.country, countries]);
 
   useEffect(() => {
