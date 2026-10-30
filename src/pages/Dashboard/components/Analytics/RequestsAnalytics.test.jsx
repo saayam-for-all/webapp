@@ -36,7 +36,9 @@ jest.mock("recharts", () => ({
       {children}
     </div>
   ),
-  Bar: ({ dataKey }) => <div data-testid={`bar-${String(dataKey)}`} />,
+  Bar: ({ dataKey, fill }) => (
+    <div data-testid={`bar-${String(dataKey)}`} data-fill={fill} />
+  ),
   XAxis: () => null,
   YAxis: () => null,
   CartesianGrid: () => null,
@@ -464,6 +466,91 @@ describe("RequestsAnalytics", () => {
     });
 
     expect(screen.getByTestId("bar-India")).toBeInTheDocument();
+  });
+
+  it("dismisses categories on outside interaction while preserving selections", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+    await screen.findByTestId("bar-chart");
+    const button = screen.getByRole("button", { name: "All Categories" });
+    fireEvent.click(button);
+    const checkbox = screen.getByRole("checkbox", { name: "GENERAL_CATEGORY" });
+    fireEvent.pointerDown(checkbox);
+    fireEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
+    expect(button).toHaveAttribute("aria-expanded", "true");
+
+    fireEvent.pointerDown(screen.getByText("Request Volume Trend"));
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
+    expect(button).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(button);
+    expect(
+      screen.getByRole("checkbox", { name: "GENERAL_CATEGORY" }),
+    ).toBeChecked();
+    fireEvent.click(button);
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
+  });
+
+  it("dismisses categories with Escape, Done, and focus leaving the dropdown", async () => {
+    getRequestsApplicationAnalytics.mockResolvedValue(BASE_RESPONSE);
+    render(<RequestsAnalytics />);
+    await screen.findByTestId("bar-chart");
+    const button = screen.getByRole("button", { name: "All Categories" });
+    fireEvent.click(button);
+    const checkbox = screen.getAllByRole("checkbox")[0];
+    act(() => checkbox.focus());
+    expect(button).toHaveAttribute("aria-expanded", "true");
+    fireEvent.keyDown(checkbox, { key: "Escape" });
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
+    expect(button).toHaveFocus();
+
+    fireEvent.click(button);
+    fireEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(button).toHaveFocus();
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
+
+    fireEvent.click(button);
+    act(() => screen.getByDisplayValue("Top 5").focus());
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ["US", "IN"],
+    ["USA", "IND"],
+    ["United States", "India"],
+    [" us ", "in"],
+  ])("uses consistent country colors for %s and %s", async (us, india) => {
+    getRequestsApplicationAnalytics.mockResolvedValue({
+      body: {
+        "requests_by_category_region 1 year": [
+          { category: "GENERAL_CATEGORY", country: us, count: 5 },
+          { category: "GENERAL_CATEGORY", country: india, count: 3 },
+        ],
+      },
+    });
+    render(<RequestsAnalytics />);
+    const usBar = await screen.findByTestId("bar-United States");
+    const indiaBar = screen.getByTestId("bar-India");
+    expect(usBar).toHaveAttribute("data-fill", "#10b981");
+    expect(indiaBar).toHaveAttribute("data-fill", "#3b82f6");
+    for (const [name, color] of [
+      ["United States", "#10b981"],
+      ["India", "#3b82f6"],
+    ]) {
+      expect(
+        screen.getByText(name, { selector: "span" }).parentElement,
+      ).toHaveStyle({
+        borderLeftColor: color,
+      });
+    }
+    fireEvent.change(screen.getByDisplayValue("All Countries"), {
+      target: { value: "United States" },
+    });
+    expect(screen.getByTestId("bar-United States")).toHaveAttribute(
+      "data-fill",
+      "#10b981",
+    );
+    expect(screen.queryByTestId("bar-India")).not.toBeInTheDocument();
   });
 
   it("surfaces partial API failures instead of labeling failed categories as empty", async () => {
