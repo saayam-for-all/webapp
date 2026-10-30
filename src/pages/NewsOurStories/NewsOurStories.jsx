@@ -135,7 +135,14 @@ const stories = [
     description: "STORY_3_DESC",
     titleLinks: {
       "Jensen Huang": "https://www.linkedin.com/in/jenhsunhuang/",
+      "जेनसन हुआंग": "https://www.linkedin.com/in/jenhsunhuang/",
+      "জেনসেন হুয়াং": "https://www.linkedin.com/in/jenhsunhuang/",
+      "జెన్సన్ హువాంగ్": "https://www.linkedin.com/in/jenhsunhuang/",
+      "Дженсеном Хуангом": "https://www.linkedin.com/in/jenhsunhuang/",
+      黄仁森: "https://www.linkedin.com/in/jenhsunhuang/",
       NVIDIA: "https://www.nvidia.com/",
+      एनवीडिया: "https://www.nvidia.com/",
+      এনভিডিয়া: "https://www.nvidia.com/",
     },
   },
   {
