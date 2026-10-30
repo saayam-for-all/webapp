@@ -165,16 +165,21 @@ const RequestDetails = () => {
     setIsDeleting(true);
     setDeleteError("");
     try {
-      // requesterId resolution mirrors the Edit flow:
-      // - My Requests tab -> use Logged-in user's DB id
-      // - All Requests tab -> use the request creatorId
+      // Resolve creatorId for the Delete API:
+      // My Requests: use request creatorId or logged-in user's DB id.
+      // All Requests: use request creatorId.
+
       const payload = {
         requestId: requestData?.id || requestId,
-        requesterId: isMyRequest
-          ? userDbId
-          : requestData?.creatorId || requestData?.requesterId || userDbId,
+        creatorId:
+          requestData?.creatorId || (isMyRequest ? userDbId : undefined),
         deletionReason: deleteReason.trim(),
       };
+
+      if (!payload.creatorId) {
+        setDeleteError("Unable to delete request: creator ID is missing.");
+        return;
+      }
 
       await deleteRequest(payload);
 

@@ -164,7 +164,11 @@ describe("RequestDetails - Edit onClose refreshes data", () => {
 
 describe("RequestDetails - Delete dialog button order and behavior", () => {
   beforeEach(() => {
-    mockLocationState = { id: "123", subject: "Test Request" };
+    mockLocationState = {
+      id: "123",
+      subject: "Test Request",
+      creatorId: "creator-456",
+    };
   });
 
   it("opens the delete dialog and shows Delete before Cancel", () => {
@@ -281,7 +285,7 @@ describe("RequestDetails - Delete dialog button order and behavior", () => {
     await waitFor(() => {
       expect(deleteRequest).toHaveBeenCalledWith({
         requestId: "123",
-        requesterId: "creator-456",
+        creatorId: "creator-456",
         deletionReason: "Duplicate request",
       });
     });
