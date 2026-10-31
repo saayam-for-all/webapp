@@ -39,8 +39,10 @@ export const getCategoriesFromStorage = () => {
 export const getStatusOptions = (t) => {
   const enums = getEnumsFromStorage();
 
-  if (enums && Array.isArray(enums.requestStatus)) {
-    const options = enums.requestStatus.map((status) => ({
+  if (enums && enums.requestStatus) {
+    // The API returns an indexed object; Object.values also accepts arrays
+    const statusValues = Object.values(enums.requestStatus);
+    const options = statusValues.map((status) => ({
       key: status,
       value: status,
       label: t(`enums:requestStatus.${status}`, status),
@@ -51,6 +53,7 @@ export const getStatusOptions = (t) => {
 
   // Fallback to default values
   return [
+    { key: "All", value: "All", label: t("ALL", "All") },
     {
       key: "CREATED",
       value: "Created",
@@ -62,9 +65,9 @@ export const getStatusOptions = (t) => {
       label: t("enums:requestStatus.MATCHING_VOLUNTEER", "Matching Volunteer"),
     },
     {
-      key: "MANAGED",
-      value: "Managed",
-      label: t("enums:requestStatus.MANAGED", "Managed"),
+      key: "IN_PROGRESS",
+      value: "In Progress",
+      label: t("enums:requestStatus.IN_PROGRESS", "In Progress"),
     },
     {
       key: "RESOLVED",
@@ -76,7 +79,59 @@ export const getStatusOptions = (t) => {
       value: "Cancelled",
       label: t("enums:requestStatus.CANCELLED", "Cancelled"),
     },
+    {
+      key: "DELETED",
+      value: "Deleted",
+      label: t("enums:requestStatus.DELETED", "Deleted"),
+    },
+    {
+      key: "RATED_BY_REQUESTER",
+      value: "Rated by Requester",
+      label: t("enums:requestStatus.RATED_BY_REQUESTER", "Rated by Requester"),
+    },
+    {
+      key: "RATED_BY_VOLUNTEER",
+      value: "Rated by Volunteer",
+      label: t("enums:requestStatus.RATED_BY_VOLUNTEER", "Rated by Volunteer"),
+    },
+    {
+      key: "VOLUNTEER_NOT_FOUND",
+      value: "Volunteer Not Found",
+      label: t(
+        "enums:requestStatus.VOLUNTEER_NOT_FOUND",
+        "Volunteer Not Found",
+      ),
+    },
+    {
+      key: "VOLUNTEER_REASSIGNMENT",
+      value: "Volunteer Reassignment",
+      label: t(
+        "enums:requestStatus.VOLUNTEER_REASSIGNMENT",
+        "Volunteer Reassignment",
+      ),
+    },
   ];
+};
+
+export const BULK_STATUSES = [
+  "CREATED",
+  "MATCHING_VOLUNTEER",
+  "MANAGED",
+  "RESOLVED",
+  "CANCELLED",
+];
+
+/**
+ * Get status options for the bulk "Change Status" action
+ * @param {Function} t - Translation function from useTranslation
+ * @returns {Array} Array of status objects with key and translated label
+ */
+export const getBulkStatusOptions = (t) => {
+  return BULK_STATUSES.map((status) => ({
+    key: status,
+    value: status,
+    label: t(`enums:requestStatus.${status}`, status),
+  }));
 };
 
 export const STEWARD_STATUSES = [
