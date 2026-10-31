@@ -4,12 +4,13 @@ import {
   FaPhoneAlt,
   FaGlobe,
   FaEnvelope,
+  FaArrowLeft,
 } from "react-icons/fa";
 
 const OrganizationDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const organization = location.state?.organizationData;
+  const organization = location.state?.organizationData || {};
   const organizationName =
     organization?.Name ||
     organization?.name ||
@@ -31,68 +32,111 @@ const OrganizationDetails = () => {
     );
   }
 
+  const website =
+    organization.web_url ||
+    organization.url ||
+    organization.Web_Url ||
+    organization.webUrl;
+  const address =
+    organization.location ||
+    organization.address ||
+    organization.Location ||
+    organization.Address;
+  const phone =
+    organization.contact ||
+    organization.phone ||
+    organization.Contact ||
+    organization.Phone;
+  const email = organization.email || organization.Email;
+  const mission = organization.mission || organization.Mission;
+  const category =
+    organization.category ||
+    organization.Category ||
+    organization["Org-type"] ||
+    organization.organization_type;
+
+  // Format website url for anchor href
+  const websiteHref =
+    website && (website.startsWith("http://") || website.startsWith("https://"))
+      ? website
+      : `https://${website}`;
+
   // Calculate star count from rating (out of 5)
-  const rating = organization.rating || 0;
-  const fullStars = Math.floor(rating);
+  const ratingValue = Number(organization.rating || organization.Rating) || 0;
+  const fullStars = Math.min(5, Math.floor(ratingValue));
 
   return (
-    <div>
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="w-full max-w-5xl p-12 bg-white rounded-lg shadow-lg mx-4 lg:mx-auto">
-          {/* Organization Name and Category */}
-          <div className="flex justify-between items-start">
-            <div>
-              <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
+    <div className="min-h-screen py-8 bg-gray-50">
+      <div className="w-full max-w-5xl mx-auto px-4">
+        {/* Back navigation button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2 mb-6 text-blue-600 hover:text-blue-800 font-medium cursor-pointer"
+        >
+          <FaArrowLeft className="text-sm" />
+          <span>Back to Organizations</span>
+        </button>
+
+        <div className="p-8 lg:p-12 bg-white rounded-lg shadow-md border border-gray-100">
+          {/* Organization Name, Category & Rating */}
+          <div className="flex flex-col md:flex-row justify-between items-start gap-6">
+            <div className="flex-1">
+              <h1 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-3">
                 {organizationName}
               </h1>
 
               {/* Category Badge */}
-              {organization.category && (
-                <div className="flex gap-2 flex-wrap">
-                  <span className="bg-blue-100 text-blue-600 py-1 px-3 rounded-full text-sm">
-                    {organization.category}
+              {category && category !== "N/A" && (
+                <div className="flex gap-2 flex-wrap mb-4">
+                  <span className="bg-blue-100 text-blue-700 py-1 px-3 rounded-full text-xs font-semibold uppercase tracking-wider">
+                    {category}
                   </span>
                 </div>
               )}
 
               {/* Website, Address, Phone, Email */}
-              <div className="mt-6 space-y-4">
-                {organization.url && (
+              <div className="mt-6 space-y-3">
+                {website && (
                   <div className="flex items-center gap-3">
-                    <FaGlobe className="text-blue-500" />
+                    <FaGlobe className="text-blue-500 shrink-0" />
                     <a
-                      href={organization.url}
+                      href={websiteHref}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-500 underline"
+                      className="text-blue-600 hover:underline break-all"
                     >
-                      {organization.url}
+                      {website}
                     </a>
                   </div>
                 )}
 
-                {organization.address && (
-                  <div className="flex items-center gap-3">
-                    <FaMapMarkerAlt className="text-red-500" />
-                    <p className="text-gray-600">{organization.address}</p>
+                {address && address !== "N/A" && (
+                  <div className="flex items-start gap-3">
+                    <FaMapMarkerAlt className="text-red-500 shrink-0 mt-1" />
+                    <p className="text-gray-700">{address}</p>
                   </div>
                 )}
 
-                {organization.phone && (
+                {phone && phone !== "N/A" && (
                   <div className="flex items-center gap-3">
-                    <FaPhoneAlt className="text-green-500" />
-                    <p className="text-gray-600">{organization.phone}</p>
-                  </div>
-                )}
-
-                {organization.email && (
-                  <div className="flex items-center gap-3">
-                    <FaEnvelope className="text-purple-500" />
+                    <FaPhoneAlt className="text-green-500 shrink-0" />
                     <a
-                      href={`mailto:${organization.email}`}
-                      className="text-blue-500 underline"
+                      href={`tel:${phone}`}
+                      className="text-gray-700 hover:text-blue-600"
                     >
-                      {organization.email}
+                      {phone}
+                    </a>
+                  </div>
+                )}
+
+                {email && (
+                  <div className="flex items-center gap-3">
+                    <FaEnvelope className="text-purple-500 shrink-0" />
+                    <a
+                      href={`mailto:${email}`}
+                      className="text-blue-600 hover:underline break-all"
+                    >
+                      {email}
                     </a>
                   </div>
                 )}
@@ -100,20 +144,25 @@ const OrganizationDetails = () => {
             </div>
 
             {/* Rating */}
-            {rating > 0 && (
-              <div className="bg-blue-50 p-6 rounded-lg shadow-sm text-center w-48">
-                <h2 className="text-5xl font-bold text-gray-800">{rating}</h2>
-                <p className="text-lg font-semibold mt-2 text-gray-600">
+            {ratingValue > 0 && (
+              <div className="bg-blue-50 p-6 rounded-lg border border-blue-100 text-center w-full md:w-44 shrink-0">
+                <h2 className="text-4xl font-extrabold text-gray-800">
+                  {ratingValue}
+                </h2>
+                <p className="text-sm font-semibold mt-1 text-gray-600">
                   Rating
                 </p>
-                <div className="flex justify-center mt-3">
+                <div
+                  className="flex justify-center mt-2"
+                  aria-label={`Rating: ${ratingValue} out of 5 stars`}
+                >
                   {[...Array(fullStars)].map((_, i) => (
-                    <span key={i} className="text-blue-600 text-2xl">
+                    <span key={`full-${i}`} className="text-yellow-500 text-xl">
                       ★
                     </span>
                   ))}
-                  {[...Array(5 - fullStars)].map((_, i) => (
-                    <span key={i} className="text-gray-300 text-2xl">
+                  {[...Array(Math.max(0, 5 - fullStars))].map((_, i) => (
+                    <span key={`empty-${i}`} className="text-gray-300 text-xl">
                       ★
                     </span>
                   ))}
@@ -123,24 +172,24 @@ const OrganizationDetails = () => {
           </div>
 
           {/* Organization Mission */}
-          {organization.mission && (
-            <div className="mt-10">
-              <h3 className="text-2xl font-bold text-gray-800 mb-3">
+          {mission && (
+            <div className="mt-8 pt-8 border-t border-gray-200">
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
                 Organization Mission
               </h3>
-              <p className="text-gray-700 leading-relaxed">
-                {organization.mission}
+              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                {mission}
               </p>
             </div>
           )}
 
           {/* Collaborator Representative Section */}
           {organization.Collaborator && organization.Representative && (
-            <div className="mt-10 p-6 bg-green-50 rounded-lg border border-green-200">
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            <div className="mt-8 p-6 bg-green-50 rounded-lg border border-green-200">
+              <h3 className="text-xl font-bold text-gray-800 mb-3">
                 Collaborator Contact
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {organization.Representative.PersonName && (
                   <p className="text-gray-700">
                     <span className="font-semibold">Person in Charge:</span>{" "}
