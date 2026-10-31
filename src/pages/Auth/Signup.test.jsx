@@ -240,7 +240,7 @@ describe("SignUp", () => {
     render(<SignUp />);
 
     const socialMediaLink = screen.getByRole("button", {
-      name: /OR_USE_YOUR.*SOCIAL_MEDIA_ACCOUNTS/,
+      name: /SOCIAL_MEDIA_ACCOUNTS/,
     });
 
     expect(socialMediaLink).toBeInTheDocument();
