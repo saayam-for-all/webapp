@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, useId } from "react";
 import PropTypes from "prop-types";
 import {
   LineChart,
@@ -15,6 +15,41 @@ import {
 import ChartContainer from "./charts/ChartContainer";
 import { getRequestsApplicationAnalytics } from "../../../../services/analyticsServices";
 import { isoAlpha3ToName } from "../../../../utils/isoCountryNames";
+import countryNames from "../../../../utils/country-codes-en.json";
+
+// The API can return either alpha-2 or alpha-3 country codes.
+const getCountryName = (country) => {
+  const value = (country || "").trim();
+  const code = value.toUpperCase();
+  const name = countryNames[code] || isoAlpha3ToName(code);
+  return name !== code ? name : value;
+};
+
+const COUNTRY_COLORS = {
+  India: "#3b82f6",
+  "United States": "#10b981",
+  Canada: "#f59e0b",
+  Australia: "#ef4444",
+  "United Kingdom": "#8b5cf6",
+};
+
+const FALLBACK_COLORS = [
+  "#0891b2",
+  "#db2777",
+  "#d97706",
+  "#4f46e5",
+  "#7c3aed",
+  "#f97316",
+];
+
+const getCountryColor = (country) => {
+  if (COUNTRY_COLORS[country]) return COUNTRY_COLORS[country];
+  let hash = 0;
+  for (let i = 0; i < country.length; i++) {
+    hash = country.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return FALLBACK_COLORS[Math.abs(hash) % FALLBACK_COLORS.length];
+};
 
 const emptyDataMessage = (data) =>
   data?.has_errors
@@ -51,7 +86,7 @@ const applyDataForRange = (data, range) => {
   const parsedCategoryData = Array.isArray(data?.[categoryKey])
     ? data[categoryKey].map((item) => ({
         category: item.category || "",
-        country: isoAlpha3ToName(item.country) || item.country,
+        country: getCountryName(item.country),
         countryCode: item.country,
         count: item.count || 0,
       }))
@@ -159,7 +194,33 @@ const RequestsAnalytics = () => {
   const [categoryLimit, setCategoryLimit] = useState(5); // default top 5
   const [selectedCategories, setSelectedCategories] = useState([]); // array of category names
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const categoryDropdownRef = useRef(null);
+  const categoryButtonRef = useRef(null);
+  const categoryDropdownId = useId();
   const [sortBy, setSortBy] = useState("total"); // total, name
+
+  useEffect(() => {
+    if (!categoryDropdownOpen) return;
+    const dismissOutside = (event) => {
+      if (!categoryDropdownRef.current?.contains(event.target)) {
+        setCategoryDropdownOpen(false);
+      }
+    };
+    const dismissOnEscape = (event) => {
+      if (event.key === "Escape") {
+        setCategoryDropdownOpen(false);
+        categoryButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", dismissOutside);
+    document.addEventListener("focusin", dismissOutside);
+    document.addEventListener("keydown", dismissOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", dismissOutside);
+      document.removeEventListener("focusin", dismissOutside);
+      document.removeEventListener("keydown", dismissOnEscape);
+    };
+  }, [categoryDropdownOpen]);
 
   // Compute top 5 countries by total request count
   const top5Countries = useMemo(() => {
@@ -292,35 +353,6 @@ const RequestsAnalytics = () => {
     ),
   };
 
-  // Colors for stacked bars
-  const COUNTRY_COLORS = {
-    India: "#3b82f6",
-    USA: "#10b981",
-    Canada: "#f59e0b",
-    Australia: "#ef4444",
-    "United Kingdom": "#8b5cf6",
-  };
-
-  const FALLBACK_COLORS = [
-    "#6b7280",
-    "#059669",
-    "#d97706",
-    "#0ea5d8",
-    "#7c3aed",
-    "#f97316",
-  ];
-
-  const getCountryColor = (country) => {
-    if (COUNTRY_COLORS[country]) return COUNTRY_COLORS[country];
-    // deterministic fallback by hashing country string
-    let hash = 0;
-    for (let i = 0; i < country.length; i++) {
-      hash = country.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const idx = Math.abs(hash) % FALLBACK_COLORS.length;
-    return FALLBACK_COLORS[idx];
-  };
-
   return (
     <div className="grid grid-cols-2 gap-4">
       {/* Chart 1: Request Volume Trend with Time Range Selector */}
@@ -406,8 +438,12 @@ const RequestsAnalytics = () => {
         {/* Filters: category multi-select, time range, country, sort, limit */}
         <div className="flex gap-2 mb-2 items-center flex-wrap">
           {/* Category multi-select dropdown (checkboxes) */}
-          <div className="relative">
+          <div className="relative" ref={categoryDropdownRef}>
             <button
+              ref={categoryButtonRef}
+              type="button"
+              aria-expanded={categoryDropdownOpen}
+              aria-controls={categoryDropdownId}
               onClick={() => setCategoryDropdownOpen((s) => !s)}
               className="px-2 py-0.5 border border-gray-300 rounded text-xs bg-white max-w-full"
             >
@@ -416,7 +452,10 @@ const RequestsAnalytics = () => {
                 : "All Categories"}
             </button>
             {categoryDropdownOpen && (
-              <div className="absolute z-10 mt-1 w-56 max-w-[calc(100vw-2rem)] bg-white border border-gray-200 rounded shadow-md p-2 max-h-48 overflow-auto">
+              <div
+                id={categoryDropdownId}
+                className="absolute z-10 mt-1 w-56 max-w-[calc(100vw-2rem)] bg-white border border-gray-200 rounded shadow-md p-2 max-h-48 overflow-auto"
+              >
                 <div className="text-xs text-gray-600 mb-1">
                   Select up to {categoryLimit}
                 </div>
@@ -459,7 +498,10 @@ const RequestsAnalytics = () => {
                     Clear
                   </button>
                   <button
-                    onClick={() => setCategoryDropdownOpen(false)}
+                    onClick={() => {
+                      setCategoryDropdownOpen(false);
+                      categoryButtonRef.current?.focus();
+                    }}
                     className="text-xs text-blue-600"
                   >
                     Done

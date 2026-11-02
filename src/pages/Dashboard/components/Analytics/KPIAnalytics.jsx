@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   BarChart,
   Bar,
@@ -59,6 +60,7 @@ export const renderTooltip =
   };
 
 const KPIAnalytics = () => {
+  const { t } = useTranslation("enums");
   const [viewMode, setViewMode] = useState("snapshot"); // snapshot | table | trends
   const [timeRange, setTimeRange] = useState("All"); // 7D | 30D | 1Y | All | Custom
   const [customStartDate, setCustomStartDate] = useState("");
@@ -132,6 +134,9 @@ const KPIAnalytics = () => {
     if (!snapshotData?.request_status_distribution) return [];
     return snapshotData.request_status_distribution.map((item) => ({
       name: item.status,
+      displayName: t("requestStatus." + item.status, {
+        defaultValue: item.status,
+      }),
       value: item.count,
     }));
   }, [snapshotData]);
@@ -339,6 +344,7 @@ const KPIAnalytics = () => {
                   outerRadius={120}
                   paddingAngle={0}
                   dataKey="value"
+                  nameKey="displayName"
                   onClick={handleSegmentClick}
                   cursor="pointer"
                 >
@@ -450,7 +456,7 @@ const KPIAnalytics = () => {
                           }}
                         ></div>
                         <span className="text-sm font-medium text-gray-900">
-                          {item.name}
+                          {item.displayName}
                         </span>
                       </div>
                     </td>
