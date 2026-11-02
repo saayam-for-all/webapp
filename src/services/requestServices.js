@@ -72,12 +72,17 @@ export const getAdditionalFields = async (request) => {
   return response.data;
 };
 
-export const getEmergencyContactInfo = async ({ lat, lng } = {}) => {
+export const getEmergencyContactInfo = async ({ lat, lng, country } = {}) => {
+  const params = {};
+  if (typeof lat === "number" && typeof lng === "number") {
+    params.lat = lat;
+    params.lng = lng;
+  }
+  if (country) {
+    params.country = country;
+  }
   const response = await api.get(endpoints.GET_EMERGENCY_CONTACT, {
-    params:
-      typeof lat === "number" && typeof lng === "number"
-        ? { lat, lng }
-        : undefined,
+    params: Object.keys(params).length > 0 ? params : undefined,
   });
   return response.data;
 };
