@@ -220,3 +220,65 @@ test("clearing slots sends an empty list", async () => {
     ),
   );
 });
+
+test.each([
+  ["", "AVAILABILITY_VALIDATION_ERROR"],
+  ["20:00", "START_END_TIMES_MUST_BE_DIFFERENT"],
+])(
+  "blocks invalid slot start %s without calling the API",
+  async (startTime, message) => {
+    fetchAvailability.mockResolvedValue(persisted);
+    mount();
+    await edit();
+    fireEvent.change(screen.getByLabelText("Slot 1 start time"), {
+      target: { value: startTime },
+    });
+    fireEvent.click(screen.getByText("SAVE"));
+    expect(await screen.findByRole("alert")).toHaveTextContent(message);
+    expect(saveAvailability).not.toHaveBeenCalled();
+    expect(screen.getByText("SAVE")).toBeEnabled();
+  },
+);
+
+test("adds a slot and rejects more than twenty slots without writing", async () => {
+  mount();
+  await edit();
+  for (let i = 0; i < 21; i++)
+    fireEvent.click(screen.getByText("ADD_TIME_SLOT"));
+  expect(screen.getByLabelText("Slot 21 start time")).toBeInTheDocument();
+  fireEvent.click(screen.getByText("SAVE"));
+  expect(await screen.findByRole("alert")).toHaveTextContent(
+    "You can save up to 20 time slots.",
+  );
+  expect(saveAvailability).not.toHaveBeenCalled();
+});
+
+test("declining Cancel preserves unsaved edits", async () => {
+  window.confirm.mockReturnValue(false);
+  fetchAvailability.mockResolvedValue(persisted);
+  mount();
+  await edit();
+  fireEvent.change(screen.getByLabelText("Slot 1 start time"), {
+    target: { value: "17:00" },
+  });
+  fireEvent.click(screen.getByText("CANCEL"));
+  expect(screen.getByLabelText("Slot 1 start time")).toHaveValue("17:00");
+  expect(saveAvailability).not.toHaveBeenCalled();
+});
+
+test("signing out shows a sign-in message without fetching another schedule", async () => {
+  const { store } = mount();
+  await edit();
+  act(() => store.dispatch({ type: "switch", payload: null }));
+  expect(screen.getByText("Sign in to view availability.")).toBeInTheDocument();
+  expect(fetchAvailability).toHaveBeenCalledTimes(1);
+});
+
+test("uses the detected timezone when requested", async () => {
+  mount();
+  await edit();
+  fireEvent.click(screen.getByText("USE_CURRENT_TIMEZONE"));
+  expect(screen.getByLabelText("TIMEZONE")).toHaveValue(
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+  );
+});

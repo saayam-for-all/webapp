@@ -68,3 +68,34 @@ test("accepts the backend's empty state with no lastUpdatedAt", async () => {
   });
   expect((await fetchAvailability("u1")).slots).toEqual([]);
 });
+
+test("rejects missing identity before making a request", async () => {
+  await expect(fetchAvailability("")).rejects.toThrow("User ID is required");
+  await expect(saveAvailability(null, saved)).rejects.toThrow(
+    "User ID is required",
+  );
+  expect(api.post).not.toHaveBeenCalled();
+  expect(api.put).not.toHaveBeenCalled();
+});
+
+test("normalizes backend seconds to the minute precision used by time inputs", async () => {
+  api.post.mockResolvedValue({
+    data: {
+      success: true,
+      data: {
+        ...saved,
+        slots: [
+          {
+            id: 1,
+            frequency: "Monday",
+            startTime: "09:15:00",
+            endTime: "10:30:00",
+          },
+        ],
+      },
+    },
+  });
+  expect((await fetchAvailability("u1")).slots).toEqual([
+    { id: 1, frequency: "Monday", startTime: "09:15", endTime: "10:30" },
+  ]);
+});
