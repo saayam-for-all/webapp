@@ -11,6 +11,10 @@ jest.mock("react-router-dom", () => ({
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key) => mockTranslations[key] || key,
+    i18n: {
+      resolvedLanguage: "en",
+      language: "en",
+    },
   }),
 }));
 
