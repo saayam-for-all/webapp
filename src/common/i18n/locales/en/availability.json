@@ -30,5 +30,19 @@
   "END_TIME_MUST_BE_AFTER_START_TIME": "End time must be after start time",
   "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "Please Provide Your Available Time Slots for Volunteering",
   "ADD": "Add",
-  "REMOVE_ROW": "Remove row"
+  "REMOVE_ROW": "Remove row",
+  "MAX_SLOTS": "You can save up to 20 time slots.",
+  "VACATION_UNAVAILABLE": "Vacation settings are not available yet and are not saved.",
+  "DISCARD_CHANGES": "Discard unsaved changes?",
+  "SIGN_IN_REQUIRED": "Sign in to view availability.",
+  "LOAD_ERROR": "Availability could not be loaded.",
+  "RETRY": "Retry",
+  "RELOAD": "Reload",
+  "LOADING": "Loading availability...",
+  "CONFLICT": "Availability changed elsewhere. Reload before saving again.",
+  "SLOT_FREQUENCY": "Slot {{number}} frequency",
+  "SLOT_START": "Slot {{number}} start time",
+  "SLOT_END": "Slot {{number}} end time",
+  "LAST_UPDATED": "Last updated",
+  "TIMEZONE_DIFFERS": "Your saved timezone differs from your device timezone."
 }
