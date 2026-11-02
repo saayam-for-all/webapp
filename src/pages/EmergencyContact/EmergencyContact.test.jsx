@@ -31,6 +31,7 @@ jest.mock("react-i18next", () => ({
         CATEGORY_MEDICAL: "Medical & Helplines",
         BACK_TO_DASHBOARD: "Back to Dashboard",
         EMERGENCY_CONTACTS: "Emergency Contacts",
+        NOT_AVAILABLE: "Not available",
       };
       return translations[key] || key;
     },
@@ -103,6 +104,79 @@ describe("EmergencyContact - Issue #1959", () => {
     ).toBeInTheDocument();
   });
 
+  it("handles stringified JSON body from API response", async () => {
+    getEmergencyContactInfo.mockResolvedValue({
+      body: JSON.stringify({
+        services: {
+          police: { dial_number: "117", display_number: "117" },
+          child_helpline: { dial_number: "147", display_number: "147" },
+        },
+        country: "CH",
+        resolved_location: { city: "Zurich", country: "CH" },
+      }),
+    });
+
+    render(<EmergencyContact />);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Area Detected: Zurich \(CH\)/),
+      ).toBeInTheDocument();
+    });
+
+    const list = screen.getByTestId("emergency-contacts-list");
+    expect(within(list).getByText(/Police — 117/)).toBeInTheDocument();
+    expect(within(list).getByText(/Child Helpline — 147/)).toBeInTheDocument();
+  });
+
+  it("handles malformed JSON body gracefully", async () => {
+    getEmergencyContactInfo.mockResolvedValue({
+      body: "invalid json string",
+    });
+
+    render(<EmergencyContact />);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "We couldn't load emergency numbers for your location",
+        ),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("navigates back to dashboard when back button is clicked", async () => {
+    getEmergencyContactInfo.mockResolvedValue({
+      services: {
+        police: { dial_number: "911", display_number: "911" },
+      },
+      country: "US",
+    });
+
+    render(<EmergencyContact embedded={false} />);
+
+    const backButton = screen.getByRole("button", {
+      name: /Back to Dashboard/i,
+    });
+    fireEvent.click(backButton);
+    expect(mockNavigate).toHaveBeenCalledWith("/dashboard");
+  });
+
+  it("does not render back button when embedded is true", async () => {
+    getEmergencyContactInfo.mockResolvedValue({
+      services: {
+        police: { dial_number: "911", display_number: "911" },
+      },
+      country: "US",
+    });
+
+    render(<EmergencyContact embedded={true} />);
+
+    expect(
+      screen.queryByRole("button", { name: /Back to Dashboard/i }),
+    ).not.toBeInTheDocument();
+  });
+
   it("shows error state with Retry button when the API fails", async () => {
     getEmergencyContactInfo.mockRejectedValue(new Error("Network error"));
 
@@ -121,7 +195,6 @@ describe("EmergencyContact - Issue #1959", () => {
       screen.queryByTestId("emergency-contacts-list"),
     ).not.toBeInTheDocument();
 
-    // Verify retry calls fetch again
     getEmergencyContactInfo.mockResolvedValueOnce({
       services: {
         police: { dial_number: "112", display_number: "112" },
@@ -165,5 +238,23 @@ describe("EmergencyContact - Issue #1959", () => {
 
     const list = screen.getByTestId("emergency-contacts-list");
     expect(within(list).getByText(/Police — 100/)).toBeInTheDocument();
+  });
+
+  it("handles geolocation unsupported environment", async () => {
+    delete global.navigator.geolocation;
+
+    getEmergencyContactInfo.mockResolvedValue({
+      services: {
+        police: { dial_number: "999", display_number: "999" },
+      },
+      country: "GB",
+    });
+
+    render(<EmergencyContact />);
+
+    await waitFor(() => {
+      const list = screen.getByTestId("emergency-contacts-list");
+      expect(within(list).getByText(/Police — 999/)).toBeInTheDocument();
+    });
   });
 });
