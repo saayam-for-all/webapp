@@ -157,7 +157,7 @@ const AdditionalFieldsDisplay = ({ requestId, requesterId, category }) => {
 
   return (
     <div
-      className="mt-3 mb-4 space-y-2"
+      className="mt-3 mb-4 ml-4 space-y-2"
       data-testid="additional-fields-display"
     >
       {entries.map(([fieldId, rawValue]) => {
