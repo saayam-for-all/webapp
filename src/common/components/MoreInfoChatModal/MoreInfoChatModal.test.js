@@ -8,6 +8,18 @@ import {
 } from "@testing-library/react";
 import MoreInfoChatModal from "./MoreInfoChatModal";
 
+jest.mock("react-redux", () => ({
+  useSelector: jest.fn((fn) =>
+    fn({
+      auth: {
+        user: {
+          userDbId: "SID-LOGGED-IN-001",
+        },
+      },
+    }),
+  ),
+}));
+
 jest.mock("../../../services/requestServices", () => ({
   moreInformationChat: jest.fn(),
 }));
