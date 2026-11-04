@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { signInWithRedirect } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
@@ -30,6 +31,7 @@ import {
 } from "../../services/requestServices";
 import {
   getStatusOptions,
+  getBulkStatusOptions,
   getStewardStatusOptions,
   getPriorityOptions,
   getTypeOptions,
@@ -557,40 +559,12 @@ const Dashboard = ({ userRole }) => {
       return getStewardStatusOptions(t);
     }
 
-    // Get status options from Enums API (with translations)
-    const enumStatuses = getStatusOptions(t);
+    // Get status options from Enums API (with translations).
+    // The dropdown renders its own "All" checkbox, so leave it out here.
+    return getStatusOptions(t).filter((status) => status.key !== "All");
+  }, [t, selectedDashboard]);
 
-    // Deduplicate enum statuses by key to prevent duplicates
-    const statusMap = new Map();
-    enumStatuses.forEach((status) => {
-      if (!statusMap.has(status.key)) {
-        statusMap.set(status.key, status);
-      }
-    });
-
-    // Also get statuses from current data for backward compatibility
-    const dataStatuses = [
-      ...new Set(
-        getRequestRows(data)
-          .map((r) => r.status)
-          .filter(Boolean),
-      ),
-    ];
-
-    // Add any data statuses not in enums
-    dataStatuses.forEach((status) => {
-      const normalized = normalizeStatusValue(status);
-      if (!statusMap.has(normalized)) {
-        statusMap.set(normalized, {
-          key: normalized,
-          value: status,
-          label: status,
-        });
-      }
-    });
-
-    return Array.from(statusMap.values());
-  }, [data, t, selectedDashboard]);
+  const bulkStatusOptions = useMemo(() => getBulkStatusOptions(t), [t]);
 
   const categoryOptions = useMemo(() => {
     return getDashboardCategoryOptions(getRequestRows(data), t);
@@ -1514,7 +1488,7 @@ const Dashboard = ({ userRole }) => {
                 className="border border-gray-300 rounded-md py-2 px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
                 <option value="">Change Status</option>
-                {statusOptions.map((status) => (
+                {bulkStatusOptions.map((status) => (
                   <option key={status.key} value={status.key}>
                     {status.label}
                   </option>

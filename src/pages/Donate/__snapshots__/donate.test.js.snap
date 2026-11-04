@@ -75,6 +75,18 @@ exports[`Donate renders correctly 1`] = `
                 />
               </button>
             </div>
+            <div
+              class="mt-6 border-t border-gray-300 pt-4 text-center"
+            >
+              <p
+                class="font-semibold"
+              >
+                mockTranslate(Checks payable to "Saayam For All")
+              </p>
+              <p>
+                mockTranslate(Mail to: 3046 Rosato Ct. San Jose CA 95135)
+              </p>
+            </div>
           </div>
         </div>
         <div
@@ -251,6 +263,18 @@ exports[`Donate renders correctly 1`] = `
                 style="height: 25px; width: auto; display: block; margin: 0px auto;"
               />
             </button>
+          </div>
+          <div
+            class="mt-6 border-t border-gray-300 pt-4 text-center"
+          >
+            <p
+              class="font-semibold"
+            >
+              mockTranslate(Checks payable to "Saayam For All")
+            </p>
+            <p>
+              mockTranslate(Mail to: 3046 Rosato Ct. San Jose CA 95135)
+            </p>
           </div>
         </div>
       </div>

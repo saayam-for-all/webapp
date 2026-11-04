@@ -8,6 +8,7 @@ import {
   getManagedRequests,
   getMyRequests,
   updateRequest,
+  getEmergencyContactInfo,
 } from "./requestServices";
 
 jest.mock("./api");
@@ -208,6 +209,76 @@ describe("requestServices", () => {
       api.get.mockRejectedValue(new Error("Network error"));
 
       await expect(getAllPaginatedRequests()).rejects.toThrow("Network error");
+    });
+  });
+
+  describe("getEmergencyContactInfo", () => {
+    it("calls API without params when none are provided", async () => {
+      api.get.mockResolvedValue({ data: { country: "US" } });
+      const result = await getEmergencyContactInfo();
+      expect(api.get).toHaveBeenCalledWith(expect.any(String), {
+        params: undefined,
+      });
+      expect(result).toEqual({ country: "US" });
+    });
+
+    it("calls API with lat and lng params", async () => {
+      api.get.mockResolvedValue({ data: { country: "DE" } });
+      await getEmergencyContactInfo({ lat: 50.0, lng: 8.5 });
+      expect(api.get).toHaveBeenCalledWith(expect.any(String), {
+        params: { lat: 50.0, lng: 8.5 },
+      });
+    });
+
+    it("calls API with country param", async () => {
+      api.get.mockResolvedValue({ data: { country: "CZ" } });
+      await getEmergencyContactInfo({ country: "CZ" });
+      expect(api.get).toHaveBeenCalledWith(expect.any(String), {
+        params: { country: "CZ" },
+      });
+    });
+
+    it("calls API with both coordinates and country", async () => {
+      api.get.mockResolvedValue({ data: { country: "IN" } });
+      await getEmergencyContactInfo({ lat: 12.9, lng: 77.5, country: "IN" });
+      expect(api.get).toHaveBeenCalledWith(expect.any(String), {
+        params: { lat: 12.9, lng: 77.5, country: "IN" },
+      });
+    });
+  });
+
+  describe("getEmergencyContactInfo", () => {
+    it("calls API without params when none are provided", async () => {
+      api.get.mockResolvedValue({ data: { country: "US" } });
+      const result = await getEmergencyContactInfo();
+      expect(api.get).toHaveBeenCalledWith(expect.any(String), {
+        params: undefined,
+      });
+      expect(result).toEqual({ country: "US" });
+    });
+
+    it("calls API with lat and lng params", async () => {
+      api.get.mockResolvedValue({ data: { country: "DE" } });
+      await getEmergencyContactInfo({ lat: 50.0, lng: 8.5 });
+      expect(api.get).toHaveBeenCalledWith(expect.any(String), {
+        params: { lat: 50.0, lng: 8.5 },
+      });
+    });
+
+    it("calls API with country param", async () => {
+      api.get.mockResolvedValue({ data: { country: "CZ" } });
+      await getEmergencyContactInfo({ country: "CZ" });
+      expect(api.get).toHaveBeenCalledWith(expect.any(String), {
+        params: { country: "CZ" },
+      });
+    });
+
+    it("calls API with both coordinates and country", async () => {
+      api.get.mockResolvedValue({ data: { country: "IN" } });
+      await getEmergencyContactInfo({ lat: 12.9, lng: 77.5, country: "IN" });
+      expect(api.get).toHaveBeenCalledWith(expect.any(String), {
+        params: { lat: 12.9, lng: 77.5, country: "IN" },
+      });
     });
   });
   describe("getManagedRequests", () => {

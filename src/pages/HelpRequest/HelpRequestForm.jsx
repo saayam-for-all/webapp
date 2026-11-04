@@ -12,10 +12,6 @@ import { loadCategories } from "../../redux/features/help_request/requestActions
 import { FiPaperclip } from "react-icons/fi";
 import { changeUiLanguage } from "../../common/i18n/utils";
 import { mapHelpRequestPayload } from "../../utils/mapHelpRequestPayload";
-import {
-  useAddRequestMutation,
-  useGetAllRequestQuery,
-} from "../../services/requestApi";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import {
   createRequest,
@@ -207,8 +203,6 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     severity: "info", // 'success', 'error', 'warning' also valid
   });
 
-  const { data, error, isLoading } = useGetAllRequestQuery();
-  const [addRequest] = useAddRequestMutation();
   const { id } = useParams();
 
   const inputref = useRef(null);
@@ -362,24 +356,15 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     return v; // fallback to raw value
   };
 
-  const routeRequestData =
-    id && data ? data.body?.find((item) => item.id === id) : null;
   const additionalFieldsRequestId =
-    editRequestData?.requestId ||
-    editRequestData?.id ||
-    routeRequestData?.requestId ||
-    routeRequestData?.id;
+    editRequestData?.requestId || editRequestData?.id;
+
   const additionalFieldsRequesterId =
-    editRequestData?.creatorId || routeRequestData?.requesterId || userDbId;
+    editRequestData?.creatorId || editRequestData?.requesterId || userDbId;
 
   // Restore request for edit
-  // Supports two data sources:
-  //   1. editRequestData prop (passed from RequestDetails modal)
-  //   2. Fallback to URL params + RTK query (route-based edit)
   useEffect(() => {
-    const requestData =
-      editRequestData ||
-      (id && data ? data.body?.find((item) => item.id === id) : null);
+    const requestData = editRequestData;
 
     if (requestData) {
       // Normalize language fields so the select options match (code -> display name)
@@ -470,7 +455,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         );
       }
     }
-  }, [editRequestData, data, id]);
+  }, [editRequestData]);
 
   useEffect(() => {
     if (!isEdit) return undefined;
@@ -1518,7 +1503,6 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
   };
 
   // ---------- RENDER ----------
-  if (isLoading) return <div>Loading...</div>;
   const hasSubCats = hoveredCategory?.subCategories?.length > 0;
   const hasSubSubCats = hoveredSubcategory?.subCategories?.length > 0;
   return (

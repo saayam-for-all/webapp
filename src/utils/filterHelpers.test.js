@@ -2,6 +2,8 @@ import {
   getEnumsFromStorage,
   getCategoriesFromStorage,
   getStatusOptions,
+  getBulkStatusOptions,
+  getStewardStatusOptions,
   getPriorityOptions,
   getTypeOptions,
   getCategoryOptions,
@@ -13,6 +15,19 @@ import {
 } from "./filterHelpers";
 
 const mockT = (key, fallback) => fallback;
+
+const API_REQUEST_STATUS = {
+  0: "CREATED",
+  1: "MATCHING_VOLUNTEER",
+  2: "IN_PROGRESS",
+  3: "RESOLVED",
+  4: "CANCELLED",
+  5: "DELETED",
+  6: "RATED_BY_REQUESTER",
+  7: "RATED_BY_VOLUNTEER",
+  8: "VOLUNTEER_NOT_FOUND",
+  9: "VOLUNTEER_REASSIGNMENT",
+};
 
 describe("filterHelpers", () => {
   beforeEach(() => {
@@ -79,9 +94,75 @@ describe("filterHelpers", () => {
       expect(translateSpy).not.toHaveBeenCalledWith("common.All", "All");
     });
 
+    it("returns translated options from indexed-object enums (regression test)", () => {
+      localStorage.setItem(
+        "enums",
+        JSON.stringify({ requestStatus: API_REQUEST_STATUS }),
+      );
+      const options = getStatusOptions(mockT);
+      expect(options.map((o) => o.key)).toEqual([
+        "All",
+        ...Object.values(API_REQUEST_STATUS),
+      ]);
+    });
+
     it("falls back to default values when enums missing", () => {
       const options = getStatusOptions(mockT);
-      expect(options.some((o) => o.key === "CREATED")).toBe(true);
+      expect(options.map((o) => o.key)).toEqual([
+        "All",
+        ...Object.values(API_REQUEST_STATUS),
+      ]);
+    });
+
+    it.each([
+      "en",
+      "de",
+      "es",
+      "fr",
+      "ru",
+      "hi",
+      "te",
+      "zh",
+      "pt",
+      "bn",
+      "ar",
+      "ur",
+    ])("has a %s translation for every API status", (language) => {
+      const { requestStatus } = require(
+        `../common/i18n/locales/${language}/enums.json`,
+      );
+      Object.values(API_REQUEST_STATUS).forEach((status) => {
+        expect(requestStatus[status]).toEqual(expect.any(String));
+      });
+    });
+  });
+
+  describe("getBulkStatusOptions", () => {
+    it("is not affected by the enums in storage", () => {
+      localStorage.setItem(
+        "enums",
+        JSON.stringify({ requestStatus: API_REQUEST_STATUS }),
+      );
+      expect(getBulkStatusOptions(mockT).map((o) => o.key)).toEqual([
+        "CREATED",
+        "MATCHING_VOLUNTEER",
+        "MANAGED",
+        "RESOLVED",
+        "CANCELLED",
+      ]);
+    });
+  });
+
+  describe("getStewardStatusOptions", () => {
+    it("is not affected by the enums in storage", () => {
+      localStorage.setItem(
+        "enums",
+        JSON.stringify({ requestStatus: API_REQUEST_STATUS }),
+      );
+      expect(getStewardStatusOptions(mockT).map((o) => o.key)).toEqual([
+        "VOLUNTEER_NOT_FOUND",
+        "VOLUNTEER_REASSIGNMENT",
+      ]);
     });
   });
 

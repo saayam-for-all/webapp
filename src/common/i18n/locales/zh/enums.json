@@ -13,6 +13,7 @@
     "CREATED": "已创建",
     "MATCHING_VOLUNTEER": "志愿者匹配",
     "MANAGED": "已管理",
+    "IN_PROGRESS": "进行中",
     "RESOLVED": "已解决",
     "CANCELLED": "已取消",
     "DELETED": "已删除",

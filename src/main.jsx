@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Amplify } from "aws-amplify";
+import "aws-amplify/auth/enable-oauth-listener";
 import { Provider } from "react-redux";
 import { I18nextProvider } from "react-i18next";
 import App from "./App.jsx";
