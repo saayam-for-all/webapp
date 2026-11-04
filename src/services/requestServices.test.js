@@ -5,6 +5,7 @@ import {
   generateSubject,
   getAdditionalFields,
   getAllPaginatedRequests,
+  getManagedRequests,
   getMyRequests,
   updateRequest,
 } from "./requestServices";
@@ -207,6 +208,52 @@ describe("requestServices", () => {
       api.get.mockRejectedValue(new Error("Network error"));
 
       await expect(getAllPaginatedRequests()).rejects.toThrow("Network error");
+    });
+  });
+  describe("getManagedRequests", () => {
+    it("fetches requests for a volunteer with correct pagination", async () => {
+      // Arrange
+      const mockData = {
+        content: [{ requestId: "REQ-123" }],
+        totalPages: 1,
+      };
+
+      api.get.mockResolvedValue({ data: mockData });
+
+      // Act
+      const result = await getManagedRequests({
+        volunteerId: "SID-123",
+        page: 0,
+        size: 10,
+      });
+
+      // Assert
+      expect(api.get).toHaveBeenCalledWith(expect.stringContaining("SID-123"), {
+        params: { page: 0, size: 10 },
+      });
+
+      expect(result).toEqual(mockData);
+    });
+    it("uses default pagination when page and size are not provided", async () => {
+      // Arrange
+      const mockData = {
+        content: [{ requestId: "REQ-456" }],
+        totalPages: 1,
+      };
+
+      api.get.mockResolvedValue({ data: mockData });
+
+      // Act
+      const result = await getManagedRequests({
+        volunteerId: "SID-456",
+      });
+
+      // Assert
+      expect(api.get).toHaveBeenCalledWith(expect.stringContaining("SID-456"), {
+        params: { page: 0, size: 10 },
+      });
+
+      expect(result).toEqual(mockData);
     });
   });
 });

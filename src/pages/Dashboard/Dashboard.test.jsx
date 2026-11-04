@@ -1282,6 +1282,60 @@ describe("Dashboard", () => {
       expect(getManagedRequests).toHaveBeenCalled();
     });
   });
+  it("maps managed requests with correct calamity and volunteer type", async () => {
+    // Arrange: Simulate a backend response
+    const mockData = {
+      content: [
+        {
+          requestId: "REQ-123",
+          requestSubject: "Need grocery assistance",
+          requestDescription: "Need help buying groceries",
+          helpCategory: {
+            catId: "1.2",
+            catName: "FOOD",
+          },
+          requestStatus: {
+            status: "CREATED",
+          },
+          requestPriority: {
+            priority: "HIGH",
+          },
+          isCalamity: true,
+          leadVolunteerUserId: "SID-00-000-003-016",
+        },
+      ],
+      totalPages: 1,
+      totalElements: 1,
+    };
+    const { getManagedRequests } = require("../../services/requestServices");
+
+    getManagedRequests.mockResolvedValueOnce({
+      data: mockData,
+    });
+    // Act: Render the dashboard as a logged-in volunteer
+    const { getByText } = renderWithProviders(<Dashboard />, {
+      preloadedState: volunteerAuthState,
+    });
+
+    // Simulate clicking the Managed Requests tab
+    fireEvent.click(getByText("Managed Requests"));
+
+    // Wait until the API request completes
+    await waitFor(() => {
+      expect(getManagedRequests).toHaveBeenCalled();
+    });
+    await waitFor(() => {
+      expect(lastVolunteerDashboardProps.filteredData).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: "REQ-123",
+            calamity: "Yes",
+            volunteerType: "Lead Volunteer",
+          }),
+        ]),
+      );
+    });
+  });
 
   it("uses userDbId from localStorage when not in redux state", async () => {
     const { getMyRequests } = require("../../services/requestServices");
