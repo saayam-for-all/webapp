@@ -1,3 +1,8 @@
+import {
+  isValidStreetAddress,
+  verifyAddressWithOpenStreetMap,
+} from "./addressValidation";
+
 import { Country, State } from "country-state-city";
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -23,41 +28,51 @@ const genderOptions = [
   },
 ];
 
-const countryNameToCode = Object.entries(countryCodes).reduce(
-  (acc, [code, name]) => {
-    acc[name] = code;
-    return acc;
-  },
-  {},
-);
-
 export const getLocaleAndFormat = async (countryName) => {
   try {
-    const countryCode = countryNameToCode[countryName] || "US";
-    const locale = new Intl.Locale("en", {
-      region: countryCode,
-    }).toString();
-    const dateFormatter = new Intl.DateTimeFormat(locale);
-    const parts = dateFormatter.formatToParts(new Date());
-    const formatOrder = parts
-      .filter((part) => ["day", "month", "year"].includes(part.type))
-      .map((part) => {
-        if (part.type === "day") return "dd";
-        if (part.type === "month") return "MM";
-        if (part.type === "year") return "yyyy";
-        return "";
-      })
-      .join("/");
+    const response = await fetch(
+      `https://restcountries.com/v3.1/name/${countryName}?fullText=true`,
+    );
+    const data = await response.json();
+
+    if (data && data.length > 0) {
+      const country = data[0];
+      const countryCode = country.cca2;
+      const primaryLanguage = country.languages
+        ? Object.keys(country.languages)[0]
+        : "en";
+      const locale = new Intl.Locale(primaryLanguage, {
+        region: countryCode,
+      }).toString();
+      const dateFormatter = new Intl.DateTimeFormat(locale);
+      const parts = dateFormatter.formatToParts(new Date());
+      const formatOrder = parts
+        .filter((part) => ["day", "month", "year"].includes(part.type))
+        .map((part) => {
+          if (part.type === "day") return "dd";
+          if (part.type === "month") return "MM";
+          if (part.type === "year") return "yyyy";
+          return "";
+        })
+        .join("/");
+
+      return {
+        locale,
+        dateFormat: formatOrder,
+        placeholder: formatOrder
+          .replace("dd", "DD")
+          .replace("MM", "MM")
+          .replace("yyyy", "YYYY"),
+      };
+    }
 
     return {
-      locale,
-      dateFormat: formatOrder || "MM/dd/yyyy",
-      placeholder: (formatOrder || "MM/dd/yyyy")
-        .replace("dd", "DD")
-        .replace("MM", "MM")
-        .replace("yyyy", "YYYY"),
+      locale: "en-US",
+      dateFormat: "MM/dd/yyyy",
+      placeholder: "MM/DD/YYYY",
     };
   } catch (error) {
+    console.error("Error fetching country data:", error);
     return {
       locale: "en-US",
       dateFormat: "MM/dd/yyyy",
@@ -65,6 +80,14 @@ export const getLocaleAndFormat = async (countryName) => {
     };
   }
 };
+
+const countryNameToCode = Object.entries(countryCodes).reduce(
+  (acc, [code, name]) => {
+    acc[name] = code;
+    return acc;
+  },
+  {},
+);
 
 function PersonalInformation({ setHasUnsavedChanges }) {
   const { t, i18n } = useTranslation("profile");
@@ -77,8 +100,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const getCountryCodeFromZoneInfo = useCallback((zoneinfo) => {
     if (!zoneinfo) return "";
     if (countryNameToCode[zoneinfo]) return countryNameToCode[zoneinfo];
-    if (zoneinfo.length === 2 && zoneinfo === zoneinfo.toUpperCase())
+    if (zoneinfo.length === 2 && zoneinfo === zoneinfo.toUpperCase()) {
       return zoneinfo;
+    }
     return "";
   }, []);
 
@@ -112,7 +136,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     secondaryPhoneCountryCode: "US",
   });
 
-  const countries = CountryList().getData();
+  const countries = useMemo(() => CountryList().getData(), []);
   const [states, setStates] = useState([]);
 
   const getLatestStatesList = (countryCodeSelected) => {
@@ -129,15 +153,23 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     }
   };
 
-  const getCountryIsoCode = (countryName) => {
-    if (!countryName) return null;
-    const country = Country.getAllCountries().find(
-      (c) => c.name.toLowerCase() === countryName.toLowerCase(),
+  const getCountryIsoCode = (countryNameOrCode) => {
+    if (!countryNameOrCode) return null;
+
+    const countriesList = Country.getAllCountries();
+
+    const country = countriesList.find(
+      (item) =>
+        item.isoCode.toLowerCase() === countryNameOrCode.toLowerCase() ||
+        item.name.toLowerCase() === countryNameOrCode.toLowerCase(),
     );
+
     return country ? country.isoCode : null;
   };
 
   const [errors, setErrors] = useState({});
+  const [isVerifyingAddress, setIsVerifyingAddress] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [locale, setLocale] = useState("en-US");
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
   const [placeholder, setPlaceholder] = useState("MM/DD/YYYY");
@@ -149,6 +181,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       personalInfo.state &&
       personalInfo.zipCode,
   );
+
   localStorage.setItem("addressFlag", complete ? "true" : "false");
 
   useEffect(() => {
@@ -157,11 +190,16 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         (option) => option.value === personalInfo.country,
       );
       const countryName = selectedCountry?.label || "United States";
-      const { locale, dateFormat, placeholder } =
-        await getLocaleAndFormat(countryName);
-      setLocale(locale);
-      setDateFormat(dateFormat);
-      setPlaceholder(placeholder);
+
+      const {
+        locale: newLocale,
+        dateFormat: newDateFormat,
+        placeholder: newPlaceholder,
+      } = await getLocaleAndFormat(countryName);
+
+      setLocale(newLocale);
+      setDateFormat(newDateFormat);
+      setPlaceholder(newPlaceholder);
     };
 
     updateDateFormat();
@@ -169,6 +207,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
   useEffect(() => {
     const savedPersonalInfo = JSON.parse(localStorage.getItem("personalInfo"));
+
     if (savedPersonalInfo) {
       setPersonalInfo({
         ...savedPersonalInfo,
@@ -176,16 +215,19 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           ? new Date(savedPersonalInfo.dateOfBirth)
           : null,
       });
-      // If savedInfo, need to set the State list.
+
       const iso = getCountryIsoCode(savedPersonalInfo.country);
-      if (iso) getLatestStatesList(iso);
+
+      if (iso) {
+        getLatestStatesList(iso);
+      }
     }
   }, []);
 
   useEffect(() => {
     if (user?.zoneinfo) {
       const countryCode = getCountryCodeFromZoneInfo(user.zoneinfo);
-      // Initial states list based on country
+
       getLatestStatesList(countryCode);
 
       setPersonalInfo((prev) => ({
@@ -200,13 +242,30 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       ...prevInfo,
       [name]: value,
     }));
+
     const error = validateField(name, value);
-    setErrors((prev) => ({ ...prev, [name]: error }));
+
+    setErrors((prev) => {
+      const updatedErrors = {
+        ...prev,
+        [name]: error,
+      };
+
+      if (
+        ["streetAddress", "city", "state", "country", "zipCode"].includes(name)
+      ) {
+        delete updatedErrors.addressVerification;
+      }
+
+      return updatedErrors;
+    });
+
     setHasUnsavedChanges(true);
   };
 
   const handleEditClick = () => {
     setIsEditing(true);
+
     setTimeout(() => {
       if (dateOfBirthRef.current) {
         dateOfBirthRef.current.setFocus
@@ -216,7 +275,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     }, 0);
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
+    if (isVerifyingAddress) return;
+
     const newErrors = {};
     const fieldsToValidate = [
       "dateOfBirth",
@@ -227,6 +288,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       "state",
       "zipCode",
     ];
+
     fieldsToValidate.forEach((field) => {
       const error = validateField(field, personalInfo[field]);
       if (error) {
@@ -236,13 +298,65 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      return; // Prevent saving if there are errors
+      return;
     }
 
-    setIsEditing(false);
-    localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
-    window.dispatchEvent(new Event("personal-info-updated"));
-    setHasUnsavedChanges(false);
+    const selectedCountry = countries.find(
+      (option) => option.value === personalInfo.country,
+    );
+
+    const selectedState = states.find(
+      (option) => option.value === personalInfo.state,
+    );
+
+    if (!selectedCountry || !selectedState) {
+      setErrors({
+        ...newErrors,
+        addressVerification: t("ADDRESS_VERIFICATION_FAILED"),
+      });
+      return;
+    }
+
+    setIsVerifyingAddress(true);
+    setErrors({});
+
+    try {
+      const verification = await verifyAddressWithOpenStreetMap({
+        street: personalInfo.streetAddress,
+        city: personalInfo.city,
+        state: selectedState.label,
+        country: selectedCountry.label,
+        countryCode: personalInfo.country,
+        postalCode: personalInfo.zipCode,
+      });
+
+      if (!verification.isValid) {
+        const errorMessage =
+          verification.reason === "unavailable"
+            ? t("ADDRESS_VERIFICATION_UNAVAILABLE")
+            : t("ADDRESS_MISMATCH");
+
+        setErrors({
+          addressVerification: errorMessage,
+        });
+        return;
+      }
+
+      // Save locally only after successful address verification.
+      localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
+
+      window.dispatchEvent(new Event("personal-info-updated"));
+      setIsEditing(false);
+      setHasUnsavedChanges(false);
+    } catch (error) {
+      console.error("Address verification failed:", error);
+
+      setErrors({
+        addressVerification: t("ADDRESS_VERIFICATION_FAILED"),
+      });
+    } finally {
+      setIsVerifyingAddress(false);
+    }
   };
 
   const validateField = (name, value) => {
@@ -250,15 +364,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
     if (name === "streetAddress") {
       if (!value?.trim()) {
-        error = "Street Address is required.";
-      } else if (value.length < 5) {
-        error = "Street Address must be at least 5 characters long.";
+        error = t("STREET_ADDRESS_REQUIRED");
+      } else if (!isValidStreetAddress(value)) {
+        error = t("STREET_ADDRESS_INVALID");
       }
     }
 
     if (name === "streetAddress2") {
-      if (value && value.length < 5) {
-        error = "Street Address 2 must be at least 5 characters long.";
+      if (value && value.trim().length > 0 && value.trim().length < 2) {
+        error = t("STREET_ADDRESS2_INVALID");
       }
     }
 
@@ -266,7 +380,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       if (!value) {
         return "";
       }
+
       const dob = new Date(value);
+
       if (isNaN(dob.getTime())) {
         error = "Invalid Date of Birth.";
       } else if (dob > new Date()) {
@@ -275,12 +391,14 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         const today = new Date();
         let age = today.getFullYear() - dob.getFullYear();
         const monthDiff = today.getMonth() - dob.getMonth();
+
         if (
           monthDiff < 0 ||
           (monthDiff === 0 && today.getDate() < dob.getDate())
         ) {
           age--;
         }
+
         if (age < 21) {
           error = "You must be at least 21 years old.";
         }
@@ -301,15 +419,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
     if (name === "city") {
       if (!value?.trim()) {
-        error = "City is required.";
-      } else if (!/^[a-zA-Z\s-]+$/.test(value)) {
-        error = "City name can only contain letters, spaces, and hyphens.";
+        error = t("CITY_REQUIRED");
       }
     }
 
     if (name === "zipCode") {
-      if (!value || !/^[0-9-]+$/.test(value)) {
+      if (!value?.trim()) {
         error = "ZIP Code is required.";
+      } else if (value.trim().length > 20) {
+        error = t("ZIP_CODE_INVALID");
       }
     }
 
@@ -456,7 +574,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                 onChange={(e) =>
                   handleInputChange("streetAddress2", e.target.value)
                 }
-                //className="appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 className={`appearance-none block w-full bg-white-200 text-gray-700 border ${
                   errors.streetAddress2 ? "border-red-500" : "border-gray-200"
                 } rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
@@ -570,15 +687,6 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                   (option) => option.value === personalInfo.country,
                 )}
                 options={countries}
-                // If you ever re-enable country change, also reset state + update state list
-                // onChange={(selectedOption) => {
-                //   handleInputChange("country", selectedOption?.value || "");
-                //   setPersonalInfo((prevInfo) => ({
-                //     ...prevInfo,
-                //     state: "",
-                //   }));
-                //   getLatestStatesList(selectedOption?.value || "");
-                // }}
                 isDisabled={true}
                 className={`w-full ${
                   errors.country ? "border border-red-500" : ""
@@ -702,6 +810,12 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
       </div>
 
+      {errors.addressVerification && (
+        <p className="text-red-500 text-sm text-center mb-3" role="alert">
+          {errors.addressVerification}
+        </p>
+      )}
+
       {/* Save/Cancel Buttons */}
       <div className="flex justify-center mt-6">
         {!isEditing ? (
@@ -714,17 +828,21 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         ) : (
           <>
             <button
-              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
+              className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleSaveClick}
+              disabled={isVerifyingAddress}
             >
-              {t("SAVE")}
+              {isVerifyingAddress ? t("VERIFYING_ADDRESS") : t("SAVE")}
             </button>
+
             <button
-              className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+              className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isSaving}
               onClick={() => {
                 const savedPersonalInfo = JSON.parse(
                   localStorage.getItem("personalInfo"),
                 );
+
                 if (savedPersonalInfo) {
                   setPersonalInfo({
                     ...savedPersonalInfo,
@@ -732,21 +850,33 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                       ? new Date(savedPersonalInfo.dateOfBirth)
                       : null,
                   });
+
+                  const iso = getCountryIsoCode(savedPersonalInfo.country);
+
+                  if (iso) {
+                    getLatestStatesList(iso);
+                  }
                 } else {
+                  const defaultCountry =
+                    getCountryCodeFromZoneInfo(user?.zoneinfo) || "US";
+
                   setPersonalInfo({
                     dateOfBirth: null,
                     gender: "",
                     streetAddress: "",
                     streetAddress2: "",
                     city: "",
-                    country: getCountryCodeFromZoneInfo(user?.zoneinfo) || "US",
+                    country: defaultCountry,
                     state: "",
                     zipCode: "",
                     secondaryEmail: "",
                     secondaryPhone: "",
                     secondaryPhoneCountryCode: "US",
                   });
+
+                  getLatestStatesList(defaultCountry);
                 }
+
                 setIsEditing(false);
                 setErrors({});
                 setHasUnsavedChanges(false);
