@@ -1,13 +1,7 @@
-import { useState, useEffect, useRef, useMemo } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
 import { FiClock } from "react-icons/fi";
-import { useSelector } from "react-redux";
-import {
-  fetchAvailability,
-  saveAvailability,
-} from "../../services/availabilityService";
 import LoadingIndicator from "../../common/components/Loading/Loading";
 
 const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
@@ -59,16 +53,16 @@ const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
   }
 };
 
-const convertTo12HourFormat = (time24h, currentLocale) => {
+const convertTo12HourFormat = (time24h) => {
   if (!time24h) return "";
   try {
     const [hours, minutes] = time24h.split(":").map(Number);
-    const date = new Date(Date.UTC(2000, 0, 1, hours, minutes));
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
     return date.toLocaleTimeString(currentLocale, {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
-      timeZone: "UTC",
     });
   } catch (e) {
     console.error("Error converting time to 12-hour format:", time24h, e);
@@ -87,30 +81,6 @@ function Availability({ setHasUnsavedChanges }) {
   const [vacationStartDate, setVacationStartDate] = useState("");
   const [vacationEndDate, setVacationEndDate] = useState("");
   const [timezone, setTimezone] = useState("UTC");
-  const userId = useSelector((state) => state.auth?.user?.userDbId);
-  const currentUser = useRef(userId);
-  currentUser.current = userId;
-  const [loadedUser, setLoadedUser] = useState(null);
-  const [saved, setSaved] = useState(null);
-  const [error, setError] = useState("");
-  const [notice, setNotice] = useState("");
-  const [retry, setRetry] = useState(0);
-  const nextSlotId = useRef(0);
-  const requestEpoch = useRef(0);
-
-  const restore = (data) => {
-    setAvailabilitySlots(
-      data.slots.map((slot) => ({ ...slot, id: ++nextSlotId.current })),
-    );
-    setVacationMode(false);
-    setVacationStartDate("");
-    setVacationEndDate("");
-    setTimezone(
-      data.timezone ||
-        Intl.DateTimeFormat().resolvedOptions().timeZone ||
-        "UTC",
-    );
-  };
 
   const currentLocale = i18n.language || "en-US";
 
@@ -220,32 +190,34 @@ function Availability({ setHasUnsavedChanges }) {
   );
 
   useEffect(() => {
-    let active = true;
-    requestEpoch.current += 1;
-    setLoadedUser(null);
-    setSaved(null);
-    setIsEditing(false);
-    setError("");
-    setNotice("");
-    if (!userId) return;
-    setLoading(true);
-    fetchAvailability(userId)
-      .then((data) => {
-        if (!active) return;
-        setSaved(data);
-        restore(data);
-        setLoadedUser(userId);
-      })
-      .catch(() => {
-        if (active) setError("load");
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [userId, retry]);
+    const savedAvailability = JSON.parse(
+      localStorage.getItem("availabilityData") || "null",
+    );
+    if (savedAvailability) {
+      setAvailabilitySlots(savedAvailability.slots || []);
+      setVacationMode(savedAvailability.vacationMode || false);
+      setVacationStartDate(savedAvailability.vacationStartDate || "");
+      setVacationEndDate(savedAvailability.vacationEndDate || "");
+      setTimezone(savedAvailability.timezone || "UTC");
+    }
+
+    if (!savedAvailability?.timezone || savedAvailability.timezone === "UTC") {
+      const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const isValidDetected =
+        allAvailableTimezones.some((tz) => tz.value === detectedTimezone) ||
+        detectedTimezone.includes("/");
+
+      if (isValidDetected) {
+        setTimezone(detectedTimezone);
+        setCurrentTimezoneInfo(
+          getTimezoneDetails(detectedTimezone, currentLocale),
+        );
+      } else {
+        setTimezone("UTC");
+        setCurrentTimezoneInfo(getTimezoneDetails("UTC", currentLocale));
+      }
+    }
+  }, [allAvailableTimezones, currentLocale]);
 
   useEffect(() => {
     const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -269,12 +241,7 @@ function Availability({ setHasUnsavedChanges }) {
   const handleAddSlot = () => {
     setAvailabilitySlots([
       ...availabilitySlots,
-      {
-        id: ++nextSlotId.current,
-        frequency: "Everyday",
-        startTime: "",
-        endTime: "",
-      },
+      { id: Date.now(), frequency: "Everyday", startTime: "", endTime: "" },
     ]);
   };
 
@@ -291,19 +258,10 @@ function Availability({ setHasUnsavedChanges }) {
   };
 
   const handleEditClick = () => {
-    setError("");
-    setNotice("");
     setIsEditing(true);
   };
 
   const validateTimeSlots = () => {
-    if (availabilitySlots.length > 20)
-      return {
-        isValid: false,
-        message: tAvailability("MAX_SLOTS", {
-          defaultValue: "You can save up to 20 time slots.",
-        }),
-      };
     for (const slot of availabilitySlots) {
       if (!slot.frequency || !slot.startTime || !slot.endTime) {
         return {
@@ -321,16 +279,32 @@ function Availability({ setHasUnsavedChanges }) {
     return { isValid: true };
   };
 
+  const validateVacationDates = () => {
+    if (vacationMode && vacationStartDate && vacationEndDate) {
+      if (new Date(vacationStartDate) >= new Date(vacationEndDate)) {
+        return {
+          isValid: false,
+          message: tAvailability("VACATION_START_BEFORE_END"),
+        };
+      }
+    }
+    return { isValid: true };
+  };
+
   const handleSaveClick = async () => {
-    const savingUser = userId;
-    const epoch = requestEpoch.current;
     setLoading(true);
-    setError("");
 
     try {
       const slotsValidation = validateTimeSlots();
       if (!slotsValidation.isValid) {
-        setError(slotsValidation.message);
+        alert(slotsValidation.message);
+        setLoading(false);
+        return;
+      }
+
+      const vacationValidation = validateVacationDates();
+      if (!vacationValidation.isValid) {
+        alert(vacationValidation.message);
         setLoading(false);
         return;
       }
@@ -341,48 +315,50 @@ function Availability({ setHasUnsavedChanges }) {
         vacationStartDate,
         vacationEndDate,
         timezone,
+        lastUpdated: new Date().toISOString(),
       };
 
-      const data = await saveAvailability(savingUser, availabilityData);
-      if (currentUser.current !== savingUser || requestEpoch.current !== epoch)
-        return;
-      setSaved(data);
-      restore(data);
-      setIsEditing(false);
-      setHasUnsavedChanges(false);
-      setNotice(tAvailability("AVAILABILITY_UPDATED_SUCCESS"));
-    } catch (error) {
-      if (
-        currentUser.current === savingUser &&
-        requestEpoch.current === epoch
-      ) {
-        const status = error?.response?.status;
-        const message = error?.response?.data?.message;
-        setError(
-          status === 400 && typeof message === "string" && message.length < 500
-            ? message
-            : status === 409
-              ? "conflict"
-              : "save",
-        );
-      }
-    } finally {
-      if (currentUser.current === savingUser && requestEpoch.current === epoch)
+      localStorage.setItem(
+        "availabilityData",
+        JSON.stringify(availabilityData),
+      );
+
+      // TODO: Replace with actual API call when backend is ready
+      // await updateUserAvailability(availabilityData);
+
+      setTimeout(() => {
+        setIsEditing(false);
+        setHasUnsavedChanges(false);
         setLoading(false);
+        alert(
+          tAvailability("AVAILABILITY_UPDATED_SUCCESS") ||
+            "Availability successfully changed",
+        );
+      }, 500);
+    } catch (error) {
+      console.error("Error saving availability:", error);
+      alert(tAvailability("SAVE_ERROR"));
+      setLoading(false);
     }
   };
 
   const handleCancelClick = () => {
-    if (
-      !window.confirm(
-        tAvailability("DISCARD_CHANGES", {
-          defaultValue: "Discard unsaved changes?",
-        }),
-      )
-    )
-      return;
-    restore(saved);
-    setError("");
+    const savedAvailability = JSON.parse(
+      localStorage.getItem("availabilityData") || "null",
+    );
+    if (savedAvailability) {
+      setAvailabilitySlots(savedAvailability.slots || []);
+      setVacationMode(savedAvailability.vacationMode || false);
+      setVacationStartDate(savedAvailability.vacationStartDate || "");
+      setVacationEndDate(savedAvailability.vacationEndDate || "");
+      setTimezone(savedAvailability.timezone || "UTC");
+    } else {
+      setAvailabilitySlots([]);
+      setVacationMode(false);
+      setVacationStartDate("");
+      setVacationEndDate("");
+      setTimezone("UTC");
+    }
 
     setIsEditing(false);
     setHasUnsavedChanges(false);
@@ -398,74 +374,10 @@ function Availability({ setHasUnsavedChanges }) {
     allAvailableTimezones.find((tz) => tz.value === timezone)?.label ||
     getTimezoneDetails(timezone, currentLocale).label;
 
-  if (!userId)
-    return (
-      <p role="status">
-        {tAvailability("SIGN_IN_REQUIRED", {
-          defaultValue: "Sign in to view availability.",
-        })}
-      </p>
-    );
-  if (loadedUser !== userId)
-    return error === "load" ? (
-      <div role="alert">
-        <p>
-          {tAvailability("LOAD_ERROR", {
-            defaultValue: "Availability could not be loaded.",
-          })}
-        </p>
-        <button onClick={() => setRetry((value) => value + 1)}>
-          {tAvailability("RETRY", { defaultValue: "Retry" })}
-        </button>
-      </div>
-    ) : (
-      <div role="status">
-        <LoadingIndicator size="24px" />
-        {tAvailability("LOADING", { defaultValue: "Loading availability..." })}
-      </div>
-    );
-
   return (
     <div className="flex flex-col border p-6 rounded-lg w-full">
-      {notice && (
-        <p role="status" className="mb-3 text-green-700">
-          {notice}
-        </p>
-      )}
-      {error && (
-        <div role="alert" className="mb-3 text-red-700">
-          {error === "save"
-            ? tAvailability("SAVE_ERROR", {
-                defaultValue:
-                  "Availability could not be saved. Please try again.",
-              })
-            : error === "conflict"
-              ? tAvailability("CONFLICT", {
-                  defaultValue:
-                    "Availability changed elsewhere. Reload before saving again.",
-                })
-              : error}
-          {error === "conflict" && (
-            <button
-              disabled={loading}
-              onClick={() => {
-                if (
-                  window.confirm(
-                    tAvailability("DISCARD_CHANGES", {
-                      defaultValue: "Discard unsaved changes?",
-                    }),
-                  )
-                )
-                  setRetry((value) => value + 1);
-              }}
-            >
-              {tAvailability("RELOAD", { defaultValue: "Reload" })}
-            </button>
-          )}
-        </div>
-      )}
       {isEditing ? (
-        <fieldset disabled={loading} className="mb-6 min-w-0">
+        <div className="mb-6">
           {/* Timezone Selection */}
           <div className="mb-6">
             <label
@@ -474,19 +386,13 @@ function Availability({ setHasUnsavedChanges }) {
             >
               {tAvailability("TIMEZONE")}
             </label>
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2">
               <select
                 id="timezone-select"
-                ref={titleRef}
                 value={timezone}
                 onChange={(e) => setTimezone(e.target.value)}
                 className="appearance-none block w-full max-w-lg bg-white text-gray-700 border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               >
-                {!allAvailableTimezones.some(
-                  (option) => option.value === timezone,
-                ) && (
-                  <option value={timezone}>{selectedTimezoneDisplay}</option>
-                )}
                 {/* Grouping by UTC offset for better readability */}
                 {/* This is a more advanced grouping, for simplicity, mapping directly */}
                 {allAvailableTimezones.map((option) => (
@@ -497,7 +403,7 @@ function Availability({ setHasUnsavedChanges }) {
               </select>
               <button
                 onClick={handleUseCurrentTimezone}
-                className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm"
+                className="py-2 px-4 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm whitespace-nowrap"
                 aria-label={tAvailability("USE_CURRENT_TIMEZONE")}
               >
                 {tAvailability("USE_CURRENT_TIMEZONE")}
@@ -520,7 +426,6 @@ function Availability({ setHasUnsavedChanges }) {
             <label className="flex items-center">
               <input
                 type="checkbox"
-                disabled
                 checked={vacationMode}
                 onChange={(e) => setVacationMode(e.target.checked)}
                 className="mr-2 h-4 w-4"
@@ -530,10 +435,7 @@ function Availability({ setHasUnsavedChanges }) {
               </span>
             </label>
             <p className="text-xs text-gray-500 mt-1 ml-6">
-              {tAvailability("VACATION_UNAVAILABLE", {
-                defaultValue:
-                  "Vacation settings are not available yet and are not saved.",
-              })}
+              {tAvailability("VACATION_MODE_DESCRIPTION")}
             </p>
           </div>
 
@@ -579,16 +481,12 @@ function Availability({ setHasUnsavedChanges }) {
               {tAvailability("YOUR_AVAILABLE_TIME_SLOTS")}
             </h4>
 
-            {availabilitySlots.map((slot, index) => (
+            {availabilitySlots.map((slot) => (
               <div
                 key={slot.id}
                 className="flex flex-col sm:flex-row items-center gap-3 mb-3"
               >
                 <select
-                  aria-label={tAvailability("SLOT_FREQUENCY", {
-                    defaultValue: "Slot {{number}} frequency",
-                    number: index + 1,
-                  })}
                   value={slot.frequency}
                   onChange={(e) =>
                     handleSlotChange(slot.id, "frequency", e.target.value)
@@ -606,10 +504,6 @@ function Availability({ setHasUnsavedChanges }) {
                   <input
                     type="time"
                     value={slot.startTime}
-                    aria-label={tAvailability("SLOT_START", {
-                      defaultValue: "Slot {{number}} start time",
-                      number: index + 1,
-                    })}
                     onChange={(e) =>
                       handleSlotChange(slot.id, "startTime", e.target.value)
                     }
@@ -622,10 +516,6 @@ function Availability({ setHasUnsavedChanges }) {
                   <input
                     type="time"
                     value={slot.endTime}
-                    aria-label={tAvailability("SLOT_END", {
-                      defaultValue: "Slot {{number}} end time",
-                      number: index + 1,
-                    })}
                     onChange={(e) =>
                       handleSlotChange(slot.id, "endTime", e.target.value)
                     }
@@ -671,7 +561,7 @@ function Availability({ setHasUnsavedChanges }) {
               {t("CANCEL")}
             </button>
           </div>
-        </fieldset>
+        </div>
       ) : (
         <div>
           {/* Display Mode */}
@@ -682,22 +572,6 @@ function Availability({ setHasUnsavedChanges }) {
               {tAvailability("TIMEZONE")}
             </label>
             <p className="text-lg text-gray-900">{selectedTimezoneDisplay}</p>
-            {saved?.lastUpdatedAt && (
-              <p className="text-sm text-gray-600">
-                {tAvailability("LAST_UPDATED", {
-                  defaultValue: "Last updated",
-                })}
-                : {new Date(saved.lastUpdatedAt).toLocaleString(currentLocale)}
-              </p>
-            )}
-            {timezone !== currentTimezoneInfo.value && (
-              <p className="text-sm text-gray-600">
-                {tAvailability("TIMEZONE_DIFFERS", {
-                  defaultValue:
-                    "Your saved timezone differs from your device timezone.",
-                })}
-              </p>
-            )}
           </div>
 
           {/* Vacation Mode Display */}
@@ -708,13 +582,8 @@ function Availability({ setHasUnsavedChanges }) {
               </p>
               {vacationStartDate && vacationEndDate && (
                 <p className="text-yellow-700 text-sm">
-                  {new Date(`${vacationStartDate}T12:00:00`).toLocaleDateString(
-                    currentLocale,
-                  )}{" "}
-                  -{" "}
-                  {new Date(`${vacationEndDate}T12:00:00`).toLocaleDateString(
-                    currentLocale,
-                  )}
+                  {new Date(vacationStartDate).toLocaleDateString()} -{" "}
+                  {new Date(vacationEndDate).toLocaleDateString()}
                 </p>
               )}
             </div>
@@ -737,11 +606,8 @@ function Availability({ setHasUnsavedChanges }) {
                         :
                       </span>{" "}
                       {/* APPLY THE NEW HELPER FUNCTION HERE */}
-                      {convertTo12HourFormat(
-                        slot.startTime,
-                        currentLocale,
-                      )} - {convertTo12HourFormat(slot.endTime, currentLocale)}{" "}
-                      ({timezone})
+                      {convertTo12HourFormat(slot.startTime)} -{" "}
+                      {convertTo12HourFormat(slot.endTime)}
                     </p>
                   </div>
                 ))}
@@ -770,7 +636,3 @@ function Availability({ setHasUnsavedChanges }) {
 }
 
 export default Availability;
-
-Availability.propTypes = {
-  setHasUnsavedChanges: PropTypes.func.isRequired,
-};
