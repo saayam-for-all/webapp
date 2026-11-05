@@ -3120,3 +3120,113 @@ describe("HelpRequestForm — language dropdown (Create Request)", () => {
     expect(voiceRecorder).toBeInTheDocument();
   });
 });
+
+
+describe("HelpRequestForm — edit mode browser language default", () => {
+  const originalLanguages = Object.getOwnPropertyDescriptor(
+    window.navigator,
+    "languages",
+  );
+  const originalLanguage = Object.getOwnPropertyDescriptor(
+    window.navigator,
+    "language",
+  );
+
+  const setBrowserLanguages = (languages) => {
+    Object.defineProperty(window.navigator, "languages", {
+      configurable: true,
+      value: languages,
+    });
+    Object.defineProperty(window.navigator, "language", {
+      configurable: true,
+      value: languages[0],
+    });
+  };
+
+  afterEach(() => {
+    if (originalLanguages) {
+      Object.defineProperty(window.navigator, "languages", originalLanguages);
+    } else {
+      delete window.navigator.languages;
+    }
+    if (originalLanguage) {
+      Object.defineProperty(window.navigator, "language", originalLanguage);
+    } else {
+      delete window.navigator.language;
+    }
+    localStorage.removeItem("userPreferences");
+  });
+
+  it("uses a supported browser language when an edited request has no language", async () => {
+    setBrowserLanguages(["es-ES", "fr-FR"]);
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-1966",
+        subject: "Existing request",
+        description: "Existing description",
+        reqCatId: "general-cat-id",
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("request_language")).toHaveValue("Spanish");
+    });
+  });
+
+  it("skips unsupported browser locales and uses the next supported language", async () => {
+    setBrowserLanguages(["xx-XX", "fr-FR"]);
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-1966",
+        subject: "Existing request",
+        description: "Existing description",
+        reqCatId: "general-cat-id",
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("request_language")).toHaveValue("French");
+    });
+  });
+
+  it("keeps the saved profile language preference ahead of the browser language", async () => {
+    setBrowserLanguages(["es-ES"]);
+    localStorage.setItem(
+      "userPreferences",
+      JSON.stringify({ languagePreference1: "Hindi" }),
+    );
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-1966",
+        subject: "Existing request",
+        description: "Existing description",
+        reqCatId: "general-cat-id",
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("request_language")).toHaveValue("Hindi");
+    });
+  });
+
+  it("preserves the language already saved on the edited request", async () => {
+    setBrowserLanguages(["es-ES"]);
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-1966",
+        subject: "Existing request",
+        description: "Existing description",
+        reqCatId: "general-cat-id",
+        request_language: "Arabic",
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("request_language")).toHaveValue("Arabic");
+    });
+  });
+});

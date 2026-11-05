@@ -356,6 +356,36 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
     return v; // fallback to raw value
   };
 
+  // Select the first browser language supported by the request language dropdown.
+  // Fall back to the resolved UI language, then English, if the browser locale is unsupported.
+  const getBrowserLanguagePreference = () => {
+    const browserLanguages =
+      typeof navigator === "undefined"
+        ? []
+        : [
+            ...(Array.isArray(navigator.languages) ? navigator.languages : []),
+            navigator.language,
+          ];
+    const candidates = [
+      ...browserLanguages,
+      i18n.resolvedLanguage,
+      i18n.language,
+      "en",
+    ];
+
+    const supportedLanguage = candidates
+      .map(normalizeLanguageValue)
+      .find((normalized) =>
+        languagesData.some((language) => {
+          const optionValue =
+            language.name === "Mandarin Chinese" ? "Chinese" : language.name;
+          return optionValue === normalized;
+        }),
+      );
+
+    return supportedLanguage || "English";
+  };
+
   const additionalFieldsRequestId =
     editRequestData?.requestId || editRequestData?.id;
 
@@ -397,7 +427,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
         user?.first_language_preference ||
         user?.languagePreference1 ||
         user?.preferred_language ||
-        "";
+        getBrowserLanguagePreference();
 
       setFormData({
         ...requestData,
