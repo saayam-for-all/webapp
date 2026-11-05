@@ -373,18 +373,17 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
       "en",
     ];
 
-    for (const candidate of candidates) {
-      const normalized = normalizeLanguageValue(candidate);
-      const isSupported = languagesData.some((language) => {
-        const optionValue =
-          language.name === "Mandarin Chinese" ? "Chinese" : language.name;
-        return optionValue === normalized;
-      });
+    const supportedLanguage = candidates
+      .map(normalizeLanguageValue)
+      .find((normalized) =>
+        languagesData.some((language) => {
+          const optionValue =
+            language.name === "Mandarin Chinese" ? "Chinese" : language.name;
+          return optionValue === normalized;
+        }),
+      );
 
-      if (isSupported) return normalized;
-    }
-
-    return "English";
+    return supportedLanguage || "English";
   };
 
   const additionalFieldsRequestId =
