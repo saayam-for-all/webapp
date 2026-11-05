@@ -14,7 +14,7 @@ import LoadingIndicator from "../../common/components/Loading/Loading.jsx";
 import { checkAuthStatus } from "../../redux/features/authentication/authActions";
 import { LOGIN_ERROR_MESSAGE_KEYS } from "../../utils/auth/authErrorCodes";
 import "./Login.css";
-import { FaAmazon, FaFacebookF, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginPage = () => {
@@ -79,26 +79,20 @@ const LoginPage = () => {
 
   const socialProviders = [
     {
-      label: "Amazon",
-      icon: <FaAmazon className="mx-2 text-xl text-gray-700" />,
-      onClick: undefined,
-      disabled: true,
-    },
-    {
       label: t("common:FACEBOOK"),
-      icon: <FaFacebookF className="mx-2 text-xl text-blue-800" />,
+      icon: <FaFacebookF className="text-base text-blue-800 shrink-0" />,
       onClick: handleFacebookLogin,
       disabled: false,
     },
     {
       label: t("common:GOOGLE"),
-      icon: <FcGoogle className="mx-2 text-xl" />,
+      icon: <FcGoogle className="text-base shrink-0" />,
       onClick: handleGoogleLogin,
       disabled: false,
     },
     {
       label: "LinkedIn",
-      icon: <FaLinkedinIn className="mx-2 text-xl text-[#0A66C2]" />,
+      icon: <FaLinkedinIn className="text-base text-[#0A66C2] shrink-0" />,
       onClick: handleLinkedInLogin,
       disabled: false,
     },
@@ -320,33 +314,7 @@ const LoginPage = () => {
             routes redirect with explicit route state. Current login flow does
             not reliably receive that signal. */}
 
-        {/* Uncommment for Google and Facebook signin is fully functional*/}
-        <div className="flex items-center my-4">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="px-4 text-gray-500">{t("common:OR_WITH")}</span>
-          <div className="flex-grow border-t border-gray-300"></div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {socialProviders.map((provider) => (
-            <button
-              key={provider.label}
-              type="button"
-              disabled={provider.disabled}
-              onClick={provider.onClick}
-              className={`px-4 py-2 flex items-center justify-center border border-gray-300 rounded-xl ${
-                provider.disabled
-                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-white hover:bg-gray-50"
-              }`}
-            >
-              {provider.icon}
-              <span>{provider.label}</span>
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-16 flex flex-row justify-center">
+        <div className="mt-2 flex flex-row justify-center">
           <p>{t("common:NONE_ACCOUNT")}</p>
           <button
             className="mx-2 text-left underline"
@@ -354,6 +322,35 @@ const LoginPage = () => {
           >
             {t("common:SIGNUP")}
           </button>
+        </div>
+
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="px-4 text-gray-500">{t("common:OR_WITH")}</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2">
+          {socialProviders.map((provider) => (
+            <button
+              key={provider.label}
+              type="button"
+              disabled={provider.disabled}
+              onClick={provider.onClick}
+              aria-label={provider.label}
+              title={provider.label}
+              className={`min-w-0 px-2 py-1.5 text-sm flex items-center justify-center border border-gray-300 rounded-xl ${
+                provider.disabled
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white hover:bg-gray-50"
+              }`}
+            >
+              {provider.icon}
+              <span className="ml-1.5 hidden truncate sm:inline">
+                {provider.label}
+              </span>
+            </button>
+          ))}
         </div>
       </div>
     </div>
