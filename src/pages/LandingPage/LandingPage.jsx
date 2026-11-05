@@ -62,7 +62,7 @@ export default function Home() {
             {t("Real help. Real people. Right when you need it.")}
           </div>
           <h1 className="font-bold text-3xl md:text-6xl tracking-wide mb-[30px] md:mb-[50px] text-center px-4">
-            {t("Need help? Here to help?")}
+            {t("Need help? We're here to help?")}
           </h1>
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold text-base md:text-lg py-3 px-8 rounded-full mb-[30px] md:mb-[50px]"
