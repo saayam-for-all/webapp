@@ -468,6 +468,7 @@
   "PAGE_NOT_FOUND": "Página Não Encontrada",
   "PASSWORD": "Senha",
   "PASSWORD_CHANGE_SUCCESS": "Senha alterada com sucesso!",
+  "ACCOUNT_CREATED_SUCCESS": "Conta criada com sucesso! Por favor, faça login.",
   "PASSWORD_MISMATCH_ERROR": "As senhas não coincidem.",
   "PASSWORD_REQUIRED": "Por favor, insira sua senha",
   "PASSWORD_REQUIREMENTS": "Deve ter pelo menos 8 caracteres.",

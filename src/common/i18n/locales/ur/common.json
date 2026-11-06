@@ -89,6 +89,7 @@
   "PASSWORD_REQUIREMENTS_ERROR": "پاس ورڈ کم از کم 8 حروف کا ہونا چاہیے، جس میں 1 بڑا حرف، 1 چھوٹا حرف، 1 خاص حرف، اور 1 نمبر شامل ہو۔",
   "PASSWORD_MISMATCH_ERROR": "پاس ورڈ مماثل نہیں ہیں۔",
   "PASSWORD_CHANGE_SUCCESS": "پاس ورڈ کامیابی سے تبدیل ہو گیا!",
+  "ACCOUNT_CREATED_SUCCESS": "اکاؤنٹ کامیابی سے بن گیا! براہ کرم لاگ ان کریں۔",
   "COUNTRY": "ملک",
   "UNITED_STATES": "ریاست ہائے متحدہ امریکہ",
   "SELECT_COUNTRY": "اپنا ملک منتخب کریں",

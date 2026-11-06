@@ -463,6 +463,7 @@
   "PAGE_NOT_FOUND": "الصفحة غير موجودة",
   "PASSWORD": "كلمة المرور",
   "PASSWORD_CHANGE_SUCCESS": "تم تغيير كلمة المرور بنجاح!",
+  "ACCOUNT_CREATED_SUCCESS": "تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول.",
   "PASSWORD_MISMATCH_ERROR": "كلمتا المرور غير متطابقتين.",
   "PASSWORD_REQUIRED": "يرجى إدخال كلمة المرور",
   "PASSWORD_REQUIREMENTS": "يجب أن تحتوي على 8 أحرف على الأقل.",

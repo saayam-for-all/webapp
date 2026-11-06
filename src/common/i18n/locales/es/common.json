@@ -460,6 +460,7 @@
   "PAGE_NOT_FOUND": "Page Not Found",
   "PASSWORD": "Contraseña",
   "PASSWORD_CHANGE_SUCCESS": "Password changed successfully!",
+  "ACCOUNT_CREATED_SUCCESS": "¡Cuenta creada con éxito! Por favor inicia sesión.",
   "PASSWORD_MISMATCH_ERROR": "Passwords do not match.",
   "PASSWORD_REQUIRED": "Por favor ingresa tu contraseña",
   "PASSWORD_REQUIREMENTS": "Debe contener al menos 8 caracteres.",

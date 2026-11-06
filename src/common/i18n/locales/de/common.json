@@ -461,6 +461,7 @@
   "PAGE_NOT_FOUND": "Seite nicht gefunden",
   "PASSWORD": "Passwort",
   "PASSWORD_CHANGE_SUCCESS": "Passwort erfolgreich geändert!",
+  "ACCOUNT_CREATED_SUCCESS": "Konto erfolgreich erstellt! Bitte melden Sie sich an.",
   "PASSWORD_MISMATCH_ERROR": "Passwörter stimmen nicht überein.",
   "PASSWORD_REQUIRED": "Bitte geben Sie Ihr Passwort ein",
   "PASSWORD_REQUIREMENTS": "Muss mindestens 8 Zeichen lang sein.",
