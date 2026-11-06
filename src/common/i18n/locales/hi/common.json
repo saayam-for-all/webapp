@@ -461,6 +461,7 @@
   "PAGE_NOT_FOUND": "Page Not Found",
   "PASSWORD": "पासवर्ड",
   "PASSWORD_CHANGE_SUCCESS": "Password changed successfully!",
+  "ACCOUNT_CREATED_SUCCESS": "खाता सफलतापूर्वक बनाया गया! कृपया लॉग इन करें।",
   "PASSWORD_MISMATCH_ERROR": "Passwords do not match.",
   "PASSWORD_REQUIRED": "कृपया अपना पासवर्ड दर्ज करें",
   "PASSWORD_REQUIREMENTS": "इसमें कम से कम 8 अक्षर होने चाहिए.",

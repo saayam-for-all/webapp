@@ -462,6 +462,7 @@
   "PAGE_NOT_FOUND": "Page Not Found",
   "PASSWORD": "Пароль",
   "PASSWORD_CHANGE_SUCCESS": "Password changed successfully!",
+  "ACCOUNT_CREATED_SUCCESS": "Аккаунт успешно создан! Пожалуйста, войдите.",
   "PASSWORD_MISMATCH_ERROR": "Passwords do not match.",
   "PASSWORD_REQUIRED": "Пожалуйста, введите ваш пароль",
   "PASSWORD_REQUIREMENTS": "Должен содержать не менее 8 символов.",

@@ -461,6 +461,7 @@
   "PAGE_NOT_FOUND": "Page Not Found",
   "PASSWORD": "密码",
   "PASSWORD_CHANGE_SUCCESS": "Password changed successfully!",
+  "ACCOUNT_CREATED_SUCCESS": "账户创建成功！请登录。",
   "PASSWORD_MISMATCH_ERROR": "Passwords do not match.",
   "PASSWORD_REQUIRED": "请输入您的密码",
   "PASSWORD_REQUIREMENTS": "必须至少包含8个字符。",

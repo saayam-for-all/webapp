@@ -462,6 +462,7 @@
   "PAGE_NOT_FOUND": "পৃষ্ঠা পাওয়া যায়নি",
   "PASSWORD": "পাসওয়ার্ড",
   "PASSWORD_CHANGE_SUCCESS": "পাসওয়ার্ড সফলভাবে পরিবর্তিত হয়েছে!",
+  "ACCOUNT_CREATED_SUCCESS": "অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! অনুগ্রহ করে প্রবেশ করুন।",
   "PASSWORD_MISMATCH_ERROR": "পাসওয়ার্ড মিলছে না।",
   "PASSWORD_REQUIRED": "অনুগ্রহ করে আপনার পাসওয়ার্ড লিখুন",
   "PASSWORD_REQUIREMENTS": "কমপক্ষে ৮টি অক্ষর থাকতে হবে।",

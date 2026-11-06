@@ -460,6 +460,7 @@
   "PAGE_NOT_FOUND": "పేజీ కనుగొనబడలేదు",
   "PASSWORD": "పాస్‌వర్డ్",
   "PASSWORD_CHANGE_SUCCESS": "పాస్‌వర్డ్ విజయవంతంగా మార్చబడింది",
+  "ACCOUNT_CREATED_SUCCESS": "ఖాతా విజయవంతంగా సృష్టించబడింది! దయచేసి ప్రవేశించండి.",
   "PASSWORD_MISMATCH_ERROR": "పాస్‌వర్డ్‌లు సరిపోలలేదు",
   "PASSWORD_REQUIRED": "దయచేసి మీ పాస్‌వర్డ్‌ను నమోదు చేయండి",
   "PASSWORD_REQUIREMENTS": "కనీసం 8 అక్షరాలు ఉండాలి.",
