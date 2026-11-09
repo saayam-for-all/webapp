@@ -53,5 +53,13 @@
   "ENTER_VOLUNTEER_PHONE": "સ્વયંસેવકનો ફોન દાખલ કરો",
   "CHANGE_VOLUNTEER": "સ્વયંસેવક બદલો",
   "DELETE": "કાઢી નાખો",
-  "DELETE_ACTION": "કાઢી નાખો"
+  "DELETE_ACTION": "કાઢી નાખો",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

@@ -807,5 +807,12 @@
   "ASSIGN_VOLUNTEER": "వాలంటీర్‌ను కేటాయించండి",
   "SELECT_VOLUNTEER": "{{name}}ను ఎంచుకోండి",
   "NA": "అందుబాటులో లేదు",
-  "NOTIFY": "తెలియజేయండి"
+  "NOTIFY": "తెలియజేయండి",
+  "ALL_REQUESTS": "అన్ని అభ్యర్థనలు",
+  "ANALYTICS": "విశ్లేషణలు",
+  "REVIEW_REQUESTS": "అభ్యర్థనలను సమీక్షించండి",
+  "REVIEW_VOLUNTEERS": "వాలంటీర్లను సమీక్షించండి",
+  "INFRASTRUCTURE": "మౌలిక సదుపాయాలు",
+  "APPLICATION_ANALYTICS": "అప్లికేషన్ విశ్లేషణలు",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

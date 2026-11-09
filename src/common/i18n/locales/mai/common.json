@@ -50,5 +50,13 @@
   "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकक फोन दर्ज करू",
   "CHANGE_VOLUNTEER": "स्वयंसेवक बदलू",
   "DELETE": "हटाऊ",
-  "DELETE_ACTION": "हटाउ"
+  "DELETE_ACTION": "हटाउ",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

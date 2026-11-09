@@ -808,5 +808,12 @@
   "ASSIGN_VOLUNTEER": "Freiwilligen zuweisen",
   "SELECT_VOLUNTEER": "{{name}} auswählen",
   "NA": "Nicht verfügbar",
-  "NOTIFY": "Benachrichtigen"
+  "NOTIFY": "Benachrichtigen",
+  "ALL_REQUESTS": "Alle Anfragen",
+  "ANALYTICS": "Analysen",
+  "REVIEW_REQUESTS": "Anfragen prüfen",
+  "REVIEW_VOLUNTEERS": "Freiwillige prüfen",
+  "INFRASTRUCTURE": "Infrastruktur",
+  "APPLICATION_ANALYTICS": "Anwendungsanalytik",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

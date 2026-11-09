@@ -51,5 +51,13 @@
   "ENTER_VOLUNTEER_PHONE": "ସ୍ୱେଚ୍ଛାସେବୀଙ୍କ ଫୋନ ପ୍ରବିଷ୍ଟ କରନ୍ତୁ",
   "CHANGE_VOLUNTEER": "ସ୍ୱେଚ୍ଛାସେବୀ ପରିବର୍ତ୍ତନ କରନ୍ତୁ",
   "DELETE": "ବିଲୋପ କରନ୍ତୁ",
-  "DELETE_ACTION": "ବିଲୋପ କରନ୍ତୁ"
+  "DELETE_ACTION": "ବିଲୋପ କରନ୍ତୁ",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

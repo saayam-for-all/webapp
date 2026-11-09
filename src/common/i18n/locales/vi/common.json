@@ -50,5 +50,13 @@
   "ENTER_VOLUNTEER_PHONE": "Nhập số điện thoại tình nguyện viên",
   "CHANGE_VOLUNTEER": "Thay đổi tình nguyện viên",
   "DELETE": "Xóa",
-  "DELETE_ACTION": "Xóa"
+  "DELETE_ACTION": "Xóa",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

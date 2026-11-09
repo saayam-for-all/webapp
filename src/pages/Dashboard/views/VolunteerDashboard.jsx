@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import Table from "../../../common/components/DataTable/Table";
 import LoadingIndicator from "../../../common/components/Loading/Loading";
+import { useTranslation } from "react-i18next";
 
 const VolunteerDashboard = (props) => {
+  const { t } = useTranslation();
   const {
     activeTab,
     handleTabChange,
@@ -34,7 +36,7 @@ const VolunteerDashboard = (props) => {
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold bg-white text-blue-500 border-blue-500`}
         >
-          Managed Requests
+          {t("MANAGED_REQUESTS") || "Managed Requests"}
         </button>
       </div>
 

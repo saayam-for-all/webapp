@@ -808,5 +808,12 @@
   "ASSIGN_VOLUNTEER": "Назначить волонтёра",
   "SELECT_VOLUNTEER": "Выбрать {{name}}",
   "NA": "Недоступно",
-  "NOTIFY": "Уведомить"
+  "NOTIFY": "Уведомить",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

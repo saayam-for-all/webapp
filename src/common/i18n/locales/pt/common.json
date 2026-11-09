@@ -816,5 +816,12 @@
   "ASSIGN_VOLUNTEER": "Atribuir voluntário",
   "SELECT_VOLUNTEER": "Selecionar {{name}}",
   "NA": "Não disponível",
-  "NOTIFY": "Notificar"
+  "NOTIFY": "Notificar",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

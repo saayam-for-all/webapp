@@ -808,5 +808,12 @@
   "ASSIGN_VOLUNTEER": "स्वयंसेवक नियुक्त करें",
   "SELECT_VOLUNTEER": "{{name}} को चुनें",
   "NA": "उपलब्ध नहीं",
-  "NOTIFY": "सूचित करें"
+  "NOTIFY": "सूचित करें",
+  "ALL_REQUESTS": "सभी अनुरोध",
+  "ANALYTICS": "एनालिटिक्स",
+  "REVIEW_REQUESTS": "अनुरोधों की समीक्षा करें",
+  "REVIEW_VOLUNTEERS": "स्वयंसेवकों की समीक्षा करें",
+  "INFRASTRUCTURE": "बुनियादी ढाँचा",
+  "APPLICATION_ANALYTICS": "एप्लिकेशन एनालिटिक्स",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

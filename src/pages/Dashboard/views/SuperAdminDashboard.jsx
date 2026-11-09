@@ -3,8 +3,10 @@ import LoadingIndicator from "../../../common/components/Loading/Loading";
 import PropTypes from "prop-types";
 import ApplicationAnalytics from "../components/Analytics/ApplicationAnalytics";
 import GoogleAnalytics from "../components/Analytics/GoogleAnalytics";
+import { useTranslation } from "react-i18next";
 
 const SuperAdminDashboard = (props) => {
+  const { t } = useTranslation();
   const {
     activeTab,
     handleTabChange,
@@ -41,7 +43,7 @@ const SuperAdminDashboard = (props) => {
           }`}
           onClick={() => handleTabChange("analytics")}
         >
-          Analytics
+          {t("ANALYTICS") || "Analytics"}
         </button>
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
@@ -51,7 +53,7 @@ const SuperAdminDashboard = (props) => {
           }`}
           onClick={() => handleTabChange("myRequests")}
         >
-          All Requests
+          {t("ALL_REQUESTS") || "All Requests"}
         </button>
       </div>
 
@@ -69,7 +71,7 @@ const SuperAdminDashboard = (props) => {
         } mr-1`}
               onClick={() => setAnalyticsSubtab("Infrastructure")}
             >
-              Infrastructure
+              {t("INFRASTRUCTURE") || "Infrastructure"}
             </button>
             <button
               className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
@@ -80,7 +82,7 @@ const SuperAdminDashboard = (props) => {
         } mr-1`}
               onClick={() => setAnalyticsSubtab("Application Analytics")}
             >
-              Application Analytics
+              {t("APPLICATION_ANALYTICS") || "Application Analytics"}
             </button>
             <button
               className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
@@ -91,7 +93,7 @@ const SuperAdminDashboard = (props) => {
         }`}
               onClick={() => setAnalyticsSubtab("Google Analytics")}
             >
-              Google Analytics
+              {t("GOOGLE_ANALYTICS") || "Google Analytics"}
             </button>
           </div>
         )}

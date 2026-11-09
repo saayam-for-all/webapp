@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import Table from "../../../common/components/DataTable/Table";
 import LoadingIndicator from "../../../common/components/Loading/Loading";
 import { getMockVolunteersData } from "../../../services/volunteerServices";
+import { useTranslation } from "react-i18next";
 
 const StewardDashboard = (props) => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("allRequests");
   const [volunteerData, setVolunteerData] = useState([]);
   const [isVolunteerLoading, setIsVolunteerLoading] = useState(false);
@@ -71,7 +73,7 @@ const StewardDashboard = (props) => {
           }`}
           onClick={() => setActiveTab("allRequests")}
         >
-          Review Requests
+          {t("REVIEW_REQUESTS") || "Review Requests"}
         </button>
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
@@ -81,7 +83,7 @@ const StewardDashboard = (props) => {
           }`}
           onClick={() => setActiveTab("volunteers")}
         >
-          Review Volunteers
+          {t("REVIEW_VOLUNTEERS") || "Review Volunteers"}
         </button>
       </div>
 
