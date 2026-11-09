@@ -10,6 +10,11 @@ import Select from "react-select";
 import CountryList from "react-select-country-list";
 import PhoneNumberInputWithCountry from "../../common/components/PhoneNumberInputWithCountry";
 import countryCodes from "../../utils/country-codes-en.json";
+import {
+  isValidStreetAddress,
+  isValidCityName,
+  verifyAddressWithOpenStreetMap,
+} from "./addressValidation";
 
 const genderOptions = [
   { value: "Female", labelKey: "GENDER_OPTIONS.FEMALE" },
@@ -30,6 +35,30 @@ const countryNameToCode = Object.entries(countryCodes).reduce(
   },
   {},
 );
+
+const getCountryIsoCode = (countryName) => {
+  if (!countryName) return null;
+  if (Country.getCountryByCode(countryName)) return countryName;
+  const country = Country.getAllCountries().find(
+    (c) => c.name.toLowerCase() === countryName.toLowerCase(),
+  );
+  return country ? country.isoCode : null;
+};
+
+const restorePersonalInfo = (saved) => {
+  const country = getCountryIsoCode(saved.country) || "";
+  const state =
+    State.getStatesOfCountry(country).find(
+      (item) => item.isoCode === saved.state || item.name === saved.state,
+    )?.isoCode || "";
+  return {
+    ...saved,
+    country,
+    state,
+    city: saved.city || "",
+    dateOfBirth: saved.dateOfBirth ? new Date(saved.dateOfBirth) : null,
+  };
+};
 
 export const getLocaleAndFormat = async (countryName) => {
   try {
@@ -70,6 +99,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   const { t, i18n } = useTranslation("profile");
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(Boolean(location.state?.edit));
+  const [isVerifyingAddress, setIsVerifyingAddress] = useState(false);
+  const verificationRef = useRef(null);
+  useEffect(() => () => verificationRef.current?.abort(), []);
   const streetAddressRef = useRef(null);
   const dateOfBirthRef = useRef(null);
   const { user } = useSelector((state) => state.auth);
@@ -112,7 +144,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     secondaryPhoneCountryCode: "US",
   });
 
-  const countries = CountryList().getData();
+  const countries = useMemo(() => CountryList().getData(), []);
   const [states, setStates] = useState([]);
 
   const getLatestStatesList = (countryCodeSelected) => {
@@ -129,27 +161,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     }
   };
 
-  const getCountryIsoCode = (countryName) => {
-    if (!countryName) return null;
-    const country = Country.getAllCountries().find(
-      (c) => c.name.toLowerCase() === countryName.toLowerCase(),
-    );
-    return country ? country.isoCode : null;
-  };
-
   const [errors, setErrors] = useState({});
   const [locale, setLocale] = useState("en-US");
   const [dateFormat, setDateFormat] = useState("MM/dd/yyyy");
   const [placeholder, setPlaceholder] = useState("MM/DD/YYYY");
-
-  const complete = Boolean(
-    personalInfo.streetAddress &&
-      personalInfo.city &&
-      personalInfo.country &&
-      personalInfo.state &&
-      personalInfo.zipCode,
-  );
-  localStorage.setItem("addressFlag", complete ? "true" : "false");
 
   useEffect(() => {
     const updateDateFormat = async () => {
@@ -170,12 +185,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   useEffect(() => {
     const savedPersonalInfo = JSON.parse(localStorage.getItem("personalInfo"));
     if (savedPersonalInfo) {
-      setPersonalInfo({
-        ...savedPersonalInfo,
-        dateOfBirth: savedPersonalInfo.dateOfBirth
-          ? new Date(savedPersonalInfo.dateOfBirth)
-          : null,
-      });
+      setPersonalInfo(restorePersonalInfo(savedPersonalInfo));
       // If savedInfo, need to set the State list.
       const iso = getCountryIsoCode(savedPersonalInfo.country);
       if (iso) getLatestStatesList(iso);
@@ -196,12 +206,13 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   }, [getCountryCodeFromZoneInfo, user]);
 
   const handleInputChange = (name, value) => {
+    if (verificationRef.current) return;
     setPersonalInfo((prevInfo) => ({
       ...prevInfo,
       [name]: value,
     }));
     const error = validateField(name, value);
-    setErrors((prev) => ({ ...prev, [name]: error }));
+    setErrors((prev) => ({ ...prev, [name]: error, addressVerification: "" }));
     setHasUnsavedChanges(true);
   };
 
@@ -216,7 +227,8 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     }, 0);
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
+    if (verificationRef.current) return;
     const newErrors = {};
     const fieldsToValidate = [
       "dateOfBirth",
@@ -239,10 +251,53 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       return; // Prevent saving if there are errors
     }
 
-    setIsEditing(false);
-    localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
-    window.dispatchEvent(new Event("personal-info-updated"));
-    setHasUnsavedChanges(false);
+    const selectedState = states.find(
+      (option) => option.value === personalInfo.state,
+    );
+    if (!selectedState) {
+      setErrors({ state: t("ADDRESS_STATE_INVALID") });
+      return;
+    }
+
+    const controller = new AbortController();
+    verificationRef.current = controller;
+    setIsVerifyingAddress(true);
+    setErrors({});
+    try {
+      const result = await verifyAddressWithOpenStreetMap(
+        {
+          street: personalInfo.streetAddress,
+          city: personalInfo.city,
+          state: selectedState.label,
+          stateCode: selectedState.value,
+          countryCode: personalInfo.country,
+          language: i18n.language,
+        },
+        { signal: controller.signal },
+      );
+      if (controller.signal.aborted) return;
+      if (!result.isValid) {
+        setErrors({
+          addressVerification: t(
+            result.reason === "unavailable"
+              ? "ADDRESS_VERIFICATION_UNAVAILABLE"
+              : "ADDRESS_MISMATCH",
+          ),
+        });
+        return;
+      }
+      localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
+      localStorage.setItem("addressFlag", "true");
+      window.dispatchEvent(new Event("personal-info-updated"));
+      setIsEditing(false);
+      setHasUnsavedChanges(false);
+    } catch {
+      if (!controller.signal.aborted)
+        setErrors({ addressVerification: t("PROFILE_UPDATE_FAILED") });
+    } finally {
+      if (!controller.signal.aborted) setIsVerifyingAddress(false);
+      verificationRef.current = null;
+    }
   };
 
   const validateField = (name, value) => {
@@ -250,9 +305,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
     if (name === "streetAddress") {
       if (!value?.trim()) {
-        error = "Street Address is required.";
-      } else if (value.length < 5) {
-        error = "Street Address must be at least 5 characters long.";
+        error = t("STREET_ADDRESS_REQUIRED");
+      } else if (!isValidStreetAddress(value)) {
+        error = t("STREET_ADDRESS_INVALID");
       }
     }
 
@@ -301,15 +356,15 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
     if (name === "city") {
       if (!value?.trim()) {
-        error = "City is required.";
-      } else if (!/^[a-zA-Z\s-]+$/.test(value)) {
-        error = "City name can only contain letters, spaces, and hyphens.";
+        error = t("CITY_REQUIRED");
+      } else if (!isValidCityName(value)) {
+        error = t("CITY_INVALID");
       }
     }
 
     if (name === "zipCode") {
-      if (!value || !/^[0-9-]+$/.test(value)) {
-        error = "ZIP Code is required.";
+      if (!value?.trim() || !/^[\p{L}\p{N} -]+$/u.test(value)) {
+        error = t("POSTAL_CODE_INVALID");
       }
     }
 
@@ -317,7 +372,12 @@ function PersonalInformation({ setHasUnsavedChanges }) {
   };
 
   return (
-    <div className="flex flex-col p-4 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md">
+    <fieldset
+      disabled={isVerifyingAddress}
+      aria-busy={isVerifyingAddress}
+      aria-label={t("PERSONAL_INFORMATION")}
+      className="flex min-w-0 flex-col p-4 rounded-lg w-full max-w-4xl mb-8 bg-white shadow-md"
+    >
       {/* Date of Birth and Gender */}
       <div className="grid grid-cols-2 gap-8 mb-6">
         <div>
@@ -378,6 +438,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           {isEditing ? (
             <>
               <Select
+                isDisabled={isVerifyingAddress}
                 value={localizedGenderOptions.find(
                   (option) => option.value === personalInfo.gender,
                 )}
@@ -402,7 +463,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       {/* Street Address */}
       <div className="grid grid-cols-1 gap-8 mb-6">
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          <label
+            htmlFor="profile-street-address"
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
             {isEditing && (
               <>
                 <span className="text-red-500 mr-1" aria-hidden="true">
@@ -419,6 +483,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           {isEditing ? (
             <>
               <input
+                id="profile-street-address"
                 ref={streetAddressRef}
                 type="text"
                 name="streetAddress"
@@ -479,7 +544,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
       <div className="grid grid-cols-2 gap-8 mb-6">
         {/* City */}
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          <label
+            htmlFor="profile-city"
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
             {isEditing && (
               <>
                 <span className="text-red-500 mr-1" aria-hidden="true">
@@ -497,6 +565,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             <>
               <input
                 type="text"
+                id="profile-city"
                 name="city"
                 value={personalInfo.city}
                 onChange={(e) => handleInputChange("city", e.target.value)}
@@ -517,7 +586,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
         {/* State */}
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          <label
+            htmlFor="profile-state"
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
             {isEditing && (
               <>
                 <span className="text-red-500 mr-1" aria-hidden="true">
@@ -534,6 +606,8 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           {isEditing ? (
             <>
               <Select
+                inputId="profile-state"
+                isDisabled={isVerifyingAddress}
                 value={
                   states.find(
                     (option) => option.value === personalInfo.state,
@@ -602,7 +676,10 @@ function PersonalInformation({ setHasUnsavedChanges }) {
 
         {/* ZIP Code */}
         <div>
-          <label className="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+          <label
+            htmlFor="profile-postal-code"
+            className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
             {isEditing && (
               <>
                 <span className="text-red-500 mr-1" aria-hidden="true">
@@ -620,6 +697,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             <>
               <input
                 type="text"
+                id="profile-postal-code"
                 name="zipCode"
                 value={personalInfo.zipCode}
                 onChange={(e) => handleInputChange("zipCode", e.target.value)}
@@ -702,6 +780,25 @@ function PersonalInformation({ setHasUnsavedChanges }) {
         </div>
       </div>
 
+      {errors.addressVerification && (
+        <p role="alert" className="text-red-500 text-sm mb-4">
+          {errors.addressVerification}
+        </p>
+      )}
+      {isVerifyingAddress && <p role="status">{t("VERIFYING_ADDRESS")}</p>}
+      {isEditing && (
+        <p className="text-xs text-gray-600 mt-4">
+          {t("ADDRESS_VERIFICATION_NOTICE")}{" "}
+          <a
+            href="https://www.openstreetmap.org/copyright"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            © OpenStreetMap
+          </a>
+        </p>
+      )}
       {/* Save/Cancel Buttons */}
       <div className="flex justify-center mt-6">
         {!isEditing ? (
@@ -716,8 +813,9 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             <button
               className="py-2 px-4 bg-blue-500 text-white rounded-md mr-2 hover:bg-blue-600"
               onClick={handleSaveClick}
+              disabled={isVerifyingAddress}
             >
-              {t("SAVE")}
+              {isVerifyingAddress ? t("VERIFYING_ADDRESS") : t("SAVE")}
             </button>
             <button
               className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600"
@@ -726,12 +824,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
                   localStorage.getItem("personalInfo"),
                 );
                 if (savedPersonalInfo) {
-                  setPersonalInfo({
-                    ...savedPersonalInfo,
-                    dateOfBirth: savedPersonalInfo.dateOfBirth
-                      ? new Date(savedPersonalInfo.dateOfBirth)
-                      : null,
-                  });
+                  setPersonalInfo(restorePersonalInfo(savedPersonalInfo));
                 } else {
                   setPersonalInfo({
                     dateOfBirth: null,
@@ -757,7 +850,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
           </>
         )}
       </div>
-    </div>
+    </fieldset>
   );
 }
 
