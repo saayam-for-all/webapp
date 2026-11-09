@@ -50,5 +50,13 @@
   "ENTER_VOLUNTEER_PHONE": "ಸ್ವಯಂಸೇವಕರ ಫೋನ್ ನಮೂದಿಸಿ",
   "CHANGE_VOLUNTEER": "ಸ್ವಯಂಸೇವಕರನ್ನು ಬದಲಾಯಿಸಿ",
   "DELETE": "ಅಳಿಸಿ",
-  "DELETE_ACTION": "ಅಳಿಸಿ"
+  "DELETE_ACTION": "ಅಳಿಸಿ",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

@@ -800,5 +800,12 @@
   "ASSIGN_VOLUNTEER": "分配志愿者",
   "SELECT_VOLUNTEER": "选择 {{name}}",
   "NA": "不可用",
-  "NOTIFY": "通知"
+  "NOTIFY": "通知",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

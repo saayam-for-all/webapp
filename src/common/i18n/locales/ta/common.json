@@ -54,5 +54,13 @@
   "CHANGE_VOLUNTEER": "தன்னார்வலரை மாற்றவும்",
   "DELETE": "நீக்கவும்",
   "DELETE_ACTION": "நீக்கு",
-  "NOTIFY": "அறிவிக்கவும்"
+  "NOTIFY": "அறிவிக்கவும்",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

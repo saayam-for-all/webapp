@@ -807,5 +807,12 @@
   "ASSIGN_VOLUNTEER": "Asignar voluntario",
   "SELECT_VOLUNTEER": "Seleccionar a {{name}}",
   "NA": "No disponible",
-  "NOTIFY": "Notificar"
+  "NOTIFY": "Notificar",
+  "ALL_REQUESTS": "Todas las solicitudes",
+  "ANALYTICS": "Analítica",
+  "REVIEW_REQUESTS": "Revisar solicitudes",
+  "REVIEW_VOLUNTEERS": "Revisar voluntarios",
+  "INFRASTRUCTURE": "Infraestructura",
+  "APPLICATION_ANALYTICS": "Analítica de aplicaciones",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

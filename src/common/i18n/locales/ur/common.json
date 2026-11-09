@@ -466,5 +466,12 @@
   "FIND_VOLUNTEER": "رضاکار تلاش کریں",
   "ASSIGN_VOLUNTEER": "رضاکار مقرر کریں",
   "SELECT_VOLUNTEER": "{{name}} کو منتخب کریں",
-  "NA": "دستیاب نہیں"
+  "NA": "دستیاب نہیں",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

@@ -807,5 +807,12 @@
   "FIND_VOLUNTEER": "স্বেচ্ছাসেবক খুঁজুন",
   "ASSIGN_VOLUNTEER": "স্বেচ্ছাসেবক নিয়োগ করুন",
   "SELECT_VOLUNTEER": "{{name}} নির্বাচন করুন",
-  "NA": "উপলব্ধ নয়"
+  "NA": "উপলব্ধ নয়",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

@@ -811,5 +811,12 @@
   "ASSIGN_VOLUNTEER": "تعيين متطوع",
   "SELECT_VOLUNTEER": "اختر {{name}}",
   "NA": "غير متوفر",
-  "NOTIFY": "إشعار"
+  "NOTIFY": "إشعار",
+  "ALL_REQUESTS": "جميع الطلبات",
+  "ANALYTICS": "التحليلات",
+  "REVIEW_REQUESTS": "مراجعة الطلبات",
+  "REVIEW_VOLUNTEERS": "مراجعة المتطوعين",
+  "INFRASTRUCTURE": "البنية التحتية",
+  "APPLICATION_ANALYTICS": "تحليلات التطبيق",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

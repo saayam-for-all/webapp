@@ -808,5 +808,12 @@
   "ASSIGN_VOLUNTEER": "Affecter un bénévole",
   "SELECT_VOLUNTEER": "Sélectionner {{name}}",
   "NA": "Non disponible",
-  "NOTIFY": "Notifier"
+  "NOTIFY": "Notifier",
+  "ALL_REQUESTS": "Toutes les demandes",
+  "ANALYTICS": "Analytique",
+  "REVIEW_REQUESTS": "Examiner les demandes",
+  "REVIEW_VOLUNTEERS": "Examiner les bénévoles",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Analytique d'application",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

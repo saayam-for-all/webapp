@@ -680,7 +680,7 @@
   "Want to join us?": "Want to join us?",
   "Watch our 5 minute video to understand how Saayam for All works and how we make a difference.": "Watch our 5 minute video to understand how Saayam for All works and how we make a difference.",
   "We don't just match-you get the smartest match possible.Our AI/ML engine find the right volunteer for you faster and more accuately, just like a ride share app- but smarter, more human, built for community care .": "We don't just match-you get the smartest match possible. Our AI/ML engine finds the right volunteer for you faster and more accurately, just like a rideshare app-but smarter, more human, built for community care.",
-  "We don't just match\u2014you get the smartest match possible. Our AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app\u2014but smarter, more human, and built for community care.": "We don't just match\u2014you get the smartest match possible.\nOur AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app\u2014but smarter, more human, and built for community care.",
+  "We don't just match—you get the smartest match possible. Our AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app—but smarter, more human, and built for community care.": "We don't just match—you get the smartest match possible.\nOur AI/ML engines find the right volunteer for you faster and more accurately, just like a ride share app—but smarter, more human, and built for community care.",
   "We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.": "We offer a platform to connect volunteers with people who need help in areas like education, food, and healthcare.",
   "What services does Saayam for All offer?": "What services does Saayam for All offer?",
   "YES": "Yes",
@@ -833,5 +833,12 @@
   "SELECT_VOLUNTEER": "Select {{name}}",
   "NA": "NA",
   "NOTIFY": "Notify",
-  "VOLUNTEER_NOTIFICATION_UNAVAILABLE": "Volunteer notifications cannot be sent yet. Please try again when notification support is available."
+  "VOLUNTEER_NOTIFICATION_UNAVAILABLE": "Volunteer notifications cannot be sent yet. Please try again when notification support is available.",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }

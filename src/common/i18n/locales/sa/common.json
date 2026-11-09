@@ -51,5 +51,13 @@
   "ENTER_VOLUNTEER_PHONE": "स्वयंसेवकस्य फोन प्रविष्टं करोतु",
   "CHANGE_VOLUNTEER": "स्वयंसेवकं परिवर्तयतु",
   "DELETE": "विलोपयतु",
-  "DELETE_ACTION": "विलोपय"
+  "DELETE_ACTION": "विलोपय",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

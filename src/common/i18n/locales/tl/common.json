@@ -50,5 +50,13 @@
   "ENTER_VOLUNTEER_PHONE": "Ilagay ang telepono ng boluntaryo",
   "CHANGE_VOLUNTEER": "Palitan ang Boluntaryo",
   "DELETE": "Burahin",
-  "DELETE_ACTION": "Tanggalin"
+  "DELETE_ACTION": "Tanggalin",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }
