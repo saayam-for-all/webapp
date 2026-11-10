@@ -21,11 +21,10 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run tests with coverage
         run: npm run test:coverage
-        continue-on-error: true
 
       - uses: codecov/codecov-action@v5
         env:
