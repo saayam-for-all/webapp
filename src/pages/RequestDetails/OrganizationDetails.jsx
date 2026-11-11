@@ -70,7 +70,13 @@ const OrganizationDetails = () => {
       <div className="w-full max-w-5xl mx-auto px-4">
         {/* Back navigation button */}
         <button
-          onClick={() => navigate(-1)}
+          onClick={() =>
+            location.state?.organizationsPageState
+              ? navigate("/voluntary-organizations", {
+                  state: location.state.organizationsPageState,
+                })
+              : navigate(-1)
+          }
           className="inline-flex items-center gap-2 mb-6 text-blue-600 hover:text-blue-800 font-medium cursor-pointer"
         >
           <FaArrowLeft className="text-sm" />
@@ -169,6 +175,26 @@ const OrganizationDetails = () => {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Organization selection */}
+          <div className="mt-8 pt-6 border-t border-gray-200 flex justify-end">
+            <button
+              type="button"
+              onClick={() =>
+                navigate("/voluntary-organizations", {
+                  state: {
+                    ...location.state?.organizationsPageState,
+                    fromOrganizationDetails: true,
+                    selectedOrganizationId: location.state?.organizationRowId,
+                    selectedOrganizationName: organizationName,
+                  },
+                })
+              }
+              className="px-6 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white cursor-pointer"
+            >
+              Select
+            </button>
           </div>
 
           {/* Organization Mission */}

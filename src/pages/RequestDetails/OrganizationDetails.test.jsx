@@ -94,6 +94,40 @@ describe("OrganizationDetails - Issue #1301", () => {
     expect(screen.getByText("4.8")).toBeInTheDocument();
   });
 
+  it("selects the organization and returns to the Organizations list", () => {
+    mockLocationState = {
+      organizationData: {
+        Name: "Helping Hands",
+      },
+      organizationRowId: 2,
+      organizationsPageState: {
+        id: "REQ-001",
+        userId: "USER-001",
+        fromOrganizationDetails: true,
+      },
+    };
+
+    render(<OrganizationDetails />);
+
+    const selectButton = screen.getByRole("button", {
+      name: "Select",
+    });
+
+    expect(selectButton).toBeEnabled();
+
+    fireEvent.click(selectButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith("/voluntary-organizations", {
+      state: expect.objectContaining({
+        id: "REQ-001",
+        userId: "USER-001",
+        fromOrganizationDetails: true,
+        selectedOrganizationId: 2,
+        selectedOrganizationName: "Helping Hands",
+      }),
+    });
+  });
+
   it("navigates back when back button is clicked", () => {
     mockLocationState = {
       organizationData: {
