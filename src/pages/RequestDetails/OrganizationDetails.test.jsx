@@ -16,6 +16,31 @@ describe("OrganizationDetails - Issue #1301", () => {
     mockNavigate.mockClear();
   });
 
+  it("returns to Organizations with preserved request context", () => {
+    const organizationsPageState = {
+      id: "REQ-001",
+      userId: "USER-001",
+      fromOrganizationDetails: true,
+    };
+
+    mockLocationState = {
+      organizationData: { Name: "Helping Hands" },
+      organizationsPageState,
+    };
+
+    render(<OrganizationDetails />);
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /Back to Organizations/i,
+      }),
+    );
+
+    expect(mockNavigate).toHaveBeenCalledWith("/voluntary-organizations", {
+      state: organizationsPageState,
+    });
+  });
+
   it("displays the selected organization's Name field", () => {
     mockLocationState = {
       organizationData: {

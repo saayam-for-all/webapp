@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { screen, waitFor, fireEvent } from "@testing-library/react";
+import { screen, waitFor, fireEvent, act } from "@testing-library/react";
 import { renderWithProviders } from "#utils/test-utils";
 import VoluntaryOrganizations from "./VoluntaryOrganizations";
 
@@ -118,6 +118,31 @@ const mockOrgs = [
 // ── Tests ────────────────────────────────────────────────────────────────────
 
 describe("Issue #1301 organization navigation", () => {
+  it("ignores an API response after the component unmounts", async () => {
+    let resolveRequest;
+
+    getOrganizations.mockReturnValue(
+      new Promise((resolve) => {
+        resolveRequest = resolve;
+      }),
+    );
+
+    const { unmount } = renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+
+    expect(getOrganizations).toHaveBeenCalledTimes(1);
+
+    unmount();
+
+    await act(async () => {
+      resolveRequest(mockOrgs);
+      await Promise.resolve();
+    });
+
+    expect(getOrganizations).toHaveBeenCalledTimes(1);
+  });
+
   it("passes the clicked organization to the details route", async () => {
     getOrganizations.mockResolvedValue([
       { name: "Helping Hands", location: "Tampa, FL" },
