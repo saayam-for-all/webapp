@@ -16,6 +16,31 @@ describe("OrganizationDetails - Issue #1301", () => {
     mockNavigate.mockClear();
   });
 
+  it("returns to Organizations with preserved request context", () => {
+    const organizationsPageState = {
+      id: "REQ-001",
+      userId: "USER-001",
+      fromOrganizationDetails: true,
+    };
+
+    mockLocationState = {
+      organizationData: { Name: "Helping Hands" },
+      organizationsPageState,
+    };
+
+    render(<OrganizationDetails />);
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /Back to Organizations/i,
+      }),
+    );
+
+    expect(mockNavigate).toHaveBeenCalledWith("/voluntary-organizations", {
+      state: organizationsPageState,
+    });
+  });
+
   it("displays the selected organization's Name field", () => {
     mockLocationState = {
       organizationData: {
@@ -92,6 +117,40 @@ describe("OrganizationDetails - Issue #1301", () => {
       screen.getByText(/To prevent and alleviate human suffering/i),
     ).toBeInTheDocument();
     expect(screen.getByText("4.8")).toBeInTheDocument();
+  });
+
+  it("selects the organization and returns to the Organizations list", () => {
+    mockLocationState = {
+      organizationData: {
+        Name: "Helping Hands",
+      },
+      organizationRowId: 2,
+      organizationsPageState: {
+        id: "REQ-001",
+        userId: "USER-001",
+        fromOrganizationDetails: true,
+      },
+    };
+
+    render(<OrganizationDetails />);
+
+    const selectButton = screen.getByRole("button", {
+      name: "Select",
+    });
+
+    expect(selectButton).toBeEnabled();
+
+    fireEvent.click(selectButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith("/voluntary-organizations", {
+      state: expect.objectContaining({
+        id: "REQ-001",
+        userId: "USER-001",
+        fromOrganizationDetails: true,
+        selectedOrganizationId: 2,
+        selectedOrganizationName: "Helping Hands",
+      }),
+    });
   });
 
   it("navigates back when back button is clicked", () => {

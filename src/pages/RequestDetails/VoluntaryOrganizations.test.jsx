@@ -1,9 +1,11 @@
 import "@testing-library/jest-dom";
-import { screen, waitFor, fireEvent } from "@testing-library/react";
+import { screen, waitFor, fireEvent, act } from "@testing-library/react";
 import { renderWithProviders } from "#utils/test-utils";
 import VoluntaryOrganizations from "./VoluntaryOrganizations";
 
 // ── Mocks ────────────────────────────────────────────────────────────────────
+
+let mockFromOrganizationDetails = false;
 
 jest.mock("react-router-dom", () => ({
   useLocation: () => ({
@@ -14,6 +16,7 @@ jest.mock("react-router-dom", () => ({
       subject: "Need help",
       description: "Test description",
       breadcrumbTrail: [],
+      fromOrganizationDetails: mockFromOrganizationDetails,
     },
   }),
   useNavigate: () => jest.fn(),
@@ -76,6 +79,10 @@ jest.mock("../../common/components/BreadCrumbs/breadcrumbUtils", () => ({
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 import { getOrganizations } from "../../services/mlServices";
+import {
+  cacheOrganizations,
+  clearOrganizationsCache,
+} from "./organizationCache";
 
 const MOCK_STATE = {
   auth: {
@@ -111,6 +118,31 @@ const mockOrgs = [
 // ── Tests ────────────────────────────────────────────────────────────────────
 
 describe("Issue #1301 organization navigation", () => {
+  it("ignores an API response after the component unmounts", async () => {
+    let resolveRequest;
+
+    getOrganizations.mockReturnValue(
+      new Promise((resolve) => {
+        resolveRequest = resolve;
+      }),
+    );
+
+    const { unmount } = renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+
+    expect(getOrganizations).toHaveBeenCalledTimes(1);
+
+    unmount();
+
+    await act(async () => {
+      resolveRequest(mockOrgs);
+      await Promise.resolve();
+    });
+
+    expect(getOrganizations).toHaveBeenCalledTimes(1);
+  });
+
   it("passes the clicked organization to the details route", async () => {
     getOrganizations.mockResolvedValue([
       { name: "Helping Hands", location: "Tampa, FL" },
@@ -185,6 +217,50 @@ describe("VoluntaryOrganizations", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
+    clearOrganizationsCache();
+    mockFromOrganizationDetails = false;
+  });
+
+  it("uses cached organizations when returning from details", async () => {
+    mockFromOrganizationDetails = true;
+
+    cacheOrganizations("REQ-00-000-000-0001", "SID-00-000-000-001", mockOrgs);
+
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+
+    expect(await screen.findByText("Helping Hands")).toBeInTheDocument();
+    expect(screen.getByText("Community Care")).toBeInTheDocument();
+    expect(getOrganizations).not.toHaveBeenCalled();
+  });
+
+  it("fetches fresh organizations when entering from Request Details", async () => {
+    cacheOrganizations("REQ-00-000-000-0001", "SID-00-000-000-001", [
+      { Name: "Old Organization" },
+    ]);
+
+    getOrganizations.mockResolvedValue(mockOrgs);
+
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+
+    expect(await screen.findByText("Helping Hands")).toBeInTheDocument();
+    expect(screen.queryByText("Old Organization")).not.toBeInTheDocument();
+    expect(getOrganizations).toHaveBeenCalledTimes(1);
+  });
+
+  it("fetches organizations when returning but no cache exists", async () => {
+    mockFromOrganizationDetails = true;
+    getOrganizations.mockResolvedValue(mockOrgs);
+
+    renderWithProviders(<VoluntaryOrganizations />, {
+      preloadedState: MOCK_STATE,
+    });
+
+    expect(await screen.findByText("Helping Hands")).toBeInTheDocument();
+    expect(getOrganizations).toHaveBeenCalledTimes(1);
   });
 
   // 1. Loading state

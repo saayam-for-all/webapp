@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Table from "../../common/components/DataTable/Table";
 import { getOrganizations } from "../../services/mlServices";
+import {
+  getCachedOrganizations,
+  cacheOrganizations,
+} from "./organizationCache";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -30,6 +34,10 @@ const VoluntaryOrganizations = () => {
   ];
   const [organizations, setOrganizations] = useState([]);
   const location = useLocation();
+
+  useEffect(() => {
+    setSelectedOrg(location.state?.selectedOrganizationId ?? null);
+  }, [location.state?.selectedOrganizationId]);
   const requestData = location.state || {};
   const requestSubject = requestData?.subject || requestData?.requestSubject;
   const breadcrumbTrail = Array.isArray(location.state?.breadcrumbTrail)
@@ -61,9 +69,12 @@ const VoluntaryOrganizations = () => {
     "";
 
   useEffect(() => {
+    let cancelled = false;
+
     const getVoluntaryOrganizations = async () => {
       try {
         setIsLoading(true);
+        setLoadError(false);
         setLoadError(false);
 
         const payload = {
@@ -73,10 +84,27 @@ const VoluntaryOrganizations = () => {
 
         console.log("Org API payload:", payload);
 
-        const response = await getOrganizations(payload);
+        const cachedResults = location.state?.fromOrganizationDetails
+          ? getCachedOrganizations(organizationRequestId, beneficiaryId)
+          : undefined;
 
-        const organizationsArray =
-          response?.body || response?.data || response || [];
+        let organizationsArray;
+
+        if (cachedResults !== undefined) {
+          organizationsArray = cachedResults;
+        } else {
+          const response = await getOrganizations(payload);
+          organizationsArray =
+            response?.body || response?.data || response || [];
+
+          if (cancelled) return;
+
+          cacheOrganizations(
+            organizationRequestId,
+            beneficiaryId,
+            organizationsArray,
+          );
+        }
 
         // Sort: Collaborators first
         const sortedArray = [...organizationsArray].sort((a, b) => {
@@ -101,17 +129,23 @@ const VoluntaryOrganizations = () => {
           _rawData: org,
         }));
 
-        setOrganizations(formattedOrganizations);
+        if (!cancelled) setOrganizations(formattedOrganizations);
       } catch (error) {
-        console.error("Error fetching organizations:", error);
-        setLoadError(true);
-        setOrganizations([]);
+        if (!cancelled) {
+          console.error("Error fetching organizations:", error);
+          setLoadError(true);
+          setOrganizations([]);
+        }
       } finally {
-        setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     };
 
     getVoluntaryOrganizations();
+
+    return () => {
+      cancelled = true;
+    };
   }, [organizationRequestId, beneficiaryId]);
 
   const sortedOrganizations = (organizations) => {
@@ -196,6 +230,16 @@ const VoluntaryOrganizations = () => {
           Select
         </button>
       </div>
+
+      {selectedOrg && organizations.some((org) => org.id === selectedOrg) && (
+        <p
+          role="status"
+          className="mb-4 rounded border border-green-200 bg-green-50 p-3 text-green-800"
+        >
+          Organization selected:{" "}
+          {organizations.find((org) => org.id === selectedOrg)?.name}
+        </p>
+      )}
 
       {requestSubject && (
         <p className="mb-4 text-gray-700" data-testid="request-subject">
@@ -285,6 +329,11 @@ const VoluntaryOrganizations = () => {
           getLinkState={(row) => ({
             organizationData: row._rawData,
             organizationName: row.name,
+            organizationRowId: row.id,
+            organizationsPageState: {
+              ...requestData,
+              fromOrganizationDetails: true,
+            },
             breadcrumbTrail: createOrganizationDetailsTrail({
               organizationName: row.name,
               requestId,
