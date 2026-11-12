@@ -1,0 +1,40 @@
+name: SAST Security Scan
+
+on:
+  push:
+    branches: [dev, test, main]
+  pull_request:
+    branches: [dev, test, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  semgrep:
+    name: Semgrep Security Analysis
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep:1.184.0
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep SAST
+        run: |
+          semgrep scan \
+            --config p/javascript \
+            --config p/security-audit \
+            --metrics=off \
+            --json \
+            --output semgrep-results.json \
+            src
+
+      - name: Upload SAST report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-sast-results
+          path: semgrep-results.json
+          if-no-files-found: warn
