@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { signInWithRedirect } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
-import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
@@ -14,6 +13,7 @@ import SuperAdminDashboard from "./views/SuperAdminDashboard";
 import VolunteerDashboard from "./views/VolunteerDashboard";
 import { stewardReviewRequestsMockData } from "./data";
 import { MdOutlineContactPhone } from "react-icons/md";
+import { IoIosArrowDown, IoIosClose } from "react-icons/io";
 
 import {
   getAccessibleDashboards,
@@ -833,6 +833,26 @@ const Dashboard = ({ userRole }) => {
   const handleVolunteerTypeBlur = createBlurHandler(
     setIsVolunteerTypeDropdownOpen,
   );
+
+  const clearAllFilters = () => {
+    setStatusFilter({});
+    setCategoryFilter({});
+    setTypeFilter({});
+    setPriorityFilter({});
+    setCalamityFilter({});
+    setVolunteerTypeFilter({});
+    setCurrentPage(1);
+  };
+
+  const showClearAll =
+    [DASHBOARDS.BENEFICIARY, DASHBOARDS.VOLUNTEER].includes(
+      selectedDashboard,
+    ) ||
+    ([DASHBOARDS.ADMIN, DASHBOARDS.SUPER_ADMIN, DASHBOARDS.STEWARD].includes(
+      selectedDashboard,
+    ) &&
+      activeTab === "myRequests");
+
   const handleTypeBlur = createBlurHandler(setIsTypeDropdownOpen);
   const handlePriorityBlur = createBlurHandler(setIsPriorityDropdownOpen);
   const handleCalamityBlur = createBlurHandler(setIsCalamityDropdownOpen);
@@ -1372,7 +1392,16 @@ const Dashboard = ({ userRole }) => {
             </div>
           )}
         </div>
-
+        {showClearAll && (
+          <button
+            type="button"
+            onClick={clearAllFilters}
+            className="bg-blue-50 flex items-center gap-1 rounded-md py-2 px-4 font-light text-gray-600 hover:bg-gray-300"
+          >
+            <IoIosClose className="text-xl" />
+            {t("CLEAR_ALL")}
+          </button>
+        )}
         {selectedDashboard === DASHBOARDS.VOLUNTEER &&
           activeTab === "managedRequests" && (
             <div

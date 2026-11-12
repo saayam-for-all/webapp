@@ -288,6 +288,35 @@ describe("Dashboard", () => {
     expect(queryByText("All Category")).not.toBeInTheDocument();
   });
 
+  it("shows Clear All and resets the selected filters when clicked", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+    seedDashboardFilterStorage();
+    getMyRequests.mockResolvedValueOnce({
+      data: {
+        content: localizedFilterRows,
+        totalPages: 1,
+        totalElements: localizedFilterRows.length,
+      },
+    });
+
+    const { getByRole, getAllByRole } = renderWithProviders(<Dashboard />, {
+      preloadedState: beneficiaryAuthState,
+    });
+
+    await waitFor(() => {
+      expect(lastBeneficiaryDashboardProps?.filteredData).toHaveLength(2);
+    });
+
+    // Select a Calamity option, so the filter badge appears on the button
+    fireEvent.click(getByRole("button", { name: "Calamity" }));
+    fireEvent.click(getAllByRole("checkbox")[0]);
+    expect(getByRole("button", { name: /^Calamity \d+$/ })).toBeInTheDocument();
+
+    // Clear All resets it, so the badge is gone
+    fireEvent.click(getByRole("button", { name: /Clear All/ }));
+    expect(getByRole("button", { name: "Calamity" })).toBeInTheDocument();
+  });
+
   it("localizes shared dashboard filter labels in Hindi without changing filter values", async () => {
     const { getMyRequests } = require("../../services/requestServices");
     seedDashboardFilterStorage();
