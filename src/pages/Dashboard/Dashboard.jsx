@@ -1392,16 +1392,7 @@ const Dashboard = ({ userRole }) => {
             </div>
           )}
         </div>
-        {showClearAll && (
-          <button
-            type="button"
-            onClick={clearAllFilters}
-            className="bg-blue-50 flex items-center gap-1 rounded-md py-2 px-4 font-light text-gray-600 hover:bg-gray-300"
-          >
-            <IoIosClose className="text-xl" />
-            {t("CLEAR_ALL")}
-          </button>
-        )}
+
         {selectedDashboard === DASHBOARDS.VOLUNTEER &&
           activeTab === "managedRequests" && (
             <div
@@ -1459,6 +1450,17 @@ const Dashboard = ({ userRole }) => {
               )}
             </div>
           )}
+
+        {showClearAll && (
+          <button
+            type="button"
+            onClick={clearAllFilters}
+            className="bg-blue-50 flex items-center gap-1 rounded-md py-2 px-4 font-light text-gray-600 hover:bg-gray-300"
+          >
+            <IoIosClose className="text-xl" />
+            {t("CLEAR_ALL")}
+          </button>
+        )}
 
         {[DASHBOARDS.ADMIN, DASHBOARDS.SUPER_ADMIN].includes(
           selectedDashboard,
