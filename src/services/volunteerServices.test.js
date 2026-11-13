@@ -82,11 +82,11 @@ describe("volunteerServices volunteer data APIs", () => {
   });
 
   it("normalizes volunteer data responses", async () => {
-    api.get.mockResolvedValueOnce({ data: { body: [{ id: 1 }] } });
+    api.get.mockResolvedValueOnce({ data: { data: { items: [{ id: 1 }] } } });
     await expect(getVolunteersData()).resolves.toEqual([{ id: 1 }]);
 
-    api.get.mockResolvedValueOnce({ data: [{ id: 2 }] });
-    await expect(getVolunteersData()).resolves.toEqual([{ id: 2 }]);
+    api.get.mockResolvedValueOnce({ data: {} });
+    await expect(getVolunteersData()).resolves.toEqual([]);
 
     api.get.mockResolvedValueOnce({ data: { body: null } });
     await expect(getVolunteersData()).resolves.toEqual([]);
