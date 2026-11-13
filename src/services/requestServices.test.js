@@ -5,6 +5,7 @@ import {
   generateSubject,
   getAdditionalFields,
   getAllPaginatedRequests,
+  getManagedRequests,
   getMyRequests,
   updateRequest,
   getEmergencyContactInfo,
@@ -278,6 +279,52 @@ describe("requestServices", () => {
       expect(api.get).toHaveBeenCalledWith(expect.any(String), {
         params: { lat: 12.9, lng: 77.5, country: "IN" },
       });
+    });
+  });
+  describe("getManagedRequests", () => {
+    it("fetches requests for a volunteer with correct pagination", async () => {
+      // Arrange
+      const mockData = {
+        content: [{ requestId: "REQ-123" }],
+        totalPages: 1,
+      };
+
+      api.get.mockResolvedValue({ data: mockData });
+
+      // Act
+      const result = await getManagedRequests({
+        volunteerId: "SID-123",
+        page: 0,
+        size: 10,
+      });
+
+      // Assert
+      expect(api.get).toHaveBeenCalledWith(expect.stringContaining("SID-123"), {
+        params: { page: 0, size: 10 },
+      });
+
+      expect(result).toEqual(mockData);
+    });
+    it("uses default pagination when page and size are not provided", async () => {
+      // Arrange
+      const mockData = {
+        content: [{ requestId: "REQ-456" }],
+        totalPages: 1,
+      };
+
+      api.get.mockResolvedValue({ data: mockData });
+
+      // Act
+      const result = await getManagedRequests({
+        volunteerId: "SID-456",
+      });
+
+      // Assert
+      expect(api.get).toHaveBeenCalledWith(expect.stringContaining("SID-456"), {
+        params: { page: 0, size: 10 },
+      });
+
+      expect(result).toEqual(mockData);
     });
   });
 });
