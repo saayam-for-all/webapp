@@ -69,6 +69,11 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
 
   const isSelected = (catId) => selectedSkills.includes(catId);
 
+  // Keep parent categories marked when any descendant skill is selected.
+  const hasSelectedSkill = (category) =>
+    isSelected(category.catId) ||
+    (category.subCategories || []).some(hasSelectedSkill);
+
   const toggleSkill = (catId) => {
     if (isSelected(catId)) {
       setSelectedSkills(selectedSkills.filter((id) => id !== catId));
@@ -265,7 +270,7 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
           >
             {sortedCategories.map((category, index) => {
               const leaf = isLeaf(category);
-              const selected = leaf && isSelected(category.catId);
+              const selected = hasSelectedSkill(category);
               const isFocused = activeColumn === 0 && focusedCatIndex === index;
               return (
                 <div
@@ -452,7 +457,7 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
           <div className="overflow-y-auto" style={{ maxHeight: "280px" }}>
             {sortedCategories.map((category) => {
               const leaf = isLeaf(category);
-              const selected = leaf && isSelected(category.catId);
+              const selected = hasSelectedSkill(category);
               return (
                 <div
                   key={category.catId}

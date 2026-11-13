@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, cleanup } from "@testing-library/react";
+import { useState } from "react";
 import Skills from "./Skills";
 
 jest.mock("react-i18next", () => ({
@@ -235,5 +236,69 @@ describe("Skills selection and mobile navigation", () => {
     fireEvent.click(mobileItem("JAVASCRIPT"));
 
     expect(setSelectedSkills).toHaveBeenCalledWith(["javascript"]);
+  });
+});
+
+describe("Skills parent category selection indicators (#1989)", () => {
+  afterEach(cleanup);
+
+  it("marks multiple main categories when their skills are selected", () => {
+    renderSkills(["javascript", "cooking"]);
+
+    expect(item("TECHNOLOGY")).toHaveTextContent("✓");
+    expect(item("COOKING")).toHaveTextContent("✓");
+
+    expect(mobileItem("TECHNOLOGY").parentElement).toHaveTextContent("✓");
+    expect(mobileItem("COOKING").parentElement).toHaveTextContent("✓");
+  });
+
+  it("does not mark a parent category without selected descendants", () => {
+    renderSkills(["cooking"]);
+
+    expect(item("TECHNOLOGY")).not.toHaveTextContent("✓");
+    expect(item("COOKING")).toHaveTextContent("✓");
+  });
+
+  it("keeps the parent marked while another descendant remains selected", () => {
+    renderSkills(["javascript", "python"]);
+
+    expect(item("TECHNOLOGY")).toHaveTextContent("✓");
+    expect(mobileItem("TECHNOLOGY").parentElement).toHaveTextContent("✓");
+  });
+});
+
+describe("Skills multi-category interaction (#1989)", () => {
+  afterEach(cleanup);
+
+  it("preserves indicators after selecting skills from different categories", () => {
+    const TestWrapper = () => {
+      const [selectedSkills, setSelectedSkills] = useState([]);
+
+      return (
+        <Skills
+          selectedSkills={selectedSkills}
+          setSelectedSkills={setSelectedSkills}
+          categories={categories}
+        />
+      );
+    };
+
+    render(<TestWrapper />);
+
+    // Select a nested skill from Technology.
+    fireEvent.mouseEnter(item("TECHNOLOGY"));
+    fireEvent.click(item("DESIGN"));
+
+    expect(item("TECHNOLOGY")).toHaveTextContent("✓");
+
+    // Select a skill from another main category.
+    fireEvent.click(item("COOKING"));
+
+    // Both main categories must retain their indicators.
+    expect(item("TECHNOLOGY")).toHaveTextContent("✓");
+    expect(item("COOKING")).toHaveTextContent("✓");
+
+    expect(mobileItem("TECHNOLOGY").parentElement).toHaveTextContent("✓");
+    expect(mobileItem("COOKING").parentElement).toHaveTextContent("✓");
   });
 });
