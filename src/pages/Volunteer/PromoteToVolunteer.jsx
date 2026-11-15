@@ -130,6 +130,75 @@ const PromoteToVolunteer = () => {
     return false;
   });
   const volunteerDataRef = useRef({});
+  const [locationStatus, setLocationStatus] = useState("idle");
+  const locationMountedRef = useRef(false);
+
+  useEffect(() => {
+    locationMountedRef.current = true;
+
+    return () => {
+      locationMountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!navigator.permissions?.query) return;
+
+    let active = true;
+    let permissionStatus;
+
+    const syncPermission = () => {
+      if (!active) return;
+      setLocationStatus((previous) => {
+        if (permissionStatus.state === "granted") return "granted";
+        if (permissionStatus.state === "denied") return "denied";
+        return previous === "requesting" ? previous : "idle";
+      });
+    };
+
+    navigator.permissions
+      .query({ name: "geolocation" })
+      .then((status) => {
+        if (!active) return;
+        permissionStatus = status;
+        syncPermission();
+        permissionStatus.addEventListener?.("change", syncPermission);
+      })
+      .catch(() => {
+        // Permissions API may not support geolocation in every browser.
+      });
+
+    return () => {
+      active = false;
+      permissionStatus?.removeEventListener?.("change", syncPermission);
+    };
+  }, []);
+
+  const handleEnableLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationStatus("unsupported");
+      return;
+    }
+
+    setLocationStatus("requesting");
+
+    navigator.geolocation.getCurrentPosition(
+      () => {
+        if (!locationMountedRef.current) return;
+        setLocationStatus("granted");
+      },
+      (error) => {
+        if (!locationMountedRef.current) return;
+        setLocationStatus(error.code === 1 ? "denied" : "unavailable");
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 15000,
+        maximumAge: 0,
+      },
+    );
+  };
+
   const [errorMessage, setErrorMessage] = useState("");
   const [isUploaded, setIsUploaded] = useState(() => {
     const cachedData = getSessionStorageItem("volunteer_form_data");
@@ -385,6 +454,50 @@ const PromoteToVolunteer = () => {
         <h1 className="text-3xl font-bold text-center mb-8">
           {t("BECOME_VOLUNTEER")}
         </h1>
+        {currentStep === 1 && (
+          <div className="w-full max-w-2xl mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
+            <h2 className="text-lg font-semibold text-slate-900">
+              {t("LOCATION_PERMISSION_TITLE")}
+            </h2>
+            <p className="mt-2 text-sm text-slate-700">
+              {t("LOCATION_PERMISSION_DESCRIPTION")}
+            </p>
+            <button
+              type="button"
+              onClick={handleEnableLocation}
+              disabled={
+                locationStatus === "requesting" || locationStatus === "granted"
+              }
+              className="mt-3 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {locationStatus === "requesting"
+                ? t("LOCATION_REQUESTING")
+                : locationStatus === "granted"
+                  ? t("LOCATION_ENABLED")
+                  : t("ENABLE_LOCATION")}
+            </button>
+            {locationStatus === "granted" && (
+              <p role="status" className="mt-2 text-sm text-green-700">
+                {t("LOCATION_PERMISSION_GRANTED")}
+              </p>
+            )}
+            {locationStatus === "denied" && (
+              <p role="alert" className="mt-2 text-sm text-red-700">
+                {t("LOCATION_PERMISSION_DENIED")}
+              </p>
+            )}
+            {locationStatus === "unsupported" && (
+              <p role="alert" className="mt-2 text-sm text-red-700">
+                {t("LOCATION_NOT_SUPPORTED")}
+              </p>
+            )}
+            {locationStatus === "unavailable" && (
+              <p role="alert" className="mt-2 text-sm text-red-700">
+                {t("LOCATION_UNAVAILABLE")}
+              </p>
+            )}
+          </div>
+        )}
         <Stepper steps={steps} currentStep={currentStep} />
         {/* FIXED CONTENT WRAPPER */}
         <div className="w-full mt-8 px-4">{displayStep(currentStep)}</div>
