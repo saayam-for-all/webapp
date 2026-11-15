@@ -2260,3 +2260,222 @@ describe("Issue #1914 - Defensive expiry validation", () => {
     ).toBeInTheDocument();
   });
 });
+
+describe("Issue #1995 - Volunteer location permission", () => {
+  const originalPermissionsDescriptor = Object.getOwnPropertyDescriptor(
+    navigator,
+    "permissions",
+  );
+
+  const mockPermissions = (permissions) => {
+    Object.defineProperty(navigator, "permissions", {
+      configurable: true,
+      value: permissions,
+    });
+  };
+
+  const originalGeolocation = navigator.geolocation;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
+  afterEach(() => {
+    Object.defineProperty(navigator, "geolocation", {
+      configurable: true,
+      value: originalGeolocation,
+    });
+
+    if (originalPermissionsDescriptor) {
+      Object.defineProperty(
+        navigator,
+        "permissions",
+        originalPermissionsDescriptor,
+      );
+    } else {
+      delete navigator.permissions;
+    }
+  });
+
+  const mockGeolocation = (getCurrentPosition) => {
+    Object.defineProperty(navigator, "geolocation", {
+      configurable: true,
+      value: { getCurrentPosition },
+    });
+  };
+
+  const renderVolunteer = () =>
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+  it("requests location only after clicking Enable Location", () => {
+    const getCurrentPosition = jest.fn();
+    mockGeolocation(getCurrentPosition);
+
+    renderVolunteer();
+
+    expect(getCurrentPosition).not.toHaveBeenCalled();
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(ENABLE_LOCATION)" }),
+    );
+
+    expect(getCurrentPosition).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows success when location permission is granted", () => {
+    mockGeolocation((success) =>
+      success({
+        coords: { latitude: 37.5, longitude: -121.9 },
+      }),
+    );
+
+    renderVolunteer();
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(ENABLE_LOCATION)" }),
+    );
+
+    expect(
+      screen.getByText("mockTranslate(LOCATION_PERMISSION_GRANTED)"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "mockTranslate(LOCATION_ENABLED)" }),
+    ).toBeDisabled();
+  });
+
+  it("allows registration to continue when permission is denied", async () => {
+    mockGeolocation((success, error) => error({ code: 1 }));
+
+    renderVolunteer();
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(ENABLE_LOCATION)" }),
+    );
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "mockTranslate(LOCATION_PERMISSION_DENIED)",
+    );
+    const checkbox = screen.getByRole("checkbox");
+    fireEvent.click(checkbox);
+
+    const nextButton = screen.getByTestId("next-button");
+    expect(nextButton).toBeEnabled();
+    fireEvent.click(nextButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(IDENTIFICATION)"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("handles browsers without geolocation support", () => {
+    Object.defineProperty(navigator, "geolocation", {
+      configurable: true,
+      value: undefined,
+    });
+
+    renderVolunteer();
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(ENABLE_LOCATION)" }),
+    );
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "mockTranslate(LOCATION_NOT_SUPPORTED)",
+    );
+  });
+
+  it("restores granted permission on page load without requesting location", async () => {
+    const getCurrentPosition = jest.fn();
+    mockGeolocation(getCurrentPosition);
+
+    mockPermissions({
+      query: jest.fn().mockResolvedValue({
+        state: "granted",
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      }),
+    });
+
+    renderVolunteer();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", {
+          name: "mockTranslate(LOCATION_ENABLED)",
+        }),
+      ).toBeDisabled();
+    });
+
+    expect(getCurrentPosition).not.toHaveBeenCalled();
+  });
+
+  it("updates the UI when browser permission changes", async () => {
+    let onPermissionChange;
+    const permissionStatus = {
+      state: "granted",
+      addEventListener: jest.fn((event, callback) => {
+        if (event === "change") onPermissionChange = callback;
+      }),
+      removeEventListener: jest.fn(),
+    };
+
+    mockPermissions({
+      query: jest.fn().mockResolvedValue(permissionStatus),
+    });
+
+    renderVolunteer();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", {
+          name: "mockTranslate(LOCATION_ENABLED)",
+        }),
+      ).toBeDisabled();
+    });
+
+    permissionStatus.state = "prompt";
+
+    const { act } = require("@testing-library/react");
+    await act(async () => {
+      onPermissionChange();
+    });
+
+    expect(
+      screen.getByRole("button", {
+        name: "mockTranslate(ENABLE_LOCATION)",
+      }),
+    ).toBeEnabled();
+  });
+
+  it("works when the Permissions API is unavailable", () => {
+    mockPermissions(undefined);
+    const getCurrentPosition = jest.fn();
+    mockGeolocation(getCurrentPosition);
+
+    renderVolunteer();
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "mockTranslate(ENABLE_LOCATION)",
+      }),
+    );
+
+    expect(getCurrentPosition).toHaveBeenCalledTimes(1);
+  });
+
+  it("handles location unavailable errors", () => {
+    mockGeolocation((success, error) => error({ code: 2 }));
+
+    renderVolunteer();
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(ENABLE_LOCATION)" }),
+    );
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "mockTranslate(LOCATION_UNAVAILABLE)",
+    );
+  });
+});
