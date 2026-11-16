@@ -317,6 +317,41 @@ describe("Dashboard", () => {
     expect(getByRole("button", { name: "Calamity" })).toBeInTheDocument();
   });
 
+  it("clears the dashboard search and returns the table to page 1", async () => {
+    const {
+      findByPlaceholderText,
+      getByRole,
+      getByText,
+      queryByRole,
+    } =
+      renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+
+    fireEvent.click(getByText("Click All Requests"));
+    const searchInput = await findByPlaceholderText("Search...");
+
+    expect(queryByRole("button", { name: "Clear" })).not.toBeInTheDocument();
+
+    fireEvent.change(searchInput, { target: { value: "REQ-123" } });
+
+    expect(searchInput).toHaveValue("REQ-123");
+    expect(getByRole("button", { name: "Clear" })).toBeInTheDocument();
+
+    fireEvent.click(getByText("Change Page"));
+    await waitFor(() => {
+      expect(lastAdminDashboardProps?.currentPage).toBe(2);
+    });
+
+    fireEvent.click(getByRole("button", { name: "Clear" }));
+
+    expect(searchInput).toHaveValue("");
+    expect(queryByRole("button", { name: "Clear" })).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(lastAdminDashboardProps?.currentPage).toBe(1);
+    });
+  });
+
   it("localizes shared dashboard filter labels in Hindi without changing filter values", async () => {
     const { getMyRequests } = require("../../services/requestServices");
     seedDashboardFilterStorage();

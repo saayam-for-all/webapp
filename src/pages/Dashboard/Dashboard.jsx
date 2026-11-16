@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { signInWithRedirect } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
 import { IoSearchOutline } from "react-icons/io5";
+import SearchCancelIconButton from "../../common/components/SearchCancelIconButton/SearchCancelIconButton";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -898,6 +899,11 @@ const Dashboard = ({ userRole }) => {
     setCurrentPage(1);
   };
 
+  const handleClearSearch = () => {
+    setSearchTerm("");
+    setCurrentPage(1);
+  };
+
   const requestSort = (key) => {
     const resolved = resolveKey(key);
     let direction = "ascending";
@@ -1190,8 +1196,14 @@ const Dashboard = ({ userRole }) => {
             placeholder="Search..."
             value={searchTerm}
             onChange={handleSearchChange}
-            className="p-2 rounded-md flex-grow block w-full ps-10 bg-gray-50"
+            className="p-2 pe-10 rounded-md flex-grow block w-full ps-10 bg-gray-50"
           />
+          {searchTerm && (
+            <SearchCancelIconButton
+              onClick={handleClearSearch}
+              className="absolute end-2 top-1/2 -translate-y-1/2"
+            />
+          )}
         </div>
       </div>
       <div className="mb-4 flex flex-wrap gap-2 px-10 items-center">
