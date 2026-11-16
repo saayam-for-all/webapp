@@ -841,14 +841,5 @@
   "REVIEW_VOLUNTEERS": "Review Volunteers",
   "INFRASTRUCTURE": "Infrastructure",
   "APPLICATION_ANALYTICS": "Application Analytics",
-  "GOOGLE_ANALYTICS": "Google Analytics",
-  "LOCATION_PERMISSION_TITLE": "Location Permission",
-  "LOCATION_PERMISSION_DESCRIPTION": "Enable location to help match you with nearby volunteer opportunities. This step is optional.",
-  "ENABLE_LOCATION": "Enable Location",
-  "LOCATION_REQUESTING": "Requesting Location...",
-  "LOCATION_ENABLED": "Location Enabled",
-  "LOCATION_PERMISSION_GRANTED": "Location permission granted.",
-  "LOCATION_PERMISSION_DENIED": "Location permission was denied. You can update it in your browser settings or continue without location access.",
-  "LOCATION_NOT_SUPPORTED": "Your browser does not support location access.",
-  "LOCATION_UNAVAILABLE": "Your location could not be determined. You can try again or continue without location access."
+  "GOOGLE_ANALYTICS": "Google Analytics"
 }
