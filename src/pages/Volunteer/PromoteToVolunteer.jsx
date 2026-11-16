@@ -200,18 +200,7 @@ const PromoteToVolunteer = () => {
   };
 
   const [errorMessage, setErrorMessage] = useState("");
-  const [isUploaded, setIsUploaded] = useState(() => {
-    const cachedData = getSessionStorageItem("volunteer_form_data");
-    if (cachedData) {
-      try {
-        const parsed = JSON.parse(cachedData);
-        return parsed.isUploaded ?? false;
-      } catch (e) {
-        console.error("Failed to parse volunteer_form_data:", e);
-      }
-    }
-    return false;
-  });
+  const [isUploaded, setIsUploaded] = useState(false);
 
   // Save current step to sessionStorage
   useEffect(() => {

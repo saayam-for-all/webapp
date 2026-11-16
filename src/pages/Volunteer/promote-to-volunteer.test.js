@@ -32,8 +32,9 @@ jest.mock("../../services/volunteerServices", () => ({
 jest.mock("./StepperControl", () => {
   const ActualStepperControl = jest.requireActual("./StepperControl").default;
   const React = require("react");
+  const PropTypes = require("prop-types");
 
-  return function TestStepperControl(props) {
+  function TestStepperControl(props) {
     return React.createElement(
       React.Fragment,
       null,
@@ -48,8 +49,21 @@ jest.mock("./StepperControl", () => {
         "Force Next",
       ),
     );
+  }
+
+  TestStepperControl.propTypes = {
+    handleClick: PropTypes.func.isRequired,
   };
+
+  return TestStepperControl;
 });
+
+const createValidPngFile = (name = "valid.png") =>
+  new File(
+    [new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])],
+    name,
+    { type: "image/png" },
+  );
 
 describe("PromoteToVolunteer Component", () => {
   beforeEach(() => {
@@ -1650,7 +1664,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // 4. Select valid file
-    const validFile = new File(["valid"], "valid.png", { type: "image/png" });
+    const validFile = createValidPngFile();
     fireEvent.change(fileInput, { target: { files: [validFile] } });
     await waitFor(() => {
       expect(screen.getByText("valid.png")).toBeInTheDocument();
@@ -1697,7 +1711,7 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
     const fileInput = document.querySelector('input[type="file"]');
-    const validFile = new File(["valid"], "valid.png", { type: "image/png" });
+    const validFile = createValidPngFile();
     fireEvent.change(fileInput, { target: { files: [validFile] } });
 
     await waitFor(() => {
@@ -2148,7 +2162,7 @@ describe("Issue #1914 - Document Expiry Date", () => {
     const fileInput = document.querySelector('input[type="file"]');
     fireEvent.change(fileInput, {
       target: {
-        files: [new File(["valid"], "identity.png", { type: "image/png" })],
+        files: [createValidPngFile("identity.png")],
       },
     });
   };
@@ -2196,6 +2210,10 @@ describe("Issue #1914 - Document Expiry Date", () => {
       ).toBe(futureDate);
     });
 
+    await waitFor(() => {
+      expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    });
+
     fireEvent.click(screen.getByTestId("next-button"));
 
     await waitFor(() => {
@@ -2220,7 +2238,9 @@ describe("Issue #1914 - Document Expiry Date", () => {
     fireEvent.change(input, { target: { value: dateOffset(30) } });
 
     expect(input).toHaveAttribute("aria-invalid", "false");
-    expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    await waitFor(() => {
+      expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    });
 
     fireEvent.click(screen.getByTestId("next-button"));
 
@@ -2477,5 +2497,218 @@ describe("Issue #1995 - Volunteer location permission", () => {
     expect(screen.getByRole("alert")).toHaveTextContent(
       "mockTranslate(LOCATION_UNAVAILABLE)",
     );
+  });
+});
+
+describe("Issue #1996 - Identity upload UI validation", () => {
+  const pngSignature = new Uint8Array([
+    0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+  ]);
+
+  const uploadFile = (file) => {
+    const input = document.querySelector('input[type="file"]');
+    expect(input).toBeInTheDocument();
+    fireEvent.change(input, { target: { files: [file] } });
+  };
+
+  const goToIdentification = async () => {
+    renderWithProviders(<PromoteToVolunteer />, {
+      preloadedState: MOCK_STATE_LOGGED_IN,
+    });
+
+    fireEvent.click(screen.getByRole("checkbox"));
+    fireEvent.click(screen.getByTestId("next-button"));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(IDENTIFICATION)"),
+      ).toBeInTheDocument();
+    });
+  };
+
+  const setFutureExpiryDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 30);
+
+    const futureDate = [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    fireEvent.change(
+      screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)"),
+      { target: { value: futureDate } },
+    );
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
+  it.each([
+    [
+      "fake PNG",
+      () =>
+        new File(["fake image"], "identity.png", {
+          type: "image/png",
+        }),
+      "FILE_CONTENT_ERROR",
+    ],
+    [
+      "fake PDF",
+      () =>
+        new File(["fake document"], "identity.pdf", {
+          type: "application/pdf",
+        }),
+      "FILE_CONTENT_ERROR",
+    ],
+    [
+      "empty PNG",
+      () =>
+        new File([], "identity.png", {
+          type: "image/png",
+        }),
+      "FILE_EMPTY_ERROR",
+    ],
+    [
+      "mismatched MIME type",
+      () =>
+        new File([pngSignature], "identity.png", {
+          type: "application/pdf",
+        }),
+      "FILE_TYPE_ERROR",
+    ],
+  ])("rejects %s and disables Next", async (_, makeFile, errorKey) => {
+    await goToIdentification();
+    setFutureExpiryDate();
+
+    uploadFile(makeFile());
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(`mockTranslate(${errorKey})`),
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId("next-button")).toBeDisabled();
+    expect(
+      screen.getByText("mockTranslate(NO_FILE_CHOSEN)"),
+    ).toBeInTheDocument();
+  });
+
+  it("clears a previous valid upload when an invalid file is selected", async () => {
+    await goToIdentification();
+    setFutureExpiryDate();
+
+    uploadFile(createValidPngFile("valid.png"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    });
+
+    uploadFile(
+      new File(["invalid content"], "invalid.png", {
+        type: "image/png",
+      }),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(FILE_CONTENT_ERROR)"),
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId("next-button")).toBeDisabled();
+    expect(screen.queryByText("valid.png")).not.toBeInTheDocument();
+  });
+
+  it("disables Next when a valid upload is removed", async () => {
+    await goToIdentification();
+    setFutureExpiryDate();
+
+    uploadFile(createValidPngFile("valid.png"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mockTranslate(REMOVE)" }),
+    );
+
+    expect(screen.getByTestId("next-button")).toBeDisabled();
+    expect(
+      screen.getByText("mockTranslate(NO_FILE_CHOSEN)"),
+    ).toBeInTheDocument();
+  });
+
+  it("allows Next after a valid upload and future expiry date", async () => {
+    await goToIdentification();
+    setFutureExpiryDate();
+
+    uploadFile(createValidPngFile("identity.png"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    });
+
+    fireEvent.click(screen.getByTestId("next-button"));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(common:SKILLS_SELECTOR_TITLE)"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("ignores an older upload that finishes after a newer invalid selection", async () => {
+    await goToIdentification();
+    setFutureExpiryDate();
+
+    const pendingReaders = [];
+    const originalRead = FileReader.prototype.readAsArrayBuffer;
+
+    const readSpy = jest
+      .spyOn(FileReader.prototype, "readAsArrayBuffer")
+      .mockImplementation(function (blob) {
+        pendingReaders.push({ reader: this, blob });
+      });
+
+    try {
+      uploadFile(createValidPngFile("old-valid.png"));
+
+      expect(pendingReaders).toHaveLength(1);
+
+      uploadFile(
+        new File(["invalid content"], "new-invalid.png", {
+          type: "image/png",
+        }),
+      );
+
+      expect(pendingReaders).toHaveLength(2);
+
+      // Complete the newer invalid upload first.
+      readSpy.mockRestore();
+      originalRead.call(pendingReaders[1].reader, pendingReaders[1].blob);
+
+      await waitFor(() => {
+        expect(
+          screen.getByText("mockTranslate(FILE_CONTENT_ERROR)"),
+        ).toBeInTheDocument();
+      });
+
+      // Complete the older valid upload afterward.
+      originalRead.call(pendingReaders[0].reader, pendingReaders[0].blob);
+
+      await waitFor(() => {
+        expect(screen.getByTestId("next-button")).toBeDisabled();
+        expect(screen.queryByText("old-valid.png")).not.toBeInTheDocument();
+      });
+    } finally {
+      readSpy.mockRestore();
+    }
   });
 });

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { validateIdentityFile } from "./validateIdentityFile";
 
 const VolunteerCourse = ({
   selectedFile,
@@ -13,6 +14,7 @@ const VolunteerCourse = ({
 
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
+  const validationRequestRef = useRef(0);
 
   const getToday = () => {
     const date = new Date();
@@ -36,59 +38,42 @@ const VolunteerCourse = ({
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const uploadedFile = event.target.files?.[0];
+    const requestId = ++validationRequestRef.current;
 
-    if (!uploadedFile) {
-      return;
-    }
-
-    const maxFileSize = 5 * 1024 * 1024;
-
-    const allowedTypes = [
-      "image/jpg",
-      "image/jpeg",
-      "image/png",
-      "application/pdf",
-    ];
-
-    const allowedExtensions = [".jpg", ".jpeg", ".png", ".pdf"];
-
-    const fileExtension = uploadedFile.name
-      .toLowerCase()
-      .substring(uploadedFile.name.lastIndexOf("."));
-
-    const isValidMimeType = allowedTypes.includes(uploadedFile.type);
-    const isValidExtension = allowedExtensions.includes(fileExtension);
-
-    if (uploadedFile.size > maxFileSize) {
-      setError(t("FILE_SIZE_ERROR"));
-      setSelectedFile(null);
-      setIsUploaded(false);
-      event.target.value = "";
-      return;
-    }
-
-    if (!isValidMimeType && !isValidExtension) {
-      setError(
-        t("FILE_TYPE_ERROR", {
-          fileType: uploadedFile.type,
-          extension: fileExtension,
-        }),
-      );
-
-      setSelectedFile(null);
-      setIsUploaded(false);
-      event.target.value = "";
-      return;
-    }
-
+    // Clear the previous upload before validating a replacement.
+    setSelectedFile(null);
+    setIsUploaded(false);
     setError("");
+
+    if (!uploadedFile) return;
+
+    const validationError = await validateIdentityFile(uploadedFile);
+
+    // Ignore results from older file selections.
+    if (requestId !== validationRequestRef.current) return;
+
+    if (validationError) {
+      const errorKeys = {
+        empty: "FILE_EMPTY_ERROR",
+        size: "FILE_SIZE_ERROR",
+        type: "FILE_TYPE_ERROR",
+        content: "FILE_CONTENT_ERROR",
+      };
+
+      setError(t(errorKeys[validationError]));
+      event.target.value = "";
+      return;
+    }
+
     setSelectedFile(uploadedFile);
     setIsUploaded(true);
   };
 
   const handleRemoveFile = () => {
+    // Cancel any pending validation result.
+    validationRequestRef.current += 1;
     setSelectedFile(null);
     setError("");
     setIsUploaded(false);
