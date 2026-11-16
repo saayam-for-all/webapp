@@ -318,11 +318,18 @@ describe("Dashboard", () => {
   });
 
   it("clears the dashboard search and returns the table to page 1", async () => {
-    const { getByPlaceholderText, getByRole, getByText, queryByRole } =
+    const {
+      findByPlaceholderText,
+      getByRole,
+      getByText,
+      queryByRole,
+    } =
       renderWithProviders(<Dashboard />, {
         preloadedState: adminAuthState,
       });
-    const searchInput = getByPlaceholderText("Search...");
+
+    fireEvent.click(getByText("Click All Requests"));
+    const searchInput = await findByPlaceholderText("Search...");
 
     expect(queryByRole("button", { name: "Clear" })).not.toBeInTheDocument();
 
