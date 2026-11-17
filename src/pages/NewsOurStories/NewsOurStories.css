@@ -64,6 +64,7 @@
 
 .news-card-body {
   padding: 16px 16px 18px;
+  min-width: 0;
 }
 
 .news-date {
@@ -75,8 +76,10 @@
 .news-title {
   font-size: 1.1rem;
   font-weight: 700;
+  line-height: 1.4;
   margin: 0 0 0.6rem;
   color: #111827;
+  overflow-wrap: anywhere;
 }
 
 .news-desc {
@@ -84,6 +87,7 @@
   font-size: 0.95rem;
   line-height: 1.6;
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 /* (optional) if you use Read More link */
