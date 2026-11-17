@@ -20,14 +20,14 @@ describe("News page translations", () => {
   });
 
   test("Arabic uses the expected CEO and consular phrases", () => {
-    expect(arabic.STORY_1_TITLE).toContain("رئيسنا التنفيذي");
-    expect(arabic.STORY_7_TITLE).toContain("القنصل الهندي");
-    expect(arabic.STORY_7_DESC).toContain("الفريق القنصلي الهندي");
+    expect(arabic.ARIA_UNIVERSITY_TITLE).toContain("رئيسنا التنفيذي");
+    expect(arabic.INDIAN_CONSULAR_TITLE).toContain("القنصل الهندي");
+    expect(arabic.INDIAN_CONSULAR_DESC).toContain("الفريق القنصلي الهندي");
   });
 
   test("Urdu uses the expected CEO and consular phrases", () => {
-    expect(urdu.STORY_1_TITLE).toContain("ہمارے CEO");
-    expect(urdu.STORY_7_TITLE).toContain("بھارتی قونصل");
-    expect(urdu.STORY_7_DESC).toContain("بھارتی قونصلر ٹیم");
+    expect(urdu.ARIA_UNIVERSITY_TITLE).toContain("ہمارے CEO");
+    expect(urdu.INDIAN_CONSULAR_TITLE).toContain("بھارتی قونصل");
+    expect(urdu.INDIAN_CONSULAR_DESC).toContain("بھارتی قونصلر ٹیم");
   });
 });

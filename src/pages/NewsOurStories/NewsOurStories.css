@@ -75,8 +75,15 @@
 .news-title {
   font-size: 1.1rem;
   font-weight: 700;
+  line-height: 1.5;
   margin: 0 0 0.6rem;
   color: #111827;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.news-title a {
+  overflow-wrap: anywhere;
 }
 
 .news-desc {
