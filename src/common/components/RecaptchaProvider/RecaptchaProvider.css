@@ -1,0 +1,67 @@
+.recaptcha-badge-container {
+  position: fixed;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  left: env(safe-area-inset-left, 0px);
+  width: 70px;
+  height: 60px;
+  z-index: 40;
+  pointer-events: none;
+  transition: width 0.3s ease;
+}
+
+/* Google owns the 256px badge and its slide-out offset. Changing its width
+   clips the logo; transforming an ancestor changes its fixed positioning. */
+.recaptcha-badge-container .grecaptcha-badge {
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+  left: calc(-186px + env(safe-area-inset-left, 0px)) !important;
+  z-index: 40 !important;
+  pointer-events: auto;
+}
+
+.recaptcha-badge-container.is-expanded {
+  width: 256px;
+}
+
+.recaptcha-badge-container.is-expanded .grecaptcha-badge {
+  left: env(safe-area-inset-left, 0px) !important;
+}
+
+/* Capture a tap on the logo, which is inside Google's cross-origin iframe.
+   Leave the bottom 16px uncovered so Google's Privacy/Terms links stay usable. */
+.recaptcha-badge-toggle {
+  position: absolute;
+  z-index: 41;
+  top: 0;
+  right: 0;
+  width: 70px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.recaptcha-badge-toggle:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: -2px;
+}
+
+/* Touch uses the explicit toggle; hover expansion is for mouse/trackpad input. */
+@media (hover: hover) and (pointer: fine) {
+  .recaptcha-badge-container:hover {
+    width: 256px;
+  }
+
+  .recaptcha-badge-container:hover .grecaptcha-badge {
+    left: env(safe-area-inset-left, 0px) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recaptcha-badge-container,
+  .recaptcha-badge-container .grecaptcha-badge {
+    transition: none !important;
+  }
+}
