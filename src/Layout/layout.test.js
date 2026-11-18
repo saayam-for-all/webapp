@@ -1,20 +1,9 @@
-//Mock IntersectionObserver for Scroll To Top Button
-global.IntersectionObserver = class {
-  constructor(callback) {
-    this.callback = callback;
-  }
-  observe() {
-    this.callback([{ isIntersecting: false }]);
-  }
-  unobserve() {}
-  disconnect() {}
-};
-
 import { render } from "@testing-library/react";
 import Layout from "./Layout";
 
 jest.mock("react", () => ({
   ...jest.requireActual("react"),
+  // eslint-disable-next-line react/prop-types -- Test replacement for React's Suspense.
   Suspense: ({ children }) => <mock-suspense>{children}</mock-suspense>,
 }));
 
@@ -38,9 +27,19 @@ describe("Layout", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it("renders both ad rails", () => {
+  it("preserves both main-branch ad rails", () => {
     const { container } = render(<Layout />);
 
     expect(container.querySelectorAll("aside")).toHaveLength(2);
+    expect(container.querySelector("mock-left-ads")).toBeTruthy();
+    expect(container.querySelector("mock-right-ads")).toBeTruthy();
+  });
+
+  it("uses document scrolling so the scroll-to-top button targets the page", () => {
+    const { container } = render(<Layout />);
+    const main = container.querySelector("main");
+
+    expect(main.classList.contains("overflow-auto")).toBe(false);
+    expect(main.classList.contains("min-w-0")).toBe(true);
   });
 });

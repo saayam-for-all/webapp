@@ -1,50 +1,70 @@
-//Mock IntersectionObserver for Jest environment which is supported by React
-beforeAll(() => {
-  global.IntersectionObserver = class {
-    constructor(callback) {
-      this.callback = callback;
-    }
-    observe() {
-      this.callback([{ isIntersecting: false }]);
-    }
-    unobserve() {}
-    disconnect() {}
-  };
-});
-
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ScrollToTop from "./ScrollToTop";
 
+// JSDOM has no visibility observer; page scrolling must work independently of it.
+window.IntersectionObserver = class {
+  observe() {}
+  disconnect() {}
+};
+
 describe("ScrollToTop", () => {
+  const scrollTo = (top) => {
+    Object.defineProperty(window, "scrollY", {
+      configurable: true,
+      value: top,
+    });
+    fireEvent.scroll(window);
+  };
+
   beforeEach(() => {
-    //dummy header element
-    const header = document.createElement("div");
-    header.setAttribute("id", "header");
-    document.body.appendChild(header);
+    scrollTo(0);
+    window.matchMedia = jest.fn(() => ({ matches: false }));
+    jest.spyOn(window, "scrollTo").mockImplementation(() => {});
   });
 
   afterEach(() => {
-    const header = document.getElementById("header");
-    if (header) header.remove();
+    jest.restoreAllMocks();
+    scrollTo(0);
   });
 
-  //test case 1
-  it("renders the scroll button", () => {
+  it("hides at the page top and appears after scrolling down", () => {
     render(<ScrollToTop />);
-    const button = screen.getByRole("button");
-    expect(button).toBeInTheDocument();
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    scrollTo(600);
+    expect(
+      screen.getByRole("button", { name: "Scroll to top" }),
+    ).toBeInTheDocument();
+    scrollTo(0);
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
 
-  //test case 2
-  it("scrolls to top on click", () => {
-    const scrollSpy = jest.spyOn(window, "scrollTo");
+  it("shows when mounting on an already scrolled page", () => {
+    scrollTo(600);
     render(<ScrollToTop />);
-    const button = screen.getByRole("button");
-    fireEvent.click(button);
-    expect(scrollSpy).toHaveBeenCalledWith({
+    expect(
+      screen.getByRole("button", { name: "Scroll to top" }),
+    ).toBeInTheDocument();
+  });
+
+  it("scrolls the document to the top on click", () => {
+    render(<ScrollToTop />);
+    scrollTo(600);
+    fireEvent.click(screen.getByRole("button", { name: "Scroll to top" }));
+    expect(window.scrollTo).toHaveBeenCalledWith({
       top: 0,
       behavior: "smooth",
+    });
+  });
+
+  it("returns to the top without animation when reduced motion is preferred", () => {
+    window.matchMedia.mockReturnValue({ matches: true });
+    render(<ScrollToTop />);
+    scrollTo(600);
+    fireEvent.click(screen.getByRole("button", { name: "Scroll to top" }));
+    expect(window.scrollTo).toHaveBeenCalledWith({
+      top: 0,
+      behavior: "instant",
     });
   });
 });
