@@ -1,7 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import newsStories from "./newsStories.json";
 import "./NewsOurStories.css";
 
 /* Images (WEBP) */
@@ -17,60 +17,68 @@ import leisuewithproductivity from "../../assets/news_our_stories/RameshMaturuAn
 import withRajaKandRaoC from "../../assets/news_our_stories/withRajaKandRaoC_SiliconAndhra.webp";
 import walmartSparkGood from "../../assets/news_our_stories/walmart_spark_good.webp";
 
-// Rao Bhethanabotla's LinkedIn — linked from the word "CEO" in "Our CEO".
+// Rao Bhethanabotla's LinkedIn
 const RAO_LINKEDIN = "https://www.linkedin.com/in/raobhethanabotla";
 
 /**
- * "Our CEO" across the 10 supported languages. Only the role token inside the
- * phrase (e.g. "CEO", "PDG") is hyperlinked to Rao's LinkedIn. Matching the
- * full phrase keeps unrelated CEO mentions (e.g. "CEO of NVIDIA") untouched.
- * Some languages have two forms of the role word, both are listed.
+ * "Our CEO" across the 10 supported languages.
+ * Only the CEO role token is hyperlinked to Rao's LinkedIn.
  */
 const OUR_CEO_PHRASES = [
-  { phrase: "Our CEO", token: "CEO" }, // en
-  { phrase: "Nuestro CEO", token: "CEO" }, // es
-  { phrase: "Notre PDG", token: "PDG" }, // fr
-  { phrase: "Unser CEO", token: "CEO" }, // de
-  { phrase: "Nosso CEO", token: "CEO" }, // pt
-  { phrase: "Наш генеральный директор", token: "генеральный директор" }, // ru
-  { phrase: "我们的首席执行官", token: "首席执行官" }, // zh
-  { phrase: "我们的CEO", token: "CEO" }, // zh
-  { phrase: "हमारे सीईओ", token: "सीईओ" }, // hi
-  { phrase: "हमारे CEO", token: "CEO" }, // hi
-  { phrase: "మా CEO", token: "CEO" }, // te
-  { phrase: "আমাদের সিইও", token: "সিইও" }, // bn
-  { phrase: "আমাদের CEO", token: "CEO" }, // bn
+  { phrase: "Our CEO", token: "CEO" },
+  { phrase: "Nuestro CEO", token: "CEO" },
+  { phrase: "Notre PDG", token: "PDG" },
+  { phrase: "Unser CEO", token: "CEO" },
+  { phrase: "Nosso CEO", token: "CEO" },
+  {
+    phrase: "Наш генеральный директор",
+    token: "генеральный директор",
+  },
+  {
+    phrase: "我们的首席执行官",
+    token: "首席执行官",
+  },
+  { phrase: "我们的CEO", token: "CEO" },
+  { phrase: "हमारे सीईओ", token: "सीईओ" },
+  { phrase: "हमारे CEO", token: "CEO" },
+  { phrase: "మా CEO", token: "CEO" },
+  { phrase: "আমাদের সিইও", token: "সিইও" },
+  { phrase: "আমাদের CEO", token: "CEO" },
 ];
 
 /**
- * Renders a title string but hyperlinks specific words/names inside it.
- * Keeps original title order (so "With" stays first).
+ * Renders translated text while hyperlinking specific names
+ * and organizations.
  */
 function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
   const nameLinks = linksMap || {};
+
   const ceoByPhrase = Object.fromEntries(
-    OUR_CEO_PHRASES.map((c) => [c.phrase, c]),
+    OUR_CEO_PHRASES.map((item) => [item.phrase, item]),
   );
 
   const keys = [
     ...Object.keys(nameLinks).filter(Boolean),
     ...Object.keys(ceoByPhrase),
-  ].sort((a, b) => b.length - a.length); // longer first
+  ].sort((a, b) => b.length - a.length);
 
   if (keys.length === 0) return title;
 
-  const escaped = keys.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const escaped = keys.map((key) => key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+
   const regex = new RegExp(`(${escaped.join("|")})`, "g");
 
-  return title.split(regex).map((part, idx) => {
-    // "Our CEO" phrase: hyperlink only the role token inside it, leaving the
-    // rest of the phrase (e.g. "Our ", "Notre ") as plain text.
+  return title.split(regex).map((part, index) => {
+    // Special handling for "Our CEO" and its translations.
     const ceo = ceoByPhrase[part];
+
     if (ceo) {
-      const at = part.indexOf(ceo.token);
+      const position = part.indexOf(ceo.token);
+
       return (
-        <React.Fragment key={`ceo-${idx}`}>
-          {part.slice(0, at)}
+        <React.Fragment key={`ceo-${index}`}>
+          {part.slice(0, position)}
+
           <a
             href={RAO_LINKEDIN}
             target="_blank"
@@ -79,16 +87,19 @@ function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
           >
             {ceo.token}
           </a>
-          {part.slice(at + ceo.token.length)}
+
+          {part.slice(position + ceo.token.length)}
         </React.Fragment>
       );
     }
 
+    // Hyperlink names and organizations.
     const href = nameLinks[part];
+
     if (href) {
       return (
         <a
-          key={`${part}-${idx}`}
+          key={`${part}-${index}`}
           href={href}
           target="_blank"
           rel="noopener noreferrer"
@@ -98,174 +109,57 @@ function renderLinkedTitle(title, linksMap, linkClassName = "news-name-link") {
         </a>
       );
     }
-    return <React.Fragment key={`${part}-${idx}`}>{part}</React.Fragment>;
+
+    return <React.Fragment key={`text-${index}`}>{part}</React.Fragment>;
   });
 }
 
-const stories = [
-  {
-    date: "08/04/2026",
-    title: "STORY_1_TITLE",
-    image: withRajaKandRaoC,
-    description: "STORY_1_DESC",
-    titleLinks: {
-      "Raja Krishnamoorthi":
-        "https://en.wikipedia.org/wiki/Raja_Krishnamoorthi",
-      "Rao Charagondla": "https://www.linkedin.com/in/charagondla/",
-      "Silicon Andhra (Aria) University": "https://aria.edu/",
-    },
-  },
-  {
-    date: "08/04/2026",
-    title: "STORY_2_TITLE",
-    image: walmartSparkGood,
-    description: "STORY_2_DESC",
-    titleLinks: {
-      "Walmart Spark Good Grant": "https://walmart.org",
-      "Walmart Spark Good grant": "https://walmart.org",
-      "Walmart Store #2486": "https://www.walmart.com/store/2486-san-jose-ca",
-      Walmart: "https://www.walmart.com/",
-    },
-  },
-  {
-    date: "05/02/2025",
-    title: "STORY_3_TITLE",
-    image: withJensen,
-    description: "STORY_3_DESC",
-    titleLinks: {
-      "Jensen Huang": "https://www.linkedin.com/in/jenhsunhuang/",
-      "जेनसन हुआंग": "https://www.linkedin.com/in/jenhsunhuang/",
-      NVIDIA: "https://www.nvidia.com/",
-    },
-  },
-  {
-    date: "05/02/2025",
-    title: "STORY_4_TITLE",
-    image: withVishalSikka,
-    description: "STORY_4_DESC",
-    titleLinks: {
-      "Vishal Sikka": "https://www.linkedin.com/in/vishal-sikka-869a6b2/",
-      "Hang Ten Systems": "https://hangten.ai/",
-    },
-  },
-  {
-    date: "02/09/2026",
-    title: "STORY_5_TITLE",
-    image: leisuewithproductivity,
-    description: "STORY_5_DESC",
-    titleLinks: {
-      "Ramesh Maturu": "https://www.linkedin.com/in/rameshmaturu/",
-      "Ramana Yerneni": "https://www.linkedin.com/in/ramanayerneni/",
-      "Pyramid Consulting": "https://www.pyramidci.com/",
-    },
-  },
-  {
-    date: "05/02/2025",
-    title: "STORY_6_TITLE",
-    image: seventeenMileWalk,
-    description: "STORY_6_DESC",
-    titleLinks: {
-      "Sateesh Mucharla": "https://www.linkedin.com/in/mucharla/",
-    },
-  },
-  {
-    date: "05/02/2025",
-    title: "STORY_7_TITLE",
-    image: indianConsular,
-    description: "STORY_7_DESC",
-    titleLinks: {
-      "Dr. Srikar Reddy Koppula":
-        "https://www.linkedin.com/in/srikar-reddy-koppula-b966aa293/",
-      "Indian Consular": "https://www.cgisf.gov.in/",
-      "Indian Consul": "https://www.cgisf.gov.in/",
-      "Indischem Konsul": "https://www.cgisf.gov.in/",
-      "indischen Konsularteam": "https://www.cgisf.gov.in/",
-      "Cónsul de India": "https://www.cgisf.gov.in/",
-      "equipo consular de India": "https://www.cgisf.gov.in/",
-      "consul indien": "https://www.cgisf.gov.in/",
-      "équipe consulaire indienne": "https://www.cgisf.gov.in/",
-      "индийским консулом": "https://www.cgisf.gov.in/",
-      "Индийского консульства": "https://www.cgisf.gov.in/",
-      "भारतीय कौंसुलर टीम": "https://www.cgisf.gov.in/",
-      "भारतीय कौंसुलर": "https://www.cgisf.gov.in/",
-      "భారతీయ కాన్సులర్ బృందంతో": "https://www.cgisf.gov.in/",
-      "భారతీయ కాన్సులర్": "https://www.cgisf.gov.in/",
-      印度驻旧金山领事: "https://www.cgisf.gov.in/",
-      印度领事团队: "https://www.cgisf.gov.in/",
-      "Cônsul Indiano": "https://www.cgisf.gov.in/",
-      "equipe consular indiana": "https://www.cgisf.gov.in/",
-      "ভারতীয় কনস্যুলার দলের": "https://www.cgisf.gov.in/",
-      "ভারতীয় কনস্যুলার": "https://www.cgisf.gov.in/",
-    },
-  },
+/**
+ * Maps image identifiers from newsStories.json
+ * to the actual imported image assets.
+ */
+const newsImages = {
+  seventeenMileWalk,
+  withAmitZavery,
+  indianConsular,
+  withJensen,
+  withMadhusudhanSai,
+  withMuralidharan,
+  withVishalSikka,
+  withJimmyPanettaandDomingoCandelas,
+  leisuewithproductivity,
+  withRajaKandRaoC,
+  walmartSparkGood,
+};
 
-  {
-    date: "05/02/2025",
-    title: "STORY_8_TITLE",
-    image: withAmitZavery,
-    description: "STORY_8_DESC",
-    titleLinks: {
-      "Amit Zavery": "https://www.linkedin.com/in/amitzavery/",
-      ServiceNow: "https://www.servicenow.com/",
-      Broadridge: "https://www.broadridge.com/",
-    },
-  },
-
-  // ✅ Updated per Rao message:
-  // - link BOTH person's LinkedIn + company URL
-  // - add Anand Kuchibhotla (person on right side) + Aria University link
-  {
-    date: "05/02/2025",
-    title: "STORY_9_TITLE",
-    image: withMadhusudhanSai,
-    description: "STORY_9_DESC",
-    titleLinks: {
-      "Madhusudhan Sai": "https://srimadhusudansai.com/",
-      "Anand Kuchibhotla": "https://www.linkedin.com/in/anandkuchibhotla/",
-      "Aria University": "https://www.aria.edu/",
-    },
-  },
-
-  {
-    date: "05/02/2025",
-    title: "STORY_10_TITLE",
-    image: withMuralidharan,
-    description: "STORY_10_DESC",
-    titleLinks: {
-      "Murali Krishnamurthy":
-        "https://www.linkedin.com/in/muralikrishnamurthy/",
-      "Sankara Eye Foundation": "https://sankaraeye.com/",
-    },
-  },
-  {
-    date: "05/02/2025",
-    title: "STORY_11_TITLE",
-    image: withJimmyPanettaandDomingoCandelas,
-    description: "STORY_11_DESC",
-    titleLinks: {
-      "Jimmy Panetta": "https://panetta.house.gov/",
-      "Domingo Candelas": "https://www.domingocandelas.com/",
-      "San José": "https://www.sanjoseca.gov/",
-    },
-  },
-];
+/**
+ * Dynamically builds news stories using JSON data.
+ */
+const stories = newsStories.map((story) => ({
+  ...story,
+  image: newsImages[story.image],
+  title: story.titleKey,
+  description: story.descriptionKey,
+  titleLinks: story.links,
+}));
 
 export default function NewsOurStories() {
   const { t } = useTranslation(["news"]);
-  const navigate = useNavigate();
 
   return (
     <div className="news-our-stories-container px-4 md:px-0">
       <section className="news-our-stories-hero">
         <h1 className="news-our-stories-title">{t("TITLE")}</h1>
+
         <p className="news-our-stories-subtitle">{t("SUBTITLE")}</p>
+
         <p className="news-our-stories-desc">{t("DESCRIPTION")}</p>
       </section>
 
       <section className="news-our-stories-section">
         <div className="news-grid">
           {stories.map((story) => (
-            <div key={story.title} className="news-card">
+            <div key={story.id} className="news-card">
               <div className="news-img-wrap">
                 <img
                   src={story.image}
@@ -275,6 +169,7 @@ export default function NewsOurStories() {
               </div>
 
               <div className="news-card-body">
+                {/* Date is currently hidden */}
                 {/* <div className="news-date">{story.date}</div> */}
 
                 <h2 className="news-title">
@@ -285,7 +180,7 @@ export default function NewsOurStories() {
                   {renderLinkedTitle(t(story.description), story.titleLinks)}
                 </p>
 
-                {/* ✅ Read more ONLY when readMoreLink is provided (Titan news only) */}
+                {/* Read more only when a valid link exists */}
                 {story.readMoreLink && story.readMoreLink !== "#" && (
                   <a
                     href={story.readMoreLink}
@@ -304,7 +199,9 @@ export default function NewsOurStories() {
 
       <div className="text-center mt-16 mb-16">
         <h2 className="text-3xl font-bold mb-4">{t("JOIN_TITLE")}</h2>
+
         <p className="text-base mb-8">{t("JOIN_BODY")}</p>
+
         <Link
           to="/contact"
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full inline-block"
