@@ -1,74 +1,417 @@
-YªçŠx-®éÜj×¢ëiºÚ+Š§j[h‘éÜ¢éíãnxN‹Z–‹­¦ëeŠw¬Õ¥µÁ½ÉÐìÕÍ•™™•Ð°ÕÍ•MÑ…Ñ”°ÕÍ•5•µ¼°ÕÍ•I•˜ô™É½´€‰É•…Ðˆì€¼½…‘‘•™½ÈÑ•ÍÑ¥¹œ)¥µÁ½ÉÐMÑ•ÁÁ•È™É½´€ˆ¸½MÑ•ÁÁ•Èˆì)¥µÁ½ÉÐMÑ•ÁÁ•É½¹ÑÉ½°™É½´€ˆ¸½MÑ•ÁÁ•É½¹ÑÉ½°ˆì)¥µÁ½ÉÐÙ…¥±…‰¥±¥Ñä™É½´€ˆ¸½ÍÑ•ÁÌ½Ù…¥±…‰¥±¥Ñäˆì)¥µÁ½ÉÐI•Ù¥•Ü™É½´€ˆ¸½ÍÑ•ÁÌ½I•Ù¥•Üˆì)¥µÁ½ÉÐM­¥±±Ì™É½´€ˆ¸½ÍÑ•ÁÌ½M­¥±±Ìˆì)¥µÁ½ÉÐìÕÍ•M•…É¡A…É…µÌô™É½´€‰É•…ÐµÉ½ÕÑ•Èµ‘½´ˆì)¥µÁ½ÉÐQ•ÉµÍ½¹‘¥Ñ¥½¹Ì™É½´€ˆ¸½ÍÑ•ÁÌ½Q•ÉµÍ½¹‘¥Ñ¥½¹Ìˆì)¥µÁ½ÉÐY½±Õ¹Ñ••É½ÕÉÍ”™É½´€ˆ¸½ÍÑ•ÁÌ½Y½±Õ¹Ñ••É½ÕÉÍ”ˆì)¥µÁ½ÉÐì(€ÕÁ‘…Ñ•UÍ•ÉM­¥±±Ì°(€Í…Ù•Y½±Õ¹Ñ••ÉMÑ•ÀÄ°)ô™É½´€ˆ¸¸¼¸¸½Í•ÉÙ¥•Ì½Ù½±Õ¹Ñ••ÉM•ÉÙ¥•Ìˆì)¥µÁ½ÉÐìÕÍ•M•±•Ñ½Èô™É½´€‰É•…ÐµÉ•‘Õàˆì)¥µÁ½ÉÐìÕÍ•QÉ…¹Í±…Ñ¥½¸ô™É½´€‰É•…Ðµ¤Äá¹•áÐˆì()½¹ÍÐ•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´€ô€¡­•ä¤€ôøì(€ÑÉäì(€€€É•ÑÕÉ¸ÑåÁ•½˜Ý¥¹‘½Ü€„ôô€‰Õ¹‘•™¥¹•ˆ€˜˜Ý¥¹‘½Ü¹Í•ÍÍ¥½¹MÑ½É…”(€€€€€€üÍ•ÍÍ¥½¹MÑ½É…”¹•Ñ%Ñ•´¡­•ä¤(€€€€€€è¹Õ±°ì(€ô…Ñ €¡”¤ì(€€€½¹Í½±”¹•ÉÉ½È ‰ÉÉ½ÈÉ•…‘¥¹œ™É½´Í•ÍÍ¥½¹MÑ½É…”ˆ°”¤ì(€€€É•ÑÕÉ¸¹Õ±°ì(€ô)ôì()½¹ÍÐÍ•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´€ô€¡­•ä°Ù…±Õ”¤€ôøì(€ÑÉäì(€€€¥˜€¡ÑåÁ•½˜Ý¥¹‘½Ü€„ôô€‰Õ¹‘•™¥¹•ˆ€˜˜Ý¥¹‘½Ü¹Í•ÍÍ¥½¹MÑ½É…”¤ì(€€€€€Í•ÍÍ¥½¹MÑ½É…”¹Í•Ñ%Ñ•´¡­•ä°Ù…±Õ”¤ì(€€€ô(€ô…Ñ €¡”¤ì(€€€½¹Í½±”¹•ÉÉ½È ‰ÉÉ½ÈÝÉ¥Ñ¥¹œÑ¼Í•ÍÍ¥½¹MÑ½É…”ˆ°”¤ì(€ô)ôì()½¹ÍÐÉ•µ½Ù•M•ÍÍ¥½¹MÑ½É…•%Ñ•´€ô€¡­•ä¤€ôøì(€ÑÉäì(€€€¥˜€¡ÑåÁ•½˜Ý¥¹‘½Ü€„ôô€‰Õ¹‘•™¥¹•ˆ€˜˜Ý¥¹‘½Ü¹Í•ÍÍ¥½¹MÑ½É…”¤ì(€€€€€Í•ÍÍ¥½¹MÑ½É…”¹É•µ½Ù•%Ñ•´¡­•ä¤ì(€€€ô(€ô…Ñ €¡”¤ì(€€€½¹Í½±”¹•ÉÉ½È ‰ÉÉ½ÈÉ•µ½Ù¥¹œ™É½´Í•ÍÍ¥½¹MÑ½É…”ˆ°”¤ì(€ô)ôì()½¹ÍÐAÉ½µ½Ñ•Q½Y½±Õ¹Ñ••È€ô€ ¤€ôøì(€½¹ÍÐìÐô€ôÕÍ•QÉ…¹Í±…Ñ¥½¸ ¤ì(€½¹ÍÐmÍ•…É¡A…É…µÍt€ôÕÍ•M•…É¡A…É…µÌ ¤ì(€½¹ÍÐÍÑ•ÁA…É…´€ôÁ…ÉÍ•%¹Ð¡Í•…É¡A…É…µÌ¹•Ð ‰ÍÑ•Àˆ¤¤ñð€Äì(€½¹ÍÐmÕÉÉ•¹ÑMÑ•À°Í•ÑÕÉÉ•¹ÑMÑ•Át€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍÐ…¡•‘MÑ•À€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}Ý¥é…É‘}ÍÑ•Àˆ¤ì(€€€É•ÑÕÉ¸…¡•‘MÑ•À€üÁ…ÉÍ•%¹Ð¡…¡•‘MÑ•À°€ÄÀ¤€èÍÑ•ÁA…É…´ì(€ô¤ì(€½¹ÍÐm¥Í­¹½Ý±•‘•°Í•Ñ%Í­¹½Ý±•‘•‘t€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍÐ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€¡…¡•‘…Ñ„¤ì(€€€€€ÑÉäì(€€€€€€€½¹ÍÐÁ…ÉÍ•€ô)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤ì(€€€€€€€É•ÑÕÉ¸Á…ÉÍ•¹¥Í­¹½Ý±•‘•€üü™…±Í”ì(€€€€€ô…Ñ €¡”¤ì(€€€€€€€½¹Í½±”¹•ÉÉ½È ‰…¥±•Ñ¼Á…ÉÍ”Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„èˆ°”¤ì(€€€€€ô(€€€ô(€€€É•ÑÕÉ¸™…±Í”ì(€ô¤ì(€½¹ÍÐm½ÙÑ%‘¥±”°Í•Ñ½ÙÑ%‘¥±•t€ôÕÍ•MÑ…Ñ”¡¹Õ±°¤ì(€½¹ÍÐm•áÁ¥Éå…Ñ”°Í•ÑáÁ¥Éå…Ñ•t€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍÐ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€ ……¡•‘…Ñ„¤É•ÑÕÉ¸€ˆˆì(€€€ÑÉäì(€€€€€É•ÑÕÉ¸)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤¹•áÁ¥Éå…Ñ”€üü€ˆˆì(€€€ô…Ñ ì(€€€€€É•ÑÕÉ¸€ˆˆì(€€€ô(€ô¤ì(€½¹ÍÐm•áÁ¥Éå…Ñ•9½ÑÁÁ±¥…‰±”°Í•ÑáÁ¥Éå…Ñ•9½ÑÁÁ±¥…‰±•t€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍÐ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€ ……¡•‘…Ñ„¤É•ÑÕÉ¸™…±Í”ì(€€€ÑÉäì(€€€€€É•ÑÕÉ¸)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤¹•áÁ¥Éå…Ñ•9½ÑÁÁ±¥…‰±”€üü™…±Í”ì(€€€ô…Ñ ì(€€€€€É•ÑÕÉ¸™…±Í”ì(€€€ô(€ô¤ì((€½¹ÍÐÑ½‘…ä€ô¹•Ü…Ñ” ¤ì(€½¹ÍÐÑ½‘…åMÑÉ¥¹œ€ôl(€€€Ñ½‘…ä¹•ÑÕ±±e•…È ¤°(€€€MÑÉ¥¹œ¡Ñ½‘…ä¹•Ñ5½¹Ñ  ¤€¬€Ä¤¹Á…‘MÑ…ÉÐ È°€ˆÀˆ¤°(€€€MÑÉ¥¹œ¡Ñ½‘…ä¹•Ñ…Ñ” ¤¤¹Á…‘MÑ…ÉÐ È°€ˆÀˆ¤°(€t¹©½¥¸ ˆ´ˆ¤ì(€½¹ÍÐ¥ÍáÁ¥Éå…Ñ•Y…±¥€ô	½½±•…¸¡•áÁ¥Éå…Ñ”€˜˜•áÁ¥Éå…Ñ”€øÑ½‘…åMÑÉ¥¹œ¤ì(€½¹ÍÐÕÍ•É	%€ôÕÍ•M•±•Ñ½È (€€€€¡ÍÑ…Ñ”¤€ôøÍÑ…Ñ”¹…ÕÑ ü¹ÕÍ•Èü¹ÕÍ•É‰%ñðÍÑ…Ñ”¹…ÕÑ ü¹ÕÍ•É	%°(€€¤ì(€½¹ÍÐmÍ•±•Ñ•‘M­¥±±Ì°Í•ÑM•±•Ñ•‘M­¥±±Ít€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍÐ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€¡…¡•‘…Ñ„¤ì(€€€€€ÑÉäì(€€€€€€€½¹ÍÐÁ…ÉÍ•€ô)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤ì(€€€€€€€É•ÑÕÉ¸Á…ÉÍ•¹Í•±•Ñ•‘M­¥±±Ì€üümtì(€€€€€ô…Ñ €¡”¤ì(€€€€€€€½¹Í½±”¹•ÉÉ½È ‰…¥±•Ñ¼Á…ÉÍ”Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„èˆ°”¤ì(€€€€€ô(€€€ô(€€€É•ÑÕÉ¸mtì(€ô¤ì(€½¹ÍÐm…Ñ•½É¥•Ì°Í•Ñ…Ñ•½É¥•Ít€ôÕÍ•MÑ…Ñ”¡mt¤ì(€½¹ÍÐm…Ù…¥±…‰¥±¥ÑåM±½ÑÌ°Í•ÑÙ…¥±…‰¥±¥ÑåM±½ÑÍt€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍÐ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€¡…¡•‘…Ñ„¤ì(€€€€€ÑÉäì(€€€€€€€½¹ÍÐÁ…ÉÍ•€ô)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤ì(€€€€€€€¥˜€¡Á…ÉÍ•¹…Ù…¥±…‰¥±¥ÑåM±½ÑÌ¤ì(€€€€€€€€€É•ÑÕÉ¸Á…ÉÍ•¹…Ù…¥±…‰¥±¥ÑåM±½ÑÌ¹µ…À ¡Í±½Ð¤€ôø€¡ì(€€€€€€€€€€€€¸¸¹Í±½Ð°(€€€€€€€€€€€ÍÑ…ÉÑQ¥µ”èÍ±½Ð¹ÍÑ…ÉÑQ¥µ”€ü¹•Ü…Ñ”¡Í±½Ð¹ÍÑ…ÉÑQ¥µ”¤€è¹Õ±°°(€€€€€€€€€€€•¹‘Q¥µ”èÍ±½Ð¹•¹‘Q¥µ”€ü¹•Ü…Ñ”¡Í±½Ð¹•¹‘Q¥µ”¤€è¹Õ±°°(€€€€€€€€€ô¤¤ì(€€€€€€€ô(€€€€€ô…Ñ €¡”¤ì(€€€€€€€½¹Í½±”¹•ÉÉ½È ‰…¥±•Ñ¼Á…ÉÍ”Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„èˆ°”¤ì(€€€€€ô(€€€ô(€€€É•ÑÕÉ¸mì¥è€Ä°‘…å=™]••¬è€‰Ù•Éå‘…äˆ°ÍÑ…ÉÑQ¥µ”è¹Õ±°°•¹‘Q¥µ”è¹Õ±°õtì(€ô¤ì(€½¹ÍÐmÑ½‰•9½Ñ¥™¥•°Í•Ñ9½Ñ¥™¥…Ñ¥½¹t€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍÐ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€¡…¡•‘…Ñ„¤ì(€€€€€ÑÉäì(€€€€€€€½¹ÍÐÁ…ÉÍ•€ô)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤ì(€€€€€€€É•ÑÕÉ¸Á…ÉÍ•¹Ñ½‰•9½Ñ¥™¥•€üü™…±Í”ì(€€€€€ô…Ñ €¡”¤ì(€€€€€€€½¹Í½±”¹•ÉÉ½È ‰…¥±•Ñ¼Á…ÉÍ”Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„èˆ°”¤ì(€€€€€ô(€€€ô(€€€É•ÑÕÉ¸™…±Í”ì(€ô¤ì(€½¹ÍÐÙ½±Õ¹Ñ••É…Ñ…I•˜€ôÕÍ•I•˜¡íô¤ì(€½¹ÍÐm•ÉÉ½É5•ÍÍ…”°Í•ÑÉÉ½É5•ÍÍ…•t€ôÕÍ•MÑ…Ñ” ˆˆ¤ì(€½¹ÍÐm¥ÍUÁ±½…‘•°Í•Ñ%ÍUÁ±½…‘•‘t€ôÕÍ•MÑ…Ñ”¡™…±Í”¤ì((€€¼¼M…Ù”ÕÉÉ•¹ÐÍÑ•ÀÑ¼Í•ÍÍ¥½¹MÑ½É…”(€ÕÍ•™™•Ð  ¤€ôøì(€€€¥˜€¡ÕÉÉ•¹ÑMÑ•À€ð€Ô¤ì(€€€€€Í•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}Ý¥é…É‘}ÍÑ•Àˆ°ÕÉÉ•¹ÑMÑ•À¹Ñ½MÑÉ¥¹œ ¤¤ì(€€€ô(€ô°mÕÉÉ•¹ÑMÑ•Át¤ì((€€¼¼M…Ù”™½É´‘…Ñ„Ñ¼Í•ÍÍ¥½¹MÑ½É…”(€ÕÍ•™™•Ð  ¤€ôøì(€€€¥˜€¡ÕÉÉ•¹ÑMÑ•À€ð€Ô¤ì(€€€€€½¹ÍÐ™½Éµ…Ñ„€ôì(€€€€€€€¥Í­¹½Ý±•‘•°(€€€€€€€¥ÍUÁ±½…‘•°(€€€€€€€•áÁ¥Éå…Ñ”°(€€€€€€€•áÁ¥Éå…Ñ•9½ÑÁÁ±¥…‰±”°(€€€€€€€Í•±•Ñ•‘M­¥±±Ì°(€€€€€€€…Ù…¥±…‰¥±¥ÑåM±½ÑÌè…Ù…¥±…‰¥±¥ÑåM±½ÑÌ¹µ…À ¡Í±½Ð¤€ôø€¡ì(€€€€€€€€€€¸¸¹Í±½Ð°(€€€€€€€€€ÍÑ…ÉÑQ¥µ”èÍ±½Ð¹ÍÑ…ÉÑQ¥µ”€üÍ±½Ð¹ÍÑ…ÉÑQ¥µ”¹Ñ½%M=MÑÉ¥¹œ ¤€è¹Õ±°°(€€€€€€€€€•¹‘Q¥µ”èÍ±½Ð¹•¹‘Q¥µ”€üÍ±½Ð¹•¹‘Q¥µ”¹Ñ½%M=MÑÉ¥¹œ ¤€è¹Õ±°°(€€€€€€€ô¤¤°(€€€€€€€Ñ½‰•9½Ñ¥™¥•°(€€€€€ôì(€€€€€Í•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ°)M=8¹ÍÑÉ¥¹¥™ä¡™½Éµ…Ñ„¤¤ì(€€€ô(€ô°l(€€€¥Í­¹½Ý±•‘•°(€€€¥ÍUÁ±½…‘•°(€€€•áÁ¥Éå…Ñ”°(€€€•áÁ¥Éå…Ñ•9½ÑÁÁ±¥…‰±”°(€€€Í•±•Ñ•‘M­¥±±Ì°(€€€…Ù…¥±…‰¥±¥ÑåM±½ÑÌ°(€€€Ñ½‰•9½Ñ¥™¥•°(€€€ÕÉÉ•¹ÑMÑ•À°(€t¤ì((€ÕÍ•™™•Ð  ¤€ôøì(€€€¥˜€¡…Ñ•½É¥•Ì¹±•¹Ñ €ôôô€À¤ì(€€€€€½¹ÍÐÍÑ½É•‘…Ñ•½É¥•Ì€ô±½…±MÑ½É…”¹•Ñ%Ñ•´ ‰…Ñ•½É¥•Ìˆ¤ì(€€€€€¥˜€¡ÍÑ½É•‘…Ñ•½É¥•Ì¤ì(€€€€€€€ÑÉäì(€€€€€€€€€Í•Ñ…Ñ•½É¥•Ì¡)M=8¹Á…ÉÍ”¡ÍÑ½É•‘…Ñ•½É¥•Ì¤¤ì(€€€€€€€ô…Ñ €¡Á…ÉÍ•ÉÉ½È¤ì(ƒnx¶‰žËkºwµçQ]O^ÜÙ]^\žQ]_Bˆ^\žQ]S›Ý\XØX›O^Ù^\žQ]S›Ý\XØX›_BˆÙ]^\žQ]S›Ý\XØX›O^ÜÙ]^\žQ]S›Ý\XØX›_BˆÏ‚ˆ
-NÂˆØ\ÙHÎ‚ˆ™]\›ˆ
-ˆÚÚ[ÂˆÙ[XÝYÚÚ[Ï^ÜÙ[XÝYÚÚ[ßBˆÙ]Ù[XÝYÚÚ[Ï^ÜÙ]Ù[XÝYÚÚ[ßBˆØ]YÛÜšY\Ï^ØØ]YÛÜšY\ßBˆÏ‚ˆ
-NÂˆØ\ÙH‚ˆ™]\›ˆ
-ˆ]˜Z[Xš[]Bˆ]˜Z[Xš[]TÛÝÏ^Ø]˜Z[Xš[]TÛÝßBˆØ™S›ÝYšYY^ÝØ™S›ÝYšYYBˆÙ]]˜Z[Xš[]TÛÝÏ^ÜÙ]]˜Z[Xš[]TÛÝßBˆÙ]›ÝYšXØ][Û^ÜÙ]›ÝYšXØ][ÛŸBˆÏ‚ˆ
-NÂˆØ\ÙHN‚ˆ™]\›ˆ™]šY]ÈÏŽÂˆY˜][‚ˆ™]\›ˆ[ÂˆBˆNÂ‚ˆÛÛœÝ\Ð]˜Z[Xš[]U˜[YH\ÙSY[[Ê
+import { useEffect, useState, useMemo, useRef } from "react"; //added for testing
+import Stepper from "./Stepper";
+import StepperControl from "./StepperControl";
+import Availability from "./steps/Availability";
+import Review from "./steps/Review";
+import Skills from "./steps/Skills";
+import { useSearchParams } from "react-router-dom";
+import TermsConditions from "./steps/TermsConditions";
+import VolunteerCourse from "./steps/VolunteerCourse";
+import {
+  updateUserSkills,
+  saveVolunteerStep1,
+} from "../../services/volunteerServices";
+import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
-HOˆÂˆYˆ
-X]˜Z[Xš[]TÛÝÈ]˜Z[Xš[]TÛÝË›[™ÝOOH
-H™]\›ˆ˜[ÙNÂˆ™]\›ˆ]˜Z[Xš[]TÛÝËœÛÛYJ
-ÛÝ
-HOˆÂˆYˆ
-JÛÝœÝ\[YH[œÝ[˜Ù[Ùˆ]H	‰ˆÛÝ™[™[YH[œÝ[˜Ù[Ùˆ]JJBˆ™]\›ˆ˜[ÙNÂˆ™]\›ˆÛÝ™[™[YHˆÛÝœÝ\[YNÂˆJNÂˆKØ]˜Z[Xš[]TÛÝ×JNÂ‚ˆÛÛœÝ^˜XÝÚÚ[Ñœ›ÛP\œ˜^HH
-ÚÚ[ÊHOˆÂˆ™]\›ˆÚÚ[Ëš›Ú[Š‹ŠNÂˆNÂ‚ˆÛÛœÝ\]U›Û[Y\‘]HH
-\]\ÊHOˆÂˆ›Û[Y\‘]T™Y‹˜Ý\œ™[HÈ‹‹›Û[Y\‘]T™Y‹˜Ý\œ™[‹‹\]\ÈNÂˆNÂ‚ˆÛÛœÝ[™TØ]™Qš[HH
+const getSessionStorageItem = (key) => {
+  try {
+    return typeof window !== "undefined" && window.sessionStorage
+      ? sessionStorage.getItem(key)
+      : null;
+  } catch (e) {
+    console.error("Error reading from sessionStorage", e);
+    return null;
+  }
+};
 
-HOˆÂˆYˆ
-ÛÝYš[JHÂˆ\]U›Û[Y\‘]JÂˆÝ\ˆ‹ˆ\Ù\’Yˆ\Ù\‘’YˆÛÝYš[[˜[YNˆÛÝYš[K›˜[YKˆJNÂˆBˆNÂ‚ˆÛÛœÝ[™PÛXÚÈH\Þ[˜È
-\™XÝ[ÛŠHOˆÂˆ]™]ÔÝ\HÝ\œ™[Ý\Âˆ]\Õ˜[YÝ\H˜[ÙNÂ‚ˆYˆ
-\™XÝ[ÛˆOOH›™^ŠHÂˆÝÚ]Ú
-Ý\œ™[Ý\
-HÂˆØ\ÙHNˆÂˆ\Õ˜[YÝ\H\ÐXÚÛ›ÝÛYÙYÂˆ\]U›Û[Y\‘]JÂˆÝ\ˆÝ\œ™[Ý\ˆ\Ù\’Yˆ\Ù\‘’Yˆ\›\Ð[™ÛÛ™][ÛœÎˆ\ÐXÚÛ›ÝÛYÙYˆJNÂˆYˆ
-\ÐXÚÛ›ÝÛYÙY
-HÂˆžHÂˆÛÛœÝ^[ØYHÂˆÝ\ˆKˆ\Ù\’Yˆ\Ù\‘’Yˆ\›\Ð[™ÛÛ™][ÛœÎˆ\ÐXÚÛ›ÝÛYÙYˆNÂˆ]ØZ]Ø]™U›Û[Y\”Ý\J^[ØY
-NÂˆHØ]Ú
-\œ›ÜŠHÂˆÛÛœÛÛK™\œ›ÜŠˆ‘˜Z[YÈØ]™H›Û[Y\ˆÝ\H›ÙÜ™\ÜÈ
-\ÜÝYHHÌÌ
-Nˆ‹ˆ\œ›Ü‹ˆ
-NÂˆHš[˜[HÂˆÙ]Ý\œ™[Ý\
-ŠNÂˆBˆBˆœ™XZÎÂˆBˆØ\ÙHŽ‚ˆËÈ\Õ˜[YÝ\HÛÝYš[H	‰ˆÛÝYš[K›˜[YHOOHˆŽÂˆ[™TØ]™Qš[J
-NÂˆ\Õ˜[YÝ\H›ÛÛX[ŠˆÛÝYš[H	‰ˆ
-^\žQ]S›Ý\XØX›H\Ñ^\žQ]U˜[Y
-Kˆ
-NÂˆYˆ
-Y^\žQ]S›Ý\XØX›H	‰ˆZ\Ñ^\žQ]U˜[Y
-HÂˆÙ]\œ›Ü“Y\ÜØYÙJ
-‘ÐÕSQS•ÑVT‘QÑT”“Ôˆ‹ÈœÎˆšY[]HˆJJNÂˆ™]\›ŽÂˆBˆ\]U›Û[Y\‘]JÂˆÝ\ˆÝ\œ™[Ý\ˆ\Ù\’Yˆ\Ù\‘’YˆÛÝYš[[˜[YNˆÛÝYš[HÈÛÝYš[K›˜[YHˆˆ‹ˆJNÂˆœ™XZÎÂˆØ\ÙHÎˆÂˆ\Õ˜[YÝ\HÙ[XÝYÚÚ[Ë›[™ÝˆÂˆ\]U›Û[Y\‘]JÂˆÝ\ˆÝ\œ™[Ý\ˆ\Ù\’Yˆ\Ù\‘’YˆÚÚ[Îˆ^˜XÝÚÚ[Ñœ›ÛP\œ˜^JÙ[XÝYÚÚ[ÊKˆJNÂˆYˆ
-\Õ˜[YÝ\	‰ˆ\Ù\‘’Y
-HÂˆžHÂˆÛÛœÝÚÚ[ÕÔØ]™HHÙ[XÝYÚÚ[Ë›X\
+const setSessionStorageItem = (key, value) => {
+  try {
+    if (typeof window !== "undefined" && window.sessionStorage) {
+      sessionStorage.setItem(key, value);
+    }
+  } catch (e) {
+    console.error("Error writing to sessionStorage", e);
+  }
+};
 
-ÚÚ[
-HOˆÝš[™ÊÚÚ[
-JNÂˆ]ØZ]\]U\Ù\”ÚÚ[Ê\Ù\‘’YÚÚ[ÕÔØ]™JNÂˆHØ]Ú
-ÚÚ[\œ›ÜŠHÂˆÛÛœÛÛK™\œ›ÜŠ‘˜Z[YÈØ]™HÚÚ[ÈÈTNˆ‹ÚÚ[\œ›ÜŠNÂˆÙ]\œ›Ü“Y\ÜØYÙJ
-‘RSQÕ×ÔÐU‘WÔÒÒSÈŠJNÂˆ\Õ˜[YÝ\H˜[ÙNÂˆBˆBˆœ™XZÎÂˆBˆØ\ÙHˆÂˆÛÛœÝ\Õ˜[YÛÝH\Ð]˜Z[Xš[]U˜[YÂˆ\Õ˜[YÝ\H\Õ˜[YÛÝÂˆYˆ
-\Õ˜[YÝ\
-HÂˆ\]U›Û[Y\‘]JÂˆÝ\ˆÝ\œ™[Ý\ˆ\Ù\’Yˆ\Ù\‘’Yˆ›ÝYšXØ][ÛŽˆØ™S›ÝYšYYˆ\ÐÛÛ\]YˆYKˆ]˜Z[Xš[]Nˆ]˜Z[Xš[]TÛÝË›X\
+const removeSessionStorageItem = (key) => {
+  try {
+    if (typeof window !== "undefined" && window.sessionStorage) {
+      sessionStorage.removeItem(key);
+    }
+  } catch (e) {
+    console.error("Error removing from sessionStorage", e);
+  }
+};
 
-ÛÝ
-HOˆ
-Âˆ^SÙ•ÙYZÎˆÛÝ™^SÙ•ÙYZËˆÝ\[YNˆÛÝœÝ\[YOËÒTÓÔÝš[™Ê
-Kˆ[™[YNˆÛÝ™[™[YOËÒTÓÔÝš[™Ê
-KˆJJKˆJNÂˆBˆœ™XZÎÂˆBˆY˜][‚ˆ\Õ˜[YÝ\H˜[ÙNÂˆB‚ˆYˆ
-\Õ˜[YÝ\
-HÂˆÙ]\œ›Ü“Y\ÜØYÙJˆŠNÂˆ™]ÔÝ\
-ÊÎÂˆYˆ
-™]ÔÝ\OOHJHÂˆ™[[Ý™TÙ\ÜÚ[Û”ÝÜ˜YÙR][J›Û[Y\—ÝÚ^˜\™ÜÝ\ŠNÂˆ™[[Ý™TÙ\ÜÚ[Û”ÝÜ˜YÙR][J›Û[Y\—Ù›Ü›WÙ]HŠNÂˆBˆH[ÙHÂˆÙ]\œ›Ü“Y\ÜØYÙJ
-ÓÓTUWÔ‘TURT‘QÑ’QSÈŠJNÂˆBˆH[ÙHYˆ
-\™XÝ[ÛˆOOHœ™]ˆŠHÂˆ™]ÔÝ\KNÂˆB‚ˆYˆ
-™]ÔÝ\ˆ	‰ˆ™]ÔÝ\HÝ\Ë›[™Ý
-ÈJHÂˆÙ]Ý\œ™[Ý\
-™]ÔÝ\
-NÂˆBˆNÂ‚ˆ™]\›ˆ
-ˆ]ˆÛ\ÜÓ˜[YOHËY[^X]]ÈÚYÝË^›Ý[™YLž‹Lˆ™Ë]Ú]H‚ˆËÊˆ’VQÕTTˆÔTTˆ
-‹ßBˆ]ˆÛ\ÜÓ˜[YOHËY[›^›^XÛÛ][\ËXÙ[\ˆ]MHNM‚ˆHÛ\ÜÓ˜[YOH^LÞ›ÛX›Û^XÙ[\ˆX‹N‚ˆÝ
-‘PÓÓQWÕ“ÓS•QTˆŠ_BˆÚO‚ˆÝ\\ˆÝ\Ï^ÜÝ\ßHÝ\œ™[Ý\^ØÝ\œ™[Ý\HÏ‚ˆËÊˆ’VQÓÓ•S•ÔTTˆ
-‹ßBˆ]ˆÛ\ÜÓ˜[YOHËY[]NMžÙ\Ü^TÝ\
-Ý\œ™[Ý\
-_OÙ]‚ˆÙ]‚ˆÙ\œ›Ü“Y\ÜØYÙH	‰ˆ
-ˆ]ˆÛ\ÜÓ˜[YOH^\™YML^XÙ[\ˆ^KMžÙ\œ›Ü“Y\ÜØYÙ_OÙ]‚ˆ
-_BˆØÝ\œ™[Ý\OOHÝ\Ë›[™Ý	‰ˆ
-ˆÝ\\ÛÛ›Ûˆ[™PÛXÚÏ^Ú[™PÛXÚßBˆÝ\œ™[Ý\^ØÝ\œ™[Ý\BˆÝ\Ï^ÜÝ\ßBˆ\ÐXÚÛ›ÝÛYÙY^Ú\ÐXÚÛ›ÝÛYÙYBˆ\Õ\ØYY^Ú\Õ\ØYYBˆ\Ñ^\žQ]U˜[Y^Ú\Ñ^\žQ]U˜[YBˆ\Ñ^\žQ]O^Ð›ÛÛX[Š^\žQ]J_Bˆ\Ñ^\žQ]S›Ý\XØX›O^Ù^\žQ]S›Ý\XØX›_Bˆ\ÐÚXÚÙYØ]YÛÜšY\Ï^ÜÙ[XÝYÚÚ[Ë›[™ÝˆBˆ\Ð]˜Z[Xš[]U˜[Y^Ú\Ð]˜Z[Xš[]U˜[YBˆÏ‚ˆ
-_BˆÙ]‚ˆ
-NÂŸNÂ‚™^ÜY˜][›Û[ÝUÕ›Û[Y\ŽÂ
+const PromoteToVolunteer = () => {
+  const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+  const stepParam = parseInt(searchParams.get("step")) || 1;
+  const [currentStep, setCurrentStep] = useState(() => {
+    const cachedStep = getSessionStorageItem("volunteer_wizard_step");
+    return cachedStep ? parseInt(cachedStep, 10) : stepParam;
+  });
+  const [isAcknowledged, setIsAcknowledged] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.isAcknowledged ?? false;
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return false;
+  });
+  const [govtIdFile, setGovtIdFile] = useState(null);
+  const [expiryDate, setExpiryDate] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (!cachedData) return "";
+    try {
+      return JSON.parse(cachedData).expiryDate ?? "";
+    } catch {
+      return "";
+    }
+  });
+  const [expiryDateNotApplicable, setExpiryDateNotApplicable] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (!cachedData) return false;
+    try {
+      return JSON.parse(cachedData).expiryDateNotApplicable ?? false;
+    } catch {
+      return false;
+    }
+  });
+
+  const today = new Date();
+  const todayString = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0"),
+  ].join("-");
+  const isExpiryDateValid = Boolean(expiryDate && expiryDate > todayString);
+  const userDBId = useSelector(
+    (state) => state.auth?.user?.userDbId || state.auth?.userDBId,
+  );
+  const [selectedSkills, setSelectedSkills] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.selectedSkills ?? [];
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return [];
+  });
+  const [categories, setCategories] = useState([]);
+  const [availabilitySlots, setAvailabilitySlots] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        if (parsed.availabilitySlots) {
+          return parsed.availabilitySlots.map((slot) => ({
+            ...slot,
+            startTime: slot.startTime ? new Date(slot.startTime) : null,
+            endTime: slot.endTime ? new Date(slot.endTime) : null,
+          }));
+        }
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return [{ id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null }];
+  });
+  const [tobeNotified, setNotification] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (cachedData) {
+      try {
+        const parsed = JSON.parse(cachedData);
+        return parsed.tobeNotified ?? false;
+      } catch (e) {
+        console.error("Failed to parse volunteer_form_data:", e);
+      }
+    }
+    return false;
+  });
+  const volunteerDataRef = useRef({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
+
+  // Save current step to sessionStorage
+  useEffect(() => {
+    if (currentStep < 5) {
+      setSessionStorageItem("volunteer_wizard_step", currentStep.toString());
+    }
+  }, [currentStep]);
+
+  // Save form data to sessionStorage
+  useEffect(() => {
+    if (currentStep < 5) {
+      const formData = {
+        isAcknowledged,
+        isUploaded,
+        expiryDate,
+        expiryDateNotApplicable,
+        selectedSkills,
+        availabilitySlots: availabilitySlots.map((slot) => ({
+          ...slot,
+          startTime: slot.startTime ? slot.startTime.toISOString() : null,
+          endTime: slot.endTime ? slot.endTime.toISOString() : null,
+        })),
+        tobeNotified,
+      };
+      setSessionStorageItem("volunteer_form_data", JSON.stringify(formData));
+    }
+  }, [
+    isAcknowledged,
+    isUploaded,
+    expiryDate,
+    expiryDateNotApplicable,
+    selectedSkills,
+    availabilitySlots,
+    tobeNotified,
+    currentStep,
+  ]);
+
+  useEffect(() => {
+    if (categories.length === 0) {
+      const storedCategories = localStorage.getItem("categories");
+      if (storedCategories) {
+        try {
+          setCategories(JSON.parse(storedCategories));
+        } catch (parseError) {
+          console.warn(
+            "Failed to parse categories from localStorage:",
+            parseError,
+          );
+        }
+      }
+    }
+  }, []);
+
+  const steps = [
+    t("TERMS_AND_CONDITIONS"),
+    t("IDENTIFICATION"),
+    t("SKILLS"),
+    t("AVAILABILITY"),
+    t("REVIEW"),
+  ];
+
+  const displayStep = (step) => {
+    switch (step) {
+      case 1:
+        return (
+          <TermsConditions
+            isAcknowledged={isAcknowledged}
+            setIsAcknowledged={setIsAcknowledged}
+          />
+        );
+      case 2:
+        return (
+          <VolunteerCourse
+            selectedFile={govtIdFile}
+            setSelectedFile={setGovtIdFile}
+            setIsUploaded={setIsUploaded}
+            expiryDate={expiryDate}
+            setExpiryDate={setExpiryDate}
+            expiryDateNotApplicable={expiryDateNotApplicable}
+            setExpiryDateNotApplicable={setExpiryDateNotApplicable}
+          />
+        );
+      case 3:
+        return (
+          <Skills
+            selectedSkills={selectedSkills}
+            setSelectedSkills={setSelectedSkills}
+            categories={categories}
+          />
+        );
+      case 4:
+        return (
+          <Availability
+            availabilitySlots={availabilitySlots}
+            tobeNotified={tobeNotified}
+            setAvailabilitySlots={setAvailabilitySlots}
+            setNotification={setNotification}
+          />
+        );
+      case 5:
+        return <Review />;
+      default:
+        return null;
+    }
+  };
+
+  const isAvailabilityValid = useMemo(() => {
+    if (!availabilitySlots || availabilitySlots.length === 0) return false;
+    return availabilitySlots.some((slot) => {
+      if (!(slot.startTime instanceof Date && slot.endTime instanceof Date))
+        return false;
+      return slot.endTime > slot.startTime;
+    });
+  }, [availabilitySlots]);
+
+  const extractSkillsFromArray = (skills) => {
+    return skills.join(", ");
+  };
+
+  const updateVolunteerData = (updates) => {
+    volunteerDataRef.current = { ...volunteerDataRef.current, ...updates };
+  };
+
+  const handleSaveFile = () => {
+    if (govtIdFile) {
+      updateVolunteerData({
+        step: 2,
+        userId: userDBId,
+        govtIdFilename: govtIdFile.name,
+      });
+    }
+  };
+
+  const handleClick = async (direction) => {
+    let newStep = currentStep;
+    let isValidStep = false;
+
+    if (direction === "next") {
+      switch (currentStep) {
+        case 1: {
+          isValidStep = isAcknowledged;
+          updateVolunteerData({
+            step: currentStep,
+            userId: userDBId,
+            termsAndConditions: isAcknowledged,
+          });
+          if (isAcknowledged) {
+            try {
+              const payload = {
+                step: 1,
+                userId: userDBId,
+                termsAndConditions: isAcknowledged,
+              };
+              await saveVolunteerStep1(payload);
+            } catch (error) {
+              console.error(
+                "Failed to save Volunteer Step 1 progress (Issue BA #30):",
+                error,
+              );
+            } finally {
+              setCurrentStep(2);
+            }
+          }
+          break;
+        }
+        case 2:
+          // isValidStep = govtIdFile && govtIdFile.name !== "";
+          handleSaveFile();
+          isValidStep = Boolean(
+            govtIdFile && (expiryDateNotApplicable || isExpiryDateValid),
+          );
+          if (!expiryDateNotApplicable && !isExpiryDateValid) {
+            setErrorMessage(t("DOCUMENT_EXPIRED_ERROR", { ns: "identity" }));
+            return;
+          }
+          updateVolunteerData({
+            step: currentStep,
+            userId: userDBId,
+            govtIdFilename: govtIdFile ? govtIdFile.name : "",
+          });
+          break;
+        case 3: {
+          isValidStep = selectedSkills.length > 0;
+          updateVolunteerData({
+            step: currentStep,
+            userId: userDBId,
+            skills: extractSkillsFromArray(selectedSkills),
+          });
+          if (isValidStep && userDBId) {
+            try {
+              const skillsToSave = selectedSkills.map((skill) => String(skill));
+              await updateUserSkills(userDBId, skillsToSave);
+            } catch (skillError) {
+              console.error("Failed to save skills to API:", skillError);
+              setErrorMessage(t("FAILED_TO_SAVE_SKILLS"));
+              isValidStep = false;
+            }
+          }
+          break;
+        }
+        case 4: {
+          const hasValidSlot = isAvailabilityValid;
+          isValidStep = hasValidSlot;
+          if (isValidStep) {
+            updateVolunteerData({
+              step: currentStep,
+              userId: userDBId,
+              notification: tobeNotified,
+              isCompleted: true,
+              availability: availabilitySlots.map((slot) => ({
+                dayOfWeek: slot.dayOfWeek,
+                startTime: slot.startTime?.toISOString(),
+                endTime: slot.endTime?.toISOString(),
+              })),
+            });
+          }
+          break;
+        }
+        default:
+          isValidStep = false;
+      }
+
+      if (isValidStep) {
+        setErrorMessage("");
+        newStep++;
+        if (newStep === 5) {
+          removeSessionStorageItem("volunteer_wizard_step");
+          removeSessionStorageItem("volunteer_form_data");
+        }
+      } else {
+        setErrorMessage(t("COMPLETE_REQUIRED_FIELDS"));
+      }
+    } else if (direction === "prev") {
+      newStep--;
+    }
+
+    if (newStep > 0 && newStep <= steps.length + 1) {
+      setCurrentStep(newStep);
+    }
+  };
+
+  return (
+    <div className="w-full mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+      {/* FIXED STEPPER WRAPPER */}
+      <div className="w-full flex flex-col items-center mt-5 pt-8 px-4">
+        <h1 className="text-3xl font-bold text-center mb-8">
+          {t("BECOME_VOLUNTEER")}
+        </h1>
+        <Stepper steps={steps} currentStep={currentStep} />
+        {/* FIXED CONTENT WRAPPER */}
+        <div className="w-full mt-8 px-4">{displayStep(currentStep)}</div>
+      </div>
+      {errorMessage && (
+        <div className="text-red-500 text-center my-4">{errorMessage}</div>
+      )}
+      {currentStep !== steps.length && (
+        <StepperControl
+          handleClick={handleClick}
+          currentStep={currentStep}
+          steps={steps}
+          isAcknowledged={isAcknowledged}
+          isUploaded={isUploaded}
+          isExpiryDateValid={isExpiryDateValid}
+          hasExpiryDate={Boolean(expiryDate)}
+          isExpiryDateNotApplicable={expiryDateNotApplicable}
+          isCheckedCategories={selectedSkills.length > 0}
+          isAvailabilityValid={isAvailabilityValid}
+        />
+      )}
+    </div>
+  );
+};
+
+export default PromoteToVolunteer;
