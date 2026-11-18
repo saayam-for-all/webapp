@@ -38,10 +38,13 @@ describe("News page JSON integration", () => {
   };
 
   afterEach(() => {
-    const index = newsCards.findIndex((card) => card.id === testCard.id);
-
-    if (index !== -1) {
-      newsCards.splice(index, 1);
+    for (let index = newsCards.length - 1; index >= 0; index--) {
+      if (
+        newsCards[index].id === testCard.id ||
+        newsCards[index].id.startsWith("integration_batch_")
+      ) {
+        newsCards.splice(index, 1);
+      }
     }
   });
 
@@ -93,5 +96,77 @@ describe("News page JSON integration", () => {
     });
 
     expect(screen.getByText(/Nuestro CEO se reunió con/)).toBeTruthy();
+  });
+
+  test("renders five new JSON cards at the top without component changes", async () => {
+    const instance = i18next.createInstance();
+    const translations = {};
+
+    const newCards = Array.from({ length: 5 }, (_, index) => {
+      const number = index + 1;
+      const titleKey = `INTEGRATION_BATCH_${number}_TITLE`;
+      const descriptionKey = `INTEGRATION_BATCH_${number}_DESC`;
+
+      translations[titleKey] = `New story ${number} with <person/>`;
+      translations[descriptionKey] =
+        `Description ${number} featuring <person/>`;
+
+      return {
+        id: `integration_batch_${number}`,
+        date: "11/17/2026",
+        titleKey,
+        descriptionKey,
+        image: "/news/Jensen_CEO_NVIDIA.webp",
+        links: {
+          person: {
+            text: "Jensen Huang",
+            url: "https://www.linkedin.com/in/jenhsunhuang/",
+          },
+        },
+      };
+    });
+
+    await instance.init({
+      lng: "en",
+      fallbackLng: "en",
+      defaultNS: "news",
+      ns: ["news"],
+      resources: {
+        en: { news: translations },
+      },
+      interpolation: { escapeValue: false },
+      react: { useSuspense: false },
+    });
+
+    newsCards.unshift(...newCards);
+
+    const { container } = render(
+      <I18nextProvider i18n={instance}>
+        <NewsOurStories />
+      </I18nextProvider>,
+    );
+
+    const renderedCards = Array.from(container.querySelectorAll(".news-card"));
+
+    expect(renderedCards).toHaveLength(16);
+
+    newCards.forEach((newCard, index) => {
+      const card = renderedCards[index];
+
+      expect(card.textContent).toContain(`New story ${index + 1}`);
+      expect(card.textContent).toContain(`Description ${index + 1}`);
+
+      const links = within(card).getAllByRole("link", {
+        name: "Jensen Huang",
+      });
+
+      expect(links).toHaveLength(2);
+
+      links.forEach((link) => {
+        expect(link.getAttribute("href")).toBe(newCard.links.person.url);
+      });
+    });
+
+    expect(renderedCards[5].textContent).toContain("ARIA_UNIVERSITY_TITLE");
   });
 });
