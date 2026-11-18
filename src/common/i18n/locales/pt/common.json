@@ -818,11 +818,16 @@
   "SELECT_VOLUNTEER": "Selecionar {{name}}",
   "NA": "Não disponível",
   "NOTIFY": "Notificar",
-  "ALL_REQUESTS": "All Requests",
-  "ANALYTICS": "Analytics",
-  "REVIEW_REQUESTS": "Review Requests",
-  "REVIEW_VOLUNTEERS": "Review Volunteers",
-  "INFRASTRUCTURE": "Infrastructure",
-  "APPLICATION_ANALYTICS": "Application Analytics",
-  "GOOGLE_ANALYTICS": "Análises do Google"
+  "ALL_REQUESTS": "Todas as solicitações",
+  "ANALYTICS": "Análises",
+  "REVIEW_REQUESTS": "Revisar solicitações",
+  "REVIEW_VOLUNTEERS": "Revisar voluntários",
+  "INFRASTRUCTURE": "Infraestrutura",
+  "APPLICATION_ANALYTICS": "Análises do aplicativo",
+  "GOOGLE_ANALYTICS": "Análises do Google",
+  "Volunteer Type": "Tipo de voluntário",
+  "Request ID": "ID da solicitação",
+  "Last Updated": "Última atualização",
+  "Beneficiary ID / Creator ID": "ID do beneficiário / ID do criador",
+  "Lead Volunteer ID": "ID do voluntário principal"
 }

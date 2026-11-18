@@ -819,5 +819,8 @@
   "REVIEW_VOLUNTEERS": "مراجعة المتطوعين",
   "INFRASTRUCTURE": "البنية التحتية",
   "APPLICATION_ANALYTICS": "تحليلات التطبيق",
-  "GOOGLE_ANALYTICS": "جوجل أناليتكس"
+  "GOOGLE_ANALYTICS": "جوجل أناليتكس",
+  "Volunteer Type": "نوع المتطوع",
+  "Beneficiary ID / Creator ID": "معرف المستفيد / معرف المنشئ",
+  "Lead Volunteer ID": "معرف المتطوع الرئيسي"
 }

@@ -841,5 +841,9 @@
   "REVIEW_VOLUNTEERS": "Review Volunteers",
   "INFRASTRUCTURE": "Infrastructure",
   "APPLICATION_ANALYTICS": "Application Analytics",
-  "GOOGLE_ANALYTICS": "Google Analytics"
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "Request ID": "Request ID",
+  "Last Updated": "Last Updated",
+  "Beneficiary ID / Creator ID": "Beneficiary ID / Creator ID",
+  "Lead Volunteer ID": "Lead Volunteer ID"
 }

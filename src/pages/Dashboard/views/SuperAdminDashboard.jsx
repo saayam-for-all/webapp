@@ -43,7 +43,7 @@ const SuperAdminDashboard = (props) => {
           }`}
           onClick={() => handleTabChange("analytics")}
         >
-          {t("ANALYTICS") || "Analytics"}
+          {t("ANALYTICS")}
         </button>
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
@@ -53,7 +53,7 @@ const SuperAdminDashboard = (props) => {
           }`}
           onClick={() => handleTabChange("myRequests")}
         >
-          {t("ALL_REQUESTS") || "All Requests"}
+          {t("ALL_REQUESTS")}
         </button>
       </div>
 
@@ -71,7 +71,7 @@ const SuperAdminDashboard = (props) => {
         } mr-1`}
               onClick={() => setAnalyticsSubtab("Infrastructure")}
             >
-              {t("INFRASTRUCTURE") || "Infrastructure"}
+              {t("INFRASTRUCTURE")}
             </button>
             <button
               className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
@@ -82,7 +82,7 @@ const SuperAdminDashboard = (props) => {
         } mr-1`}
               onClick={() => setAnalyticsSubtab("Application Analytics")}
             >
-              {t("APPLICATION_ANALYTICS") || "Application Analytics"}
+              {t("APPLICATION_ANALYTICS")}
             </button>
             <button
               className={`flex-1 py-2 text-center cursor-pointer border-b-2 font-semibold 
@@ -93,7 +93,7 @@ const SuperAdminDashboard = (props) => {
         }`}
               onClick={() => setAnalyticsSubtab("Google Analytics")}
             >
-              {t("GOOGLE_ANALYTICS") || "Google Analytics"}
+              {t("GOOGLE_ANALYTICS")}
             </button>
           </div>
         )}

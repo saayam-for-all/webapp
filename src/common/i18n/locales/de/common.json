@@ -816,5 +816,10 @@
   "REVIEW_VOLUNTEERS": "Freiwillige prüfen",
   "INFRASTRUCTURE": "Infrastruktur",
   "APPLICATION_ANALYTICS": "Anwendungsanalytik",
-  "GOOGLE_ANALYTICS": "Google-Analysen"
+  "GOOGLE_ANALYTICS": "Google-Analysen",
+  "Volunteer Type": "Freiwilligentyp",
+  "Request ID": "Anfrage-ID",
+  "Last Updated": "Zuletzt aktualisiert",
+  "Beneficiary ID / Creator ID": "Empfänger-ID / Ersteller-ID",
+  "Lead Volunteer ID": "ID des leitenden Freiwilligen"
 }

@@ -809,11 +809,16 @@
   "ASSIGN_VOLUNTEER": "স্বেচ্ছাসেবক নিয়োগ করুন",
   "SELECT_VOLUNTEER": "{{name}} নির্বাচন করুন",
   "NA": "উপলব্ধ নয়",
-  "ALL_REQUESTS": "All Requests",
-  "ANALYTICS": "Analytics",
-  "REVIEW_REQUESTS": "Review Requests",
-  "REVIEW_VOLUNTEERS": "Review Volunteers",
-  "INFRASTRUCTURE": "Infrastructure",
-  "APPLICATION_ANALYTICS": "Application Analytics",
-  "GOOGLE_ANALYTICS": "গুগল অ্যানালিটিক্স"
+  "ALL_REQUESTS": "সমস্ত অনুরোধ",
+  "ANALYTICS": "বিশ্লেষণ",
+  "REVIEW_REQUESTS": "অনুরোধ পর্যালোচনা",
+  "REVIEW_VOLUNTEERS": "স্বেচ্ছাসেবক পর্যালোচনা",
+  "INFRASTRUCTURE": "পরিকাঠামো",
+  "APPLICATION_ANALYTICS": "অ্যাপ্লিকেশন বিশ্লেষণ",
+  "GOOGLE_ANALYTICS": "গুগল অ্যানালিটিক্স",
+  "Volunteer Type": "স্বেচ্ছাসেবকের ধরন",
+  "Request ID": "অনুরোধ আইডি",
+  "Last Updated": "সর্বশেষ আপডেট",
+  "Beneficiary ID / Creator ID": "সুবিধাভোগী আইডি / নির্মাতা আইডি",
+  "Lead Volunteer ID": "প্রধান স্বেচ্ছাসেবক আইডি"
 }

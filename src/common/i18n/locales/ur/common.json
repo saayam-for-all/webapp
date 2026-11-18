@@ -468,11 +468,16 @@
   "ASSIGN_VOLUNTEER": "رضاکار مقرر کریں",
   "SELECT_VOLUNTEER": "{{name}} کو منتخب کریں",
   "NA": "دستیاب نہیں",
-  "ALL_REQUESTS": "All Requests",
-  "ANALYTICS": "Analytics",
-  "REVIEW_REQUESTS": "Review Requests",
-  "REVIEW_VOLUNTEERS": "Review Volunteers",
-  "INFRASTRUCTURE": "Infrastructure",
-  "APPLICATION_ANALYTICS": "Application Analytics",
-  "GOOGLE_ANALYTICS": "گوگل اینالیٹکس"
+  "ALL_REQUESTS": "تمام درخواستیں",
+  "ANALYTICS": "تجزیات",
+  "REVIEW_REQUESTS": "درخواستوں کا جائزہ",
+  "REVIEW_VOLUNTEERS": "رضاکاروں کا جائزہ",
+  "INFRASTRUCTURE": "بنیادی ڈھانچہ",
+  "APPLICATION_ANALYTICS": "ایپلیکیشن تجزیات",
+  "GOOGLE_ANALYTICS": "گوگل اینالیٹکس",
+  "Volunteer Type": "رضاکار کی قسم",
+  "Request ID": "درخواست آئی ڈی",
+  "Last Updated": "آخری اپ ڈیٹ",
+  "Beneficiary ID / Creator ID": "مستفید آئی ڈی / تخلیق کار آئی ڈی",
+  "Lead Volunteer ID": "مرکزی رضاکار آئی ڈی"
 }
