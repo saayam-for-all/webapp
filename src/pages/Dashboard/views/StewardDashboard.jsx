@@ -73,7 +73,7 @@ const StewardDashboard = (props) => {
           }`}
           onClick={() => setActiveTab("allRequests")}
         >
-          {t("REVIEW_REQUESTS") || "Review Requests"}
+          {t("REVIEW_REQUESTS")}
         </button>
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold ${
@@ -83,7 +83,7 @@ const StewardDashboard = (props) => {
           }`}
           onClick={() => setActiveTab("volunteers")}
         >
-          {t("REVIEW_VOLUNTEERS") || "Review Volunteers"}
+          {t("REVIEW_VOLUNTEERS")}
         </button>
       </div>
 

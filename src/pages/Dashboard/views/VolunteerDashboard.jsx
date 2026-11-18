@@ -36,7 +36,7 @@ const VolunteerDashboard = (props) => {
         <button
           className={`flex-1 py-3 text-center cursor-pointer border-b-2 font-bold bg-white text-blue-500 border-blue-500`}
         >
-          {t("MANAGED_REQUESTS") || "Managed Requests"}
+          {t("MANAGED_REQUESTS")}
         </button>
       </div>
 

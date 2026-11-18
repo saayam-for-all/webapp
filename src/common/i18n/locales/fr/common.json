@@ -816,5 +816,10 @@
   "REVIEW_VOLUNTEERS": "Examiner les bénévoles",
   "INFRASTRUCTURE": "Infrastructure",
   "APPLICATION_ANALYTICS": "Analytique d'application",
-  "GOOGLE_ANALYTICS": "Analytique Google"
+  "GOOGLE_ANALYTICS": "Analytique Google",
+  "Volunteer Type": "Type de bénévole",
+  "Request ID": "ID de la demande",
+  "Last Updated": "Dernière mise à jour",
+  "Beneficiary ID / Creator ID": "ID du bénéficiaire / ID du créateur",
+  "Lead Volunteer ID": "ID du bénévole principal"
 }

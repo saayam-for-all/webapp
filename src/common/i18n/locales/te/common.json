@@ -815,5 +815,10 @@
   "REVIEW_VOLUNTEERS": "వాలంటీర్లను సమీక్షించండి",
   "INFRASTRUCTURE": "మౌలిక సదుపాయాలు",
   "APPLICATION_ANALYTICS": "అప్లికేషన్ విశ్లేషణలు",
-  "GOOGLE_ANALYTICS": "గూగుల్ అనలిటిక్స్"
+  "GOOGLE_ANALYTICS": "గూగుల్ అనలిటిక్స్",
+  "Volunteer Type": "వాలంటీర్ రకం",
+  "Request ID": "అభ్యర్థన ఐడి",
+  "Last Updated": "చివరిగా నవీకరించబడింది",
+  "Beneficiary ID / Creator ID": "లబ్ధిదారుడి ఐడి / సృష్టికర్త ఐడి",
+  "Lead Volunteer ID": "ప్రధాన వాలంటీర్ ఐడి"
 }

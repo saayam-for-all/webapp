@@ -389,7 +389,7 @@
   "AI_CHAT": "एआई चैट",
   "MORE_INFORMATION": "अधिक जानकारी",
   "MOTIVATION": "MOTIVATION",
-  "MY_REQUESTS": "मेरा अनुभव",
+  "MY_REQUESTS": "मेरे अनुरोध",
   "Madhukar Govindaraju": "मधुकर गोविंदराजू",
   "Make a donation": "दान करें",
   "Manava sevaye Madhava seva": "मानव सेवा ही माधव सेवा है",
@@ -816,5 +816,10 @@
   "REVIEW_VOLUNTEERS": "स्वयंसेवकों की समीक्षा करें",
   "INFRASTRUCTURE": "बुनियादी ढाँचा",
   "APPLICATION_ANALYTICS": "एप्लिकेशन एनालिटिक्स",
-  "GOOGLE_ANALYTICS": "गूगल एनालिटिक्स"
+  "GOOGLE_ANALYTICS": "गूगल एनालिटिक्स",
+  "Volunteer Type": "स्वयंसेवक प्रकार",
+  "Request ID": "अनुरोध आईडी",
+  "Last Updated": "अंतिम अपडेट",
+  "Beneficiary ID / Creator ID": "लाभार्थी आईडी / निर्माता आईडी",
+  "Lead Volunteer ID": "मुख्य स्वयंसेवक आईडी"
 }

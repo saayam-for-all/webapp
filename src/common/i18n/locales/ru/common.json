@@ -810,11 +810,16 @@
   "SELECT_VOLUNTEER": "Выбрать {{name}}",
   "NA": "Недоступно",
   "NOTIFY": "Уведомить",
-  "ALL_REQUESTS": "All Requests",
-  "ANALYTICS": "Analytics",
-  "REVIEW_REQUESTS": "Review Requests",
-  "REVIEW_VOLUNTEERS": "Review Volunteers",
-  "INFRASTRUCTURE": "Infrastructure",
-  "APPLICATION_ANALYTICS": "Application Analytics",
-  "GOOGLE_ANALYTICS": "Гугл Аналитикс"
+  "ALL_REQUESTS": "Все запросы",
+  "ANALYTICS": "Аналитика",
+  "REVIEW_REQUESTS": "Проверить запросы",
+  "REVIEW_VOLUNTEERS": "Проверить волонтёров",
+  "INFRASTRUCTURE": "Инфраструктура",
+  "APPLICATION_ANALYTICS": "Аналитика приложения",
+  "GOOGLE_ANALYTICS": "Гугл Аналитикс",
+  "Volunteer Type": "Тип волонтёра",
+  "Request ID": "ID запроса",
+  "Last Updated": "Последнее обновление",
+  "Beneficiary ID / Creator ID": "ID получателя / ID создателя",
+  "Lead Volunteer ID": "ID ведущего волонтёра"
 }
