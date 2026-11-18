@@ -22,5 +22,6 @@
   "EXPIRY_DATE_OPTION": "到期日期",
   "NO_EXPIRY_DATE": "无到期日期",
   "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "请选择到期日期选项以继续。",
-  "SELECT_EXPIRY_DATE_OPTION_ERROR": "请选择“到期日期”或“无到期日期”。"
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "请选择“到期日期”或“无到期日期”。",
+  "EXPIRY_DATE_CHOICES": "证件到期日期选项"
 }

@@ -22,5 +22,6 @@
   "EXPIRY_DATE_OPTION": "Date d’expiration",
   "NO_EXPIRY_DATE": "Aucune date d’expiration",
   "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Sélectionnez une option de date d’expiration pour continuer.",
-  "SELECT_EXPIRY_DATE_OPTION_ERROR": "Veuillez sélectionner « Date d’expiration » ou « Aucune date d’expiration »."
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "Veuillez sélectionner « Date d’expiration » ou « Aucune date d’expiration ».",
+  "EXPIRY_DATE_CHOICES": "Options de date d’expiration du document"
 }

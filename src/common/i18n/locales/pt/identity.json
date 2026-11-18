@@ -22,5 +22,6 @@
   "EXPIRY_DATE_OPTION": "Data de validade",
   "NO_EXPIRY_DATE": "Sem data de validade",
   "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Selecione uma opção de data de validade para continuar.",
-  "SELECT_EXPIRY_DATE_OPTION_ERROR": "Selecione “Data de validade” ou “Sem data de validade”."
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "Selecione “Data de validade” ou “Sem data de validade”.",
+  "EXPIRY_DATE_CHOICES": "Opções de data de validade do documento"
 }

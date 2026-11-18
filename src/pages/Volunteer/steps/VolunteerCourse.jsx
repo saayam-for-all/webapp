@@ -154,7 +154,7 @@ const VolunteerCourse = ({
         </label>
         <div
           role="radiogroup"
-          aria-labelledby="document-expiry-date-label"
+          aria-label={t("EXPIRY_DATE_CHOICES")}
           className="mb-2 flex flex-col gap-2"
         >
           <label className="flex items-center gap-2 text-sm text-gray-700">
