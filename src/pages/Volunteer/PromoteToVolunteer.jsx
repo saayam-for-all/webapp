@@ -1,423 +1,74 @@
-import { useEffect, useState, useMemo, useRef } from "react"; //added for testing
-import Stepper from "./Stepper";
-import StepperControl from "./StepperControl";
-import Availability from "./steps/Availability";
-import Review from "./steps/Review";
-import Skills from "./steps/Skills";
-import { useSearchParams } from "react-router-dom";
-import TermsConditions from "./steps/TermsConditions";
-import VolunteerCourse from "./steps/VolunteerCourse";
-import {
-  updateUserSkills,
-  saveVolunteerStep1,
-} from "../../services/volunteerServices";
-import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
+YªçŠx-®éÜj×¢ëiºÚ+Š§j[h‘éÜ¢éíãnxN‹Z–‹­¦ëeŠw¬Õ¥µÁ½ÉĞìÕÍ•™™•Ğ°ÕÍ•MÑ…Ñ”°ÕÍ•5•µ¼°ÕÍ•I•˜ô™É½´€‰É•…Ğˆì€¼½…‘‘•™½ÈÑ•ÍÑ¥¹œ)¥µÁ½ÉĞMÑ•ÁÁ•È™É½´€ˆ¸½MÑ•ÁÁ•Èˆì)¥µÁ½ÉĞMÑ•ÁÁ•É½¹ÑÉ½°™É½´€ˆ¸½MÑ•ÁÁ•É½¹ÑÉ½°ˆì)¥µÁ½ÉĞÙ…¥±…‰¥±¥Ñä™É½´€ˆ¸½ÍÑ•ÁÌ½Ù…¥±…‰¥±¥Ñäˆì)¥µÁ½ÉĞI•Ù¥•Ü™É½´€ˆ¸½ÍÑ•ÁÌ½I•Ù¥•Üˆì)¥µÁ½ÉĞM­¥±±Ì™É½´€ˆ¸½ÍÑ•ÁÌ½M­¥±±Ìˆì)¥µÁ½ÉĞìÕÍ•M•…É¡A…É…µÌô™É½´€‰É•…ĞµÉ½ÕÑ•Èµ‘½´ˆì)¥µÁ½ÉĞQ•ÉµÍ½¹‘¥Ñ¥½¹Ì™É½´€ˆ¸½ÍÑ•ÁÌ½Q•ÉµÍ½¹‘¥Ñ¥½¹Ìˆì)¥µÁ½ÉĞY½±Õ¹Ñ••É½ÕÉÍ”™É½´€ˆ¸½ÍÑ•ÁÌ½Y½±Õ¹Ñ••É½ÕÉÍ”ˆì)¥µÁ½ÉĞì(€ÕÁ‘…Ñ•UÍ•ÉM­¥±±Ì°(€Í…Ù•Y½±Õ¹Ñ••ÉMÑ•ÀÄ°)ô™É½´€ˆ¸¸¼¸¸½Í•ÉÙ¥•Ì½Ù½±Õ¹Ñ••ÉM•ÉÙ¥•Ìˆì)¥µÁ½ÉĞìÕÍ•M•±•Ñ½Èô™É½´€‰É•…ĞµÉ•‘Õàˆì)¥µÁ½ÉĞìÕÍ•QÉ…¹Í±…Ñ¥½¸ô™É½´€‰É•…Ğµ¤Äá¹•áĞˆì()½¹ÍĞ•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´€ô€¡­•ä¤€ôøì(€ÑÉäì(€€€É•ÑÕÉ¸ÑåÁ•½˜İ¥¹‘½Ü€„ôô€‰Õ¹‘•™¥¹•ˆ€˜˜İ¥¹‘½Ü¹Í•ÍÍ¥½¹MÑ½É…”(€€€€€€üÍ•ÍÍ¥½¹MÑ½É…”¹•Ñ%Ñ•´¡­•ä¤(€€€€€€è¹Õ±°ì(€ô…Ñ €¡”¤ì(€€€½¹Í½±”¹•ÉÉ½È ‰ÉÉ½ÈÉ•…‘¥¹œ™É½´Í•ÍÍ¥½¹MÑ½É…”ˆ°”¤ì(€€€É•ÑÕÉ¸¹Õ±°ì(€ô)ôì()½¹ÍĞÍ•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´€ô€¡­•ä°Ù…±Õ”¤€ôøì(€ÑÉäì(€€€¥˜€¡ÑåÁ•½˜İ¥¹‘½Ü€„ôô€‰Õ¹‘•™¥¹•ˆ€˜˜İ¥¹‘½Ü¹Í•ÍÍ¥½¹MÑ½É…”¤ì(€€€€€Í•ÍÍ¥½¹MÑ½É…”¹Í•Ñ%Ñ•´¡­•ä°Ù…±Õ”¤ì(€€€ô(€ô…Ñ €¡”¤ì(€€€½¹Í½±”¹•ÉÉ½È ‰ÉÉ½ÈİÉ¥Ñ¥¹œÑ¼Í•ÍÍ¥½¹MÑ½É…”ˆ°”¤ì(€ô)ôì()½¹ÍĞÉ•µ½Ù•M•ÍÍ¥½¹MÑ½É…•%Ñ•´€ô€¡­•ä¤€ôøì(€ÑÉäì(€€€¥˜€¡ÑåÁ•½˜İ¥¹‘½Ü€„ôô€‰Õ¹‘•™¥¹•ˆ€˜˜İ¥¹‘½Ü¹Í•ÍÍ¥½¹MÑ½É…”¤ì(€€€€€Í•ÍÍ¥½¹MÑ½É…”¹É•µ½Ù•%Ñ•´¡­•ä¤ì(€€€ô(€ô…Ñ €¡”¤ì(€€€½¹Í½±”¹•ÉÉ½È ‰ÉÉ½ÈÉ•µ½Ù¥¹œ™É½´Í•ÍÍ¥½¹MÑ½É…”ˆ°”¤ì(€ô)ôì()½¹ÍĞAÉ½µ½Ñ•Q½Y½±Õ¹Ñ••È€ô€ ¤€ôøì(€½¹ÍĞìĞô€ôÕÍ•QÉ…¹Í±…Ñ¥½¸ ¤ì(€½¹ÍĞmÍ•…É¡A…É…µÍt€ôÕÍ•M•…É¡A…É…µÌ ¤ì(€½¹ÍĞÍÑ•ÁA…É…´€ôÁ…ÉÍ•%¹Ğ¡Í•…É¡A…É…µÌ¹•Ğ ‰ÍÑ•Àˆ¤¤ñğ€Äì(€½¹ÍĞmÕÉÉ•¹ÑMÑ•À°Í•ÑÕÉÉ•¹ÑMÑ•Át€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍĞ…¡•‘MÑ•À€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}İ¥é…É‘}ÍÑ•Àˆ¤ì(€€€É•ÑÕÉ¸…¡•‘MÑ•À€üÁ…ÉÍ•%¹Ğ¡…¡•‘MÑ•À°€ÄÀ¤€èÍÑ•ÁA…É…´ì(€ô¤ì(€½¹ÍĞm¥Í­¹½İ±•‘•°Í•Ñ%Í­¹½İ±•‘•‘t€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍĞ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€¡…¡•‘…Ñ„¤ì(€€€€€ÑÉäì(€€€€€€€½¹ÍĞÁ…ÉÍ•€ô)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤ì(€€€€€€€É•ÑÕÉ¸Á…ÉÍ•¹¥Í­¹½İ±•‘•€üü™…±Í”ì(€€€€€ô…Ñ €¡”¤ì(€€€€€€€½¹Í½±”¹•ÉÉ½È ‰…¥±•Ñ¼Á…ÉÍ”Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„èˆ°”¤ì(€€€€€ô(€€€ô(€€€É•ÑÕÉ¸™…±Í”ì(€ô¤ì(€½¹ÍĞm½ÙÑ%‘¥±”°Í•Ñ½ÙÑ%‘¥±•t€ôÕÍ•MÑ…Ñ”¡¹Õ±°¤ì(€½¹ÍĞm•áÁ¥Éå…Ñ”°Í•ÑáÁ¥Éå…Ñ•t€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍĞ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€ ……¡•‘…Ñ„¤É•ÑÕÉ¸€ˆˆì(€€€ÑÉäì(€€€€€É•ÑÕÉ¸)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤¹•áÁ¥Éå…Ñ”€üü€ˆˆì(€€€ô…Ñ ì(€€€€€É•ÑÕÉ¸€ˆˆì(€€€ô(€ô¤ì(€½¹ÍĞm•áÁ¥Éå…Ñ•9½ÑÁÁ±¥…‰±”°Í•ÑáÁ¥Éå…Ñ•9½ÑÁÁ±¥…‰±•t€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍĞ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€ ……¡•‘…Ñ„¤É•ÑÕÉ¸™…±Í”ì(€€€ÑÉäì(€€€€€É•ÑÕÉ¸)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤¹•áÁ¥Éå…Ñ•9½ÑÁÁ±¥…‰±”€üü™…±Í”ì(€€€ô…Ñ ì(€€€€€É•ÑÕÉ¸™…±Í”ì(€€€ô(€ô¤ì((€½¹ÍĞÑ½‘…ä€ô¹•Ü…Ñ” ¤ì(€½¹ÍĞÑ½‘…åMÑÉ¥¹œ€ôl(€€€Ñ½‘…ä¹•ÑÕ±±e•…È ¤°(€€€MÑÉ¥¹œ¡Ñ½‘…ä¹•Ñ5½¹Ñ  ¤€¬€Ä¤¹Á…‘MÑ…ÉĞ È°€ˆÀˆ¤°(€€€MÑÉ¥¹œ¡Ñ½‘…ä¹•Ñ…Ñ” ¤¤¹Á…‘MÑ…ÉĞ È°€ˆÀˆ¤°(€t¹©½¥¸ ˆ´ˆ¤ì(€½¹ÍĞ¥ÍáÁ¥Éå…Ñ•Y…±¥€ô	½½±•…¸¡•áÁ¥Éå…Ñ”€˜˜•áÁ¥Éå…Ñ”€øÑ½‘…åMÑÉ¥¹œ¤ì(€½¹ÍĞÕÍ•É	%€ôÕÍ•M•±•Ñ½È (€€€€¡ÍÑ…Ñ”¤€ôøÍÑ…Ñ”¹…ÕÑ ü¹ÕÍ•Èü¹ÕÍ•É‰%ñğÍÑ…Ñ”¹…ÕÑ ü¹ÕÍ•É	%°(€€¤ì(€½¹ÍĞmÍ•±•Ñ•‘M­¥±±Ì°Í•ÑM•±•Ñ•‘M­¥±±Ít€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍĞ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€¡…¡•‘…Ñ„¤ì(€€€€€ÑÉäì(€€€€€€€½¹ÍĞÁ…ÉÍ•€ô)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤ì(€€€€€€€É•ÑÕÉ¸Á…ÉÍ•¹Í•±•Ñ•‘M­¥±±Ì€üümtì(€€€€€ô…Ñ €¡”¤ì(€€€€€€€½¹Í½±”¹•ÉÉ½È ‰…¥±•Ñ¼Á…ÉÍ”Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„èˆ°”¤ì(€€€€€ô(€€€ô(€€€É•ÑÕÉ¸mtì(€ô¤ì(€½¹ÍĞm…Ñ•½É¥•Ì°Í•Ñ…Ñ•½É¥•Ít€ôÕÍ•MÑ…Ñ”¡mt¤ì(€½¹ÍĞm…Ù…¥±…‰¥±¥ÑåM±½ÑÌ°Í•ÑÙ…¥±…‰¥±¥ÑåM±½ÑÍt€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍĞ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€¡…¡•‘…Ñ„¤ì(€€€€€ÑÉäì(€€€€€€€½¹ÍĞÁ…ÉÍ•€ô)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤ì(€€€€€€€¥˜€¡Á…ÉÍ•¹…Ù…¥±…‰¥±¥ÑåM±½ÑÌ¤ì(€€€€€€€€€É•ÑÕÉ¸Á…ÉÍ•¹…Ù…¥±…‰¥±¥ÑåM±½ÑÌ¹µ…À ¡Í±½Ğ¤€ôø€¡ì(€€€€€€€€€€€€¸¸¹Í±½Ğ°(€€€€€€€€€€€ÍÑ…ÉÑQ¥µ”èÍ±½Ğ¹ÍÑ…ÉÑQ¥µ”€ü¹•Ü…Ñ”¡Í±½Ğ¹ÍÑ…ÉÑQ¥µ”¤€è¹Õ±°°(€€€€€€€€€€€•¹‘Q¥µ”èÍ±½Ğ¹•¹‘Q¥µ”€ü¹•Ü…Ñ”¡Í±½Ğ¹•¹‘Q¥µ”¤€è¹Õ±°°(€€€€€€€€€ô¤¤ì(€€€€€€€ô(€€€€€ô…Ñ €¡”¤ì(€€€€€€€½¹Í½±”¹•ÉÉ½È ‰…¥±•Ñ¼Á…ÉÍ”Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„èˆ°”¤ì(€€€€€ô(€€€ô(€€€É•ÑÕÉ¸mì¥è€Ä°‘…å=™]••¬è€‰Ù•Éå‘…äˆ°ÍÑ…ÉÑQ¥µ”è¹Õ±°°•¹‘Q¥µ”è¹Õ±°õtì(€ô¤ì(€½¹ÍĞmÑ½‰•9½Ñ¥™¥•°Í•Ñ9½Ñ¥™¥…Ñ¥½¹t€ôÕÍ•MÑ…Ñ”  ¤€ôøì(€€€½¹ÍĞ…¡•‘…Ñ„€ô•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ¤ì(€€€¥˜€¡…¡•‘…Ñ„¤ì(€€€€€ÑÉäì(€€€€€€€½¹ÍĞÁ…ÉÍ•€ô)M=8¹Á…ÉÍ”¡…¡•‘…Ñ„¤ì(€€€€€€€É•ÑÕÉ¸Á…ÉÍ•¹Ñ½‰•9½Ñ¥™¥•€üü™…±Í”ì(€€€€€ô…Ñ €¡”¤ì(€€€€€€€½¹Í½±”¹•ÉÉ½È ‰…¥±•Ñ¼Á…ÉÍ”Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„èˆ°”¤ì(€€€€€ô(€€€ô(€€€É•ÑÕÉ¸™…±Í”ì(€ô¤ì(€½¹ÍĞÙ½±Õ¹Ñ••É…Ñ…I•˜€ôÕÍ•I•˜¡íô¤ì(€½¹ÍĞm•ÉÉ½É5•ÍÍ…”°Í•ÑÉÉ½É5•ÍÍ…•t€ôÕÍ•MÑ…Ñ” ˆˆ¤ì(€½¹ÍĞm¥ÍUÁ±½…‘•°Í•Ñ%ÍUÁ±½…‘•‘t€ôÕÍ•MÑ…Ñ”¡™…±Í”¤ì((€€¼¼M…Ù”ÕÉÉ•¹ĞÍÑ•ÀÑ¼Í•ÍÍ¥½¹MÑ½É…”(€ÕÍ•™™•Ğ  ¤€ôøì(€€€¥˜€¡ÕÉÉ•¹ÑMÑ•À€ğ€Ô¤ì(€€€€€Í•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}İ¥é…É‘}ÍÑ•Àˆ°ÕÉÉ•¹ÑMÑ•À¹Ñ½MÑÉ¥¹œ ¤¤ì(€€€ô(€ô°mÕÉÉ•¹ÑMÑ•Át¤ì((€€¼¼M…Ù”™½É´‘…Ñ„Ñ¼Í•ÍÍ¥½¹MÑ½É…”(€ÕÍ•™™•Ğ  ¤€ôøì(€€€¥˜€¡ÕÉÉ•¹ÑMÑ•À€ğ€Ô¤ì(€€€€€½¹ÍĞ™½Éµ…Ñ„€ôì(€€€€€€€¥Í­¹½İ±•‘•°(€€€€€€€¥ÍUÁ±½…‘•°(€€€€€€€•áÁ¥Éå…Ñ”°(€€€€€€€•áÁ¥Éå…Ñ•9½ÑÁÁ±¥…‰±”°(€€€€€€€Í•±•Ñ•‘M­¥±±Ì°(€€€€€€€…Ù…¥±…‰¥±¥ÑåM±½ÑÌè…Ù…¥±…‰¥±¥ÑåM±½ÑÌ¹µ…À ¡Í±½Ğ¤€ôø€¡ì(€€€€€€€€€€¸¸¹Í±½Ğ°(€€€€€€€€€ÍÑ…ÉÑQ¥µ”èÍ±½Ğ¹ÍÑ…ÉÑQ¥µ”€üÍ±½Ğ¹ÍÑ…ÉÑQ¥µ”¹Ñ½%M=MÑÉ¥¹œ ¤€è¹Õ±°°(€€€€€€€€€•¹‘Q¥µ”èÍ±½Ğ¹•¹‘Q¥µ”€üÍ±½Ğ¹•¹‘Q¥µ”¹Ñ½%M=MÑÉ¥¹œ ¤€è¹Õ±°°(€€€€€€€ô¤¤°(€€€€€€€Ñ½‰•9½Ñ¥™¥•°(€€€€€ôì(€€€€€Í•ÑM•ÍÍ¥½¹MÑ½É…•%Ñ•´ ‰Ù½±Õ¹Ñ••É}™½Éµ}‘…Ñ„ˆ°)M=8¹ÍÑÉ¥¹¥™ä¡™½Éµ…Ñ„¤¤ì(€€€ô(€ô°l(€€€¥Í­¹½İ±•‘•°(€€€¥ÍUÁ±½…‘•°(€€€•áÁ¥Éå…Ñ”°(€€€•áÁ¥Éå…Ñ•9½ÑÁÁ±¥…‰±”°(€€€Í•±•Ñ•‘M­¥±±Ì°(€€€…Ù…¥±…‰¥±¥ÑåM±½ÑÌ°(€€€Ñ½‰•9½Ñ¥™¥•°(€€€ÕÉÉ•¹ÑMÑ•À°(€t¤ì((€ÕÍ•™™•Ğ  ¤€ôøì(€€€¥˜€¡…Ñ•½É¥•Ì¹±•¹Ñ €ôôô€À¤ì(€€€€€½¹ÍĞÍÑ½É•‘…Ñ•½É¥•Ì€ô±½…±MÑ½É…”¹•Ñ%Ñ•´ ‰…Ñ•½É¥•Ìˆ¤ì(€€€€€¥˜€¡ÍÑ½É•‘…Ñ•½É¥•Ì¤ì(€€€€€€€ÑÉäì(€€€€€€€€€Í•Ñ…Ñ•½É¥•Ì¡)M=8¹Á…ÉÍ”¡ÍÑ½É•‘…Ñ•½É¥•Ì¤¤ì(€€€€€€€ô…Ñ €¡Á…ÉÍ•ÉÉ½È¤ì(ƒnx¶‰ËkºwµçQ]O^ÜÙ]^\Q]_Bˆ^\Q]S›İ\XØX›O^Ù^\Q]S›İ\XØX›_BˆÙ]^\Q]S›İ\XØX›O^ÜÙ]^\Q]S›İ\XØX›_BˆÏ‚ˆ
+NÂˆØ\ÙHÎ‚ˆ™]\›ˆ
+ˆÚÚ[ÂˆÙ[XİYÚÚ[Ï^ÜÙ[XİYÚÚ[ßBˆÙ]Ù[XİYÚÚ[Ï^ÜÙ]Ù[XİYÚÚ[ßBˆØ]YÛÜšY\Ï^ØØ]YÛÜšY\ßBˆÏ‚ˆ
+NÂˆØ\ÙH‚ˆ™]\›ˆ
+ˆ]˜Z[Xš[]Bˆ]˜Z[Xš[]TÛİÏ^Ø]˜Z[Xš[]TÛİßBˆØ™S›İYšYY^İØ™S›İYšYYBˆÙ]]˜Z[Xš[]TÛİÏ^ÜÙ]]˜Z[Xš[]TÛİßBˆÙ]›İYšXØ][Û^ÜÙ]›İYšXØ][ÛŸBˆÏ‚ˆ
+NÂˆØ\ÙHN‚ˆ™]\›ˆ™]šY]ÈÏÂˆY˜][‚ˆ™]\›ˆ[ÂˆBˆNÂ‚ˆÛÛœİ\Ğ]˜Z[Xš[]U˜[YH\ÙSY[[Ê
 
-const getSessionStorageItem = (key) => {
-  try {
-    return typeof window !== "undefined" && window.sessionStorage
-      ? sessionStorage.getItem(key)
-      : null;
-  } catch (e) {
-    console.error("Error reading from sessionStorage", e);
-    return null;
-  }
-};
+HOˆÂˆYˆ
+X]˜Z[Xš[]TÛİÈ]˜Z[Xš[]TÛİË›[™İOOH
+H™]\›ˆ˜[ÙNÂˆ™]\›ˆ]˜Z[Xš[]TÛİËœÛÛYJ
+Ûİ
+HOˆÂˆYˆ
+JÛİœİ\[YH[œİ[˜Ù[Ùˆ]H	‰ˆÛİ™[™[YH[œİ[˜Ù[Ùˆ]JJBˆ™]\›ˆ˜[ÙNÂˆ™]\›ˆÛİ™[™[YHˆÛİœİ\[YNÂˆJNÂˆKØ]˜Z[Xš[]TÛİ×JNÂ‚ˆÛÛœİ^˜XİÚÚ[Ñœ›ÛP\œ˜^HH
+ÚÚ[ÊHOˆÂˆ™]\›ˆÚÚ[Ëš›Ú[Š‹ŠNÂˆNÂ‚ˆÛÛœİ\]U›Û[Y\‘]HH
+\]\ÊHOˆÂˆ›Û[Y\‘]T™Y‹˜İ\œ™[HÈ‹‹›Û[Y\‘]T™Y‹˜İ\œ™[‹‹\]\ÈNÂˆNÂ‚ˆÛÛœİ[™TØ]™Qš[HH
 
-const setSessionStorageItem = (key, value) => {
-  try {
-    if (typeof window !== "undefined" && window.sessionStorage) {
-      sessionStorage.setItem(key, value);
-    }
-  } catch (e) {
-    console.error("Error writing to sessionStorage", e);
-  }
-};
+HOˆÂˆYˆ
+ÛİYš[JHÂˆ\]U›Û[Y\‘]JÂˆİ\ˆ‹ˆ\Ù\’Yˆ\Ù\‘’YˆÛİYš[[˜[YNˆÛİYš[K›˜[YKˆJNÂˆBˆNÂ‚ˆÛÛœİ[™PÛXÚÈH\Ş[˜È
+\™Xİ[ÛŠHOˆÂˆ]™]Ôİ\Hİ\œ™[İ\Âˆ]\Õ˜[Yİ\H˜[ÙNÂ‚ˆYˆ
+\™Xİ[ÛˆOOH›™^ŠHÂˆİÚ]Ú
+İ\œ™[İ\
+HÂˆØ\ÙHNˆÂˆ\Õ˜[Yİ\H\ĞXÚÛ›İÛYÙYÂˆ\]U›Û[Y\‘]JÂˆİ\ˆİ\œ™[İ\ˆ\Ù\’Yˆ\Ù\‘’Yˆ\›\Ğ[™ÛÛ™][ÛœÎˆ\ĞXÚÛ›İÛYÙYˆJNÂˆYˆ
+\ĞXÚÛ›İÛYÙY
+HÂˆHÂˆÛÛœİ^[ØYHÂˆİ\ˆKˆ\Ù\’Yˆ\Ù\‘’Yˆ\›\Ğ[™ÛÛ™][ÛœÎˆ\ĞXÚÛ›İÛYÙYˆNÂˆ]ØZ]Ø]™U›Û[Y\”İ\J^[ØY
+NÂˆHØ]Ú
+\œ›ÜŠHÂˆÛÛœÛÛK™\œ›ÜŠˆ‘˜Z[YÈØ]™H›Û[Y\ˆİ\H›ÙÜ™\ÜÈ
+\ÜİYHHÌÌ
+Nˆ‹ˆ\œ›Ü‹ˆ
+NÂˆHš[˜[HÂˆÙ]İ\œ™[İ\
+ŠNÂˆBˆBˆœ™XZÎÂˆBˆØ\ÙH‚ˆËÈ\Õ˜[Yİ\HÛİYš[H	‰ˆÛİYš[K›˜[YHOOHˆÂˆ[™TØ]™Qš[J
+NÂˆ\Õ˜[Yİ\H›ÛÛX[ŠˆÛİYš[H	‰ˆ
+^\Q]S›İ\XØX›H\Ñ^\Q]U˜[Y
+Kˆ
+NÂˆYˆ
+Y^\Q]S›İ\XØX›H	‰ˆZ\Ñ^\Q]U˜[Y
+HÂˆÙ]\œ›Ü“Y\ÜØYÙJ
+‘ĞÕSQS•ÑVT‘QÑT”“Ôˆ‹ÈœÎˆšY[]HˆJJNÂˆ™]\›ÂˆBˆ\]U›Û[Y\‘]JÂˆİ\ˆİ\œ™[İ\ˆ\Ù\’Yˆ\Ù\‘’YˆÛİYš[[˜[YNˆÛİYš[HÈÛİYš[K›˜[YHˆˆ‹ˆJNÂˆœ™XZÎÂˆØ\ÙHÎˆÂˆ\Õ˜[Yİ\HÙ[XİYÚÚ[Ë›[™İˆÂˆ\]U›Û[Y\‘]JÂˆİ\ˆİ\œ™[İ\ˆ\Ù\’Yˆ\Ù\‘’YˆÚÚ[Îˆ^˜XİÚÚ[Ñœ›ÛP\œ˜^JÙ[XİYÚÚ[ÊKˆJNÂˆYˆ
+\Õ˜[Yİ\	‰ˆ\Ù\‘’Y
+HÂˆHÂˆÛÛœİÚÚ[ÕÔØ]™HHÙ[XİYÚÚ[Ë›X\
 
-const removeSessionStorageItem = (key) => {
-  try {
-    if (typeof window !== "undefined" && window.sessionStorage) {
-      sessionStorage.removeItem(key);
-    }
-  } catch (e) {
-    console.error("Error removing from sessionStorage", e);
-  }
-};
+ÚÚ[
+HOˆİš[™ÊÚÚ[
+JNÂˆ]ØZ]\]U\Ù\”ÚÚ[Ê\Ù\‘’YÚÚ[ÕÔØ]™JNÂˆHØ]Ú
+ÚÚ[\œ›ÜŠHÂˆÛÛœÛÛK™\œ›ÜŠ‘˜Z[YÈØ]™HÚÚ[ÈÈTNˆ‹ÚÚ[\œ›ÜŠNÂˆÙ]\œ›Ü“Y\ÜØYÙJ
+‘RSQÕ×ÔĞU‘WÔÒÒSÈŠJNÂˆ\Õ˜[Yİ\H˜[ÙNÂˆBˆBˆœ™XZÎÂˆBˆØ\ÙHˆÂˆÛÛœİ\Õ˜[YÛİH\Ğ]˜Z[Xš[]U˜[YÂˆ\Õ˜[Yİ\H\Õ˜[YÛİÂˆYˆ
+\Õ˜[Yİ\
+HÂˆ\]U›Û[Y\‘]JÂˆİ\ˆİ\œ™[İ\ˆ\Ù\’Yˆ\Ù\‘’Yˆ›İYšXØ][ÛˆØ™S›İYšYYˆ\ĞÛÛ\]YˆYKˆ]˜Z[Xš[]Nˆ]˜Z[Xš[]TÛİË›X\
 
-const PromoteToVolunteer = () => {
-  const { t } = useTranslation();
-  const [searchParams] = useSearchParams();
-  const stepParam = parseInt(searchParams.get("step")) || 1;
-  const [currentStep, setCurrentStep] = useState(() => {
-    const cachedStep = getSessionStorageItem("volunteer_wizard_step");
-    return cachedStep ? parseInt(cachedStep, 10) : stepParam;
-  });
-  const [isAcknowledged, setIsAcknowledged] = useState(() => {
-    const cachedData = getSessionStorageItem("volunteer_form_data");
-    if (cachedData) {
-      try {
-        const parsed = JSON.parse(cachedData);
-        return parsed.isAcknowledged ?? false;
-      } catch (e) {
-        console.error("Failed to parse volunteer_form_data:", e);
-      }
-    }
-    return false;
-  });
-  const [govtIdFile, setGovtIdFile] = useState(null);
-  const [expiryDate, setExpiryDate] = useState(() => {
-    const cachedData = getSessionStorageItem("volunteer_form_data");
-    if (!cachedData) return "";
-    try {
-      return JSON.parse(cachedData).expiryDate ?? "";
-    } catch {
-      return "";
-    }
-  });
-  const [expiryDateNotApplicable, setExpiryDateNotApplicable] = useState(() => {
-    const cachedData = getSessionStorageItem("volunteer_form_data");
-    if (!cachedData) return false;
-    try {
-      return JSON.parse(cachedData).expiryDateNotApplicable ?? false;
-    } catch {
-      return false;
-    }
-  });
-
-  const today = new Date();
-  const todayString = [
-    today.getFullYear(),
-    String(today.getMonth() + 1).padStart(2, "0"),
-    String(today.getDate()).padStart(2, "0"),
-  ].join("-");
-  const isExpiryDateValid = Boolean(expiryDate && expiryDate > todayString);
-  const userDBId = useSelector(
-    (state) => state.auth?.user?.userDbId || state.auth?.userDBId,
-  );
-  const [selectedSkills, setSelectedSkills] = useState(() => {
-    const cachedData = getSessionStorageItem("volunteer_form_data");
-    if (cachedData) {
-      try {
-        const parsed = JSON.parse(cachedData);
-        return parsed.selectedSkills ?? [];
-      } catch (e) {
-        console.error("Failed to parse volunteer_form_data:", e);
-      }
-    }
-    return [];
-  });
-  const [categories, setCategories] = useState([]);
-  const [availabilitySlots, setAvailabilitySlots] = useState(() => {
-    const cachedData = getSessionStorageItem("volunteer_form_data");
-    if (cachedData) {
-      try {
-        const parsed = JSON.parse(cachedData);
-        if (parsed.availabilitySlots) {
-          return parsed.availabilitySlots.map((slot) => ({
-            ...slot,
-            startTime: slot.startTime ? new Date(slot.startTime) : null,
-            endTime: slot.endTime ? new Date(slot.endTime) : null,
-          }));
-        }
-      } catch (e) {
-        console.error("Failed to parse volunteer_form_data:", e);
-      }
-    }
-    return [{ id: 1, dayOfWeek: "Everyday", startTime: null, endTime: null }];
-  });
-  const [tobeNotified, setNotification] = useState(() => {
-    const cachedData = getSessionStorageItem("volunteer_form_data");
-    if (cachedData) {
-      try {
-        const parsed = JSON.parse(cachedData);
-        return parsed.tobeNotified ?? false;
-      } catch (e) {
-        console.error("Failed to parse volunteer_form_data:", e);
-      }
-    }
-    return false;
-  });
-  const volunteerDataRef = useRef({});
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isUploaded, setIsUploaded] = useState(false);
-
-  // Save current step to sessionStorage
-  useEffect(() => {
-    if (currentStep < 5) {
-      setSessionStorageItem("volunteer_wizard_step", currentStep.toString());
-    }
-  }, [currentStep]);
-
-  // Save form data to sessionStorage
-  useEffect(() => {
-    if (currentStep < 5) {
-      const formData = {
-        isAcknowledged,
-        isUploaded,
-        expiryDate,
-        expiryDateNotApplicable,
-        selectedSkills,
-        availabilitySlots: availabilitySlots.map((slot) => ({
-          ...slot,
-          startTime: slot.startTime ? slot.startTime.toISOString() : null,
-          endTime: slot.endTime ? slot.endTime.toISOString() : null,
-        })),
-        tobeNotified,
-      };
-      setSessionStorageItem("volunteer_form_data", JSON.stringify(formData));
-    }
-  }, [
-    isAcknowledged,
-    isUploaded,
-    expiryDate,
-    expiryDateNotApplicable,
-    selectedSkills,
-    availabilitySlots,
-    tobeNotified,
-    currentStep,
-  ]);
-
-  useEffect(() => {
-    if (categories.length === 0) {
-      const storedCategories = localStorage.getItem("categories");
-      if (storedCategories) {
-        try {
-          setCategories(JSON.parse(storedCategories));
-        } catch (parseError) {
-          console.warn(
-            "Failed to parse categories from localStorage:",
-            parseError,
-          );
-        }
-      }
-    }
-  }, []);
-
-  const steps = [
-    t("TERMS_AND_CONDITIONS"),
-    t("IDENTIFICATION"),
-    t("SKILLS"),
-    t("AVAILABILITY"),
-    t("REVIEW"),
-  ];
-
-  const displayStep = (step) => {
-    switch (step) {
-      case 1:
-        return (
-          <TermsConditions
-            isAcknowledged={isAcknowledged}
-            setIsAcknowledged={setIsAcknowledged}
-          />
-        );
-      case 2:
-        return (
-          <VolunteerCourse
-            selectedFile={govtIdFile}
-            setSelectedFile={setGovtIdFile}
-            setIsUploaded={setIsUploaded}
-            expiryDate={expiryDate}
-            setExpiryDate={setExpiryDate}
-            expiryDateNotApplicable={expiryDateNotApplicable}
-            setExpiryDateNotApplicable={setExpiryDateNotApplicable}
-          />
-        );
-      case 3:
-        return (
-          <Skills
-            selectedSkills={selectedSkills}
-            setSelectedSkills={setSelectedSkills}
-            categories={categories}
-          />
-        );
-      case 4:
-        return (
-          <Availability
-            availabilitySlots={availabilitySlots}
-            tobeNotified={tobeNotified}
-            setAvailabilitySlots={setAvailabilitySlots}
-            setNotification={setNotification}
-          />
-        );
-      case 5:
-        return <Review />;
-      default:
-        return null;
-    }
-  };
-
-  const isAvailabilityValid = useMemo(() => {
-    if (!availabilitySlots || availabilitySlots.length === 0) return false;
-    return availabilitySlots.some((slot) => {
-      if (!(slot.startTime instanceof Date && slot.endTime instanceof Date))
-        return false;
-      return slot.endTime > slot.startTime;
-    });
-  }, [availabilitySlots]);
-
-  const extractSkillsFromArray = (skills) => {
-    return skills.join(", ");
-  };
-
-  const updateVolunteerData = (updates) => {
-    volunteerDataRef.current = { ...volunteerDataRef.current, ...updates };
-  };
-
-  const handleSaveFile = () => {
-    if (govtIdFile) {
-      updateVolunteerData({
-        step: 2,
-        userId: userDBId,
-        govtIdFilename: govtIdFile.name,
-      });
-    }
-  };
-
-  const handleClick = async (direction) => {
-    let newStep = currentStep;
-    let isValidStep = false;
-
-    if (direction === "next") {
-      switch (currentStep) {
-        case 1: {
-          isValidStep = isAcknowledged;
-          updateVolunteerData({
-            step: currentStep,
-            userId: userDBId,
-            termsAndConditions: isAcknowledged,
-          });
-          if (isAcknowledged) {
-            try {
-              const payload = {
-                step: 1,
-                userId: userDBId,
-                termsAndConditions: isAcknowledged,
-              };
-              await saveVolunteerStep1(payload);
-            } catch (error) {
-              console.error(
-                "Failed to save Volunteer Step 1 progress (Issue BA #30):",
-                error,
-              );
-            } finally {
-              setCurrentStep(2);
-            }
-          }
-          break;
-        }
-        case 2:
-          // isValidStep = govtIdFile && govtIdFile.name !== "";
-          handleSaveFile();
-          isValidStep = Boolean(
-            govtIdFile && (expiryDateNotApplicable || isExpiryDateValid),
-          );
-          if (!expiryDateNotApplicable && !expiryDate) {
-            setErrorMessage(
-              t("TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE", { ns: "identity" }),
-            );
-            return;
-          }
-          if (!expiryDateNotApplicable && !isExpiryDateValid) {
-            setErrorMessage(t("DOCUMENT_EXPIRED_ERROR", { ns: "identity" }));
-            return;
-          }
-          updateVolunteerData({
-            step: currentStep,
-            userId: userDBId,
-            govtIdFilename: govtIdFile ? govtIdFile.name : "",
-          });
-          break;
-        case 3: {
-          isValidStep = selectedSkills.length > 0;
-          updateVolunteerData({
-            step: currentStep,
-            userId: userDBId,
-            skills: extractSkillsFromArray(selectedSkills),
-          });
-          if (isValidStep && userDBId) {
-            try {
-              const skillsToSave = selectedSkills.map((skill) => String(skill));
-              await updateUserSkills(userDBId, skillsToSave);
-            } catch (skillError) {
-              console.error("Failed to save skills to API:", skillError);
-              setErrorMessage(t("FAILED_TO_SAVE_SKILLS"));
-              isValidStep = false;
-            }
-          }
-          break;
-        }
-        case 4: {
-          const hasValidSlot = isAvailabilityValid;
-          isValidStep = hasValidSlot;
-          if (isValidStep) {
-            updateVolunteerData({
-              step: currentStep,
-              userId: userDBId,
-              notification: tobeNotified,
-              isCompleted: true,
-              availability: availabilitySlots.map((slot) => ({
-                dayOfWeek: slot.dayOfWeek,
-                startTime: slot.startTime?.toISOString(),
-                endTime: slot.endTime?.toISOString(),
-              })),
-            });
-          }
-          break;
-        }
-        default:
-          isValidStep = false;
-      }
-
-      if (isValidStep) {
-        setErrorMessage("");
-        newStep++;
-        if (newStep === 5) {
-          removeSessionStorageItem("volunteer_wizard_step");
-          removeSessionStorageItem("volunteer_form_data");
-        }
-      } else {
-        setErrorMessage(t("COMPLETE_REQUIRED_FIELDS"));
-      }
-    } else if (direction === "prev") {
-      newStep--;
-    }
-
-    if (newStep > 0 && newStep <= steps.length + 1) {
-      setCurrentStep(newStep);
-    }
-  };
-
-  return (
-    <div className="w-full mx-auto shadow-xl rounded-2xl pb-2 bg-white">
-      {/* FIXED STEPPER WRAPPER */}
-      <div className="w-full flex flex-col items-center mt-5 pt-8 px-4">
-        <h1 className="text-3xl font-bold text-center mb-8">
-          {t("BECOME_VOLUNTEER")}
-        </h1>
-        <Stepper steps={steps} currentStep={currentStep} />
-        {/* FIXED CONTENT WRAPPER */}
-        <div className="w-full mt-8 px-4">{displayStep(currentStep)}</div>
-      </div>
-      {errorMessage && (
-        <div className="text-red-500 text-center my-4">{errorMessage}</div>
-      )}
-      {currentStep !== steps.length && (
-        <StepperControl
-          handleClick={handleClick}
-          currentStep={currentStep}
-          steps={steps}
-          isAcknowledged={isAcknowledged}
-          isUploaded={isUploaded}
-          isExpiryDateValid={isExpiryDateValid}
-          hasExpiryDate={Boolean(expiryDate)}
-          isExpiryDateNotApplicable={expiryDateNotApplicable}
-          isCheckedCategories={selectedSkills.length > 0}
-          isAvailabilityValid={isAvailabilityValid}
-        />
-      )}
-    </div>
-  );
-};
-
-export default PromoteToVolunteer;
+Ûİ
+HOˆ
+Âˆ^SÙ•ÙYZÎˆÛİ™^SÙ•ÙYZËˆİ\[YNˆÛİœİ\[YOËÒTÓÔİš[™Ê
+Kˆ[™[YNˆÛİ™[™[YOËÒTÓÔİš[™Ê
+KˆJJKˆJNÂˆBˆœ™XZÎÂˆBˆY˜][‚ˆ\Õ˜[Yİ\H˜[ÙNÂˆB‚ˆYˆ
+\Õ˜[Yİ\
+HÂˆÙ]\œ›Ü“Y\ÜØYÙJˆŠNÂˆ™]Ôİ\
+ÊÎÂˆYˆ
+™]Ôİ\OOHJHÂˆ™[[İ™TÙ\ÜÚ[Û”İÜ˜YÙR][J›Û[Y\—İÚ^˜\™Üİ\ŠNÂˆ™[[İ™TÙ\ÜÚ[Û”İÜ˜YÙR][J›Û[Y\—Ù›Ü›WÙ]HŠNÂˆBˆH[ÙHÂˆÙ]\œ›Ü“Y\ÜØYÙJ
+ÓÓTUWÔ‘TURT‘QÑ’QSÈŠJNÂˆBˆH[ÙHYˆ
+\™Xİ[ÛˆOOHœ™]ˆŠHÂˆ™]Ôİ\KNÂˆB‚ˆYˆ
+™]Ôİ\ˆ	‰ˆ™]Ôİ\Hİ\Ë›[™İ
+ÈJHÂˆÙ]İ\œ™[İ\
+™]Ôİ\
+NÂˆBˆNÂ‚ˆ™]\›ˆ
+ˆ]ˆÛ\ÜÓ˜[YOHËY[^X]]ÈÚYİË^›İ[™YL‹Lˆ™Ë]Ú]H‚ˆËÊˆ’VQÕTTˆÔTTˆ
+‹ßBˆ]ˆÛ\ÜÓ˜[YOHËY[›^›^XÛÛ][\ËXÙ[\ˆ]MHNM‚ˆHÛ\ÜÓ˜[YOH^LŞ›ÛX›Û^XÙ[\ˆX‹N‚ˆİ
+‘PÓÓQWÕ“ÓS•QTˆŠ_BˆÚO‚ˆİ\\ˆİ\Ï^Üİ\ßHİ\œ™[İ\^Øİ\œ™[İ\HÏ‚ˆËÊˆ’VQÓÓ•S•ÔTTˆ
+‹ßBˆ]ˆÛ\ÜÓ˜[YOHËY[]NMÙ\Ü^Tİ\
+İ\œ™[İ\
+_OÙ]‚ˆÙ]‚ˆÙ\œ›Ü“Y\ÜØYÙH	‰ˆ
+ˆ]ˆÛ\ÜÓ˜[YOH^\™YML^XÙ[\ˆ^KMÙ\œ›Ü“Y\ÜØYÙ_OÙ]‚ˆ
+_BˆØİ\œ™[İ\OOHİ\Ë›[™İ	‰ˆ
+ˆİ\\ÛÛ›Ûˆ[™PÛXÚÏ^Ú[™PÛXÚßBˆİ\œ™[İ\^Øİ\œ™[İ\Bˆİ\Ï^Üİ\ßBˆ\ĞXÚÛ›İÛYÙY^Ú\ĞXÚÛ›İÛYÙYBˆ\Õ\ØYY^Ú\Õ\ØYYBˆ\Ñ^\Q]U˜[Y^Ú\Ñ^\Q]U˜[YBˆ\Ñ^\Q]O^Ğ›ÛÛX[Š^\Q]J_Bˆ\Ñ^\Q]S›İ\XØX›O^Ù^\Q]S›İ\XØX›_Bˆ\ĞÚXÚÙYØ]YÛÜšY\Ï^ÜÙ[XİYÚÚ[Ë›[™İˆBˆ\Ğ]˜Z[Xš[]U˜[Y^Ú\Ğ]˜Z[Xš[]U˜[YBˆÏ‚ˆ
+_BˆÙ]‚ˆ
+NÂŸNÂ‚™^ÜY˜][›Û[İUÕ›Û[Y\Â
