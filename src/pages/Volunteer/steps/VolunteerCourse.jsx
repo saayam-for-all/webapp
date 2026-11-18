@@ -155,6 +155,10 @@ const VolunteerCourse = ({
         <div
           role="radiogroup"
           aria-label={t("EXPIRY_DATE_CHOICES")}
+          aria-invalid={!expiryDateOption}
+          aria-describedby={
+            !expiryDateOption ? "expiry-date-option-error" : undefined
+          }
           className="mb-2 flex flex-col gap-2"
         >
           <label className="flex items-center gap-2 text-sm text-gray-700">
@@ -181,6 +185,15 @@ const VolunteerCourse = ({
             {t("NO_EXPIRY_DATE")}
           </label>
         </div>
+        {!expiryDateOption && (
+          <p
+            id="expiry-date-option-error"
+            role="alert"
+            className="mb-2 text-sm text-red-600"
+          >
+            {t("SELECT_EXPIRY_DATE_OPTION_ERROR")}
+          </p>
+        )}
         <input
           id="document-expiry-date"
           type="date"

@@ -20,7 +20,10 @@ const StepperControl = ({
     (currentStep === 1 && !isAcknowledged) ||
     (currentStep === 2 &&
       (!isUploaded ||
-        (expiryDateOption === "expiryDate" && !isExpiryDateValid))) ||
+        !(
+          expiryDateOption === "noExpiryDate" ||
+          (expiryDateOption === "expiryDate" && isExpiryDateValid)
+        ))) ||
     (currentStep === 3 && !isCheckedCategories) ||
     (currentStep === 4 && !isAvailabilityValid) ||
     currentStep >= steps.length;
