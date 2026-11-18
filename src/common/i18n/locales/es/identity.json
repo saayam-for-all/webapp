@@ -21,5 +21,6 @@
   "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Introduzca la fecha de vencimiento del documento.",
   "EXPIRY_DATE_OPTION": "Fecha de vencimiento",
   "NO_EXPIRY_DATE": "Sin fecha de vencimiento",
-  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Seleccione una opción de fecha de vencimiento para continuar."
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Seleccione una opción de fecha de vencimiento para continuar.",
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "Seleccione «Fecha de vencimiento» o «Sin fecha de vencimiento»."
 }

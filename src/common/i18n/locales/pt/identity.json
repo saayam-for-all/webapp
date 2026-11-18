@@ -21,5 +21,6 @@
   "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Insira a data de validade do documento.",
   "EXPIRY_DATE_OPTION": "Data de validade",
   "NO_EXPIRY_DATE": "Sem data de validade",
-  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Selecione uma opção de data de validade para continuar."
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Selecione uma opção de data de validade para continuar.",
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "Selecione “Data de validade” ou “Sem data de validade”."
 }

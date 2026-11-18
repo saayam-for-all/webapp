@@ -21,5 +21,6 @@
   "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Bitte geben Sie das Ablaufdatum des Dokuments ein.",
   "EXPIRY_DATE_OPTION": "Ablaufdatum",
   "NO_EXPIRY_DATE": "Kein Ablaufdatum",
-  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Wählen Sie eine Option zum Ablaufdatum, um fortzufahren."
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Wählen Sie eine Option zum Ablaufdatum, um fortzufahren.",
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "Bitte wählen Sie „Ablaufdatum“ oder „Kein Ablaufdatum“."
 }

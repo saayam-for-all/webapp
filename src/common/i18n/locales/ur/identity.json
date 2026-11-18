@@ -21,5 +21,6 @@
   "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "براہ کرم دستاویز کی میعاد ختم ہونے کی تاریخ درج کریں۔",
   "EXPIRY_DATE_OPTION": "میعاد ختم ہونے کی تاریخ",
   "NO_EXPIRY_DATE": "میعاد ختم ہونے کی تاریخ نہیں ہے",
-  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "جاری رکھنے کے لیے میعاد ختم ہونے کی تاریخ کا اختیار منتخب کریں۔"
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "جاری رکھنے کے لیے میعاد ختم ہونے کی تاریخ کا اختیار منتخب کریں۔",
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "براہ کرم «میعاد ختم ہونے کی تاریخ» یا «میعاد ختم ہونے کی تاریخ نہیں ہے» منتخب کریں۔"
 }

@@ -21,5 +21,6 @@
   "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "దయచేసి పత్రం గడువు తేదీని నమోదు చేయండి.",
   "EXPIRY_DATE_OPTION": "గడువు తేదీ",
   "NO_EXPIRY_DATE": "గడువు తేదీ లేదు",
-  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "కొనసాగించడానికి గడువు తేదీ ఎంపికను ఎంచుకోండి."
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "కొనసాగించడానికి గడువు తేదీ ఎంపికను ఎంచుకోండి.",
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "దయచేసి “గడువు తేదీ” లేదా “గడువు తేదీ లేదు” ఎంపికను ఎంచుకోండి."
 }

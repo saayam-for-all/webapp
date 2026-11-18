@@ -322,10 +322,13 @@ const PromoteToVolunteer = () => {
               (expiryDateOption === "noExpiryDate" ||
                 (expiryDateOption === "expiryDate" && isExpiryDateValid)),
           );
-          if (
-            !expiryDateOption ||
-            (expiryDateOption === "expiryDate" && !isExpiryDateValid)
-          ) {
+          if (!expiryDateOption) {
+            setErrorMessage(
+              t("SELECT_EXPIRY_DATE_OPTION_ERROR", { ns: "identity" }),
+            );
+            return;
+          }
+          if (expiryDateOption === "expiryDate" && !isExpiryDateValid) {
             setErrorMessage(t("DOCUMENT_EXPIRED_ERROR", { ns: "identity" }));
             return;
           }

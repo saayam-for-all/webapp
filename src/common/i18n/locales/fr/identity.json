@@ -21,5 +21,6 @@
   "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Veuillez saisir la date d’expiration du document.",
   "EXPIRY_DATE_OPTION": "Date d’expiration",
   "NO_EXPIRY_DATE": "Aucune date d’expiration",
-  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Sélectionnez une option de date d’expiration pour continuer."
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Sélectionnez une option de date d’expiration pour continuer.",
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "Veuillez sélectionner « Date d’expiration » ou « Aucune date d’expiration »."
 }

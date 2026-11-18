@@ -21,5 +21,6 @@
   "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Введите срок действия документа.",
   "EXPIRY_DATE_OPTION": "Срок действия",
   "NO_EXPIRY_DATE": "Срок действия отсутствует",
-  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Выберите вариант срока действия, чтобы продолжить."
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Выберите вариант срока действия, чтобы продолжить.",
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "Выберите «Срок действия» или «Срок действия отсутствует»."
 }
