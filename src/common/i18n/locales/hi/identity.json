@@ -17,5 +17,11 @@
   "UPLOAD_FAILED": "फ़ाइल अपलोड विफल",
   "UPLOAD_ERROR": "फ़ाइल अपलोड के दौरान त्रुटि हुई",
   "CHOOSE_FILE": "फ़ाइल चुनें",
-  "NO_FILE_CHOSEN": "कोई फ़ाइल नहीं चुनी गई"
+  "NO_FILE_CHOSEN": "कोई फ़ाइल नहीं चुनी गई",
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "कृपया दस्तावेज़ की समाप्ति तिथि दर्ज करें।",
+  "EXPIRY_DATE_OPTION": "समाप्ति तिथि",
+  "NO_EXPIRY_DATE": "समाप्ति तिथि नहीं है",
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "जारी रखने के लिए समाप्ति तिथि का विकल्प चुनें।",
+  "SELECT_EXPIRY_DATE_OPTION_ERROR": "कृपया “समाप्ति तिथि” या “समाप्ति तिथि नहीं है” चुनें।",
+  "EXPIRY_DATE_CHOICES": "दस्तावेज़ की समाप्ति तिथि के विकल्प"
 }

@@ -87,6 +87,23 @@ describe("StepperControl", () => {
     expect(nextButton).toBeDisabled();
   });
 
+  it("shows guidance when no expiry-date option is selected", () => {
+    render(
+      <StepperControl
+        {...defaultProps}
+        currentStep={2}
+        expiryDateOption=""
+      />,
+    );
+
+    const nextButton = screen.getByTestId("next-button");
+    expect(nextButton).toBeDisabled();
+    expect(nextButton).toHaveAttribute(
+      "data-tooltip-content",
+      "mockTranslate(identity:TOOLTIP_SELECT_EXPIRY_DATE_OPTION)",
+    );
+  });
+
   it("disables Confirm button when isAvailabilityValid is false on step 4", () => {
     render(
       <StepperControl

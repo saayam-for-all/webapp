@@ -2174,6 +2174,30 @@ describe("Issue #1914 - Document Expiry Date", () => {
     expect(screen.getByTestId("next-button")).toBeDisabled();
   });
 
+  it("allows continuing when the document has no expiry date", async () => {
+    await renderIdentification();
+    uploadValidFile();
+
+    fireEvent.click(
+      screen.getByRole("radio", { name: "mockTranslate(NO_EXPIRY_DATE)" }),
+    );
+
+    expect(
+      screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)"),
+    ).toBeDisabled();
+    await waitFor(() => {
+      expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    });
+
+    fireEvent.click(screen.getByTestId("next-button"));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(common:SKILLS_SELECTOR_TITLE)"),
+      ).toBeInTheDocument();
+    });
+  });
+
   it("rejects today's date", async () => {
     const input = await renderIdentification();
     uploadValidFile();
