@@ -18,5 +18,6 @@
   "UPLOAD_ERROR": "Ocurrió un error durante la subida del archivo",
   "CHOOSE_FILE": "Seleccionar archivo",
   "NO_FILE_CHOSEN": "Ningún archivo seleccionado",
-  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Por favor, introduzca la fecha de vencimiento del documento"
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Introduzca una fecha de vencimiento o seleccione «Fecha de vencimiento no aplicable».",
+  "EXPIRY_DATE_NOT_APPLICABLE": "Fecha de vencimiento no aplicable"
 }

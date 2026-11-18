@@ -75,6 +75,15 @@ const PromoteToVolunteer = () => {
       return "";
     }
   });
+  const [expiryDateNotApplicable, setExpiryDateNotApplicable] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (!cachedData) return false;
+    try {
+      return JSON.parse(cachedData).expiryDateNotApplicable ?? false;
+    } catch {
+      return false;
+    }
+  });
 
   const today = new Date();
   const todayString = [
@@ -147,6 +156,7 @@ const PromoteToVolunteer = () => {
         isAcknowledged,
         isUploaded,
         expiryDate,
+        expiryDateNotApplicable,
         selectedSkills,
         availabilitySlots: availabilitySlots.map((slot) => ({
           ...slot,
@@ -161,6 +171,7 @@ const PromoteToVolunteer = () => {
     isAcknowledged,
     isUploaded,
     expiryDate,
+    expiryDateNotApplicable,
     selectedSkills,
     availabilitySlots,
     tobeNotified,
@@ -208,6 +219,8 @@ const PromoteToVolunteer = () => {
             setIsUploaded={setIsUploaded}
             expiryDate={expiryDate}
             setExpiryDate={setExpiryDate}
+            expiryDateNotApplicable={expiryDateNotApplicable}
+            setExpiryDateNotApplicable={setExpiryDateNotApplicable}
           />
         );
       case 3:
@@ -296,8 +309,16 @@ const PromoteToVolunteer = () => {
         case 2:
           // isValidStep = govtIdFile && govtIdFile.name !== "";
           handleSaveFile();
-          isValidStep = Boolean(govtIdFile && isExpiryDateValid);
-          if (!isExpiryDateValid) {
+          isValidStep = Boolean(
+            govtIdFile && (expiryDateNotApplicable || isExpiryDateValid),
+          );
+          if (!expiryDateNotApplicable && !expiryDate) {
+            setErrorMessage(
+              t("TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE", { ns: "identity" }),
+            );
+            return;
+          }
+          if (!expiryDateNotApplicable && !isExpiryDateValid) {
             setErrorMessage(t("DOCUMENT_EXPIRED_ERROR", { ns: "identity" }));
             return;
           }
@@ -390,6 +411,7 @@ const PromoteToVolunteer = () => {
           isUploaded={isUploaded}
           isExpiryDateValid={isExpiryDateValid}
           hasExpiryDate={Boolean(expiryDate)}
+          isExpiryDateNotApplicable={expiryDateNotApplicable}
           isCheckedCategories={selectedSkills.length > 0}
           isAvailabilityValid={isAvailabilityValid}
         />

@@ -1,4 +1,166 @@
-Y™Áäx-ÆÈ‹j◊ù¢Îi∫⁄+äßj[hëÈ‹¢ÈÌ€M˙NãZñã≠¶Îeäw¨’•µ¡Ω…–ÅÏÅ’ÕïIïò∞Å’ÕïM—Ö—îÅÙÅô…Ω¥Äâ…ïÖç–àÏ)•µ¡Ω…–ÅÏÅ’ÕïQ…ÖπÕ±Ö—•Ω∏ÅÙÅô…Ω¥Äâ…ïÖç–µ§ƒ·πï·–àÏ)•µ¡Ω…–ÅA…Ω¡QÂ¡ïÃÅô…Ω¥Äâ¡…Ω¿µ—Â¡ïÃàÏ)•µ¡Ω…–ÅÏÅŸÖ±•ëÖ—ï%ëïπ—•—Â•±îÅÙÅô…Ω¥Äà∏ΩŸÖ±•ëÖ—ï%ëïπ—•—Â•±îàÏ()çΩπÕ–ÅYΩ±’π—ïï…Ω’…ÕîÄÙÄ°Ï(ÄÅÕï±ïç—ïë•±î∞(ÄÅÕï—Mï±ïç—ïë•±î∞(ÄÅÕï—%ÕU¡±ΩÖëïê∞(ÄÅï·¡•…ÂÖ—î∞(ÄÅÕï—·¡•…ÂÖ—î∞)Ù§ÄÙ¯ÅÏ(ÄÅçΩπÕ–ÅÏÅ–ÅÙÄÙÅ’ÕïQ…ÖπÕ±Ö—•Ω∏†â•ëïπ—•—‰à§Ï((ÄÅçΩπÕ–Åmï……Ω»∞ÅÕï—……Ω…tÄÙÅ’ÕïM—Ö—î†àà§Ï(ÄÅçΩπÕ–Åô•±ï%π¡’—IïòÄÙÅ’ÕïIïò°π’±∞§Ï(ÄÅçΩπÕ–ÅŸÖ±•ëÖ—•ΩπIï≈’ïÕ—IïòÄÙÅ’ÕïIïò†¿§Ï((ÄÅçΩπÕ–Åùï—QΩëÖ‰ÄÙÄ†§ÄÙ¯ÅÏ(ÄÄÄÅçΩπÕ–ÅëÖ—îÄÙÅπï‹ÅÖ—î†§Ï(ÄÄÄÅçΩπÕ–ÅÂïÖ»ÄÙÅëÖ—îπùï—’±±eïÖ»†§Ï(ÄÄÄÅçΩπÕ–ÅµΩπ—†ÄÙÅM—…•πú°ëÖ—îπùï—5Ωπ—††§Ä¨Äƒ§π¡ÖëM—Ö…–†»∞Äà¿à§Ï(ÄÄÄÅçΩπÕ–ÅëÖ‰ÄÙÅM—…•πú°ëÖ—îπùï—Ö—î†§§π¡ÖëM—Ö…–†»∞Äà¿à§Ï(ÄÄÄÅ…ï—’…∏ÅÄëÌÂïÖ…Ù¥ëÌµΩπ—°Ù¥ëÌëÖÂıÄÏ(ÄÅÙÏ((ÄÅçΩπÕ–Å—ΩëÖ‰ÄÙÅùï—QΩëÖ‰†§Ï(ÄÅçΩπÕ–Å—ΩµΩ……Ω‹ÄÙÅπï‹ÅÖ—î†§Ï(ÄÅ—ΩµΩ……Ω‹πÕï—Ö—î°—ΩµΩ……Ω‹πùï—Ö—î†§Ä¨Äƒ§Ï(ÄÅçΩπÕ–Åµ•π•µ’µ·¡•…ÂÖ—îÄÙÅl(ÄÄÄÅ—ΩµΩ……Ω‹πùï—’±±eïÖ»†§∞(ÄÄÄÅM—…•πú°—ΩµΩ……Ω‹πùï—5Ωπ—††§Ä¨Äƒ§π¡ÖëM—Ö…–†»∞Äà¿à§∞(ÄÄÄÅM—…•πú°—ΩµΩ……Ω‹πùï—Ö—î†§§π¡ÖëM—Ö…–†»∞Äà¿à§∞(ÄÅtπ©Ω•∏†à¥à§Ï(ÄÅçΩπÕ–Å•Õ%πŸÖ±•ë·¡•…ÂÖ—îÄÙÅ	ΩΩ±ïÖ∏°ï·¡•…ÂÖ—îÄòòÅï·¡•…ÂÖ—îÄÙÅ—ΩëÖ‰§Ï((ÄÅçΩπÕ–Å°Öπë±ï	’——Ωπ±•ç¨ÄÙÄ†§ÄÙ¯ÅÏ(ÄÄÄÅô•±ï%π¡’—Iïòπç’……ïπ–¸πç±•ç¨†§Ï(ÄÅÙÏ((ÄÅçΩπÕ–Å°Öπë±ï•±ï°ÖπùîÄÙÅÖÕÂπåÄ°ïŸïπ–§ÄÙ¯ÅÏ(ÄÄÄÅçΩπÕ–Å’¡±ΩÖëïë•±îÄÙÅïŸïπ–π—Ö…ùï–πô•±ïÃ¸πl¡tÏ(ÄÄÄÅçΩπÕ–Å…ï≈’ïÕ—%êÄÙÄ¨≠ŸÖ±•ëÖ—•ΩπIï≈’ïÕ—Iïòπç’……ïπ–Ï((ÄÄÄÄººÅ±ïÖ»Å—°îÅ¡…ïŸ•Ω’ÃÅ’¡±ΩÖêÅâïôΩ…îÅŸÖ±•ëÖ—•πúÅÑÅ…ï¡±Öçïµïπ–∏(ÄÄÄÅÕï—Mï±ïç—ïë•±î°π’±∞§Ï(ÄÄÄÅÕï—%ÕU¡±ΩÖëïê°ôÖ±Õî§Ï(ÄÄÄÅÕï—……Ω»†àà§Ï((ÄÄÄÅ•òÄ†Ö’¡±ΩÖëïë•±î§Å…ï—’…∏Ï((ÄÄÄÅçΩπÕ–ÅŸÖ±•ì]7Í⁄$z{-ÆÈ‹j◊ùnvalidExpiryDate}
+import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import PropTypes from "prop-types";
+import { validateIdentityFile } from "./validateIdentityFile";
+
+const VolunteerCourse = ({
+  selectedFile,
+  setSelectedFile,
+  setIsUploaded,
+  expiryDate,
+  setExpiryDate,
+  expiryDateNotApplicable,
+  setExpiryDateNotApplicable,
+}) => {
+  const { t } = useTranslation("identity");
+
+  const [error, setError] = useState("");
+  const fileInputRef = useRef(null);
+  const validationRequestRef = useRef(0);
+
+  const getToday = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const today = getToday();
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const minimumExpiryDate = [
+    tomorrow.getFullYear(),
+    String(tomorrow.getMonth() + 1).padStart(2, "0"),
+    String(tomorrow.getDate()).padStart(2, "0"),
+  ].join("-");
+  const isInvalidExpiryDate = Boolean(expiryDate && expiryDate <= today);
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event) => {
+    const uploadedFile = event.target.files?.[0];
+    const requestId = ++validationRequestRef.current;
+
+    // Clear the previous upload before validating a replacement.
+    setSelectedFile(null);
+    setIsUploaded(false);
+    setError("");
+
+    if (!uploadedFile) return;
+
+    const validationError = await validateIdentityFile(uploadedFile);
+
+    // Ignore results from older file selections.
+    if (requestId !== validationRequestRef.current) return;
+
+    if (validationError) {
+      const errorKeys = {
+        empty: "FILE_EMPTY_ERROR",
+        size: "FILE_SIZE_ERROR",
+        type: "FILE_TYPE_ERROR",
+        content: "FILE_CONTENT_ERROR",
+      };
+
+      setError(t(errorKeys[validationError]));
+      event.target.value = "";
+      return;
+    }
+
+    setSelectedFile(uploadedFile);
+    setIsUploaded(true);
+  };
+
+  const handleRemoveFile = () => {
+    // Cancel any pending validation result.
+    validationRequestRef.current += 1;
+    setSelectedFile(null);
+    setError("");
+    setIsUploaded(false);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  return (
+    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-xl font-semibold mb-4">
+        {t("UPLOAD_GOVERNMENT_ID")}
+      </h2>
+
+      {/* Source Selection */}
+      <div className="mb-4">
+        <label
+          htmlFor="source"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          {t("SELECT_SOURCE")}
+        </label>
+
+        <select
+          id="source"
+          className="w-full border border-gray-300 rounded-md p-2"
+          value="device"
+          disabled
+        >
+          <option value="device">{t("DEVICE")}</option>
+        </select>
+      </div>
+
+      {/* Device File Upload */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-1 after:ml-1 after:text-red-600 after:content-['*']">
+          {t("UPLOAD_FILE")}
+        </label>
+
+        <input
+          type="file"
+          accept=".jpeg,.jpg,.png,.pdf"
+          className="hidden"
+          onChange={handleFileChange}
+          ref={fileInputRef}
+        />
+
+        <div className="flex items-center gap-3 border border-gray-300 rounded-lg p-2 bg-gray-50">
+          <button
+            type="button"
+            onClick={handleButtonClick}
+            className="px-4 py-2 border rounded bg-white hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700 active:scale-95 duration-150"
+          >
+            {t("CHOOSE_FILE")}
+          </button>
+
+          <span className="text-gray-600 text-sm truncate max-w-xs">
+            {selectedFile ? selectedFile.name : t("NO_FILE_CHOSEN")}
+          </span>
+        </div>
+
+        <p className="mt-1 text-sm text-gray-500">
+          {t("FILE_TYPE_REQUIREMENT")}
+        </p>
+      </div>
+
+      {/* Document Expiry Date */}
+      <div className="mb-4">
+        <label
+          htmlFor="document-expiry-date"
+          className="block text-sm font-medium text-gray-700 mb-1 after:ml-1 after:text-red-600 after:content-['*']"
+        >
+          {t("DOCUMENT_EXPIRY_DATE")}
+        </label>
+        <input
+          id="document-expiry-date"
+          type="date"
+          value={expiryDate}
+          min={minimumExpiryDate}
+          onChange={(event) => {
+            setExpiryDate(event.target.value);
+            if (event.target.value) setExpiryDateNotApplicable(false);
+          }}
+          aria-invalid={isInvalidExpiryDate}
           aria-describedby={
             isInvalidExpiryDate ? "document-expiry-error" : undefined
           }
@@ -13,6 +175,18 @@ Y™Áäx-ÆÈ‹j◊ù¢Îi∫⁄+äßj[hëÈ‹¢ÈÌ€M˙NãZñã≠¶Îeäw¨’•µ¡Ω…–ÅÏÅ’ÕïIïò∞Å’ÕïM—Ö—îÅÙÅô…Ω¥Äâ
             {t("DOCUMENT_EXPIRED_ERROR")}
           </p>
         )}
+        <label className="mt-2 flex items-center gap-2 text-sm text-gray-700">
+          <input
+            type="checkbox"
+            checked={expiryDateNotApplicable}
+            onChange={(event) => {
+              const checked = event.target.checked;
+              setExpiryDateNotApplicable(checked);
+              if (checked) setExpiryDate("");
+            }}
+          />
+          {t("EXPIRY_DATE_NOT_APPLICABLE")}
+        </label>
       </div>
 
       {/* Selected File */}
@@ -49,6 +223,8 @@ VolunteerCourse.propTypes = {
   setIsUploaded: PropTypes.func.isRequired,
   expiryDate: PropTypes.string.isRequired,
   setExpiryDate: PropTypes.func.isRequired,
+  expiryDateNotApplicable: PropTypes.bool.isRequired,
+  setExpiryDateNotApplicable: PropTypes.func.isRequired,
 };
 
 VolunteerCourse.defaultProps = {

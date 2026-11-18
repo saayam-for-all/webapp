@@ -10,6 +10,7 @@ const StepperControl = ({
   isUploaded,
   isExpiryDateValid = true,
   hasExpiryDate = true,
+  isExpiryDateNotApplicable = false,
   isCheckedCategories,
   isAvailabilityValid,
 }) => {
@@ -17,10 +18,26 @@ const StepperControl = ({
 
   const disabledCondition =
     (currentStep === 1 && !isAcknowledged) ||
-    (currentStep === 2 && (!isUploaded || !isExpiryDateValid)) ||
+    (currentStep === 2 &&
+      (!isUploaded || (!isExpiryDateValid && !isExpiryDateNotApplicable))) ||
     (currentStep === 3 && !isCheckedCategories) ||
     (currentStep === 4 && !isAvailabilityValid) ||
     currentStep >= steps.length;
+
+  let nextTooltipContent = "";
+  if (currentStep === 3 && !isCheckedCategories) {
+    nextTooltipContent = t("common:SELECT_SKILL_TO_CONTINUE");
+  } else if (currentStep === 1 && !isAcknowledged) {
+    nextTooltipContent = t("TOOLTIP_ACCEPT_TERMS");
+  } else if (currentStep === 2 && !isUploaded) {
+    nextTooltipContent = t("TOOLTIP_UPLOAD_GOVT_ID");
+  } else if (
+    currentStep === 2 &&
+    !hasExpiryDate &&
+    !isExpiryDateNotApplicable
+  ) {
+    nextTooltipContent = t("identity:TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE");
+  }
 
   return (
     <div className="container flex justify-around mt-16 mb-8">
@@ -48,25 +65,13 @@ const StepperControl = ({
           disabled={disabledCondition}
           data-testid="next-button"
           data-tooltip-id="next-button-tooltip"
-          data-tooltip-content={
-            currentStep === 3 && !isCheckedCategories
-              ? t("common:SELECT_SKILL_TO_CONTINUE")
-              : currentStep === 1 && !isAcknowledged
-                ? t("TOOLTIP_ACCEPT_TERMS")
-                : currentStep === 2 && !isUploaded
-                  ? t("TOOLTIP_UPLOAD_GOVT_ID")
-                  : currentStep === 2 && !hasExpiryDate
-                    ? t("identity:TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE")
-                  : ""
-          }
+          data-tooltip-content={nextTooltipContent}
         >
           {currentStep === steps.length - 1
             ? t("common:CONFIRM") || "Confirm"
             : t("common:NEXT") || "Next"}
         </button>
-        {(currentStep === 3 && !isCheckedCategories) ||
-        (currentStep === 1 && !isAcknowledged) ||
-        (currentStep === 2 && (!isUploaded || !hasExpiryDate)) ? (
+        {nextTooltipContent ? (
           <Tooltip
             id="next-button-tooltip"
             place="top"
@@ -85,6 +90,7 @@ StepperControl.propTypes = {
   isUploaded: PropTypes.bool.isRequired,
   isExpiryDateValid: PropTypes.bool,
   hasExpiryDate: PropTypes.bool,
+  isExpiryDateNotApplicable: PropTypes.bool,
   isCheckedCategories: PropTypes.bool.isRequired,
   isAvailabilityValid: PropTypes.bool.isRequired,
 };

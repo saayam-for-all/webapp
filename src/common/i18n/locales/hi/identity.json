@@ -18,5 +18,6 @@
   "UPLOAD_ERROR": "फ़ाइल अपलोड के दौरान त्रुटि हुई",
   "CHOOSE_FILE": "फ़ाइल चुनें",
   "NO_FILE_CHOSEN": "कोई फ़ाइल नहीं चुनी गई",
-  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "कृपया दस्तावेज़ की समाप्ति तिथि दर्ज करें"
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "समाप्ति तिथि दर्ज करें या “समाप्ति तिथि लागू नहीं है” चुनें।",
+  "EXPIRY_DATE_NOT_APPLICABLE": "समाप्ति तिथि लागू नहीं है"
 }

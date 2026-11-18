@@ -18,5 +18,6 @@
   "UPLOAD_ERROR": "Beim Hochladen der Datei ist ein Fehler aufgetreten",
   "CHOOSE_FILE": "Datei auswählen",
   "NO_FILE_CHOSEN": "Keine Datei ausgewählt",
-  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Bitte geben Sie das Ablaufdatum des Dokuments ein"
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Geben Sie ein Ablaufdatum ein oder wählen Sie „Ablaufdatum nicht zutreffend“.",
+  "EXPIRY_DATE_NOT_APPLICABLE": "Ablaufdatum nicht zutreffend"
 }

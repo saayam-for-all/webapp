@@ -18,5 +18,6 @@
   "UPLOAD_ERROR": "Une erreur s'est produite lors du téléchargement du fichier",
   "CHOOSE_FILE": "Choisir un fichier",
   "NO_FILE_CHOSEN": "Aucun fichier choisi",
-  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Veuillez saisir la date d'expiration du document"
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Saisissez une date d’expiration ou sélectionnez « Date d’expiration non applicable ».",
+  "EXPIRY_DATE_NOT_APPLICABLE": "Date d’expiration non applicable"
 }

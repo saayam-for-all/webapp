@@ -18,5 +18,6 @@
   "UPLOAD_ERROR": "文件上传过程中发生错误",
   "CHOOSE_FILE": "选择文件",
   "NO_FILE_CHOSEN": "未选择任何文件",
-  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "请输入证件到期日期"
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "请输入到期日期，或选择“到期日期不适用”。",
+  "EXPIRY_DATE_NOT_APPLICABLE": "到期日期不适用"
 }

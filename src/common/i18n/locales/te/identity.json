@@ -18,5 +18,6 @@
   "UPLOAD_ERROR": "ఫైల్ అప్‌లోడ్ సమయంలో లోపం సంభవించింది",
   "CHOOSE_FILE": "ఫైల్‌ను ఎంచుకోండి",
   "NO_FILE_CHOSEN": "ఏ ఫైల్ ఎంచుకోబడలేదు",
-  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "దయచేసి పత్రం గడువు తేదీని నమోదు చేయండి"
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "గడువు తేదీని నమోదు చేయండి లేదా ‘గడువు తేదీ వర్తించదు’ ఎంచుకోండి.",
+  "EXPIRY_DATE_NOT_APPLICABLE": "గడువు తేదీ వర్తించదు"
 }
