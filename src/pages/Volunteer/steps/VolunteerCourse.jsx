@@ -111,7 +111,10 @@ const VolunteerCourse = ({
       {/* Device File Upload */}
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          {t("UPLOAD_FILE")}
+          {t("UPLOAD_FILE")}{" "}
+          <span aria-hidden="true" className="text-red-600">
+            *
+          </span>
         </label>
 
         <input
@@ -147,7 +150,10 @@ const VolunteerCourse = ({
           htmlFor="document-expiry-date"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          {t("DOCUMENT_EXPIRY_DATE")}
+          {t("DOCUMENT_EXPIRY_DATE")}{" "}
+          <span aria-hidden="true" className="text-red-600">
+            *
+          </span>
         </label>
         <input
           id="document-expiry-date"

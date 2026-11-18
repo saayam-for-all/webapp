@@ -17,5 +17,6 @@
   "UPLOAD_FAILED": "फ़ाइल अपलोड विफल",
   "UPLOAD_ERROR": "फ़ाइल अपलोड के दौरान त्रुटि हुई",
   "CHOOSE_FILE": "फ़ाइल चुनें",
-  "NO_FILE_CHOSEN": "कोई फ़ाइल नहीं चुनी गई"
+  "NO_FILE_CHOSEN": "कोई फ़ाइल नहीं चुनी गई",
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "कृपया दस्तावेज़ की समाप्ति तिथि दर्ज करें"
 }

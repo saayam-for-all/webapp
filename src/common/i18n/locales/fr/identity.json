@@ -17,5 +17,6 @@
   "UPLOAD_FAILED": "Échec du téléchargement du fichier",
   "UPLOAD_ERROR": "Une erreur s'est produite lors du téléchargement du fichier",
   "CHOOSE_FILE": "Choisir un fichier",
-  "NO_FILE_CHOSEN": "Aucun fichier choisi"
+  "NO_FILE_CHOSEN": "Aucun fichier choisi",
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Veuillez saisir la date d'expiration du document"
 }

@@ -389,6 +389,7 @@ const PromoteToVolunteer = () => {
           isAcknowledged={isAcknowledged}
           isUploaded={isUploaded}
           isExpiryDateValid={isExpiryDateValid}
+          hasExpiryDate={Boolean(expiryDate)}
           isCheckedCategories={selectedSkills.length > 0}
           isAvailabilityValid={isAvailabilityValid}
         />

@@ -9,6 +9,7 @@ const StepperControl = ({
   isAcknowledged,
   isUploaded,
   isExpiryDateValid = true,
+  hasExpiryDate = true,
   isCheckedCategories,
   isAvailabilityValid,
 }) => {
@@ -54,6 +55,8 @@ const StepperControl = ({
                 ? t("TOOLTIP_ACCEPT_TERMS")
                 : currentStep === 2 && !isUploaded
                   ? t("TOOLTIP_UPLOAD_GOVT_ID")
+                  : currentStep === 2 && !hasExpiryDate
+                    ? t("identity:TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE")
                   : ""
           }
         >
@@ -63,7 +66,7 @@ const StepperControl = ({
         </button>
         {(currentStep === 3 && !isCheckedCategories) ||
         (currentStep === 1 && !isAcknowledged) ||
-        (currentStep === 2 && !isUploaded) ? (
+        (currentStep === 2 && (!isUploaded || !hasExpiryDate)) ? (
           <Tooltip
             id="next-button-tooltip"
             place="top"
@@ -81,6 +84,7 @@ StepperControl.propTypes = {
   isAcknowledged: PropTypes.bool.isRequired,
   isUploaded: PropTypes.bool.isRequired,
   isExpiryDateValid: PropTypes.bool,
+  hasExpiryDate: PropTypes.bool,
   isCheckedCategories: PropTypes.bool.isRequired,
   isAvailabilityValid: PropTypes.bool.isRequired,
 };
