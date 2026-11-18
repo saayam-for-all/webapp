@@ -10,7 +10,7 @@ const StepperControl = ({
   isUploaded,
   isExpiryDateValid = true,
   hasExpiryDate = true,
-  expiryDateOption = "",
+  expiryDateOption = "expiryDate",
   isCheckedCategories,
   isAvailabilityValid,
 }) => {
