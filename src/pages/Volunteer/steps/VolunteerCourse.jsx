@@ -9,8 +9,8 @@ const VolunteerCourse = ({
   setIsUploaded,
   expiryDate,
   setExpiryDate,
-  expiryDateNotApplicable,
-  setExpiryDateNotApplicable,
+  expiryDateOption,
+  setExpiryDateOption,
 }) => {
   const { t } = useTranslation("identity");
 
@@ -147,10 +147,40 @@ const VolunteerCourse = ({
       <div className="mb-4">
         <label
           htmlFor="document-expiry-date"
+          id="document-expiry-date-label"
           className="block text-sm font-medium text-gray-700 mb-1 after:ml-1 after:text-red-600 after:content-['*']"
         >
           {t("DOCUMENT_EXPIRY_DATE")}
         </label>
+        <div
+          role="radiogroup"
+          aria-labelledby="document-expiry-date-label"
+          className="mb-2 flex flex-col gap-2"
+        >
+          <label className="flex items-center gap-2 text-sm text-gray-700">
+            <input
+              type="radio"
+              name="document-expiry-option"
+              value="expiryDate"
+              checked={expiryDateOption === "expiryDate"}
+              onChange={() => setExpiryDateOption("expiryDate")}
+            />
+            {t("EXPIRY_DATE_OPTION")}
+          </label>
+          <label className="flex items-center gap-2 text-sm text-gray-700">
+            <input
+              type="radio"
+              name="document-expiry-option"
+              value="noExpiryDate"
+              checked={expiryDateOption === "noExpiryDate"}
+              onChange={() => {
+                setExpiryDateOption("noExpiryDate");
+                setExpiryDate("");
+              }}
+            />
+            {t("NO_EXPIRY_DATE")}
+          </label>
+        </div>
         <input
           id="document-expiry-date"
           type="date"
@@ -158,8 +188,9 @@ const VolunteerCourse = ({
           min={minimumExpiryDate}
           onChange={(event) => {
             setExpiryDate(event.target.value);
-            if (event.target.value) setExpiryDateNotApplicable(false);
+            if (event.target.value) setExpiryDateOption("expiryDate");
           }}
+          disabled={expiryDateOption === "noExpiryDate"}
           aria-invalid={isInvalidExpiryDate}
           aria-describedby={
             isInvalidExpiryDate ? "document-expiry-error" : undefined
@@ -175,18 +206,6 @@ const VolunteerCourse = ({
             {t("DOCUMENT_EXPIRED_ERROR")}
           </p>
         )}
-        <label className="mt-2 flex items-center gap-2 text-sm text-gray-700">
-          <input
-            type="checkbox"
-            checked={expiryDateNotApplicable}
-            onChange={(event) => {
-              const checked = event.target.checked;
-              setExpiryDateNotApplicable(checked);
-              if (checked) setExpiryDate("");
-            }}
-          />
-          {t("EXPIRY_DATE_NOT_APPLICABLE")}
-        </label>
       </div>
 
       {/* Selected File */}
@@ -223,8 +242,8 @@ VolunteerCourse.propTypes = {
   setIsUploaded: PropTypes.func.isRequired,
   expiryDate: PropTypes.string.isRequired,
   setExpiryDate: PropTypes.func.isRequired,
-  expiryDateNotApplicable: PropTypes.bool.isRequired,
-  setExpiryDateNotApplicable: PropTypes.func.isRequired,
+  expiryDateOption: PropTypes.string.isRequired,
+  setExpiryDateOption: PropTypes.func.isRequired,
 };
 
 VolunteerCourse.defaultProps = {

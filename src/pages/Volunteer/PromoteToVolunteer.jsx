@@ -75,13 +75,21 @@ const PromoteToVolunteer = () => {
       return "";
     }
   });
-  const [expiryDateNotApplicable, setExpiryDateNotApplicable] = useState(() => {
+  const [expiryDateOption, setExpiryDateOption] = useState(() => {
     const cachedData = getSessionStorageItem("volunteer_form_data");
-    if (!cachedData) return false;
+    if (!cachedData) return "";
     try {
-      return JSON.parse(cachedData).expiryDateNotApplicable ?? false;
+      const parsed = JSON.parse(cachedData);
+      return (
+        parsed.expiryDateOption ||
+        (parsed.expiryDateNotApplicable
+          ? "noExpiryDate"
+          : parsed.expiryDate
+            ? "expiryDate"
+            : "")
+      );
     } catch {
-      return false;
+      return "";
     }
   });
 
@@ -156,7 +164,7 @@ const PromoteToVolunteer = () => {
         isAcknowledged,
         isUploaded,
         expiryDate,
-        expiryDateNotApplicable,
+        expiryDateOption,
         selectedSkills,
         availabilitySlots: availabilitySlots.map((slot) => ({
           ...slot,
@@ -171,7 +179,7 @@ const PromoteToVolunteer = () => {
     isAcknowledged,
     isUploaded,
     expiryDate,
-    expiryDateNotApplicable,
+    expiryDateOption,
     selectedSkills,
     availabilitySlots,
     tobeNotified,
@@ -219,8 +227,8 @@ const PromoteToVolunteer = () => {
             setIsUploaded={setIsUploaded}
             expiryDate={expiryDate}
             setExpiryDate={setExpiryDate}
-            expiryDateNotApplicable={expiryDateNotApplicable}
-            setExpiryDateNotApplicable={setExpiryDateNotApplicable}
+            expiryDateOption={expiryDateOption}
+            setExpiryDateOption={setExpiryDateOption}
           />
         );
       case 3:
@@ -310,9 +318,14 @@ const PromoteToVolunteer = () => {
           // isValidStep = govtIdFile && govtIdFile.name !== "";
           handleSaveFile();
           isValidStep = Boolean(
-            govtIdFile && (expiryDateNotApplicable || isExpiryDateValid),
+            govtIdFile &&
+              (expiryDateOption === "noExpiryDate" ||
+                (expiryDateOption === "expiryDate" && isExpiryDateValid)),
           );
-          if (!expiryDateNotApplicable && !isExpiryDateValid) {
+          if (
+            !expiryDateOption ||
+            (expiryDateOption === "expiryDate" && !isExpiryDateValid)
+          ) {
             setErrorMessage(t("DOCUMENT_EXPIRED_ERROR", { ns: "identity" }));
             return;
           }
@@ -405,7 +418,7 @@ const PromoteToVolunteer = () => {
           isUploaded={isUploaded}
           isExpiryDateValid={isExpiryDateValid}
           hasExpiryDate={Boolean(expiryDate)}
-          isExpiryDateNotApplicable={expiryDateNotApplicable}
+          expiryDateOption={expiryDateOption}
           isCheckedCategories={selectedSkills.length > 0}
           isAvailabilityValid={isAvailabilityValid}
         />

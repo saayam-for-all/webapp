@@ -18,6 +18,8 @@
   "UPLOAD_ERROR": "حدث خطأ أثناء رفع الملف",
   "CHOOSE_FILE": "اختيار ملف",
   "NO_FILE_CHOSEN": "لم يتم اختيار أي ملف",
-  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "أدخل تاريخ انتهاء الصلاحية أو اختر «تاريخ انتهاء الصلاحية غير منطبق».",
-  "EXPIRY_DATE_NOT_APPLICABLE": "تاريخ انتهاء الصلاحية غير منطبق"
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "يرجى إدخال تاريخ انتهاء صلاحية المستند.",
+  "EXPIRY_DATE_OPTION": "تاريخ انتهاء الصلاحية",
+  "NO_EXPIRY_DATE": "لا يوجد تاريخ انتهاء صلاحية",
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "اختر خيار تاريخ انتهاء الصلاحية للمتابعة."
 }

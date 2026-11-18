@@ -18,6 +18,8 @@
   "UPLOAD_ERROR": "Ocorreu um erro durante o carregamento do arquivo",
   "CHOOSE_FILE": "Escolher arquivo",
   "NO_FILE_CHOSEN": "Nenhum arquivo selecionado",
-  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Insira uma data de validade ou selecione “Data de validade não aplicável”.",
-  "EXPIRY_DATE_NOT_APPLICABLE": "Data de validade não aplicável"
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Insira a data de validade do documento.",
+  "EXPIRY_DATE_OPTION": "Data de validade",
+  "NO_EXPIRY_DATE": "Sem data de validade",
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Selecione uma opção de data de validade para continuar."
 }

@@ -18,6 +18,8 @@
   "UPLOAD_ERROR": "При загрузке файла произошла ошибка",
   "CHOOSE_FILE": "Выбрать файл",
   "NO_FILE_CHOSEN": "Файл не выбран",
-  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Введите срок действия или выберите «Срок действия не применим».",
-  "EXPIRY_DATE_NOT_APPLICABLE": "Срок действия не применим"
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Введите срок действия документа.",
+  "EXPIRY_DATE_OPTION": "Срок действия",
+  "NO_EXPIRY_DATE": "Срок действия отсутствует",
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Выберите вариант срока действия, чтобы продолжить."
 }

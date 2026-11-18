@@ -10,7 +10,7 @@ const StepperControl = ({
   isUploaded,
   isExpiryDateValid = true,
   hasExpiryDate = true,
-  isExpiryDateNotApplicable = false,
+  expiryDateOption = "",
   isCheckedCategories,
   isAvailabilityValid,
 }) => {
@@ -19,7 +19,11 @@ const StepperControl = ({
   const disabledCondition =
     (currentStep === 1 && !isAcknowledged) ||
     (currentStep === 2 &&
-      (!isUploaded || (!isExpiryDateValid && !isExpiryDateNotApplicable))) ||
+      (!isUploaded ||
+        !(
+          expiryDateOption === "noExpiryDate" ||
+          (expiryDateOption === "expiryDate" && isExpiryDateValid)
+        ))) ||
     (currentStep === 3 && !isCheckedCategories) ||
     (currentStep === 4 && !isAvailabilityValid) ||
     currentStep >= steps.length;
@@ -31,10 +35,12 @@ const StepperControl = ({
     nextTooltipContent = t("TOOLTIP_ACCEPT_TERMS");
   } else if (currentStep === 2 && !isUploaded) {
     nextTooltipContent = t("TOOLTIP_UPLOAD_GOVT_ID");
+  } else if (currentStep === 2 && !expiryDateOption) {
+    nextTooltipContent = t("identity:TOOLTIP_SELECT_EXPIRY_DATE_OPTION");
   } else if (
     currentStep === 2 &&
-    !hasExpiryDate &&
-    !isExpiryDateNotApplicable
+    expiryDateOption === "expiryDate" &&
+    (!hasExpiryDate || !isExpiryDateValid)
   ) {
     nextTooltipContent = t("identity:TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE");
   }
@@ -90,7 +96,7 @@ StepperControl.propTypes = {
   isUploaded: PropTypes.bool.isRequired,
   isExpiryDateValid: PropTypes.bool,
   hasExpiryDate: PropTypes.bool,
-  isExpiryDateNotApplicable: PropTypes.bool,
+  expiryDateOption: PropTypes.string,
   isCheckedCategories: PropTypes.bool.isRequired,
   isAvailabilityValid: PropTypes.bool.isRequired,
 };
