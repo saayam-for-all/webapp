@@ -4,6 +4,7 @@ import { FaHandshakeAngle } from "react-icons/fa6";
 import { useNotifications } from "../../context/NotificationContext";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../common/components/Pagination/Pagination";
+import api from "../../services/api";
 
 // Interim mock shaped like the details API response.
 // TODO: replace with the real details API call when the backend is ready.
@@ -54,6 +55,7 @@ export default function NotificationUI() {
   const [filter, setFilter] = useState("all");
   const [showSettings, setShowSettings] = useState(false);
   const [emailNotifications, setEmailNotifications] = useState(false);
+  const [saving, setSaving] = useState(false);
   const { t } = useTranslation(["common"]);
   const { dispatch, state } = useNotifications();
   const notifications = state.notifications;
@@ -177,6 +179,19 @@ export default function NotificationUI() {
     setShowSettings(true);
   };
 
+  const handleSaveSettings = async () => {
+    setSaving(true);
+    try {
+      await api.put("/notifications/settings", {
+        emailNotifications,
+      });
+    } catch (error) {
+      console.error("Failed to save notification settings:", error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (showSettings) {
     return (
       <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
@@ -219,6 +234,16 @@ export default function NotificationUI() {
                   emailNotifications ? "translate-x-6" : "translate-x-1"
                 }`}
               />
+            </button>
+          </div>
+
+          <div className="mt-6 flex justify-end">
+            <button
+              onClick={handleSaveSettings}
+              disabled={saving}
+              className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold px-6 py-2 rounded transition-colors duration-200"
+            >
+              {saving ? t("SAVING") : t("SAVE")}
             </button>
           </div>
         </div>
