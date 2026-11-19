@@ -141,3 +141,10 @@
 .news-name-link:hover {
   text-decoration: underline;
 }
+
+/* Keep linked names readable inside Arabic and Urdu text. */
+.news-name-link,
+.news-title a,
+.news-desc a {
+  unicode-bidi: isolate;
+}
