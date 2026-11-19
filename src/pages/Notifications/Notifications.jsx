@@ -4,7 +4,7 @@ import { FaHandshakeAngle } from "react-icons/fa6";
 import { useNotifications } from "../../context/NotificationContext";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../common/components/Pagination/Pagination";
-import api from "../../services/api";
+import { updateNotificationSettings } from "../../services/volunteerServices";
 
 // Interim mock shaped like the details API response.
 // TODO: replace with the real details API call when the backend is ready.
@@ -182,9 +182,7 @@ export default function NotificationUI() {
   const handleSaveSettings = async () => {
     setSaving(true);
     try {
-      await api.put("/notifications/settings", {
-        emailNotifications,
-      });
+      await updateNotificationSettings({ emailNotifications });
     } catch (error) {
       console.error("Failed to save notification settings:", error);
     } finally {

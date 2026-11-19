@@ -22,15 +22,15 @@ jest.mock("../../common/components/Pagination/Pagination", () => () => (
   <div data-testid="pagination" />
 ));
 
-const mockPut = jest.fn(() => Promise.resolve({ data: {} }));
-jest.mock("../../services/api", () => ({
-  __esModule: true,
-  default: { put: (...args) => mockPut(...args) },
+const mockUpdateNotificationSettings = jest.fn(() => Promise.resolve({}));
+jest.mock("../../services/volunteerServices", () => ({
+  updateNotificationSettings: (...args) =>
+    mockUpdateNotificationSettings(...args),
 }));
 
 describe("NotificationUI", () => {
   beforeEach(() => {
-    mockPut.mockClear();
+    mockUpdateNotificationSettings.mockClear();
   });
 
   it("renders the notifications page title", () => {
@@ -94,7 +94,7 @@ describe("NotificationUI", () => {
     fireEvent.click(screen.getByRole("button", { name: "SAVE" }));
 
     await waitFor(() => {
-      expect(mockPut).toHaveBeenCalledWith("/notifications/settings", {
+      expect(mockUpdateNotificationSettings).toHaveBeenCalledWith({
         emailNotifications: true,
       });
     });
@@ -102,7 +102,7 @@ describe("NotificationUI", () => {
 
   it("shows saving state on save button while request is in progress", async () => {
     let resolvePromise;
-    mockPut.mockImplementation(
+    mockUpdateNotificationSettings.mockImplementation(
       () =>
         new Promise((resolve) => {
           resolvePromise = resolve;
@@ -116,7 +116,7 @@ describe("NotificationUI", () => {
 
     expect(screen.getByRole("button", { name: "SAVING" })).toBeDisabled();
 
-    resolvePromise({ data: {} });
+    resolvePromise({});
 
     await waitFor(() => {
       expect(screen.getByRole("button", { name: "SAVE" })).not.toBeDisabled();
