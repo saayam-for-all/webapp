@@ -62,9 +62,9 @@ const StepperControl = ({
       </div>
       <div className="px-4 w-24">
         <span
+          className="inline-block"
           data-tooltip-id="next-button-tooltip"
           data-tooltip-content={nextTooltipContent}
-          className="inline-block"
         >
           <button
             onClick={() => handleClick("next")}
