@@ -98,7 +98,7 @@ describe("StepperControl", () => {
 
     const nextButton = screen.getByTestId("next-button");
     expect(nextButton).toBeDisabled();
-    expect(nextButton).toHaveAttribute(
+    expect(nextButton.parentElement).toHaveAttribute(
       "data-tooltip-content",
       "mockTranslate(identity:TOOLTIP_SELECT_EXPIRY_DATE_OPTION)",
     );
