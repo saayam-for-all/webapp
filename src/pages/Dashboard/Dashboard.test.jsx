@@ -288,6 +288,65 @@ describe("Dashboard", () => {
     expect(queryByText("All Category")).not.toBeInTheDocument();
   });
 
+  it("shows Clear All and resets the selected filters when clicked", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+    seedDashboardFilterStorage();
+    getMyRequests.mockResolvedValueOnce({
+      data: {
+        content: localizedFilterRows,
+        totalPages: 1,
+        totalElements: localizedFilterRows.length,
+      },
+    });
+
+    const { getByRole, getAllByRole } = renderWithProviders(<Dashboard />, {
+      preloadedState: beneficiaryAuthState,
+    });
+
+    await waitFor(() => {
+      expect(lastBeneficiaryDashboardProps?.filteredData).toHaveLength(2);
+    });
+
+    // Select a Calamity option, so the filter badge appears on the button
+    fireEvent.click(getByRole("button", { name: "Calamity" }));
+    fireEvent.click(getAllByRole("checkbox")[0]);
+    expect(getByRole("button", { name: /^Calamity \d+$/ })).toBeInTheDocument();
+
+    // Clear All resets it, so the badge is gone
+    fireEvent.click(getByRole("button", { name: /Clear All/ }));
+    expect(getByRole("button", { name: "Calamity" })).toBeInTheDocument();
+  });
+
+  it("clears the dashboard search and returns the table to page 1", async () => {
+    const { findByPlaceholderText, getByRole, getByText, queryByRole } =
+      renderWithProviders(<Dashboard />, {
+        preloadedState: adminAuthState,
+      });
+
+    fireEvent.click(getByText("Click All Requests"));
+    const searchInput = await findByPlaceholderText("Search...");
+
+    expect(queryByRole("button", { name: "Clear" })).not.toBeInTheDocument();
+
+    fireEvent.change(searchInput, { target: { value: "REQ-123" } });
+
+    expect(searchInput).toHaveValue("REQ-123");
+    expect(getByRole("button", { name: "Clear" })).toBeInTheDocument();
+
+    fireEvent.click(getByText("Change Page"));
+    await waitFor(() => {
+      expect(lastAdminDashboardProps?.currentPage).toBe(2);
+    });
+
+    fireEvent.click(getByRole("button", { name: "Clear" }));
+
+    expect(searchInput).toHaveValue("");
+    expect(queryByRole("button", { name: "Clear" })).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(lastAdminDashboardProps?.currentPage).toBe(1);
+    });
+  });
+
   it("localizes shared dashboard filter labels in Hindi without changing filter values", async () => {
     const { getMyRequests } = require("../../services/requestServices");
     seedDashboardFilterStorage();
@@ -341,6 +400,55 @@ describe("Dashboard", () => {
       expect(
         lastBeneficiaryDashboardProps.filteredData.map((row) => row.requestId),
       ).toEqual(["REQ-YES"]);
+    });
+  });
+
+  it("shows one All option plus only the Enums API values in the Status dropdown", async () => {
+    const { getMyRequests } = require("../../services/requestServices");
+    localStorage.setItem(
+      "enums",
+      JSON.stringify({
+        requestStatus: {
+          0: "CREATED",
+          1: "MATCHING_VOLUNTEER",
+          2: "IN_PROGRESS",
+          3: "RESOLVED",
+        },
+      }),
+    );
+    mockI18n.language = "en";
+    getMyRequests.mockResolvedValueOnce({
+      data: {
+        content: [
+          { requestId: "REQ-A", status: "IN_PROGRESS" },
+          { requestId: "REQ-B", status: "MANAGED" },
+        ],
+        totalPages: 1,
+        totalElements: 2,
+      },
+    });
+
+    const { getByRole, getByText, getAllByText, queryByText } =
+      renderWithProviders(<Dashboard />, {
+        preloadedState: beneficiaryAuthState,
+      });
+
+    await waitFor(() => {
+      expect(lastBeneficiaryDashboardProps?.filteredData).toHaveLength(2);
+    });
+
+    fireEvent.click(getByRole("button", { name: "Status" }));
+
+    expect(getAllByText("All")).toHaveLength(1);
+    expect(getByText("MATCHING_VOLUNTEER")).toBeInTheDocument();
+    expect(queryByText("MANAGED")).not.toBeInTheDocument();
+
+    fireEvent.click(getByText("IN_PROGRESS"));
+
+    await waitFor(() => {
+      expect(
+        lastBeneficiaryDashboardProps.filteredData.map((row) => row.requestId),
+      ).toEqual(["REQ-A"]);
     });
   });
 

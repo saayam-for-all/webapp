@@ -329,4 +329,15 @@ describe("VolunteerAnalytics", () => {
       expect(emptyMessages.length).toBeGreaterThanOrEqual(1);
     });
   });
+  it("does not display the New Volunteers legend", async () => {
+    getVolunteerApplicationAnalytics.mockResolvedValue(MOCK_API_RESPONSE);
+
+    render(<VolunteerAnalytics />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Volunteer Activity Trend")).toBeInTheDocument();
+    });
+
+    expect(screen.queryByText("New Volunteers")).not.toBeInTheDocument();
+  });
 });

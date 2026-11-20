@@ -50,11 +50,6 @@ jest.mock("./location/usePlacesSearchBox", () => () => ({
   handleOnPlacesChanged: jest.fn(),
 }));
 
-jest.mock("../../services/requestApi", () => ({
-  useGetAllRequestQuery: jest.fn(() => ({ data: undefined, isLoading: false })),
-  useAddRequestMutation: () => [jest.fn(), { isLoading: false }],
-}));
-
 let mockSuggestions = [];
 let mockHandleSelectSuggestion = jest.fn();
 let capturedSetCoordinates = null;
@@ -1682,52 +1677,6 @@ describe("HelpRequestForm — edit mode submission", () => {
     });
   });
 
-  it("restores request in edit mode from URL params and RTK query data", async () => {
-    const { useParams } = require("react-router-dom");
-    const { useGetAllRequestQuery } = require("../../services/requestApi");
-    const { updateRequest } = require("../../services/requestServices");
-
-    updateRequest.mockResolvedValue({
-      data: { requestId: "REQ-URL-ID" },
-    });
-
-    useParams.mockReturnValue({ id: "REQ-URL-ID" });
-    useGetAllRequestQuery.mockReturnValue({
-      data: {
-        body: [
-          {
-            id: "REQ-URL-ID",
-            requestId: "REQ-URL-ID",
-            category: "COLLEGE_APPLICATION_HELP",
-            subject: "Route Restored Subject",
-            description: "Route Restored Description",
-            priority: "HIGH",
-            request_type: "REMOTE",
-            is_self: "yes",
-            helpCategory: { catId: "cat-edu" },
-            attachments: ["http://test.com/file1.jpg"],
-          },
-        ],
-      },
-      isLoading: false,
-    });
-
-    renderForm({ isEdit: true });
-
-    await waitFor(() => {
-      expect(document.getElementById("subject").value).toBe(
-        "Route Restored Subject",
-      );
-    });
-
-    // Reset mocks for subsequent tests
-    useParams.mockReturnValue({});
-    useGetAllRequestQuery.mockReturnValue({
-      data: undefined,
-      isLoading: false,
-    });
-  });
-
   it("resolves third-level subcategory via resolveCatNameToId", async () => {
     renderForm({
       isEdit: true,
@@ -3169,5 +3118,116 @@ describe("HelpRequestForm — language dropdown (Create Request)", () => {
     const voiceRecorder = screen.getByTestId("voice-recorder");
     expect(languageSelect).toBeInTheDocument();
     expect(voiceRecorder).toBeInTheDocument();
+  });
+});
+
+describe("HelpRequestForm — edit mode browser language default", () => {
+  const originalLanguages = Object.getOwnPropertyDescriptor(
+    window.navigator,
+    "languages",
+  );
+  const originalLanguage = Object.getOwnPropertyDescriptor(
+    window.navigator,
+    "language",
+  );
+
+  const setBrowserLanguages = (languages) => {
+    Object.defineProperty(window.navigator, "languages", {
+      configurable: true,
+      value: languages,
+    });
+    Object.defineProperty(window.navigator, "language", {
+      configurable: true,
+      value: languages[0],
+    });
+  };
+
+  afterEach(() => {
+    if (originalLanguages) {
+      Object.defineProperty(window.navigator, "languages", originalLanguages);
+    } else {
+      delete window.navigator.languages;
+    }
+    if (originalLanguage) {
+      Object.defineProperty(window.navigator, "language", originalLanguage);
+    } else {
+      delete window.navigator.language;
+    }
+    localStorage.removeItem("userPreferences");
+  });
+
+  it("uses a supported browser language when an edited request has no language", async () => {
+    setBrowserLanguages(["es-ES", "fr-FR"]);
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-1966",
+        subject: "Existing request",
+        description: "Existing description",
+        reqCatId: "general-cat-id",
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("request_language")).toHaveValue(
+        "Spanish",
+      );
+    });
+  });
+
+  it("skips unsupported browser locales and uses the next supported language", async () => {
+    setBrowserLanguages(["xx-XX", "fr-FR"]);
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-1966",
+        subject: "Existing request",
+        description: "Existing description",
+        reqCatId: "general-cat-id",
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("request_language")).toHaveValue("French");
+    });
+  });
+
+  it("keeps the saved profile language preference ahead of the browser language", async () => {
+    setBrowserLanguages(["es-ES"]);
+    localStorage.setItem(
+      "userPreferences",
+      JSON.stringify({ languagePreference1: "Hindi" }),
+    );
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-1966",
+        subject: "Existing request",
+        description: "Existing description",
+        reqCatId: "general-cat-id",
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("request_language")).toHaveValue("Hindi");
+    });
+  });
+
+  it("preserves the language already saved on the edited request", async () => {
+    setBrowserLanguages(["es-ES"]);
+    renderForm({
+      isEdit: true,
+      editRequestData: {
+        requestId: "REQ-00-000-000-1966",
+        subject: "Existing request",
+        description: "Existing description",
+        reqCatId: "general-cat-id",
+        request_language: "Arabic",
+      },
+    });
+
+    await waitFor(() => {
+      expect(document.getElementById("request_language")).toHaveValue("Arabic");
+    });
   });
 });

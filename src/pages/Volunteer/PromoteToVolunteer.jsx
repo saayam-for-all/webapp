@@ -75,6 +75,23 @@ const PromoteToVolunteer = () => {
       return "";
     }
   });
+  const [expiryDateOption, setExpiryDateOption] = useState(() => {
+    const cachedData = getSessionStorageItem("volunteer_form_data");
+    if (!cachedData) return "";
+    try {
+      const parsed = JSON.parse(cachedData);
+      return (
+        parsed.expiryDateOption ||
+        (parsed.expiryDateNotApplicable
+          ? "noExpiryDate"
+          : parsed.expiryDate
+            ? "expiryDate"
+            : "")
+      );
+    } catch {
+      return "";
+    }
+  });
 
   const today = new Date();
   const todayString = [
@@ -131,18 +148,7 @@ const PromoteToVolunteer = () => {
   });
   const volunteerDataRef = useRef({});
   const [errorMessage, setErrorMessage] = useState("");
-  const [isUploaded, setIsUploaded] = useState(() => {
-    const cachedData = getSessionStorageItem("volunteer_form_data");
-    if (cachedData) {
-      try {
-        const parsed = JSON.parse(cachedData);
-        return parsed.isUploaded ?? false;
-      } catch (e) {
-        console.error("Failed to parse volunteer_form_data:", e);
-      }
-    }
-    return false;
-  });
+  const [isUploaded, setIsUploaded] = useState(false);
 
   // Save current step to sessionStorage
   useEffect(() => {
@@ -158,6 +164,7 @@ const PromoteToVolunteer = () => {
         isAcknowledged,
         isUploaded,
         expiryDate,
+        expiryDateOption,
         selectedSkills,
         availabilitySlots: availabilitySlots.map((slot) => ({
           ...slot,
@@ -172,6 +179,7 @@ const PromoteToVolunteer = () => {
     isAcknowledged,
     isUploaded,
     expiryDate,
+    expiryDateOption,
     selectedSkills,
     availabilitySlots,
     tobeNotified,
@@ -219,6 +227,8 @@ const PromoteToVolunteer = () => {
             setIsUploaded={setIsUploaded}
             expiryDate={expiryDate}
             setExpiryDate={setExpiryDate}
+            expiryDateOption={expiryDateOption}
+            setExpiryDateOption={setExpiryDateOption}
           />
         );
       case 3:
@@ -307,8 +317,15 @@ const PromoteToVolunteer = () => {
         case 2:
           // isValidStep = govtIdFile && govtIdFile.name !== "";
           handleSaveFile();
-          isValidStep = Boolean(govtIdFile && isExpiryDateValid);
-          if (!isExpiryDateValid) {
+          isValidStep = Boolean(
+            govtIdFile &&
+              (expiryDateOption === "noExpiryDate" ||
+                (expiryDateOption === "expiryDate" && isExpiryDateValid)),
+          );
+          if (
+            !expiryDateOption ||
+            (expiryDateOption === "expiryDate" && !isExpiryDateValid)
+          ) {
             setErrorMessage(t("DOCUMENT_EXPIRED_ERROR", { ns: "identity" }));
             return;
           }
@@ -400,6 +417,8 @@ const PromoteToVolunteer = () => {
           isAcknowledged={isAcknowledged}
           isUploaded={isUploaded}
           isExpiryDateValid={isExpiryDateValid}
+          hasExpiryDate={Boolean(expiryDate)}
+          expiryDateOption={expiryDateOption}
           isCheckedCategories={selectedSkills.length > 0}
           isAvailabilityValid={isAvailabilityValid}
         />

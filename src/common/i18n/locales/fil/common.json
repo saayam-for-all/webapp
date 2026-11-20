@@ -48,5 +48,13 @@
   "FIND_BY_PHONE": "Hanapin sa telepono",
   "ENTER_VOLUNTEER_EMAIL": "Ilagay ang email ng boluntaryo",
   "ENTER_VOLUNTEER_PHONE": "Ilagay ang telepono ng boluntaryo",
-  "DELETE_ACTION": "Tanggalin"
+  "DELETE_ACTION": "Tanggalin",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

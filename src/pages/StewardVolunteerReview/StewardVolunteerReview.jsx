@@ -104,7 +104,7 @@ const StewardVolunteerReview = () => {
         {/* Volunteering Skills */}
         <div className="mb-6">
           <h2 className="text-lg font-semibold mb-3">Volunteering Skills</h2>
-          <div className="text-sm text-gray-700 space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm text-gray-700">
             <div>
               <p className="font-medium">▶ Clothing Assistance</p>
               <p className="ml-4 text-gray-500">• Donate Clothes</p>

@@ -23,59 +23,6 @@ const genderOptions = [
   },
 ];
 
-export const getLocaleAndFormat = async (countryName) => {
-  try {
-    const response = await fetch(
-      `https://restcountries.com/v3.1/name/${countryName}?fullText=true`,
-    );
-    const data = await response.json();
-
-    if (data && data.length > 0) {
-      const country = data[0];
-      const countryCode = country.cca2;
-      const primaryLanguage = country.languages
-        ? Object.keys(country.languages)[0]
-        : "en";
-      const locale = new Intl.Locale(primaryLanguage, {
-        region: countryCode,
-      }).toString();
-      const dateFormatter = new Intl.DateTimeFormat(locale);
-      const parts = dateFormatter.formatToParts(new Date());
-      const formatOrder = parts
-        .filter((part) => ["day", "month", "year"].includes(part.type))
-        .map((part) => {
-          if (part.type === "day") return "dd";
-          if (part.type === "month") return "MM";
-          if (part.type === "year") return "yyyy";
-          return "";
-        })
-        .join("/");
-
-      return {
-        locale,
-        dateFormat: formatOrder,
-        placeholder: formatOrder
-          .replace("dd", "DD")
-          .replace("MM", "MM")
-          .replace("yyyy", "YYYY"),
-      };
-    }
-
-    return {
-      locale: "en-US",
-      dateFormat: "MM/dd/yyyy",
-      placeholder: "MM/DD/YYYY",
-    };
-  } catch (error) {
-    console.error("Error fetching country data:", error);
-    return {
-      locale: "en-US",
-      dateFormat: "MM/dd/yyyy",
-      placeholder: "MM/DD/YYYY",
-    };
-  }
-};
-
 const countryNameToCode = Object.entries(countryCodes).reduce(
   (acc, [code, name]) => {
     acc[name] = code;
@@ -83,6 +30,41 @@ const countryNameToCode = Object.entries(countryCodes).reduce(
   },
   {},
 );
+
+export const getLocaleAndFormat = async (countryName) => {
+  try {
+    const countryCode = countryNameToCode[countryName] || "US";
+    const locale = new Intl.Locale("en", {
+      region: countryCode,
+    }).toString();
+    const dateFormatter = new Intl.DateTimeFormat(locale);
+    const parts = dateFormatter.formatToParts(new Date());
+    const formatOrder = parts
+      .filter((part) => ["day", "month", "year"].includes(part.type))
+      .map((part) => {
+        if (part.type === "day") return "dd";
+        if (part.type === "month") return "MM";
+        if (part.type === "year") return "yyyy";
+        return "";
+      })
+      .join("/");
+
+    return {
+      locale,
+      dateFormat: formatOrder || "MM/dd/yyyy",
+      placeholder: (formatOrder || "MM/dd/yyyy")
+        .replace("dd", "DD")
+        .replace("MM", "MM")
+        .replace("yyyy", "YYYY"),
+    };
+  } catch (error) {
+    return {
+      locale: "en-US",
+      dateFormat: "MM/dd/yyyy",
+      placeholder: "MM/DD/YYYY",
+    };
+  }
+};
 
 function PersonalInformation({ setHasUnsavedChanges }) {
   const { t, i18n } = useTranslation("profile");

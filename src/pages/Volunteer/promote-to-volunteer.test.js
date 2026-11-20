@@ -32,8 +32,9 @@ jest.mock("../../services/volunteerServices", () => ({
 jest.mock("./StepperControl", () => {
   const ActualStepperControl = jest.requireActual("./StepperControl").default;
   const React = require("react");
+  const PropTypes = require("prop-types");
 
-  return function TestStepperControl(props) {
+  function TestStepperControl(props) {
     return React.createElement(
       React.Fragment,
       null,
@@ -48,8 +49,21 @@ jest.mock("./StepperControl", () => {
         "Force Next",
       ),
     );
+  }
+
+  TestStepperControl.propTypes = {
+    handleClick: PropTypes.func.isRequired,
   };
+
+  return TestStepperControl;
 });
+
+const createValidPngFile = (name = "valid.png") =>
+  new File(
+    [new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])],
+    name,
+    { type: "image/png" },
+  );
 
 describe("PromoteToVolunteer Component", () => {
   beforeEach(() => {
@@ -1650,7 +1664,7 @@ describe("PromoteToVolunteer Component", () => {
     });
 
     // 4. Select valid file
-    const validFile = new File(["valid"], "valid.png", { type: "image/png" });
+    const validFile = createValidPngFile();
     fireEvent.change(fileInput, { target: { files: [validFile] } });
     await waitFor(() => {
       expect(screen.getByText("valid.png")).toBeInTheDocument();
@@ -1697,7 +1711,7 @@ describe("PromoteToVolunteer Component", () => {
       ).toBeInTheDocument();
     });
     const fileInput = document.querySelector('input[type="file"]');
-    const validFile = new File(["valid"], "valid.png", { type: "image/png" });
+    const validFile = createValidPngFile();
     fireEvent.change(fileInput, { target: { files: [validFile] } });
 
     await waitFor(() => {
@@ -2148,7 +2162,7 @@ describe("Issue #1914 - Document Expiry Date", () => {
     const fileInput = document.querySelector('input[type="file"]');
     fireEvent.change(fileInput, {
       target: {
-        files: [new File(["valid"], "identity.png", { type: "image/png" })],
+        files: [createValidPngFile("identity.png")],
       },
     });
   };
@@ -2158,6 +2172,33 @@ describe("Issue #1914 - Document Expiry Date", () => {
     uploadValidFile();
 
     expect(screen.getByTestId("next-button")).toBeDisabled();
+  });
+
+  it("allows continuing when the document has no expiry date", async () => {
+    await renderIdentification();
+    uploadValidFile();
+
+    fireEvent.click(
+      screen.getByRole("radio", { name: "mockTranslate(NO_EXPIRY_DATE)" }),
+    );
+
+    expect(
+      screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)"),
+    ).toBeDisabled();
+    expect(
+      screen.queryByText("mockTranslate(SELECT_EXPIRY_DATE_OPTION_ERROR)"),
+    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    });
+
+    fireEvent.click(screen.getByTestId("next-button"));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("mockTranslate(common:SKILLS_SELECTOR_TITLE)"),
+      ).toBeInTheDocument();
+    });
   });
 
   it("rejects today's date", async () => {
@@ -2196,6 +2237,10 @@ describe("Issue #1914 - Document Expiry Date", () => {
       ).toBe(futureDate);
     });
 
+    await waitFor(() => {
+      expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    });
+
     fireEvent.click(screen.getByTestId("next-button"));
 
     await waitFor(() => {
@@ -2220,7 +2265,9 @@ describe("Issue #1914 - Document Expiry Date", () => {
     fireEvent.change(input, { target: { value: dateOffset(30) } });
 
     expect(input).toHaveAttribute("aria-invalid", "false");
-    expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    await waitFor(() => {
+      expect(screen.getByTestId("next-button")).not.toBeDisabled();
+    });
 
     fireEvent.click(screen.getByTestId("next-button"));
 
@@ -2229,6 +2276,22 @@ describe("Issue #1914 - Document Expiry Date", () => {
         screen.getByText("mockTranslate(common:SKILLS_SELECTOR_TITLE)"),
       ).toBeInTheDocument();
     });
+  });
+
+  it("places the expiry date input beside the expiry-date radio option", async () => {
+    await renderIdentification();
+
+    const group = screen.getByRole("radiogroup");
+    const expiryOption = screen.getByRole("radio", {
+      name: "mockTranslate(EXPIRY_DATE_OPTION)",
+    });
+    const dateInput = screen.getByLabelText(
+      "mockTranslate(DOCUMENT_EXPIRY_DATE)",
+    );
+
+    expect(group).toContainElement(expiryOption);
+    expect(dateInput.parentElement).toHaveClass("min-w-0", "flex-1");
+    expect(group).toHaveClass("sm:flex-row");
   });
 });
 

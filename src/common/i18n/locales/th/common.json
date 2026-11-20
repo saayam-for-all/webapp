@@ -51,5 +51,13 @@
   "ENTER_VOLUNTEER_PHONE": "ป้อนเบอร์โทรอาสาสมัคร",
   "CHANGE_VOLUNTEER": "เปลี่ยนอาสาสมัคร",
   "DELETE": "ลบ",
-  "DELETE_ACTION": "ลบ"
+  "DELETE_ACTION": "ลบ",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

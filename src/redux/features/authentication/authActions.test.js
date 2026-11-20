@@ -298,12 +298,39 @@ describe("authActions", () => {
 
       expect(dispatch).toHaveBeenCalledWith(loginRequest());
     });
+
+    it("dispatches loginSuccess with the auth fields consumed by the app", async () => {
+      const { getUserId } = require("../../../services/volunteerServices");
+      getUserId.mockResolvedValue({ data: { user_id: "SID-00-000-001" } });
+
+      await checkAuthStatus()(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        loginSuccess({
+          user: expect.objectContaining({
+            userId: "user-123",
+            email: "test@example.com",
+            family_name: "Doe",
+            given_name: "John",
+            phone_number: "+1234567890",
+            "custom:Country": "US",
+            zoneinfo: "US",
+            attributes: mockUserAttributes,
+            groups: ["users"],
+            cognitoGroups: ["users"],
+            userDbId: "SID-00-000-001",
+          }),
+        }),
+      );
+    });
   });
 
   describe("logout", () => {
     beforeEach(() => {
-      const { signOut } = require("aws-amplify/auth");
+      const { signOut, fetchAuthSession } = require("aws-amplify/auth");
       signOut.mockResolvedValue({});
+      fetchAuthSession.mockResolvedValue({});
+      window.sessionStorage.clear();
     });
 
     it("removes userDbId from localStorage on logout", async () => {
@@ -316,6 +343,34 @@ describe("authActions", () => {
       await logout()(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(logoutSuccess());
+    });
+
+    it("flags a pending LinkedIn logout for LinkedIn users", async () => {
+      const { fetchAuthSession } = require("aws-amplify/auth");
+      fetchAuthSession.mockResolvedValue({
+        tokens: {
+          idToken: { payload: { identities: [{ providerName: "LinkedIn" }] } },
+        },
+      });
+
+      await logout()(dispatch);
+
+      expect(window.sessionStorage.getItem("pendingLinkedInLogout")).toBe(
+        "auth0",
+      );
+    });
+
+    it("does not flag a LinkedIn logout for non-LinkedIn users", async () => {
+      const { fetchAuthSession } = require("aws-amplify/auth");
+      fetchAuthSession.mockResolvedValue({
+        tokens: {
+          idToken: { payload: { identities: [{ providerName: "Google" }] } },
+        },
+      });
+
+      await logout()(dispatch);
+
+      expect(window.sessionStorage.getItem("pendingLinkedInLogout")).toBeNull();
     });
 
     it("dispatches loginFailure when logout throws error", async () => {

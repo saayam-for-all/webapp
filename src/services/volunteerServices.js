@@ -184,3 +184,11 @@ export const GET_NOTIFICATION_COUNT = async (userId) => {
   const response = await api.post(endpoints.GET_NOTIFICATION_COUNT, { userId });
   return response.data;
 };
+
+export const updateNotificationSettings = async (settings) => {
+  const response = await api.put(
+    endpoints.UPDATE_NOTIFICATION_SETTINGS,
+    settings,
+  );
+  return response.data;
+};

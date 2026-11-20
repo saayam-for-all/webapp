@@ -52,5 +52,13 @@
   "CHANGE_VOLUNTEER": "ボランティアを変更",
   "DELETE": "削除",
   "DELETE_ACTION": "削除",
-  "NOTIFY": "通知する"
+  "NOTIFY": "通知する",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

@@ -5,7 +5,6 @@ import userReducer from "./features/user/userSlice";
 import volunteerReducer from "./features/volunteer/volunteerSlice";
 import adminReducer from "./features/admin/adminSlice";
 import requestReducer from "./features/help_request/requestSlice";
-import { requestApi } from "../services/requestApi";
 
 export const store = configureStore({
   reducer: {
@@ -15,8 +14,5 @@ export const store = configureStore({
     // volunteer: volunteerReducer,
     // admin: adminReducer,
     request: requestReducer,
-    [requestApi.reducerPath]: requestApi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(requestApi.middleware),
 });

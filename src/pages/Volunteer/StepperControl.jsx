@@ -9,6 +9,8 @@ const StepperControl = ({
   isAcknowledged,
   isUploaded,
   isExpiryDateValid = true,
+  hasExpiryDate = true,
+  expiryDateOption = "expiryDate",
   isCheckedCategories,
   isAvailabilityValid,
 }) => {
@@ -16,10 +18,32 @@ const StepperControl = ({
 
   const disabledCondition =
     (currentStep === 1 && !isAcknowledged) ||
-    (currentStep === 2 && (!isUploaded || !isExpiryDateValid)) ||
+    (currentStep === 2 &&
+      (!isUploaded ||
+        !(
+          expiryDateOption === "noExpiryDate" ||
+          (expiryDateOption === "expiryDate" && isExpiryDateValid)
+        ))) ||
     (currentStep === 3 && !isCheckedCategories) ||
     (currentStep === 4 && !isAvailabilityValid) ||
     currentStep >= steps.length;
+
+  let nextTooltipContent = "";
+  if (currentStep === 3 && !isCheckedCategories) {
+    nextTooltipContent = t("common:SELECT_SKILL_TO_CONTINUE");
+  } else if (currentStep === 1 && !isAcknowledged) {
+    nextTooltipContent = t("TOOLTIP_ACCEPT_TERMS");
+  } else if (currentStep === 2 && !isUploaded) {
+    nextTooltipContent = t("TOOLTIP_UPLOAD_GOVT_ID");
+  } else if (currentStep === 2 && !expiryDateOption) {
+    nextTooltipContent = t("identity:TOOLTIP_SELECT_EXPIRY_DATE_OPTION");
+  } else if (
+    currentStep === 2 &&
+    expiryDateOption === "expiryDate" &&
+    (!hasExpiryDate || !isExpiryDateValid)
+  ) {
+    nextTooltipContent = t("identity:TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE");
+  }
 
   return (
     <div className="container flex justify-around mt-16 mb-8">
@@ -37,33 +61,27 @@ const StepperControl = ({
         </button>
       </div>
       <div className="px-4 w-24">
-        <button
-          onClick={() => handleClick("next")}
-          className={`uppercase py-2 px-4 rounded-xl font-semibold transition duration-200 ease-in-out border-2 ${
-            disabledCondition
-              ? "bg-green-300 text-gray border-green-300 opacity-50 cursor-not-allowed"
-              : "bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
-          }`}
-          disabled={disabledCondition}
-          data-testid="next-button"
+        <span
+          className="inline-block"
           data-tooltip-id="next-button-tooltip"
-          data-tooltip-content={
-            currentStep === 3 && !isCheckedCategories
-              ? t("common:SELECT_SKILL_TO_CONTINUE")
-              : currentStep === 1 && !isAcknowledged
-                ? t("TOOLTIP_ACCEPT_TERMS")
-                : currentStep === 2 && !isUploaded
-                  ? t("TOOLTIP_UPLOAD_GOVT_ID")
-                  : ""
-          }
+          data-tooltip-content={nextTooltipContent}
         >
-          {currentStep === steps.length - 1
-            ? t("common:CONFIRM") || "Confirm"
-            : t("common:NEXT") || "Next"}
-        </button>
-        {(currentStep === 3 && !isCheckedCategories) ||
-        (currentStep === 1 && !isAcknowledged) ||
-        (currentStep === 2 && !isUploaded) ? (
+          <button
+            onClick={() => handleClick("next")}
+            className={`uppercase py-2 px-4 rounded-xl font-semibold transition duration-200 ease-in-out border-2 ${
+              disabledCondition
+                ? "bg-green-300 text-gray border-green-300 opacity-50 cursor-not-allowed"
+                : "bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
+            }`}
+            disabled={disabledCondition}
+            data-testid="next-button"
+          >
+            {currentStep === steps.length - 1
+              ? t("common:CONFIRM") || "Confirm"
+              : t("common:NEXT") || "Next"}
+          </button>
+        </span>
+        {nextTooltipContent ? (
           <Tooltip
             id="next-button-tooltip"
             place="top"
@@ -81,6 +99,8 @@ StepperControl.propTypes = {
   isAcknowledged: PropTypes.bool.isRequired,
   isUploaded: PropTypes.bool.isRequired,
   isExpiryDateValid: PropTypes.bool,
+  hasExpiryDate: PropTypes.bool,
+  expiryDateOption: PropTypes.string,
   isCheckedCategories: PropTypes.bool.isRequired,
   isAvailabilityValid: PropTypes.bool.isRequired,
 };

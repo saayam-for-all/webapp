@@ -50,5 +50,13 @@
   "ENTER_VOLUNTEER_PHONE": "സന്നദ്ധസേവകന്റെ ഫോൺ നൽകുക",
   "CHANGE_VOLUNTEER": "സന്നദ്ധസേവകനെ മാറ്റുക",
   "DELETE": "ഒഴിവാക്കുക",
-  "DELETE_ACTION": "ഇല്ലാതാക്കുക"
+  "DELETE_ACTION": "ഇല്ലാതാക്കുക",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

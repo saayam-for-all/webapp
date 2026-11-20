@@ -4,6 +4,7 @@ import { IoMdInformationCircle } from "react-icons/io";
 import { moreInformationChat } from "../../../services/requestServices";
 import i18n from "../../i18n/i18n";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const MAX_QUESTIONS = 5;
 
@@ -44,6 +45,7 @@ const MoreInfoChatModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef(null);
   const { t } = useTranslation();
+  const { user } = useSelector((state) => state.auth);
 
   // Reset chat state on open; seed initial AI message once it arrives.
   useEffect(() => {
@@ -83,7 +85,7 @@ const MoreInfoChatModal = ({
 
     try {
       const payload = {
-        ...buildPayload(requestData),
+        ...buildPayload(requestData, user?.userDbId),
         conversation_history: nextMessages,
       };
       const rawReply = await moreInformationChat(payload);

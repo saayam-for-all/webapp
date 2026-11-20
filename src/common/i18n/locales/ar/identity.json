@@ -17,5 +17,10 @@
   "UPLOAD_FAILED": "فشل رفع الملف",
   "UPLOAD_ERROR": "حدث خطأ أثناء رفع الملف",
   "CHOOSE_FILE": "اختيار ملف",
-  "NO_FILE_CHOSEN": "لم يتم اختيار أي ملف"
+  "NO_FILE_CHOSEN": "لم يتم اختيار أي ملف",
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "يرجى إدخال تاريخ انتهاء صلاحية المستند.",
+  "EXPIRY_DATE_OPTION": "تاريخ انتهاء الصلاحية",
+  "NO_EXPIRY_DATE": "لا يوجد تاريخ انتهاء صلاحية",
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "اختر خيار تاريخ انتهاء الصلاحية للمتابعة.",
+  "EXPIRY_DATE_CHOICES": "خيارات تاريخ انتهاء صلاحية المستند"
 }

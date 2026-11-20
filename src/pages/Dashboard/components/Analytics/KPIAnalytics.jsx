@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   BarChart,
   Bar,
@@ -59,6 +60,7 @@ export const renderTooltip =
   };
 
 const KPIAnalytics = () => {
+  const { t } = useTranslation("enums");
   const [viewMode, setViewMode] = useState("snapshot"); // snapshot | table | trends
   const [timeRange, setTimeRange] = useState("All"); // 7D | 30D | 1Y | All | Custom
   const [customStartDate, setCustomStartDate] = useState("");
@@ -132,6 +134,9 @@ const KPIAnalytics = () => {
     if (!snapshotData?.request_status_distribution) return [];
     return snapshotData.request_status_distribution.map((item) => ({
       name: item.status,
+      displayName: t("requestStatus." + item.status, {
+        defaultValue: item.status,
+      }),
       value: item.count,
     }));
   }, [snapshotData]);
@@ -172,6 +177,12 @@ const KPIAnalytics = () => {
     IN_PROGRESS: "#f59e0b", // Orange
     MATCHING_VOLUNTEER: "#8b5cf6", // Purple
     RESOLVED: "#10b981", // Green
+    CANCELLED: "#ec4899", // Pink
+    DELETED: "#ef4444", // Red
+    RATED_BY_REQUESTER: "#06b6d4", // Cyan
+    RATED_BY_VOLUNTEER: "#84cc16", // Lime
+    VOLUNTEER_NOT_FOUND: "#92400e", // Brown
+    VOLUNTEER_REASSIGNMENT: "#1e3a8a", // Navy
   };
 
   // Custom label for donut center
@@ -339,6 +350,7 @@ const KPIAnalytics = () => {
                   outerRadius={120}
                   paddingAngle={0}
                   dataKey="value"
+                  nameKey="displayName"
                   onClick={handleSegmentClick}
                   cursor="pointer"
                 >
@@ -450,7 +462,7 @@ const KPIAnalytics = () => {
                           }}
                         ></div>
                         <span className="text-sm font-medium text-gray-900">
-                          {item.name}
+                          {item.displayName}
                         </span>
                       </div>
                     </td>

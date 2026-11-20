@@ -46,9 +46,11 @@ describe("Dashboard Views", () => {
         <AdminDashboard {...defaultProps} activeTab="analytics" />,
       );
 
-      expect(getByText("Infrastructure")).toBeInTheDocument();
-      expect(getByText("Application Analytics")).toBeInTheDocument();
-      expect(getByText("Google Analytics")).toBeInTheDocument();
+      expect(getByText("mockTranslate(INFRASTRUCTURE)")).toBeInTheDocument();
+      expect(
+        getByText("mockTranslate(APPLICATION_ANALYTICS)"),
+      ).toBeInTheDocument();
+      expect(getByText("mockTranslate(GOOGLE_ANALYTICS)")).toBeInTheDocument();
     });
 
     it("triggers handleTabChange when tabs are clicked", () => {
@@ -61,7 +63,7 @@ describe("Dashboard Views", () => {
         />,
       );
 
-      fireEvent.click(getByText("Analytics"));
+      fireEvent.click(getByText("mockTranslate(ANALYTICS)"));
       expect(handleTabChange).toHaveBeenCalledWith("analytics");
     });
 
@@ -75,7 +77,7 @@ describe("Dashboard Views", () => {
         />,
       );
 
-      fireEvent.click(getByText("Application Analytics"));
+      fireEvent.click(getByText("mockTranslate(APPLICATION_ANALYTICS)"));
       expect(setAnalyticsSubtab).toHaveBeenCalledWith("Application Analytics");
     });
 
@@ -121,7 +123,7 @@ describe("Dashboard Views", () => {
         />,
       );
 
-      expect(getByText("Infrastructure")).toBeInTheDocument();
+      expect(getByText("mockTranslate(INFRASTRUCTURE)")).toBeInTheDocument();
     });
 
     it("triggers handleTabChange when tabs are clicked", () => {
@@ -135,7 +137,7 @@ describe("Dashboard Views", () => {
         />,
       );
 
-      fireEvent.click(getByText("Analytics"));
+      fireEvent.click(getByText("mockTranslate(ANALYTICS)"));
       expect(handleTabChange).toHaveBeenCalledWith("analytics");
     });
 
@@ -180,8 +182,8 @@ describe("Dashboard Views", () => {
   describe("StewardDashboard", () => {
     it("renders steward dashboard with tabs", () => {
       const { getByText } = render(<StewardDashboard {...defaultProps} />);
-      expect(getByText("Review Requests")).toBeInTheDocument();
-      expect(getByText("Review Volunteers")).toBeInTheDocument();
+      expect(getByText("mockTranslate(REVIEW_REQUESTS)")).toBeInTheDocument();
+      expect(getByText("mockTranslate(REVIEW_VOLUNTEERS)")).toBeInTheDocument();
     });
 
     it("renders table when activeTab is allRequests", () => {

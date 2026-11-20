@@ -14,6 +14,7 @@ import {
   getUserId,
   updateUserSkills,
   saveVolunteerStep1,
+  updateNotificationSettings,
 } from "./volunteerServices";
 
 jest.mock("./api");
@@ -303,6 +304,25 @@ describe("updateUserSkills", () => {
       userId: "SID-123",
       skills: ["0.0.0.0.0", "4.2"],
     });
+    expect(result).toEqual({ success: true });
+  });
+});
+
+describe("updateNotificationSettings", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("sends PUT request with notification settings", async () => {
+    api.put.mockResolvedValue({ data: { success: true } });
+
+    const settings = { emailNotifications: true };
+    const result = await updateNotificationSettings(settings);
+
+    expect(api.put).toHaveBeenCalledWith(
+      "v1/volunteer/notifications/settings",
+      { emailNotifications: true },
+    );
     expect(result).toEqual({ success: true });
   });
 });

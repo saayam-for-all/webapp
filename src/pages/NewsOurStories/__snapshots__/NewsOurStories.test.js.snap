@@ -7,6 +7,8 @@ exports[`NewsOurStories renders correctly 1`] = `
     <div>
       <div
         class="news-our-stories-container px-4 md:px-0"
+        dir="ltr"
+        lang="en"
       >
         <section
           class="news-our-stories-hero"
@@ -40,9 +42,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_1_TITLE"
+                  alt="mockTranslate(ARIA_UNIVERSITY_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/withRajaKandRaoC_SiliconAndhra.webp"
                 />
               </div>
               <div
@@ -51,12 +53,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_1_TITLE)
+                  mockTranslate(ARIA_UNIVERSITY_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_1_DESC)
+                  mockTranslate(ARIA_UNIVERSITY_DESC)
                 </p>
               </div>
             </div>
@@ -67,9 +69,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_2_TITLE"
+                  alt="mockTranslate(WALMART_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/walmart_spark_good.webp"
                 />
               </div>
               <div
@@ -78,12 +80,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_2_TITLE)
+                  mockTranslate(WALMART_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_2_DESC)
+                  mockTranslate(WALMART_DESC)
                 </p>
               </div>
             </div>
@@ -94,9 +96,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_3_TITLE"
+                  alt="mockTranslate(JENSEN_HUANG_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/Jensen_CEO_NVIDIA.webp"
                 />
               </div>
               <div
@@ -105,12 +107,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_3_TITLE)
+                  mockTranslate(JENSEN_HUANG_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_3_DESC)
+                  mockTranslate(JENSEN_HUANG_DESC)
                 </p>
               </div>
             </div>
@@ -121,9 +123,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_4_TITLE"
+                  alt="mockTranslate(VISHAL_SIKKA_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/VishalSikka.webp"
                 />
               </div>
               <div
@@ -132,12 +134,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_4_TITLE)
+                  mockTranslate(VISHAL_SIKKA_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_4_DESC)
+                  mockTranslate(VISHAL_SIKKA_DESC)
                 </p>
               </div>
             </div>
@@ -148,9 +150,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_5_TITLE"
+                  alt="mockTranslate(RAMESH_RAMANA_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/RameshMaturuAndRamanaYerneni.webp"
                 />
               </div>
               <div
@@ -159,12 +161,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_5_TITLE)
+                  mockTranslate(RAMESH_RAMANA_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_5_DESC)
+                  mockTranslate(RAMESH_RAMANA_DESC)
                 </p>
               </div>
             </div>
@@ -175,9 +177,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_6_TITLE"
+                  alt="mockTranslate(SAN_RAMON_WALK_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/17_Mile_walk.webp"
                 />
               </div>
               <div
@@ -186,12 +188,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_6_TITLE)
+                  mockTranslate(SAN_RAMON_WALK_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_6_DESC)
+                  mockTranslate(SAN_RAMON_WALK_DESC)
                 </p>
               </div>
             </div>
@@ -202,9 +204,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_7_TITLE"
+                  alt="mockTranslate(INDIAN_CONSULAR_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/Indian_Consular.webp"
                 />
               </div>
               <div
@@ -213,12 +215,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_7_TITLE)
+                  mockTranslate(INDIAN_CONSULAR_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_7_DESC)
+                  mockTranslate(INDIAN_CONSULAR_DESC)
                 </p>
               </div>
             </div>
@@ -229,9 +231,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_8_TITLE"
+                  alt="mockTranslate(AMIT_ZAVERY_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/AmitZavery.webp"
                 />
               </div>
               <div
@@ -240,12 +242,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_8_TITLE)
+                  mockTranslate(AMIT_ZAVERY_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_8_DESC)
+                  mockTranslate(AMIT_ZAVERY_DESC)
                 </p>
               </div>
             </div>
@@ -256,9 +258,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_9_TITLE"
+                  alt="mockTranslate(MADHUSUDHAN_SAI_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/MadhusudhanSai.webp"
                 />
               </div>
               <div
@@ -267,12 +269,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_9_TITLE)
+                  mockTranslate(MADHUSUDHAN_SAI_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_9_DESC)
+                  mockTranslate(MADHUSUDHAN_SAI_DESC)
                 </p>
               </div>
             </div>
@@ -283,9 +285,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_10_TITLE"
+                  alt="mockTranslate(MURALI_KRISHNAMURTHY_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/Muralidharan.webp"
                 />
               </div>
               <div
@@ -294,12 +296,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_10_TITLE)
+                  mockTranslate(MURALI_KRISHNAMURTHY_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_10_DESC)
+                  mockTranslate(MURALI_KRISHNAMURTHY_DESC)
                 </p>
               </div>
             </div>
@@ -310,9 +312,9 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-img-wrap"
               >
                 <img
-                  alt="STORY_11_TITLE"
+                  alt="mockTranslate(JIMMY_PANETTA_TITLE)"
                   class="news-img"
-                  src=""
+                  src="/news/Jimmy%20Panetta%20and%20Domingo%20Candelas.webp"
                 />
               </div>
               <div
@@ -321,12 +323,12 @@ exports[`NewsOurStories renders correctly 1`] = `
                 <h2
                   class="news-title"
                 >
-                  mockTranslate(STORY_11_TITLE)
+                  mockTranslate(JIMMY_PANETTA_TITLE)
                 </h2>
                 <p
                   class="news-desc"
                 >
-                  mockTranslate(STORY_11_DESC)
+                  mockTranslate(JIMMY_PANETTA_DESC)
                 </p>
               </div>
             </div>
@@ -358,6 +360,8 @@ exports[`NewsOurStories renders correctly 1`] = `
   "container": <div>
     <div
       class="news-our-stories-container px-4 md:px-0"
+      dir="ltr"
+      lang="en"
     >
       <section
         class="news-our-stories-hero"
@@ -391,9 +395,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_1_TITLE"
+                alt="mockTranslate(ARIA_UNIVERSITY_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/withRajaKandRaoC_SiliconAndhra.webp"
               />
             </div>
             <div
@@ -402,12 +406,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_1_TITLE)
+                mockTranslate(ARIA_UNIVERSITY_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_1_DESC)
+                mockTranslate(ARIA_UNIVERSITY_DESC)
               </p>
             </div>
           </div>
@@ -418,9 +422,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_2_TITLE"
+                alt="mockTranslate(WALMART_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/walmart_spark_good.webp"
               />
             </div>
             <div
@@ -429,12 +433,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_2_TITLE)
+                mockTranslate(WALMART_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_2_DESC)
+                mockTranslate(WALMART_DESC)
               </p>
             </div>
           </div>
@@ -445,9 +449,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_3_TITLE"
+                alt="mockTranslate(JENSEN_HUANG_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/Jensen_CEO_NVIDIA.webp"
               />
             </div>
             <div
@@ -456,12 +460,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_3_TITLE)
+                mockTranslate(JENSEN_HUANG_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_3_DESC)
+                mockTranslate(JENSEN_HUANG_DESC)
               </p>
             </div>
           </div>
@@ -472,9 +476,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_4_TITLE"
+                alt="mockTranslate(VISHAL_SIKKA_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/VishalSikka.webp"
               />
             </div>
             <div
@@ -483,12 +487,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_4_TITLE)
+                mockTranslate(VISHAL_SIKKA_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_4_DESC)
+                mockTranslate(VISHAL_SIKKA_DESC)
               </p>
             </div>
           </div>
@@ -499,9 +503,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_5_TITLE"
+                alt="mockTranslate(RAMESH_RAMANA_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/RameshMaturuAndRamanaYerneni.webp"
               />
             </div>
             <div
@@ -510,12 +514,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_5_TITLE)
+                mockTranslate(RAMESH_RAMANA_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_5_DESC)
+                mockTranslate(RAMESH_RAMANA_DESC)
               </p>
             </div>
           </div>
@@ -526,9 +530,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_6_TITLE"
+                alt="mockTranslate(SAN_RAMON_WALK_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/17_Mile_walk.webp"
               />
             </div>
             <div
@@ -537,12 +541,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_6_TITLE)
+                mockTranslate(SAN_RAMON_WALK_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_6_DESC)
+                mockTranslate(SAN_RAMON_WALK_DESC)
               </p>
             </div>
           </div>
@@ -553,9 +557,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_7_TITLE"
+                alt="mockTranslate(INDIAN_CONSULAR_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/Indian_Consular.webp"
               />
             </div>
             <div
@@ -564,12 +568,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_7_TITLE)
+                mockTranslate(INDIAN_CONSULAR_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_7_DESC)
+                mockTranslate(INDIAN_CONSULAR_DESC)
               </p>
             </div>
           </div>
@@ -580,9 +584,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_8_TITLE"
+                alt="mockTranslate(AMIT_ZAVERY_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/AmitZavery.webp"
               />
             </div>
             <div
@@ -591,12 +595,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_8_TITLE)
+                mockTranslate(AMIT_ZAVERY_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_8_DESC)
+                mockTranslate(AMIT_ZAVERY_DESC)
               </p>
             </div>
           </div>
@@ -607,9 +611,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_9_TITLE"
+                alt="mockTranslate(MADHUSUDHAN_SAI_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/MadhusudhanSai.webp"
               />
             </div>
             <div
@@ -618,12 +622,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_9_TITLE)
+                mockTranslate(MADHUSUDHAN_SAI_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_9_DESC)
+                mockTranslate(MADHUSUDHAN_SAI_DESC)
               </p>
             </div>
           </div>
@@ -634,9 +638,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_10_TITLE"
+                alt="mockTranslate(MURALI_KRISHNAMURTHY_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/Muralidharan.webp"
               />
             </div>
             <div
@@ -645,12 +649,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_10_TITLE)
+                mockTranslate(MURALI_KRISHNAMURTHY_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_10_DESC)
+                mockTranslate(MURALI_KRISHNAMURTHY_DESC)
               </p>
             </div>
           </div>
@@ -661,9 +665,9 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-img-wrap"
             >
               <img
-                alt="STORY_11_TITLE"
+                alt="mockTranslate(JIMMY_PANETTA_TITLE)"
                 class="news-img"
-                src=""
+                src="/news/Jimmy%20Panetta%20and%20Domingo%20Candelas.webp"
               />
             </div>
             <div
@@ -672,12 +676,12 @@ exports[`NewsOurStories renders correctly 1`] = `
               <h2
                 class="news-title"
               >
-                mockTranslate(STORY_11_TITLE)
+                mockTranslate(JIMMY_PANETTA_TITLE)
               </h2>
               <p
                 class="news-desc"
               >
-                mockTranslate(STORY_11_DESC)
+                mockTranslate(JIMMY_PANETTA_DESC)
               </p>
             </div>
           </div>

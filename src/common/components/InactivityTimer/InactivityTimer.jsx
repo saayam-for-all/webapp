@@ -16,7 +16,16 @@ const InactivityLogoutTimer = ({ children }) => {
   };
 
   const checkForInactivity = () => {
-    const expireTime = parseInt(localStorage.getItem("expireTime") || "0", 10);
+    const storedExpiry = localStorage.getItem("expireTime");
+
+    // No timestamp yet (fresh profile, or a social login that never set one):
+    // start the clock rather than treating the session as already expired.
+    if (!storedExpiry) {
+      updateExpiryTime();
+      return;
+    }
+
+    const expireTime = parseInt(storedExpiry, 10);
 
     if (expireTime < Date.now() && location.pathname !== "/") {
       dispatch(logout());

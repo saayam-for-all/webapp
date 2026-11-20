@@ -159,8 +159,12 @@ describe("KPIAnalytics", () => {
       expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
     });
     switchViewMode("table");
-    expect(screen.getByText("CREATED")).toBeInTheDocument();
-    expect(screen.getByText("RESOLVED")).toBeInTheDocument();
+    expect(
+      screen.getByText("mockTranslate(requestStatus.CREATED)"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("mockTranslate(requestStatus.RESOLVED)"),
+    ).toBeInTheDocument();
   });
 
   it("uses default SLA values when sla is not in response", async () => {
@@ -194,7 +198,9 @@ describe("KPIAnalytics", () => {
       expect(screen.getByDisplayValue("Snapshot")).toBeInTheDocument();
     });
     switchViewMode("table");
-    expect(screen.getByText("MATCHING_VOLUNTEER")).toBeInTheDocument();
+    expect(
+      screen.getByText("mockTranslate(requestStatus.MATCHING_VOLUNTEER)"),
+    ).toBeInTheDocument();
   });
 
   it("renders resolution bar chart when data exists", async () => {

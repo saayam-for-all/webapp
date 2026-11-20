@@ -463,6 +463,7 @@
   "PAGE_NOT_FOUND": "الصفحة غير موجودة",
   "PASSWORD": "كلمة المرور",
   "PASSWORD_CHANGE_SUCCESS": "تم تغيير كلمة المرور بنجاح!",
+  "ACCOUNT_CREATED_SUCCESS": "تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول.",
   "PASSWORD_MISMATCH_ERROR": "كلمتا المرور غير متطابقتين.",
   "PASSWORD_REQUIRED": "يرجى إدخال كلمة المرور",
   "PASSWORD_REQUIREMENTS": "يجب أن تحتوي على 8 أحرف على الأقل.",
@@ -707,6 +708,7 @@
   "TRAINING_SUPERVISION_CONTENT": "التدريب والإشراف والمحتوى",
   "TYPE": "نوع",
   "CALAMITY": "كارثة",
+  "CLEAR_ALL": "مسح الكل",
   "TYPE_YOUR_MESSAGE": "اكتب رسالتك",
   "Telugu": "التيلوغو",
   "The volunteer provides the help you requested,working with other if needed-making sure you reach your destination.": "يوفر المتطوع المساعدة التي طلبتها، ويتعاون مع الآخرين إذا لزم الأمر — مما يضمن وصولك إلى وجهتك.",
@@ -810,5 +812,15 @@
   "ASSIGN_VOLUNTEER": "تعيين متطوع",
   "SELECT_VOLUNTEER": "اختر {{name}}",
   "NA": "غير متوفر",
-  "NOTIFY": "إشعار"
+  "NOTIFY": "إشعار",
+  "ALL_REQUESTS": "جميع الطلبات",
+  "ANALYTICS": "التحليلات",
+  "REVIEW_REQUESTS": "مراجعة الطلبات",
+  "REVIEW_VOLUNTEERS": "مراجعة المتطوعين",
+  "INFRASTRUCTURE": "البنية التحتية",
+  "APPLICATION_ANALYTICS": "تحليلات التطبيق",
+  "GOOGLE_ANALYTICS": "جوجل أناليتكس",
+  "Volunteer Type": "نوع المتطوع",
+  "Beneficiary ID / Creator ID": "معرف المستفيد / معرف المنشئ",
+  "Lead Volunteer ID": "معرف المتطوع الرئيسي"
 }

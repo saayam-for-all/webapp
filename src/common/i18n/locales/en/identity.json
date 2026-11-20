@@ -19,5 +19,12 @@
   "CHOOSE_FILE": "Choose File",
   "NO_FILE_CHOSEN": "No file chosen",
   "DOCUMENT_EXPIRY_DATE": "Document Expiry Date",
-  "DOCUMENT_EXPIRED_ERROR": "Document has already expired. Please enter valid document."
+  "TOOLTIP_ENTER_DOCUMENT_EXPIRY_DATE": "Please enter document expiry date.",
+  "DOCUMENT_EXPIRED_ERROR": "Document has already expired. Please enter valid document.",
+  "FILE_EMPTY_ERROR": "Please select a non-empty document.",
+  "FILE_CONTENT_ERROR": "The file content does not match a valid JPEG, PNG, or PDF format.",
+  "EXPIRY_DATE_OPTION": "Expiry Date",
+  "NO_EXPIRY_DATE": "No Expiry Date",
+  "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Select an expiry date option to continue.",
+  "EXPIRY_DATE_CHOICES": "Document expiry date choices"
 }

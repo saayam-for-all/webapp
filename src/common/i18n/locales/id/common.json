@@ -50,5 +50,13 @@
   "ENTER_VOLUNTEER_PHONE": "Masukkan telepon sukarelawan",
   "CHANGE_VOLUNTEER": "Tukar Sukarelawan",
   "DELETE": "Padam",
-  "DELETE_ACTION": "Hapus"
+  "DELETE_ACTION": "Hapus",
+  "ALL_REQUESTS": "All Requests",
+  "ANALYTICS": "Analytics",
+  "REVIEW_REQUESTS": "Review Requests",
+  "REVIEW_VOLUNTEERS": "Review Volunteers",
+  "INFRASTRUCTURE": "Infrastructure",
+  "APPLICATION_ANALYTICS": "Application Analytics",
+  "GOOGLE_ANALYTICS": "Google Analytics",
+  "MANAGED_REQUESTS": "Managed Requests"
 }

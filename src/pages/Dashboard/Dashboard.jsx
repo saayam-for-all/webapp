@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { signInWithRedirect } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
-import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
+import SearchCancelIconButton from "../../common/components/SearchCancelIconButton/SearchCancelIconButton";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,6 +14,7 @@ import SuperAdminDashboard from "./views/SuperAdminDashboard";
 import VolunteerDashboard from "./views/VolunteerDashboard";
 import { stewardReviewRequestsMockData } from "./data";
 import { MdOutlineContactPhone } from "react-icons/md";
+import { IoIosArrowDown, IoIosClose } from "react-icons/io";
 
 import {
   getAccessibleDashboards,
@@ -30,6 +32,7 @@ import {
 } from "../../services/requestServices";
 import {
   getStatusOptions,
+  getBulkStatusOptions,
   getStewardStatusOptions,
   getPriorityOptions,
   getTypeOptions,
@@ -515,40 +518,12 @@ const Dashboard = ({ userRole }) => {
       return getStewardStatusOptions(t);
     }
 
-    // Get status options from Enums API (with translations)
-    const enumStatuses = getStatusOptions(t);
+    // Get status options from Enums API (with translations).
+    // The dropdown renders its own "All" checkbox, so leave it out here.
+    return getStatusOptions(t).filter((status) => status.key !== "All");
+  }, [t, selectedDashboard]);
 
-    // Deduplicate enum statuses by key to prevent duplicates
-    const statusMap = new Map();
-    enumStatuses.forEach((status) => {
-      if (!statusMap.has(status.key)) {
-        statusMap.set(status.key, status);
-      }
-    });
-
-    // Also get statuses from current data for backward compatibility
-    const dataStatuses = [
-      ...new Set(
-        getRequestRows(data)
-          .map((r) => r.status)
-          .filter(Boolean),
-      ),
-    ];
-
-    // Add any data statuses not in enums
-    dataStatuses.forEach((status) => {
-      const normalized = normalizeStatusValue(status);
-      if (!statusMap.has(normalized)) {
-        statusMap.set(normalized, {
-          key: normalized,
-          value: status,
-          label: status,
-        });
-      }
-    });
-
-    return Array.from(statusMap.values());
-  }, [data, t, selectedDashboard]);
+  const bulkStatusOptions = useMemo(() => getBulkStatusOptions(t), [t]);
 
   const categoryOptions = useMemo(() => {
     return getDashboardCategoryOptions(getRequestRows(data), t);
@@ -859,6 +834,26 @@ const Dashboard = ({ userRole }) => {
   const handleVolunteerTypeBlur = createBlurHandler(
     setIsVolunteerTypeDropdownOpen,
   );
+
+  const clearAllFilters = () => {
+    setStatusFilter({});
+    setCategoryFilter({});
+    setTypeFilter({});
+    setPriorityFilter({});
+    setCalamityFilter({});
+    setVolunteerTypeFilter({});
+    setCurrentPage(1);
+  };
+
+  const showClearAll =
+    [DASHBOARDS.BENEFICIARY, DASHBOARDS.VOLUNTEER].includes(
+      selectedDashboard,
+    ) ||
+    ([DASHBOARDS.ADMIN, DASHBOARDS.SUPER_ADMIN, DASHBOARDS.STEWARD].includes(
+      selectedDashboard,
+    ) &&
+      activeTab === "myRequests");
+
   const handleTypeBlur = createBlurHandler(setIsTypeDropdownOpen);
   const handlePriorityBlur = createBlurHandler(setIsPriorityDropdownOpen);
   const handleCalamityBlur = createBlurHandler(setIsCalamityDropdownOpen);
@@ -901,6 +896,11 @@ const Dashboard = ({ userRole }) => {
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
     setCurrentPage(1);
   };
 
@@ -1196,8 +1196,14 @@ const Dashboard = ({ userRole }) => {
             placeholder="Search..."
             value={searchTerm}
             onChange={handleSearchChange}
-            className="p-2 rounded-md flex-grow block w-full ps-10 bg-gray-50"
+            className="p-2 pe-10 rounded-md flex-grow block w-full ps-10 bg-gray-50"
           />
+          {searchTerm && (
+            <SearchCancelIconButton
+              onClick={handleClearSearch}
+              className="absolute end-2 top-1/2 -translate-y-1/2"
+            />
+          )}
         </div>
       </div>
       <div className="mb-4 flex flex-wrap gap-2 px-10 items-center">
@@ -1457,6 +1463,17 @@ const Dashboard = ({ userRole }) => {
             </div>
           )}
 
+        {showClearAll && (
+          <button
+            type="button"
+            onClick={clearAllFilters}
+            className="bg-blue-50 flex items-center gap-1 rounded-md py-2 px-4 font-light text-gray-600 hover:bg-gray-300"
+          >
+            <IoIosClose className="text-xl" />
+            {t("CLEAR_ALL")}
+          </button>
+        )}
+
         {[DASHBOARDS.ADMIN, DASHBOARDS.SUPER_ADMIN].includes(
           selectedDashboard,
         ) &&
@@ -1472,7 +1489,7 @@ const Dashboard = ({ userRole }) => {
                 className="border border-gray-300 rounded-md py-2 px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
                 <option value="">Change Status</option>
-                {statusOptions.map((status) => (
+                {bulkStatusOptions.map((status) => (
                   <option key={status.key} value={status.key}>
                     {status.label}
                   </option>

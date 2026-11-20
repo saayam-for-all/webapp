@@ -22,7 +22,7 @@ const VerifyAccountPage = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, success, error } = useSelector((state) => state.auth);
+  const { success, error } = useSelector((state) => state.auth);
 
   const handleSubmit = () => {
     if (passwordValue !== confirmPasswordValue) {
@@ -40,7 +40,7 @@ const VerifyAccountPage = () => {
     if (error) {
       alert(`Password reset failed: ${error}`);
     }
-  }, [success, error]);
+  }, [success, error, navigate]);
 
   return (
     <div className="flex items-center h-full justify-center">
@@ -50,6 +50,8 @@ const VerifyAccountPage = () => {
           <label htmlFor="code">Enter Code</label>
           <input
             id="code"
+            name="resetVerificationCode"
+            autoComplete="one-time-code"
             value={codeValue}
             onChange={(e) => setCodeValue(e.target.value)}
             placeholder="Your Code"
@@ -68,6 +70,8 @@ const VerifyAccountPage = () => {
           >
             <input
               id="password"
+              name="newPassword"
+              autoComplete="new-password"
               placeholder="Password"
               value={passwordValue}
               type={passwordVisible ? "text" : "password"}
@@ -82,7 +86,7 @@ const VerifyAccountPage = () => {
           </div>
         </div>
         <div className="my-2 flex flex-col">
-          <label htmlFor="password">Confirm New Password</label>
+          <label htmlFor="confirmPassword">Confirm New Password</label>
           <div
             className={`flex flex-row px-4 py-2 rounded-xl ${
               confirmPasswordFocus
@@ -91,7 +95,9 @@ const VerifyAccountPage = () => {
             }`}
           >
             <input
-              id="password"
+              id="confirmPassword"
+              name="confirmNewPassword"
+              autoComplete="new-password"
               placeholder="Password"
               value={confirmPasswordValue}
               type={confirmPasswordVisible ? "text" : "password"}

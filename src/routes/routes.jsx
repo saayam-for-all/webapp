@@ -71,11 +71,6 @@ const routes = [
     handle: { leaveAdSpace: true },
   },
   {
-    path: "emergency-contact",
-    element: <EmergencyContact />,
-    handle: { leaveAdSpace: true },
-  },
-  {
     path: "thanks",
     element: <Thanks />,
   },
@@ -111,6 +106,11 @@ const routes = [
       {
         path: "dashboard",
         element: <Dashboard />,
+        handle: { leaveAdSpace: true },
+      },
+      {
+        path: "emergency-contact",
+        element: <EmergencyContact />,
         handle: { leaveAdSpace: true },
       },
       {

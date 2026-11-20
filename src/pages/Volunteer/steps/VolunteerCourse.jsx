@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { validateIdentityFile } from "./validateIdentityFile";
 
 const VolunteerCourse = ({
   selectedFile,
@@ -8,11 +9,14 @@ const VolunteerCourse = ({
   setIsUploaded,
   expiryDate,
   setExpiryDate,
+  expiryDateOption,
+  setExpiryDateOption,
 }) => {
   const { t } = useTranslation("identity");
 
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
+  const validationRequestRef = useRef(0);
 
   const getToday = () => {
     const date = new Date();
@@ -36,59 +40,42 @@ const VolunteerCourse = ({
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const uploadedFile = event.target.files?.[0];
+    const requestId = ++validationRequestRef.current;
 
-    if (!uploadedFile) {
-      return;
-    }
-
-    const maxFileSize = 5 * 1024 * 1024;
-
-    const allowedTypes = [
-      "image/jpg",
-      "image/jpeg",
-      "image/png",
-      "application/pdf",
-    ];
-
-    const allowedExtensions = [".jpg", ".jpeg", ".png", ".pdf"];
-
-    const fileExtension = uploadedFile.name
-      .toLowerCase()
-      .substring(uploadedFile.name.lastIndexOf("."));
-
-    const isValidMimeType = allowedTypes.includes(uploadedFile.type);
-    const isValidExtension = allowedExtensions.includes(fileExtension);
-
-    if (uploadedFile.size > maxFileSize) {
-      setError(t("FILE_SIZE_ERROR"));
-      setSelectedFile(null);
-      setIsUploaded(false);
-      event.target.value = "";
-      return;
-    }
-
-    if (!isValidMimeType && !isValidExtension) {
-      setError(
-        t("FILE_TYPE_ERROR", {
-          fileType: uploadedFile.type,
-          extension: fileExtension,
-        }),
-      );
-
-      setSelectedFile(null);
-      setIsUploaded(false);
-      event.target.value = "";
-      return;
-    }
-
+    // Clear the previous upload before validating a replacement.
+    setSelectedFile(null);
+    setIsUploaded(false);
     setError("");
+
+    if (!uploadedFile) return;
+
+    const validationError = await validateIdentityFile(uploadedFile);
+
+    // Ignore results from older file selections.
+    if (requestId !== validationRequestRef.current) return;
+
+    if (validationError) {
+      const errorKeys = {
+        empty: "FILE_EMPTY_ERROR",
+        size: "FILE_SIZE_ERROR",
+        type: "FILE_TYPE_ERROR",
+        content: "FILE_CONTENT_ERROR",
+      };
+
+      setError(t(errorKeys[validationError]));
+      event.target.value = "";
+      return;
+    }
+
     setSelectedFile(uploadedFile);
     setIsUploaded(true);
   };
 
   const handleRemoveFile = () => {
+    // Cancel any pending validation result.
+    validationRequestRef.current += 1;
     setSelectedFile(null);
     setError("");
     setIsUploaded(false);
@@ -125,7 +112,7 @@ const VolunteerCourse = ({
 
       {/* Device File Upload */}
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1 before:mr-1 before:text-red-600 before:content-['*']">
           {t("UPLOAD_FILE")}
         </label>
 
@@ -160,31 +147,70 @@ const VolunteerCourse = ({
       <div className="mb-4">
         <label
           htmlFor="document-expiry-date"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          id="document-expiry-date-label"
+          className="block text-sm font-medium text-gray-700 mb-1 before:mr-1 before:text-red-600 before:content-['*']"
         >
           {t("DOCUMENT_EXPIRY_DATE")}
         </label>
-        <input
-          id="document-expiry-date"
-          type="date"
-          value={expiryDate}
-          min={minimumExpiryDate}
-          onChange={(event) => setExpiryDate(event.target.value)}
-          aria-invalid={isInvalidExpiryDate}
-          aria-describedby={
-            isInvalidExpiryDate ? "document-expiry-error" : undefined
-          }
-          className="w-full border border-gray-300 rounded-md p-2"
-        />
-        {isInvalidExpiryDate && (
-          <p
-            id="document-expiry-error"
-            role="alert"
-            className="mt-1 text-sm text-red-600"
-          >
-            {t("DOCUMENT_EXPIRED_ERROR")}
-          </p>
-        )}
+        <div
+          role="radiogroup"
+          aria-label={t("EXPIRY_DATE_CHOICES")}
+          aria-invalid={!expiryDateOption}
+          className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-start"
+        >
+          <div className="flex flex-col gap-2">
+            <label className="flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="radio"
+                name="document-expiry-option"
+                value="expiryDate"
+                checked={expiryDateOption === "expiryDate"}
+                onChange={() => setExpiryDateOption("expiryDate")}
+              />
+              {t("EXPIRY_DATE_OPTION")}
+            </label>
+            <label className="flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="radio"
+                name="document-expiry-option"
+                value="noExpiryDate"
+                checked={expiryDateOption === "noExpiryDate"}
+                onChange={() => {
+                  setExpiryDateOption("noExpiryDate");
+                  setExpiryDate("");
+                }}
+              />
+              {t("NO_EXPIRY_DATE")}
+            </label>
+          </div>
+          <div className="min-w-0 flex-1">
+            <input
+              id="document-expiry-date"
+              type="date"
+              value={expiryDate}
+              min={minimumExpiryDate}
+              onChange={(event) => {
+                setExpiryDate(event.target.value);
+                if (event.target.value) setExpiryDateOption("expiryDate");
+              }}
+              disabled={expiryDateOption === "noExpiryDate"}
+              aria-invalid={isInvalidExpiryDate}
+              aria-describedby={
+                isInvalidExpiryDate ? "document-expiry-error" : undefined
+              }
+              className="w-full border border-gray-300 rounded-md p-2"
+            />
+            {isInvalidExpiryDate && (
+              <p
+                id="document-expiry-error"
+                role="alert"
+                className="mt-1 text-sm text-red-600"
+              >
+                {t("DOCUMENT_EXPIRED_ERROR")}
+              </p>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Selected File */}
@@ -221,6 +247,8 @@ VolunteerCourse.propTypes = {
   setIsUploaded: PropTypes.func.isRequired,
   expiryDate: PropTypes.string.isRequired,
   setExpiryDate: PropTypes.func.isRequired,
+  expiryDateOption: PropTypes.string.isRequired,
+  setExpiryDateOption: PropTypes.func.isRequired,
 };
 
 VolunteerCourse.defaultProps = {
