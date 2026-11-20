@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { forgotPassword } from "../../redux/features/authentication/authActions";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const forgotPasswordSchema = z.object({
   email: z
@@ -44,6 +45,17 @@ const ForgotPasswordPage = () => {
         {/* Removed Back Arrow Section */}
 
         <h1 className="my-4 text-3xl font-bold text-center">Password Reset</h1>
+
+        <p className="text-sm text-gray-600 text-center my-2">
+          {t("PASSWORD_RESET_INFO")}{" "}
+          <Link
+            to="/login"
+            className="text-blue-600 underline hover:text-blue-800"
+          >
+            {t("LOGIN")}
+          </Link>
+          .
+        </p>
 
         <div className="my-2 flex flex-col">
           <label htmlFor="email">
