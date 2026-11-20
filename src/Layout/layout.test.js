@@ -1,8 +1,13 @@
-import { render } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { MemoryRouter, useNavigate } from "react-router-dom";
 import fs from "fs";
 import path from "path";
 import Layout from "./Layout";
+
+const ROUTER_FUTURE_FLAGS = {
+  v7_relativeSplatPath: true,
+  v7_startTransition: true,
+};
 
 jest.mock("react", () => ({
   ...jest.requireActual("react"),
@@ -26,10 +31,28 @@ jest.mock("#components/LeftAds/LeftAds");
 jest.mock("#components/RightAds/RightAds");
 jest.mock("#components/NavigationGuard/NavigationGuard");
 
+const NavigationControls = () => {
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <button type="button" onClick={() => navigate("/contact")}>
+        Go to Contact Us
+      </button>
+      <button type="button" onClick={() => navigate("/?source=test")}>
+        Change query
+      </button>
+    </>
+  );
+};
+
 describe("Layout", () => {
   it("renders correctly", () => {
     const tree = render(
-      <MemoryRouter initialEntries={["/dashboard"]}>
+      <MemoryRouter
+        initialEntries={["/dashboard"]}
+        future={ROUTER_FUTURE_FLAGS}
+      >
         <Layout />
       </MemoryRouter>,
     );
@@ -38,7 +61,10 @@ describe("Layout", () => {
 
   it("uses document scrolling so the scroll-to-top button targets the page", () => {
     render(
-      <MemoryRouter initialEntries={["/dashboard"]}>
+      <MemoryRouter
+        initialEntries={["/dashboard"]}
+        future={ROUTER_FUTURE_FLAGS}
+      >
         <Layout />
       </MemoryRouter>,
     );
@@ -55,5 +81,39 @@ describe("Layout", () => {
     expect(stylesheet).toMatch(
       /\.left-ads-panel,\s*\.right-ads-panel\s*\{[^}]*display:\s*none\s*!important;[^}]*width:\s*0\s*!important;[^}]*min-width:\s*0\s*!important;[^}]*flex:\s*0 0 0\s*!important;/s,
     );
+  });
+
+  it("remounts both side rails when the route pathname changes", () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={["/"]} future={ROUTER_FUTURE_FLAGS}>
+        <NavigationControls />
+        <Layout />
+      </MemoryRouter>,
+    );
+    const initialLeftRail = container.querySelector("mock-left-ads");
+    const initialRightRail = container.querySelector("mock-right-ads");
+
+    fireEvent.click(screen.getByRole("button", { name: "Go to Contact Us" }));
+
+    expect(container.querySelector("mock-left-ads")).not.toBe(initialLeftRail);
+    expect(container.querySelector("mock-right-ads")).not.toBe(
+      initialRightRail,
+    );
+  });
+
+  it("keeps both side rails mounted when only query parameters change", () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={["/"]} future={ROUTER_FUTURE_FLAGS}>
+        <NavigationControls />
+        <Layout />
+      </MemoryRouter>,
+    );
+    const initialLeftRail = container.querySelector("mock-left-ads");
+    const initialRightRail = container.querySelector("mock-right-ads");
+
+    fireEvent.click(screen.getByRole("button", { name: "Change query" }));
+
+    expect(container.querySelector("mock-left-ads")).toBe(initialLeftRail);
+    expect(container.querySelector("mock-right-ads")).toBe(initialRightRail);
   });
 });

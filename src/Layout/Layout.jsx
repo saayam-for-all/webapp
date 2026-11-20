@@ -31,7 +31,7 @@ const Layout = () => {
 
         <div className="flex flex-1">
           <aside className="left-ads-panel flex-1">
-            {showAds && <LeftAds />}
+            {showAds && <LeftAds key={`left-ads-${location.pathname}`} />}
           </aside>
 
           <main className="flex-[6] min-w-0">
@@ -42,7 +42,7 @@ const Layout = () => {
           </main>
 
           <aside className="right-ads-panel flex-1">
-            {showAds && <RightAds />}
+            {showAds && <RightAds key={`right-ads-${location.pathname}`} />}
           </aside>
         </div>
 
