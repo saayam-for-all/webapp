@@ -1,10 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const VerticalAd = () => {
+  const hasPushedRef = useRef(false);
+
   useEffect(() => {
-    if (window.location.hostname === "saayamforall.org") {
+    if (
+      window.location.hostname === "saayamforall.org" &&
+      !hasPushedRef.current
+    ) {
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
+        hasPushedRef.current = true;
       } catch (e) {
         console.error("Adsense error", e);
       }

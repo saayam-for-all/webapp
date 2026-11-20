@@ -123,6 +123,18 @@ describe("vertical ads", () => {
     expect(window.adsbygoogle).toHaveLength(1);
   });
 
+  it("pushes exactly once under StrictMode", () => {
+    setHostname(AD_HOSTNAME);
+
+    render(
+      <StrictMode>
+        <VerticalAd />
+      </StrictMode>,
+    );
+
+    expect(window.adsbygoogle).toHaveLength(1);
+  });
+
   it("does not push to adsbygoogle on a non-production hostname", () => {
     setHostname("localhost");
 
