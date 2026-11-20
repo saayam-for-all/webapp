@@ -24,8 +24,7 @@
   "FILE_EMPTY_ERROR": "Please select a non-empty document.",
   "FILE_CONTENT_ERROR": "The file content does not match a valid JPEG, PNG, or PDF format.",
   "EXPIRY_DATE_OPTION": "Expiry Date",
-  "NO_EXPIRY_DATE": "No expiry date",
+  "NO_EXPIRY_DATE": "No Expiry Date",
   "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "Select an expiry date option to continue.",
-  "SELECT_EXPIRY_DATE_OPTION_ERROR": "Please select either “Expiry Date” or “No expiry date”.",
   "EXPIRY_DATE_CHOICES": "Document expiry date choices"
 }

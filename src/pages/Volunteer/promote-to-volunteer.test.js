@@ -2185,6 +2185,9 @@ describe("Issue #1914 - Document Expiry Date", () => {
     expect(
       screen.getByLabelText("mockTranslate(DOCUMENT_EXPIRY_DATE)"),
     ).toBeDisabled();
+    expect(
+      screen.queryByText("mockTranslate(SELECT_EXPIRY_DATE_OPTION_ERROR)"),
+    ).not.toBeInTheDocument();
     await waitFor(() => {
       expect(screen.getByTestId("next-button")).not.toBeDisabled();
     });
@@ -2273,6 +2276,22 @@ describe("Issue #1914 - Document Expiry Date", () => {
         screen.getByText("mockTranslate(common:SKILLS_SELECTOR_TITLE)"),
       ).toBeInTheDocument();
     });
+  });
+
+  it("places the expiry date input beside the expiry-date radio option", async () => {
+    await renderIdentification();
+
+    const group = screen.getByRole("radiogroup");
+    const expiryOption = screen.getByRole("radio", {
+      name: "mockTranslate(EXPIRY_DATE_OPTION)",
+    });
+    const dateInput = screen.getByLabelText(
+      "mockTranslate(DOCUMENT_EXPIRY_DATE)",
+    );
+
+    expect(group).toContainElement(expiryOption);
+    expect(dateInput.parentElement).toHaveClass("min-w-0", "flex-1");
+    expect(group).toHaveClass("sm:flex-row");
   });
 });
 

@@ -22,6 +22,5 @@
   "EXPIRY_DATE_OPTION": "تاريخ انتهاء الصلاحية",
   "NO_EXPIRY_DATE": "لا يوجد تاريخ انتهاء صلاحية",
   "TOOLTIP_SELECT_EXPIRY_DATE_OPTION": "اختر خيار تاريخ انتهاء الصلاحية للمتابعة.",
-  "SELECT_EXPIRY_DATE_OPTION_ERROR": "يرجى اختيار «تاريخ انتهاء الصلاحية» أو «لا يوجد تاريخ انتهاء صلاحية».",
   "EXPIRY_DATE_CHOICES": "خيارات تاريخ انتهاء صلاحية المستند"
 }

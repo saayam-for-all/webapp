@@ -61,22 +61,26 @@ const StepperControl = ({
         </button>
       </div>
       <div className="px-4 w-24">
-        <button
-          onClick={() => handleClick("next")}
-          className={`uppercase py-2 px-4 rounded-xl font-semibold transition duration-200 ease-in-out border-2 ${
-            disabledCondition
-              ? "bg-green-300 text-gray border-green-300 opacity-50 cursor-not-allowed"
-              : "bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
-          }`}
-          disabled={disabledCondition}
-          data-testid="next-button"
+        <span
+          className="inline-block"
           data-tooltip-id="next-button-tooltip"
           data-tooltip-content={nextTooltipContent}
         >
-          {currentStep === steps.length - 1
-            ? t("common:CONFIRM") || "Confirm"
-            : t("common:NEXT") || "Next"}
-        </button>
+          <button
+            onClick={() => handleClick("next")}
+            className={`uppercase py-2 px-4 rounded-xl font-semibold transition duration-200 ease-in-out border-2 ${
+              disabledCondition
+                ? "bg-green-300 text-gray border-green-300 opacity-50 cursor-not-allowed"
+                : "bg-green-500 text-white border-green-600 cursor-pointer hover:bg-slate-700 hover:text-white"
+            }`}
+            disabled={disabledCondition}
+            data-testid="next-button"
+          >
+            {currentStep === steps.length - 1
+              ? t("common:CONFIRM") || "Confirm"
+              : t("common:NEXT") || "Next"}
+          </button>
+        </span>
         {nextTooltipContent ? (
           <Tooltip
             id="next-button-tooltip"
