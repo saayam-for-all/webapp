@@ -25,6 +25,7 @@
   "ALL_FIELDS_MANDATORY": "Tous les champs sont obligatoires.",
   "ALREADY_HAVE_ACCOUNT": "Vous avez déjà un compte ?",
   "OR_USE_YOUR": "ou utilisez vos",
+  "PASSWORD_RESET_INFO": "Si vous avez un compte avec une adresse e-mail et un mot de passe, nous vous avons envoyé un code. Vous vous êtes inscrit avec Google, Facebook ou LinkedIn ? Veuillez retourner à la page de <1>connexion</1>.",
   "SOCIAL_MEDIA_ACCOUNTS": "comptes de réseaux sociaux",
   "SOCIAL_MEDIA_ACCOUNTS_SUFFIX": "",
   "AMBULANCE": "Ambulance",

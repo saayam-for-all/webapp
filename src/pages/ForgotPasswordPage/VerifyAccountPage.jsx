@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Trans } from "react-i18next";
 
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,11 +48,13 @@ const VerifyAccountPage = () => {
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">Password Reset</h1>
         <p className="mb-4 text-sm text-gray-600 text-center">
-          If you have an email/password account, we sent a code. Signed up with
-          Google, Facebook, LinkedIn? Please go back to{" "}
-          <Link to="/login" className="text-blue-500 underline">
-            Login
-          </Link>
+          <Trans i18nKey="PASSWORD_RESET_INFO">
+            If you have an email/password account, we sent a code. Signed up
+            with Google, Facebook, LinkedIn? Please go back to{" "}
+            <Link to="/login" className="text-blue-500 underline">
+              Login
+            </Link>
+          </Trans>
         </p>
         <div className="my-2 flex flex-col">
           <label htmlFor="code">Enter Code</label>

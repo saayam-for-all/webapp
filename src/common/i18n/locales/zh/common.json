@@ -25,6 +25,7 @@
   "ALL_FIELDS_MANDATORY": "所有字段均为必填项。",
   "ALREADY_HAVE_ACCOUNT": "Already have an account?",
   "OR_USE_YOUR": "或使用您的",
+  "PASSWORD_RESET_INFO": "如果您使用电子邮件和密码注册，我们已向您发送验证码。您是通过 Google、Facebook 或 LinkedIn 注册的吗？请返回<1>登录</1>页面。",
   "SOCIAL_MEDIA_ACCOUNTS": "社交媒体账户",
   "SOCIAL_MEDIA_ACCOUNTS_SUFFIX": "",
   "AMBULANCE": "救护车",

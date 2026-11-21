@@ -25,6 +25,7 @@
   "ALL_FIELDS_MANDATORY": "All fields are mandatory.",
   "ALREADY_HAVE_ACCOUNT": "Already have an account?",
   "OR_USE_YOUR": "or use your",
+  "PASSWORD_RESET_INFO": "If you have an email/password account, we sent a code. Signed up with Google, Facebook, LinkedIn? Please go back to <1>Login</1>.",
   "SOCIAL_MEDIA_ACCOUNTS": "social media accounts",
   "SOCIAL_MEDIA_ACCOUNTS_SUFFIX": "",
   "AMERICAN_RED_CROSS": "American Red Cross",
