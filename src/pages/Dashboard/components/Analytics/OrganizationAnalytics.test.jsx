@@ -53,6 +53,22 @@ describe("getOrganizationAnalytics", () => {
     ).toHaveLength(30);
   });
 
+  it("limits a custom range to the chosen days, falling back to all days when nothing matches", () => {
+    const custom = (customStartDate, customEndDate) =>
+      getOrganizationAnalytics({
+        dateRange: "custom",
+        customStartDate,
+        customEndDate,
+      }).growthTrend;
+
+    expect(custom("2025-06-10", "2025-06-12").map((d) => d.date)).toEqual([
+      "2025-06-10",
+      "2025-06-11",
+      "2025-06-12",
+    ]);
+    expect(custom("2020-01-01", "2020-01-31")).toHaveLength(30);
+  });
+
   it("scales every metric down when a region is selected", () => {
     const all = getOrganizationAnalytics();
     const west = getOrganizationAnalytics({ region: "West" });
@@ -247,5 +263,23 @@ describe("OrganizationAnalytics", () => {
       ),
     ).toBeInTheDocument();
     expect(screen.getByText(/Data as of Jun 30, 2025/i)).toBeInTheDocument();
+  });
+
+  it("shows date inputs for a custom range and clears them on reset", () => {
+    const { container } = render(<OrganizationAnalytics />);
+    const dateInputs = () => container.querySelectorAll('input[type="date"]');
+    expect(dateInputs()).toHaveLength(0);
+
+    fireEvent.click(screen.getByRole("button", { name: "Custom" }));
+    const [start, end] = dateInputs();
+    fireEvent.change(start, { target: { value: "2025-06-10" } });
+    fireEvent.change(end, { target: { value: "2025-06-12" } });
+    expect(start).toHaveValue("2025-06-10");
+    expect(end).toHaveValue("2025-06-12");
+    // Daily data is plotted with MM/DD/YY axis labels.
+    expect(screen.getAllByText("06/10/25").length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByRole("button", { name: /Reset/i }));
+    expect(dateInputs()).toHaveLength(0);
   });
 });
