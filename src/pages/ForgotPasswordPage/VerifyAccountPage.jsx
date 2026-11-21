@@ -4,7 +4,7 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { confirmForgotPassword } from "../../redux/features/authentication/authActions";
 import { useLocation } from "react-router";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const VerifyAccountPage = () => {
   const location = useLocation();
@@ -46,6 +46,13 @@ const VerifyAccountPage = () => {
     <div className="flex items-center h-full justify-center">
       <div className="px-4 py-4 flex flex-col relative w-1/2">
         <h1 className="my-4 text-3xl font-bold text-center">Password Reset</h1>
+        <p className="mb-4 text-sm text-gray-600 text-center">
+          If you have an email/password account, we sent a code. Signed up with
+          Google, Facebook, LinkedIn? Please go back to{" "}
+          <Link to="/login" className="text-blue-500 underline">
+            Login
+          </Link>
+        </p>
         <div className="my-2 flex flex-col">
           <label htmlFor="code">Enter Code</label>
           <input

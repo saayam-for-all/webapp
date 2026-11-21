@@ -17,6 +17,11 @@ jest.mock("react-router", () => ({
 
 jest.mock("react-router-dom", () => ({
   useNavigate: jest.fn(),
+  Link: ({ to, children, ...props }) => (
+    <a href={to} {...props}>
+      {children}
+    </a>
+  ),
 }));
 
 jest.mock("../../redux/features/authentication/authActions", () => ({
@@ -42,6 +47,20 @@ describe("VerifyAccountPage - Issue #1983", () => {
     });
 
     useNavigate.mockReturnValue(mockNavigate);
+  });
+
+  it("shows social login guidance with a link to the Login page", () => {
+    render(<VerifyAccountPage />);
+
+    expect(
+      screen.getByText(
+        /If you have an email\/password account, we sent a code/,
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Login" })).toHaveAttribute(
+      "href",
+      "/login",
+    );
   });
 
   it("renders all reset fields empty initially", () => {
@@ -130,5 +149,71 @@ describe("VerifyAccountPage - Issue #1983", () => {
       "NewPassword123!",
     );
     expect(mockDispatch).toHaveBeenCalledTimes(1);
+  });
+
+  it("alerts and does not submit when passwords do not match", () => {
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+    render(<VerifyAccountPage />);
+
+    fireEvent.change(screen.getByLabelText("New Password", { exact: true }), {
+      target: { value: "NewPassword123!" },
+    });
+    fireEvent.change(screen.getByLabelText("Confirm New Password"), {
+      target: { value: "Different123!" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Submit" }));
+
+    expect(alertSpy).toHaveBeenCalledWith("Passwords do not match");
+    expect(mockDispatch).not.toHaveBeenCalled();
+    alertSpy.mockRestore();
+  });
+
+  it("navigates to login after a successful reset", () => {
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+    useSelector.mockReturnValue({ loading: false, success: true, error: null });
+
+    render(<VerifyAccountPage />);
+
+    expect(alertSpy).toHaveBeenCalledWith("Password reset successful!");
+    expect(mockNavigate).toHaveBeenCalledWith("/login");
+    alertSpy.mockRestore();
+  });
+
+  it("alerts the error when the reset fails", () => {
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+    useSelector.mockReturnValue({
+      loading: false,
+      success: false,
+      error: "Invalid code",
+    });
+
+    render(<VerifyAccountPage />);
+
+    expect(alertSpy).toHaveBeenCalledWith(
+      "Password reset failed: Invalid code",
+    );
+    expect(mockNavigate).not.toHaveBeenCalled();
+    alertSpy.mockRestore();
+  });
+
+  it("toggles visibility and focus styling of both password fields", () => {
+    render(<VerifyAccountPage />);
+
+    const password = screen.getByLabelText("New Password", { exact: true });
+    const confirm = screen.getByLabelText("Confirm New Password");
+
+    for (const input of [password, confirm]) {
+      const toggle = input.parentElement.querySelector("button");
+      expect(input).toHaveAttribute("type", "password");
+      fireEvent.click(toggle);
+      expect(input).toHaveAttribute("type", "text");
+      fireEvent.click(toggle);
+      expect(input).toHaveAttribute("type", "password");
+
+      fireEvent.focus(input);
+      expect(input.parentElement).toHaveClass("border-blue-700");
+      fireEvent.blur(input);
+      expect(input.parentElement).not.toHaveClass("border-blue-700");
+    }
   });
 });
