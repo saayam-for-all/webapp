@@ -3,6 +3,11 @@ import { useTranslation } from "react-i18next";
 import { FaPlus, FaTrashAlt } from "react-icons/fa";
 import { FiClock } from "react-icons/fi";
 import LoadingIndicator from "../../common/components/Loading/Loading";
+import { useSelector } from "react-redux";
+import {
+  fetchUserAvailability,
+  updateUserAvailability,
+} from "../../services/volunteerServices";
 
 const getTimezoneDetails = (timezoneValue, locale = "en-US") => {
   try {
@@ -81,6 +86,9 @@ function Availability({ setHasUnsavedChanges }) {
   const [vacationStartDate, setVacationStartDate] = useState("");
   const [vacationEndDate, setVacationEndDate] = useState("");
   const [timezone, setTimezone] = useState("UTC");
+  // Issue #2020: availability is now loaded from and saved to the API.
+  const userDbId = useSelector((state) => state.auth?.user?.userDbId);
+  const [fetching, setFetching] = useState(false);
 
   const currentLocale = i18n.language || "en-US";
 
@@ -219,6 +227,53 @@ function Availability({ setHasUnsavedChanges }) {
     }
   }, [allAvailableTimezones, currentLocale]);
 
+  // Issue #2020: load saved availability from the API when the tab opens.
+  useEffect(() => {
+    if (!userDbId) return;
+    let cancelled = false;
+    const loadAvailability = async () => {
+      setFetching(true);
+      try {
+        const response = await fetchUserAvailability(userDbId);
+        if (cancelled) return;
+        const data = response?.data || {};
+        const apiSlots = (data.slots || []).map((slot, index) => ({
+          id: slot.id ?? Date.now() + index,
+          frequency: slot.frequency,
+          startTime: (slot.startTime || "").slice(0, 5),
+          endTime: (slot.endTime || "").slice(0, 5),
+        }));
+        setAvailabilitySlots(apiSlots);
+        // "UTC" means no timezone saved yet: keep the detected timezone.
+        if (data.timezone && data.timezone !== "UTC") {
+          setTimezone(data.timezone);
+        }
+        // Keep the existing localStorage copy in step with the API so that
+        // Cancel restores the saved values. Vacation mode is not in the API
+        // yet, so the vacation values already stored are kept.
+        const stored = JSON.parse(
+          localStorage.getItem("availabilityData") || "null",
+        );
+        localStorage.setItem(
+          "availabilityData",
+          JSON.stringify({
+            ...(stored || {}),
+            slots: apiSlots,
+            timezone: data.timezone || "UTC",
+          }),
+        );
+      } catch (error) {
+        console.error("Failed to fetch availability from API:", error);
+      } finally {
+        if (!cancelled) setFetching(false);
+      }
+    };
+    loadAvailability();
+    return () => {
+      cancelled = true;
+    };
+  }, [userDbId]);
+
   useEffect(() => {
     const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     setCurrentTimezoneInfo(getTimezoneDetails(detectedTimezone, currentLocale));
@@ -317,6 +372,22 @@ function Availability({ setHasUnsavedChanges }) {
         timezone,
         lastUpdated: new Date().toISOString(),
       };
+
+      // Issue #2020: save to the API. Only frequency and times are sent for
+      // each slot, with an IANA timezone. Vacation mode is not in the API
+      // yet, so the service always sends it empty.
+      if (!userDbId) {
+        throw new Error("No user id available to save availability");
+      }
+      await updateUserAvailability(
+        userDbId,
+        timezone,
+        availabilitySlots.map(({ frequency, startTime, endTime }) => ({
+          frequency,
+          startTime,
+          endTime,
+        })),
+      );
 
       localStorage.setItem(
         "availabilityData",
@@ -625,6 +696,7 @@ function Availability({ setHasUnsavedChanges }) {
             <button
               className="py-2 px-6 bg-blue-500 text-white rounded-md hover:bg-blue-600"
               onClick={handleEditClick}
+              disabled={fetching}
             >
               {t("EDIT")}
             </button>

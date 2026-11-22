@@ -35,6 +35,37 @@ export const updateUserSkills = async (userId, skills) => {
 };
 
 /**
+ * Fetch user availability by userId (issue #2020)
+ * @param {string} userId - The user's database ID
+ * @returns {Promise<Object>} - API response; `data` is
+ *   { userId, timezone, slots: [{ id, frequency, startTime, endTime }], lastUpdatedAt }
+ */
+export const fetchUserAvailability = async (userId) => {
+  const response = await api.post(endpoints.PROFILE_AVAILABILITY, { userId });
+  return response.data;
+};
+
+/**
+ * Save user availability (replaces the whole list of slots)
+ * Vacation mode is not supported by the API yet, so it is always sent empty.
+ * @param {string} userId - The user's database ID
+ * @param {string} timezone - IANA timezone, e.g. "America/Chicago"
+ * @param {Array<{frequency: string, startTime: string, endTime: string}>} slots
+ * @returns {Promise<Object>} - API response with the saved slots
+ */
+export const updateUserAvailability = async (userId, timezone, slots) => {
+  const response = await api.put(endpoints.PROFILE_AVAILABILITY, {
+    userId,
+    timezone,
+    slots,
+    vacationMode: false,
+    vacationStartDate: "",
+    vacationEndDate: "",
+  });
+  return response.data;
+};
+
+/**
  * Delete user skills by sending empty list or updated list
  * Internally uses update logic - skills not in list will be removed
  * @param {string} userId - The user's database ID
