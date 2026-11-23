@@ -821,5 +821,7 @@
   "Request ID": "ID запроса",
   "Last Updated": "Последнее обновление",
   "Beneficiary ID / Creator ID": "ID получателя / ID создателя",
-  "Lead Volunteer ID": "ID ведущего волонтёра"
+  "Lead Volunteer ID": "ID ведущего волонтёра",
+  "OR_LABEL": "ИЛИ",
+  "SEARCH_BUTTON": "Поиск"
 }

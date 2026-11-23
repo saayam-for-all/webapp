@@ -820,5 +820,7 @@
   "Request ID": "ID de solicitud",
   "Last Updated": "Última actualización",
   "Beneficiary ID / Creator ID": "ID de beneficiario / ID de creador",
-  "Lead Volunteer ID": "ID del voluntario principal"
+  "Lead Volunteer ID": "ID del voluntario principal",
+  "OR_LABEL": "O",
+  "SEARCH_BUTTON": "Buscar"
 }

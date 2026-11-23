@@ -816,5 +816,7 @@
   "Lead Volunteer ID": "主要志愿者 ID",
   "Category": "类别",
   "Created": "创建时间",
-  "Calamity": "灾害"
+  "Calamity": "灾害",
+  "OR_LABEL": "或",
+  "SEARCH_BUTTON": "搜索"
 }

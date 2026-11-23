@@ -821,5 +821,7 @@
   "Request ID": "अनुरोध आईडी",
   "Last Updated": "अंतिम अपडेट",
   "Beneficiary ID / Creator ID": "लाभार्थी आईडी / निर्माता आईडी",
-  "Lead Volunteer ID": "मुख्य स्वयंसेवक आईडी"
+  "Lead Volunteer ID": "मुख्य स्वयंसेवक आईडी",
+  "OR_LABEL": "या",
+  "SEARCH_BUTTON": "खोजें"
 }

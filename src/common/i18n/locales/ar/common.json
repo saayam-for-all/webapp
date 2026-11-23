@@ -822,5 +822,7 @@
   "GOOGLE_ANALYTICS": "جوجل أناليتكس",
   "Volunteer Type": "نوع المتطوع",
   "Beneficiary ID / Creator ID": "معرف المستفيد / معرف المنشئ",
-  "Lead Volunteer ID": "معرف المتطوع الرئيسي"
+  "Lead Volunteer ID": "معرف المتطوع الرئيسي",
+  "OR_LABEL": "أو",
+  "SEARCH_BUTTON": "بحث"
 }
