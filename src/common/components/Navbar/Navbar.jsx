@@ -115,6 +115,26 @@ const Navbar = () => {
   const profileIconObjectUrlRef = useRef(null);
 
   const { t } = useTranslation();
+  const renderSearchTagline = () => {
+    const tagline = t("SEARCH_TAGLINE");
+    const asteriskIndex = tagline.lastIndexOf("*");
+
+    if (asteriskIndex === -1) {
+      return tagline;
+    }
+
+    return (
+      <>
+        {tagline.slice(0, asteriskIndex)}
+        <ModernTooltip title={t("TRADEMARK_PENDING")}>
+          <span className="cursor-help" aria-label={t("TRADEMARK_PENDING")}>
+            *
+          </span>
+        </ModernTooltip>
+        {tagline.slice(asteriskIndex + 1)}
+      </>
+    );
+  };
 
   useEffect(() => {
     if (!user?.userId) {
@@ -424,7 +444,7 @@ const Navbar = () => {
               }}
             />
             <p className="absolute left-0 right-0 top-full mt-0.5 text-center text-xs text-gray-500">
-              {t("SEARCH_TAGLINE")}
+              {renderSearchTagline()}
             </p>
           </div>
         )}
@@ -498,7 +518,7 @@ const Navbar = () => {
                 }}
               />
               <p className="absolute left-0 right-0 top-full mt-0.5 text-center text-xs text-gray-500">
-                {t("SEARCH_TAGLINE")}
+                {renderSearchTagline()}
               </p>
             </div>
           )}
