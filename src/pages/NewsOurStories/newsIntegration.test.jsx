@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import i18next from "i18next";
 import { I18nextProvider } from "react-i18next";
 import NewsOurStories from "./NewsOurStories";
@@ -61,6 +61,7 @@ describe("News page JSON integration", () => {
       resources: {
         es: {
           news: {
+            PAGINATION_PAGE: "Page {{page}}",
             INTEGRATION_TEST_TITLE:
               "Nuestro CEO se reunió con <person/> en un evento.",
             INTEGRATION_TEST_DESC: "Una conversación importante con <person/>.",
@@ -76,6 +77,8 @@ describe("News page JSON integration", () => {
         <NewsOurStories />
       </I18nextProvider>,
     );
+
+    fireEvent.click(screen.getByRole("button", { name: "Page 2" }));
 
     const cards = Array.from(container.querySelectorAll(".news-card"));
 
@@ -100,7 +103,7 @@ describe("News page JSON integration", () => {
 
   test("renders five new JSON cards at the top without component changes", async () => {
     const instance = i18next.createInstance();
-    const translations = {};
+    const translations = { PAGINATION_PAGE: "Page {{page}}" };
 
     const newCards = Array.from({ length: 5 }, (_, index) => {
       const number = index + 1;
@@ -148,7 +151,7 @@ describe("News page JSON integration", () => {
 
     const renderedCards = Array.from(container.querySelectorAll(".news-card"));
 
-    expect(renderedCards).toHaveLength(16);
+    expect(renderedCards).toHaveLength(6);
 
     newCards.forEach((newCard, index) => {
       const card = renderedCards[index];
@@ -168,5 +171,17 @@ describe("News page JSON integration", () => {
     });
 
     expect(renderedCards[5].textContent).toContain("ARIA_UNIVERSITY_TITLE");
+
+    fireEvent.click(screen.getByRole("button", { name: "Page 2" }));
+
+    const secondPageCards = container.querySelectorAll(".news-card");
+    expect(secondPageCards).toHaveLength(6);
+    expect(secondPageCards[0].textContent).toContain("WALMART_TITLE");
+
+    fireEvent.click(screen.getByRole("button", { name: "Page 3" }));
+
+    const thirdPageCards = container.querySelectorAll(".news-card");
+    expect(thirdPageCards).toHaveLength(4);
+    expect(thirdPageCards[3].textContent).toContain("JIMMY_PANETTA_TITLE");
   });
 });
