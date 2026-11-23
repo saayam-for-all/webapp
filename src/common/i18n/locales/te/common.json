@@ -820,5 +820,7 @@
   "Request ID": "అభ్యర్థన ఐడి",
   "Last Updated": "చివరిగా నవీకరించబడింది",
   "Beneficiary ID / Creator ID": "లబ్ధిదారుడి ఐడి / సృష్టికర్త ఐడి",
-  "Lead Volunteer ID": "ప్రధాన వాలంటీర్ ఐడి"
+  "Lead Volunteer ID": "ప్రధాన వాలంటీర్ ఐడి",
+  "OR_LABEL": "లేదా",
+  "SEARCH_BUTTON": "వెతకండి"
 }

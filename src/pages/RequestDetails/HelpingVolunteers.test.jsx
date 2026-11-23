@@ -419,6 +419,60 @@ describe("HelpingVolunteers", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows OR label between Find and Smart Match sections only in find volunteer mode", async () => {
+    const { unmount } = render(<HelpingVolunteers />);
+
+    await screen.findByText("Jane Cooper");
+    expect(
+      screen.queryByText("mockTranslate(OR_LABEL)"),
+    ).not.toBeInTheDocument();
+
+    unmount();
+
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
+    await screen.findByText("Jane Cooper");
+    expect(screen.getByText("mockTranslate(OR_LABEL)")).toBeInTheDocument();
+  });
+
+  it("places Find By dropdown left of the input and Search button right of it in find volunteer mode", async () => {
+    render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
+
+    const input = await screen.findByPlaceholderText(
+      "mockTranslate(ENTER_VOLUNTEER_NAME)",
+    );
+    const box = input.parentElement;
+    const children = Array.from(box.children);
+    const select = box.querySelector("select");
+    const searchButton = screen.getByRole("button", {
+      name: "mockTranslate(SEARCH_BUTTON)",
+    });
+
+    expect(children.indexOf(select)).toBeLessThan(children.indexOf(input));
+    expect(children.indexOf(searchButton)).toBeGreaterThan(
+      children.indexOf(input),
+    );
+    // Search is a placeholder until the backend API exists; clicking must not crash
+    fireEvent.click(searchButton);
+    expect(searchButton).toBeInTheDocument();
+  });
+
+  it("keeps the original lookup layout (no Search button) in default mode", async () => {
+    render(<HelpingVolunteers />);
+
+    const input = await screen.findByPlaceholderText(
+      "mockTranslate(ENTER_VOLUNTEER_NAME)",
+    );
+    const box = input.parentElement;
+    const children = Array.from(box.children);
+
+    expect(children.indexOf(box.querySelector("select"))).toBeGreaterThan(
+      children.indexOf(input),
+    );
+    expect(
+      screen.queryByRole("button", { name: "mockTranslate(SEARCH_BUTTON)" }),
+    ).not.toBeInTheDocument();
+  });
+
   it("clicking Run Smart Match shows Match % column with progress bars", async () => {
     render(<HelpingVolunteers findVolunteerMode onNotify={jest.fn()} />);
 

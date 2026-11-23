@@ -849,5 +849,7 @@
   "Request ID": "Request ID",
   "Last Updated": "Last Updated",
   "Beneficiary ID / Creator ID": "Beneficiary ID / Creator ID",
-  "Lead Volunteer ID": "Lead Volunteer ID"
+  "Lead Volunteer ID": "Lead Volunteer ID",
+  "OR_LABEL": "OR",
+  "SEARCH_BUTTON": "Search"
 }

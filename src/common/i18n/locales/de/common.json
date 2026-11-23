@@ -821,5 +821,7 @@
   "Request ID": "Anfrage-ID",
   "Last Updated": "Zuletzt aktualisiert",
   "Beneficiary ID / Creator ID": "Empfänger-ID / Ersteller-ID",
-  "Lead Volunteer ID": "ID des leitenden Freiwilligen"
+  "Lead Volunteer ID": "ID des leitenden Freiwilligen",
+  "OR_LABEL": "ODER",
+  "SEARCH_BUTTON": "Suchen"
 }

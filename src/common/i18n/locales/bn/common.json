@@ -820,5 +820,7 @@
   "Request ID": "অনুরোধ আইডি",
   "Last Updated": "সর্বশেষ আপডেট",
   "Beneficiary ID / Creator ID": "সুবিধাভোগী আইডি / নির্মাতা আইডি",
-  "Lead Volunteer ID": "প্রধান স্বেচ্ছাসেবক আইডি"
+  "Lead Volunteer ID": "প্রধান স্বেচ্ছাসেবক আইডি",
+  "OR_LABEL": "অথবা",
+  "SEARCH_BUTTON": "অনুসন্ধান"
 }

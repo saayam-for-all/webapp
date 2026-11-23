@@ -58,5 +58,7 @@
   "INFRASTRUCTURE": "Infrastructure",
   "APPLICATION_ANALYTICS": "Application Analytics",
   "GOOGLE_ANALYTICS": "Google Analytics",
-  "MANAGED_REQUESTS": "Managed Requests"
+  "MANAGED_REQUESTS": "Managed Requests",
+  "OR_LABEL": "जां",
+  "SEARCH_BUTTON": "खोजो"
 }

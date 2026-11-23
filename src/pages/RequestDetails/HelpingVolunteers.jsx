@@ -87,6 +87,23 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onNotify }) => {
     setSortConfig({ key: "matchScore", direction: "descending" });
   };
 
+  // Placeholder for the Find Volunteer "Search" button.
+  // TODO: call the volunteer search API once the backend endpoint is available.
+  // Until then, the table keeps filtering locally as the user types (lookupTerm).
+  const handleVolunteerSearch = () => {};
+
+  const searchBySelect = (
+    <select
+      value={searchBy}
+      onChange={(e) => setSearchBy(e.target.value)}
+      className="bg-blue-500 px-4 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 cursor-pointer"
+    >
+      <option value="name">{t("FIND_BY_NAME")}</option>
+      <option value="email">{t("FIND_BY_EMAIL")}</option>
+      <option value="phone">{t("FIND_BY_PHONE")}</option>
+    </select>
+  );
+
   const getMatchBarColor = (score) => {
     if (score >= 90) return "bg-green-500";
     if (score >= 75) return "bg-blue-500";
@@ -437,6 +454,7 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onNotify }) => {
 
           {/* Box 2: Look up a volunteer by name, email or phone */}
           <div className="flex items-center gap-4 bg-white border border-gray-300 rounded-xl p-4">
+            {findVolunteerMode && searchBySelect}
             <input
               type="text"
               placeholder={
@@ -450,19 +468,26 @@ const HelpingVolunteers = ({ findVolunteerMode = false, onNotify }) => {
               value={lookupTerm}
               onChange={(event) => setLookupTerm(event.target.value)}
             />
-            <select
-              value={searchBy}
-              onChange={(e) => setSearchBy(e.target.value)}
-              className="bg-blue-500 px-4 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 cursor-pointer"
-            >
-              <option value="name">{t("FIND_BY_NAME")}</option>
-              <option value="email">{t("FIND_BY_EMAIL")}</option>
-              <option value="phone">{t("FIND_BY_PHONE")}</option>
-            </select>
+            {findVolunteerMode ? (
+              <button
+                type="button"
+                onClick={handleVolunteerSearch}
+                className="bg-blue-500 px-4 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 font-semibold"
+              >
+                {t("SEARCH_BUTTON")}
+              </button>
+            ) : (
+              searchBySelect
+            )}
           </div>
 
           {findVolunteerMode && (
-            <div className="w-px self-stretch bg-gray-300" aria-hidden="true" />
+            <span
+              className="self-center text-base font-semibold text-gray-500 uppercase tracking-wide"
+              data-testid="find-volunteer-or-label"
+            >
+              {t("OR_LABEL")}
+            </span>
           )}
 
           {findVolunteerMode && (
