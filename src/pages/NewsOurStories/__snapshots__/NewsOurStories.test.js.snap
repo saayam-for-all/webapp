@@ -39,6 +39,33 @@ exports[`NewsOurStories renders correctly 1`] = `
               class="news-card"
             >
               <div
+                class="news-img-wrap news-img-wrap-contained"
+              >
+                <img
+                  alt="mockTranslate(EUROPE_ROADTRIP_TITLE)"
+                  class="news-img"
+                  src="/news/europe-roadtrip-collage.webp"
+                />
+              </div>
+              <div
+                class="news-card-body"
+              >
+                <h2
+                  class="news-title"
+                >
+                  mockTranslate(EUROPE_ROADTRIP_TITLE)
+                </h2>
+                <p
+                  class="news-desc"
+                >
+                  mockTranslate(EUROPE_ROADTRIP_DESC)
+                </p>
+              </div>
+            </div>
+            <div
+              class="news-card"
+            >
+              <div
                 class="news-img-wrap"
               >
                 <img
@@ -170,33 +197,6 @@ exports[`NewsOurStories renders correctly 1`] = `
                 </p>
               </div>
             </div>
-            <div
-              class="news-card"
-            >
-              <div
-                class="news-img-wrap"
-              >
-                <img
-                  alt="mockTranslate(SAN_RAMON_WALK_TITLE)"
-                  class="news-img"
-                  src="/news/17_Mile_walk.webp"
-                />
-              </div>
-              <div
-                class="news-card-body"
-              >
-                <h2
-                  class="news-title"
-                >
-                  mockTranslate(SAN_RAMON_WALK_TITLE)
-                </h2>
-                <p
-                  class="news-desc"
-                >
-                  mockTranslate(SAN_RAMON_WALK_DESC)
-                </p>
-              </div>
-            </div>
           </div>
           <nav
             aria-label="mockTranslate(PAGINATION_LABEL)"
@@ -296,6 +296,33 @@ exports[`NewsOurStories renders correctly 1`] = `
         <div
           class="news-grid"
         >
+          <div
+            class="news-card"
+          >
+            <div
+              class="news-img-wrap news-img-wrap-contained"
+            >
+              <img
+                alt="mockTranslate(EUROPE_ROADTRIP_TITLE)"
+                class="news-img"
+                src="/news/europe-roadtrip-collage.webp"
+              />
+            </div>
+            <div
+              class="news-card-body"
+            >
+              <h2
+                class="news-title"
+              >
+                mockTranslate(EUROPE_ROADTRIP_TITLE)
+              </h2>
+              <p
+                class="news-desc"
+              >
+                mockTranslate(EUROPE_ROADTRIP_DESC)
+              </p>
+            </div>
+          </div>
           <div
             class="news-card"
           >
@@ -428,33 +455,6 @@ exports[`NewsOurStories renders correctly 1`] = `
                 class="news-desc"
               >
                 mockTranslate(RAMESH_RAMANA_DESC)
-              </p>
-            </div>
-          </div>
-          <div
-            class="news-card"
-          >
-            <div
-              class="news-img-wrap"
-            >
-              <img
-                alt="mockTranslate(SAN_RAMON_WALK_TITLE)"
-                class="news-img"
-                src="/news/17_Mile_walk.webp"
-              />
-            </div>
-            <div
-              class="news-card-body"
-            >
-              <h2
-                class="news-title"
-              >
-                mockTranslate(SAN_RAMON_WALK_TITLE)
-              </h2>
-              <p
-                class="news-desc"
-              >
-                mockTranslate(SAN_RAMON_WALK_DESC)
               </p>
             </div>
           </div>

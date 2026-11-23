@@ -208,3 +208,26 @@
     padding: 6px 10px;
   }
 }
+
+/* Preserve complete collage images and embedded captions. */
+.news-img-wrap-contained {
+  aspect-ratio: auto;
+}
+
+.news-img-wrap-contained .news-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Maintain consistent hyperlink styling across news cards. */
+.news-title .news-name-link,
+.news-desc .news-name-link {
+  text-decoration: none;
+}
+
+.news-title .news-name-link:hover,
+.news-desc .news-name-link:hover {
+  text-decoration: none;
+}
