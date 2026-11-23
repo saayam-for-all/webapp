@@ -78,7 +78,15 @@ describe("News page JSON integration", () => {
       </I18nextProvider>,
     );
 
-    fireEvent.click(screen.getByRole("button", { name: "Page 2" }));
+    const targetPage = Math.ceil(
+      (newsCards.findIndex((card) => card.id === testCard.id) + 1) / 6,
+    );
+
+    if (targetPage > 1) {
+      fireEvent.click(
+        screen.getByRole("button", { name: `Page ${targetPage}` }),
+      );
+    }
 
     const cards = Array.from(container.querySelectorAll(".news-card"));
 
@@ -170,18 +178,22 @@ describe("News page JSON integration", () => {
       });
     });
 
-    expect(renderedCards[5].textContent).toContain("ARIA_UNIVERSITY_TITLE");
+    expect(renderedCards[5].textContent).toContain(newsCards[5].titleKey);
 
-    fireEvent.click(screen.getByRole("button", { name: "Page 2" }));
+    const totalPages = Math.ceil(newsCards.length / 6);
 
-    const secondPageCards = container.querySelectorAll(".news-card");
-    expect(secondPageCards).toHaveLength(6);
-    expect(secondPageCards[0].textContent).toContain("WALMART_TITLE");
+    for (let page = 2; page <= totalPages; page++) {
+      fireEvent.click(screen.getByRole("button", { name: `Page ${page}` }));
 
-    fireEvent.click(screen.getByRole("button", { name: "Page 3" }));
+      const pageCards = Array.from(container.querySelectorAll(".news-card"));
 
-    const thirdPageCards = container.querySelectorAll(".news-card");
-    expect(thirdPageCards).toHaveLength(4);
-    expect(thirdPageCards[3].textContent).toContain("JIMMY_PANETTA_TITLE");
+      const expectedCards = newsCards.slice((page - 1) * 6, page * 6);
+
+      expect(pageCards).toHaveLength(expectedCards.length);
+
+      expectedCards.forEach((expectedCard, index) => {
+        expect(pageCards[index].textContent).toContain(expectedCard.titleKey);
+      });
+    }
   });
 });

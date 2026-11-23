@@ -1,5 +1,14 @@
 [
   {
+    "id": "europe_roadtrip",
+    "date": "11/23/2026",
+    "titleKey": "EUROPE_ROADTRIP_TITLE",
+    "descriptionKey": "EUROPE_ROADTRIP_DESC",
+    "image": "/news/europe-roadtrip-collage.webp",
+    "imageFit": "contain",
+    "titleLinks": {}
+  },
+  {
     "id": "aria_university",
     "date": "08/04/2026",
     "titleKey": "ARIA_UNIVERSITY_TITLE",

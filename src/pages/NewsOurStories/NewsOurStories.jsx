@@ -130,7 +130,11 @@ export default function NewsOurStories() {
         <div className="news-grid">
           {visibleCards.map((story) => (
             <div key={story.id} className="news-card">
-              <div className="news-img-wrap">
+              <div
+                className={`news-img-wrap${
+                  story.imageFit === "contain" ? " news-img-wrap-contained" : ""
+                }`}
+              >
                 <img
                   src={story.image}
                   alt={t(story.titleKey)}
