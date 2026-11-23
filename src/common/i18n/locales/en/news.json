@@ -38,5 +38,10 @@
   "MURALI_KRISHNAMURTHY_DESC": "Rao Bhethanabotla in conversation with Murali Krishnamurthy, CEO of Sankara Eye Foundation, on strengthening collaborations to improve healthcare accessibility and community impact.",
 
   "JIMMY_PANETTA_TITLE": "Our CEO with U.S. Representative, Jimmy Panetta and San José City Council member, Domingo Candelas",
-  "JIMMY_PANETTA_DESC": "A productive discussion with U.S. Representative Jimmy Panetta and San José City Council member Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities."
+  "JIMMY_PANETTA_DESC": "A productive discussion with U.S. Representative Jimmy Panetta and San José City Council member Domingo Candelas on social impact, healthcare accessibility, and collaborative efforts to uplift local communities.",
+
+  "PAGINATION_LABEL": "News pagination",
+  "PAGINATION_PREVIOUS": "Previous",
+  "PAGINATION_NEXT": "Next",
+  "PAGINATION_PAGE": "Page {{page}}"
 }

@@ -1,4 +1,4 @@
-import { render, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import NewsOurStories from "./NewsOurStories";
 import arabic from "../../common/i18n/locales/ar/news.json";
 import urdu from "../../common/i18n/locales/ur/news.json";
@@ -10,15 +10,20 @@ jest.mock("react-router-dom", () => ({
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key) => mockTranslations[key] || key,
+    t: (key, options) =>
+      (mockTranslations[key] || key).replace(
+        "{{page}}",
+        String(options?.page ?? ""),
+      ),
     i18n: {
-      resolvedLanguage: "en",
-      language: "en",
+      resolvedLanguage: mockLanguage,
+      language: mockLanguage,
     },
   }),
 }));
 
 let mockTranslations = {};
+let mockLanguage = "en";
 
 describe.each([
   [
@@ -32,6 +37,7 @@ describe.each([
 ])("%s news hyperlinks", (_, locale, ceoText, consulText, teamText) => {
   beforeEach(() => {
     mockTranslations = locale;
+    mockLanguage = locale === arabic ? "ar" : "ur";
   });
 
   test("links our CEO to Rao's LinkedIn", () => {
@@ -49,6 +55,12 @@ describe.each([
 
   test("links the Indian Consul and consular team", () => {
     const { container } = render(<NewsOurStories />);
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: locale.PAGINATION_NEXT,
+      }),
+    );
 
     const storySeven = Array.from(
       container.querySelectorAll(".news-card"),

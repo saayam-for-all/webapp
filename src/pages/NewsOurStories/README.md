@@ -66,6 +66,7 @@ CI=true npm test -- --watch=false --runInBand --runTestsByPath \
   src/pages/NewsOurStories/newsTranslations.test.js \
   src/pages/NewsOurStories/newsCards.test.js \
   src/pages/NewsOurStories/NewsLinkedText.test.jsx \
+  src/pages/NewsOurStories/NewsPagination.test.jsx \
   src/pages/NewsOurStories/newsIntegration.test.jsx
 ```
 
@@ -74,4 +75,6 @@ CI=true npm test -- --watch=false --runInBand --runTestsByPath \
 - Cards appear in the order listed in `newsCards.json`.
 - New cards can be placed first without renumbering existing translation keys.
 - Use unique card IDs and descriptive translation keys.
-- Pagination requirements are pending Product team confirmation.
+- Pagination automatically adjusts when cards are added or removed.
+- The default page size is configured through `CARDS_PER_PAGE` in `NewsOurStories.jsx`.
+- Pagination controls are hidden when there is only one page or fewer.

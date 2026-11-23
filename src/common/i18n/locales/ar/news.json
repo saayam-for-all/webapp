@@ -27,5 +27,10 @@
   "MURALI_KRISHNAMURTHY_TITLE": "مع Murali Krishnamurthy، الرئيس التنفيذي لمؤسسة Sankara Eye Foundation",
   "MURALI_KRISHNAMURTHY_DESC": "Rao Bhethanabotla في حوار مع Murali Krishnamurthy، الرئيس التنفيذي لمؤسسة Sankara Eye Foundation، حول تعزيز التعاون لتحسين الوصول إلى الرعاية الصحية والأثر المجتمعي.",
   "JIMMY_PANETTA_TITLE": "رئيسنا التنفيذي مع عضو مجلس النواب الأمريكي Jimmy Panetta وعضو مجلس مدينة San José، Domingo Candelas",
-  "JIMMY_PANETTA_DESC": "نقاش مثمر مع النائب الأمريكي Jimmy Panetta وعضو مجلس مدينة San José، Domingo Candelas، حول الأثر الاجتماعي وإتاحة الرعاية الصحية وجهود التعاون لدعم المجتمعات المحلية."
+  "JIMMY_PANETTA_DESC": "نقاش مثمر مع النائب الأمريكي Jimmy Panetta وعضو مجلس مدينة San José، Domingo Candelas، حول الأثر الاجتماعي وإتاحة الرعاية الصحية وجهود التعاون لدعم المجتمعات المحلية.",
+
+  "PAGINATION_LABEL": "ترقيم صفحات الأخبار",
+  "PAGINATION_PREVIOUS": "السابق",
+  "PAGINATION_NEXT": "التالي",
+  "PAGINATION_PAGE": "الصفحة {{page}}"
 }

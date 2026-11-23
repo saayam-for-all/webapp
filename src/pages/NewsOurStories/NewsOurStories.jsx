@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import "./NewsOurStories.css";
 
 import newsCards from "./newsCards.json";
 import NewsLinkedText from "./NewsLinkedText";
+import NewsPagination from "./NewsPagination";
+
+const CARDS_PER_PAGE = 6;
 
 // Rao Bhethanabotla's LinkedIn — linked from the word "CEO" in "Our CEO".
 const RAO_LINKEDIN = "https://www.linkedin.com/in/raobhethanabotla";
@@ -99,6 +102,17 @@ export default function NewsOurStories() {
     "-",
   )[0];
   const isRtl = ["ar", "ur"].includes(language);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(newsCards.length / CARDS_PER_PAGE);
+  const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
+  const visibleCards = newsCards.slice(startIndex, startIndex + CARDS_PER_PAGE);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
     <div
@@ -114,7 +128,7 @@ export default function NewsOurStories() {
 
       <section className="news-our-stories-section">
         <div className="news-grid">
-          {newsCards.map((story) => (
+          {visibleCards.map((story) => (
             <div key={story.id} className="news-card">
               <div className="news-img-wrap">
                 <img
@@ -164,6 +178,14 @@ export default function NewsOurStories() {
             </div>
           ))}
         </div>
+
+        <NewsPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          t={t}
+          isRtl={isRtl}
+        />
       </section>
 
       <div className="text-center mt-16 mb-16">
