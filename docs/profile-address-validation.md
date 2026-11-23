@@ -37,6 +37,12 @@ Requests time out after ten seconds and are aborted when leaving the component.
 - Case, diacritics, common English road abbreviations, and house numbers before
   or after a street name are handled. Unicode street/city names and alphanumeric
   postal codes are accepted by the form.
+- Simple English numbered roads from First through Twelfth are normalized before
+  lookup and comparison (for example, Fifth Avenue becomes 5th Avenue). Compound
+  names such as First Nations Road and Twenty-First Street are left unchanged.
+- New York City and NYC are treated as New York only within New York state, US.
+  Other city names are not loosely matched or stripped of the word "City".
+  The user's original spelling is retained in the saved profile.
 - The city is not rejected based on the incomplete `country-state-city` dataset.
 - Postal codes and apartment/address line 2 are preserved but are not verified
   by this street/city check.
@@ -65,8 +71,8 @@ landmark data only; fixture responses separately exercise pending/failure states
 
 ## Validation evidence
 
-- Full Jest run: 90 suites, 1,248 tests, and 24 snapshots passed.
-- Focused profile/address run: 66 tests passed.
+- Full Jest run (November 23 follow-up): 90 suites, 1,263 tests, and 24 snapshots passed.
+- Focused profile/address run: 81 tests passed.
 - Production build passed; Vite reports a large-bundle warning.
 - Changed JavaScript files have zero ESLint errors. The profile component retains
   its two existing warnings (mixed exports and an unnecessary hook dependency).
@@ -80,6 +86,40 @@ landmark data only; fixture responses separately exercise pending/failure states
   proxy restricted to known public landmark inputs, with upstream throttling and
   caching. Personal profile data was not sent to the public geocoder. Test data,
   endpoint overrides, and temporary browser instrumentation were restored/removed.
+
+The November 23 regression tests also cover equivalent street/city spellings,
+shared caching for those spellings, rejection of nearby but different addresses,
+malformed candidates before a valid result, and responses arriving after abort.
+The full lint result remains the documented baseline above.
+
+### Follow-up live browser checks (November 23)
+
+Testing used the actual signed-in production preview and a temporary local proxy
+restricted to the Empire State Building public address. The proxy throttled and
+cached live Nominatim responses; outage, delay, and timeout modes were simulated.
+
+- Required empty fields prevented lookup (zero verification requests).
+- `350 Fifth Avenue, New York City, NY` verified and saved through the form;
+  the original entered spelling and ISO state/country codes survived a reload.
+- A Phoenix city mismatch showed the mismatch message without overwriting the
+  saved address or address flag. Cancel restored the saved values.
+- A simulated HTTP 503 kept Save enabled and preserved saved data. Editing cleared
+  the stale error; retry after recovery successfully saved `350 5th Ave, New York`.
+- During a delayed response, inputs, Save, and Cancel were disabled and pending
+  feedback was visible. The retry issued exactly one verification request.
+- A response delayed beyond ten seconds produced the retryable unavailable
+  message, re-enabled Save, and preserved the previous saved address.
+- Leaving the form during a pending save aborted its request (`net::ERR_ABORTED`)
+  without changing saved data. A native unsaved-changes confirmation required
+  manual dismissal during an earlier navigation attempt; the cancellation check
+  was then repeated successfully without a dirty edit.
+- Original `personalInfo` and `addressFlag` values were restored and verified.
+  The temporary proxy was stopped and the normal build configuration restored.
+
+The browser blocked a translation-file request in Vite development mode, so live
+checks used the bundled production preview. Authentication restoration after
+reload waited for the app's existing backend initialization requests. Neither
+workaround changes application behavior or the address-validation source.
 
 The production endpoint is still unresolved. Without configuration, this proposed
 implementation blocks saving and preserves existing data. This limitation should

@@ -9,8 +9,31 @@ const normalize = (value = "") =>
     .replace(/[^\p{L}\p{N}]+/gu, " ")
     .trim();
 
+// Only translate an ordinal immediately before a road type. Names such as
+// "First Nations Road" must not be rewritten as numbered streets.
+const numberedRoad = (value) =>
+  value.replace(
+    /^(\s*(?:\d+[\p{L}]?(?:[-/]\d+[\p{L}]?)?\s+)?(?:(?:north|south|east|west|n|s|e|w)\s+)?)(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth)(?=\s+(?:street|st|avenue|ave|road|rd|boulevard|blvd|drive|dr|lane|ln|court|ct|place|pl|highway|hwy)\b)/iu,
+    (_, prefix, word) =>
+      prefix +
+      {
+        first: "1st",
+        second: "2nd",
+        third: "3rd",
+        fourth: "4th",
+        fifth: "5th",
+        sixth: "6th",
+        seventh: "7th",
+        eighth: "8th",
+        ninth: "9th",
+        tenth: "10th",
+        eleventh: "11th",
+        twelfth: "12th",
+      }[word.toLowerCase()],
+  );
+
 const normalizeRoad = (value) =>
-  normalize(value).replace(
+  normalize(numberedRoad(value)).replace(
     /\b(street|road|avenue|boulevard|drive|lane|court|place|highway|north|south|east|west)\b/g,
     (word) =>
       ({
@@ -30,6 +53,15 @@ const normalizeRoad = (value) =>
       })[word],
   );
 
+// Keep aliases geographically scoped: stripping "City" everywhere would
+// conflate distinct places (for example Kansas City and Kansas).
+const canonicalCity = (city, input) =>
+  input.countryCode.toUpperCase() === "US" &&
+  input.stateCode.toUpperCase() === "NY" &&
+  ["new york city", "nyc"].includes(normalize(city))
+    ? "New York"
+    : city.trim();
+
 export const isValidStreetAddress = (value) =>
   typeof value === "string" &&
   /\p{L}/u.test(value) &&
@@ -47,7 +79,7 @@ const matchesStreet = (street, address) => {
     address.pedestrian ||
     address.residential ||
     address.footway;
-  if (!road) return false;
+  if (typeof road !== "string" || !road) return false;
   // Match a house number at either end (e.g. "12 Rue …" or "… Straße 12").
   const houseNumber = street
     .trim()
@@ -73,7 +105,10 @@ const matchesLocation = (input, address) => {
     "city_district",
     "suburb",
   ].some(
-    (key) => address[key] && normalize(address[key]) === normalize(input.city),
+    (key) =>
+      typeof address[key] === "string" &&
+      normalize(canonicalCity(address[key], input)) ===
+        normalize(canonicalCity(input.city, input)),
   );
   const stateCodes = Object.entries(address)
     .filter(([key]) => key.startsWith("ISO3166-2-"))
@@ -89,7 +124,8 @@ const matchesLocation = (input, address) => {
   return (
     cityMatches &&
     stateMatches &&
-    address.country_code?.toLowerCase() === input.countryCode.toLowerCase() &&
+    typeof address.country_code === "string" &&
+    address.country_code.toLowerCase() === input.countryCode.toLowerCase() &&
     matchesStreet(input.street, address)
   );
 };
@@ -123,8 +159,8 @@ export const verifyAddressWithOpenStreetMap = async (
   try {
     const url = new URL(endpoint, window.location.origin);
     const params = {
-      street: input.street.trim(),
-      city: input.city.trim(),
+      street: numberedRoad(input.street.trim()),
+      city: canonicalCity(input.city, input),
       state: input.state,
       countrycodes: input.countryCode.toLowerCase(),
       format: "jsonv2",
@@ -141,6 +177,12 @@ export const verifyAddressWithOpenStreetMap = async (
     const response = await fetch(url.toString(), { signal: controller.signal });
     if (!response.ok) return { isValid: false, reason: "unavailable" };
     const results = await response.json();
+    // A transport/mock can finish after cancellation. Never cache that result.
+    if (controller.signal.aborted)
+      return {
+        isValid: false,
+        reason: signal?.aborted ? "cancelled" : "unavailable",
+      };
     if (!Array.isArray(results))
       return { isValid: false, reason: "unavailable" };
     const isValid = results.some(

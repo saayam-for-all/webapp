@@ -795,7 +795,7 @@ function PersonalInformation({ setHasUnsavedChanges }) {
             rel="noreferrer"
             className="underline"
           >
-            © OpenStreetMap
+            © OpenStreetMap contributors
           </a>
         </p>
       )}

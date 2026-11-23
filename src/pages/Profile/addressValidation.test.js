@@ -209,3 +209,96 @@ it("does not erase meaningful vowel marks in non-Latin city names", async () => 
   respond([{ address: { ...address, city: "कानपुर" } }]);
   expect((await verify({ city: "कनपर" })).isValid).toBe(false);
 });
+
+const landmark = {
+  street: "350 Fifth Avenue",
+  city: "New York City",
+  state: "New York",
+  stateCode: "NY",
+  countryCode: "US",
+};
+const landmarkAddress = {
+  house_number: "350",
+  road: "5th Avenue",
+  city: "New York",
+  state: "New York",
+  "ISO3166-2-lvl4": "US-NY",
+  country_code: "us",
+};
+
+it.each(["New York", "New York City", "NYC"])(
+  "verifies the landmark with spelled-out street and city alias %s",
+  async (city) => {
+    respond([{ address: landmarkAddress }]);
+    expect((await verify({ ...landmark, city })).isValid).toBe(true);
+    const url = new URL(fetch.mock.calls[0][0]);
+    expect(url.searchParams.get("street")).toBe("350 5th Avenue");
+    expect(url.searchParams.get("city")).toBe("New York");
+  },
+);
+
+it("reuses the success cache for equivalent street/city spelling", async () => {
+  respond([{ address: landmarkAddress }]);
+  await verify(landmark);
+  expect(
+    (await verify({ ...landmark, street: "350 5th Avenue", city: "New York" }))
+      .isValid,
+  ).toBe(true);
+  expect(fetch).toHaveBeenCalledTimes(1);
+});
+
+it.each([
+  { city: "Phoenix" },
+  { street: "350 Sixth Avenue" },
+  { street: "351 Fifth Avenue" },
+  { state: "California", stateCode: "CA" },
+  { countryCode: "CA" },
+])("does not weaken landmark matching for %j", async (overrides) => {
+  respond([{ address: landmarkAddress }]);
+  expect((await verify({ ...landmark, ...overrides })).isValid).toBe(false);
+});
+
+it("does not strip City from unrelated place names", async () => {
+  respond([{ address: { ...address, city: "Kansas" } }]);
+  expect((await verify({ city: "Kansas City" })).isValid).toBe(false);
+});
+
+it.each(["First Nations Road", "Twenty First Street", "Twenty-First Street"])(
+  "preserves the street name %s instead of partially converting it",
+  async (road) => {
+    respond([{ address: { ...address, road } }]);
+    expect((await verify({ street: `123 ${road}` })).isValid).toBe(true);
+    expect(new URL(fetch.mock.calls[0][0]).searchParams.get("street")).toBe(
+      `123 ${road}`,
+    );
+  },
+);
+
+it("skips malformed candidates without losing a later valid match", async () => {
+  respond([
+    { address: { ...address, country_code: {} } },
+    { address: { ...address, road: 123 } },
+    { address },
+  ]);
+  expect((await verify()).isValid).toBe(true);
+});
+
+it("does not accept or cache a response that finishes after cancellation", async () => {
+  let resolve;
+  const controller = new AbortController();
+  fetch.mockResolvedValueOnce({
+    ok: true,
+    json: () =>
+      new Promise((done) => {
+        resolve = done;
+      }),
+  });
+  const pending = verify({}, { signal: controller.signal });
+  await Promise.resolve();
+  controller.abort();
+  resolve([{ address }]);
+  expect((await pending).reason).toBe("cancelled");
+  respond([{ address }]);
+  expect((await verify()).isValid).toBe(true);
+  expect(fetch).toHaveBeenCalledTimes(2);
+});
