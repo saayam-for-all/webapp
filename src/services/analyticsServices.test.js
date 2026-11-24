@@ -3,6 +3,7 @@ import {
   getBeneficiariesTrendAnalysis,
   getRequestsApplicationAnalytics,
   getKpiAnalytics,
+  getGrowthTrendAnalytics,
 } from "./analyticsServices";
 
 jest.mock("./api");
@@ -125,6 +126,38 @@ describe("analyticsServices", () => {
         api.post.mockRejectedValue(new Error("Network error"));
         await expect(getKpiAnalytics()).rejects.toThrow("Network error");
       });
+    });
+  });
+
+  describe("getGrowthTrendAnalytics", () => {
+    it("POSTs {} by default to growth_trend_analytics and returns data", async () => {
+      const mockData = { statusCode: 200, body: "{}" };
+      api.post.mockResolvedValue({ data: mockData });
+
+      const result = await getGrowthTrendAnalytics();
+
+      expect(api.post).toHaveBeenCalledWith("v1/ml/growth_trend_analytics", {});
+      expect(result).toEqual(mockData);
+    });
+
+    it("forwards custom range and filters", async () => {
+      api.post.mockResolvedValue({ data: {} });
+      const payload = {
+        start_date: "2026-01-01",
+        end_date: "2026-03-31",
+        country: "USA",
+        organization_type: "non_profit",
+      };
+      await getGrowthTrendAnalytics(payload);
+      expect(api.post).toHaveBeenCalledWith(
+        "v1/ml/growth_trend_analytics",
+        payload,
+      );
+    });
+
+    it("propagates errors from api", async () => {
+      api.post.mockRejectedValue(new Error("Network error"));
+      await expect(getGrowthTrendAnalytics()).rejects.toThrow("Network error");
     });
   });
 });
