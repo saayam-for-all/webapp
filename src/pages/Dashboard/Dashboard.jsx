@@ -1524,8 +1524,8 @@ const Dashboard = ({ userRole }) => {
         hideProgressBar
         pauseOnHover
       />
-      <div className="flex items-center justify-between gap-4 mb-2">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col items-stretch gap-4 mb-2 md:flex-row md:flex-wrap md:items-center md:justify-between">
+        <div className="flex flex-wrap items-center gap-2 min-w-0">
           <Link
             to="/request"
             onClick={(e) => {
@@ -1567,13 +1567,13 @@ const Dashboard = ({ userRole }) => {
           )}
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="flex ml-auto gap-2 items-center">
+        <div className="flex items-center gap-2 w-full min-w-0 md:w-auto md:ml-auto">
+          <div className="flex gap-2 items-center w-full min-w-0 md:w-auto">
             {isDropdownVisible && accessibleDashboards.length > 0 && (
               <select
                 value={selectedDashboard}
                 onChange={(e) => handleDashboardChange(e.target.value)}
-                className="text-blue-500 font-semibold underline italic py-2"
+                className="text-blue-500 font-semibold underline italic py-2 w-full min-w-0 max-w-full md:w-auto"
               >
                 {accessibleDashboards.map((dash) => (
                   <option key={dash} value={dash}>

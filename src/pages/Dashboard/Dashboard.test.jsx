@@ -318,12 +318,7 @@ describe("Dashboard", () => {
   });
 
   it("clears the dashboard search and returns the table to page 1", async () => {
-    const {
-      findByPlaceholderText,
-      getByRole,
-      getByText,
-      queryByRole,
-    } =
+    const { findByPlaceholderText, getByRole, getByText, queryByRole } =
       renderWithProviders(<Dashboard />, {
         preloadedState: adminAuthState,
       });
@@ -485,6 +480,77 @@ describe("Dashboard", () => {
 
     fireEvent.click(getByRole("button", { name: "वर्ग" }));
     expect(getByText("सभी वर्ग")).toBeInTheDocument();
+  });
+
+  // Issue #2025: Responsive dashboard header and selector.
+  it("applies responsive width constraints to the dashboard selector", () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+
+    const { getByRole } = renderWithProviders(<Dashboard />, {
+      preloadedState: superAdminAuthState,
+    });
+
+    const selector = getByRole("combobox");
+
+    expect(selector).toHaveClass(
+      "w-full",
+      "min-w-0",
+      "max-w-full",
+      "md:w-auto",
+    );
+
+    expect(selector.parentElement).toHaveClass("w-full", "min-w-0");
+
+    const selectorContainer = selector.parentElement.parentElement;
+    expect(selectorContainer).toHaveClass("w-full", "min-w-0");
+
+    const header = selectorContainer.parentElement;
+
+    expect(header).toHaveClass(
+      "flex-col",
+      "items-stretch",
+      "md:flex-row",
+      "md:flex-wrap",
+    );
+
+    expect(header.firstElementChild).toHaveClass("flex-wrap", "min-w-0");
+  });
+
+  it("preserves emergency contacts and dashboard switching in the responsive header", () => {
+    localStorage.setItem("environment", JSON.stringify("dev"));
+
+    const { getByRole, getByTestId, container } = renderWithProviders(
+      <Dashboard />,
+      {
+        preloadedState: superAdminAuthState,
+      },
+    );
+
+    const selector = getByRole("combobox");
+
+    fireEvent.change(selector, {
+      target: { value: "beneficiary" },
+    });
+
+    expect(selector).toHaveValue("beneficiary");
+    expect(selector.selectedOptions[0]).toHaveTextContent(
+      "Beneficiary Dashboard",
+    );
+    expect(getByTestId("beneficiary-dashboard")).toBeInTheDocument();
+
+    expect(
+      container.querySelector('a[href="/emergency-contact"]'),
+    ).toBeInTheDocument();
+
+    fireEvent.change(selector, {
+      target: { value: "volunteer" },
+    });
+
+    expect(selector).toHaveValue("volunteer");
+    expect(getByTestId("volunteer-dashboard")).toBeInTheDocument();
+    expect(
+      container.querySelector('a[href="/emergency-contact"]'),
+    ).not.toBeInTheDocument();
   });
 
   it("translates the dashboard title and every selector label without changing option values", () => {
