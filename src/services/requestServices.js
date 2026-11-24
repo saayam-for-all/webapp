@@ -14,8 +14,16 @@ export const getOthersRequests = async () => {
   return response.data;
 };
 
-export const getManagedRequests = async () => {
-  const response = await api.get(endpoints.GET_MANAGED_REQUESTS);
+export const getManagedRequests = async ({
+  volunteerId,
+  page = 0,
+  size = 10,
+} = {}) => {
+  const url = endpoints.GET_MANAGED_REQUESTS.replace(
+    "{volunteerId}",
+    encodeURIComponent(volunteerId),
+  );
+  const response = await api.get(url, { params: { page, size } });
   return response.data;
 };
 

@@ -1,7 +1,7 @@
 {
   "GET_MY_REQUESTS": "v1/request/help-requests",
   "GET_OTHERS_REQUESTS": "v1/request/mockRequests",
-  "GET_MANAGED_REQUESTS": "v1/request/mockRequests",
+  "GET_MANAGED_REQUESTS": "dev/requests/v1.0.0/requests/volunteers/{volunteerId}/requests",
   "GET_ALL_REQUESTS": "v1/request/help-requests",
   "CHECK_PROFANITY": "v1/request/checkProfanity",
   "GET_VOLUNTEERS_DATA": "v1/volunteer/getVolunteersData",
