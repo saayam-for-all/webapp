@@ -182,41 +182,43 @@ const HelpingVolunteers = () => {
 
   return (
     <div className="w-full border border-gray-300 rounded-md">
-      <div className="bg-gray-100 shadow-md p-1 space-y-4 rounded-b-md">
-        <div className="flex items-center space-x-4 p-4 mt-2">
-          <input
-            type="text"
-            placeholder={t("NUMBER_OF_VOLUNTEERS")}
-            className="p-3 border rounded-md w-1/3"
-            value={volunteersCount}
-            onChange={(e) => {
-              setVolunteersCount(e.target.value);
-              setChooseVolunteer(false);
-            }}
-          />
-          <button
-            className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
-            onClick={() => setChooseVolunteer(true)}
-          >
-            <svg
-              className="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+      <div className="bg-gray-100 shadow-md p-4 space-y-4 rounded-b-md">
+        <div className="bg-white border border-gray-300 rounded-xl p-4 shadow-sm">
+          <div className="flex items-center space-x-4">
+            <input
+              type="text"
+              placeholder={t("NUMBER_OF_VOLUNTEERS")}
+              className="p-3 border rounded-md w-1/3"
+              value={volunteersCount}
+              onChange={(e) => {
+                setVolunteersCount(e.target.value);
+                setChooseVolunteer(false);
+              }}
+            />
+            <button
+              className="bg-blue-500 px-6 py-3 text-white rounded-lg whitespace-nowrap hover:bg-blue-600 flex items-center"
+              onClick={() => setChooseVolunteer(true)}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            {t("REQUEST_VOLUNTEERS")}
-          </button>
+              <svg
+                className="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              {t("REQUEST_VOLUNTEERS")}
+            </button>
+          </div>
         </div>
 
-        <div className="mt-6 bg-white p-6 shadow-lg">
+        <div className="bg-white border border-gray-300 rounded-xl p-6 shadow-lg">
           <div className="flex flex-wrap items-center gap-4 justify-between mb-4">
             <div className="flex flex-row gap-4 items-center w-1/3">
               {/* Volunteers Title */}
