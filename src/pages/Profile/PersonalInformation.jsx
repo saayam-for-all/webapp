@@ -148,6 +148,25 @@ function PersonalInformation({ setHasUnsavedChanges }) {
     }
   }, []);
 
+  // Effect to ensure state field shows correct value when states array is populated
+  useEffect(() => {
+    if (!personalInfo.state || states.length === 0) return;
+
+    // Check if the current state value exists in the states array
+    const stateExists = states.find(
+      (option) => option.label === personalInfo.state,
+    );
+
+    // If state value doesn't exist in current states array, it might be from a different country
+    // In that case, we should clear it to maintain data consistency
+    if (!stateExists && personalInfo.country) {
+      setPersonalInfo((prevInfo) => ({
+        ...prevInfo,
+        state: "",
+      }));
+    }
+  }, [personalInfo.state, states, personalInfo.country]);
+
   const handleInputChange = (name, value) => {
     setPersonalInfo((prevInfo) => ({
       ...prevInfo,
