@@ -30,3 +30,14 @@ export const getVolunteerApplicationAnalytics = async (payload = {}) => {
   );
   return response.data;
 };
+
+// Organization dashboard - Size & Contribution tab.
+// {} returns every preset period (7D, 30D, ...);
+// pass { start_date, end_date } ("YYYY-MM-DD") for a custom range.
+export const getSizeContributionAnalytics = async (payload = {}) => {
+  const response = await api.post(
+    endpoints.SIZE_CONTRIBUTION_ANALYTICS,
+    payload,
+  );
+  return response.data;
+};

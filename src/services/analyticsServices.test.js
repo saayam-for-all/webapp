@@ -3,6 +3,7 @@ import {
   getBeneficiariesTrendAnalysis,
   getRequestsApplicationAnalytics,
   getKpiAnalytics,
+  getSizeContributionAnalytics,
 } from "./analyticsServices";
 
 jest.mock("./api");
@@ -125,6 +126,39 @@ describe("analyticsServices", () => {
         api.post.mockRejectedValue(new Error("Network error"));
         await expect(getKpiAnalytics()).rejects.toThrow("Network error");
       });
+    });
+  });
+  describe("getSizeContributionAnalytics", () => {
+    it("posts {} by default to SIZE_CONTRIBUTION_ANALYTICS and returns data", async () => {
+      const mockData = { "7D": {}, All: {} };
+      api.post.mockResolvedValue({ data: mockData });
+
+      const result = await getSizeContributionAnalytics();
+
+      expect(api.post).toHaveBeenCalledWith(
+        "v1/ml/size_contribution_analytics",
+        {},
+      );
+      expect(result).toEqual(mockData);
+    });
+
+    it("passes a custom date range payload through", async () => {
+      api.post.mockResolvedValue({ data: {} });
+      const payload = { start_date: "2026-01-01", end_date: "2026-03-31" };
+
+      await getSizeContributionAnalytics(payload);
+
+      expect(api.post).toHaveBeenCalledWith(
+        "v1/ml/size_contribution_analytics",
+        payload,
+      );
+    });
+
+    it("propagates errors from api", async () => {
+      api.post.mockRejectedValue(new Error("Network error"));
+      await expect(getSizeContributionAnalytics()).rejects.toThrow(
+        "Network error",
+      );
     });
   });
 });
