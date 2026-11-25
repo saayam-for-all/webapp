@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { BiCog, BiDonateHeart, BiBell, BiArrowBack } from "react-icons/bi";
 import { FaHandshakeAngle } from "react-icons/fa6";
 import { useNotifications } from "../../context/NotificationContext";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../common/components/Pagination/Pagination";
-import { updateNotificationSettings } from "../../services/volunteerServices";
+import {
+  getNotificationSettings,
+  updateNotificationSettings,
+} from "../../services/volunteerServices";
 
 // Interim mock shaped like the details API response.
 // TODO: replace with the real details API call when the backend is ready.
@@ -54,8 +59,9 @@ const MOCK_NOTIFICATIONS = [
 export default function NotificationUI() {
   const [filter, setFilter] = useState("all");
   const [showSettings, setShowSettings] = useState(false);
-  const [emailNotifications, setEmailNotifications] = useState(false);
-  const [saving, setSaving] = useState(false);
+  const userId = useSelector(
+    (state) => state.auth?.user?.userDbId || state.auth?.userDBId,
+  );
   const { t } = useTranslation(["common"]);
   const { dispatch, state } = useNotifications();
   const notifications = state.notifications;
@@ -175,77 +181,13 @@ export default function NotificationUI() {
     }
   };
 
-  const handleSettingsClick = () => {
-    setShowSettings(true);
-  };
-
-  const handleSaveSettings = async () => {
-    setSaving(true);
-    try {
-      await updateNotificationSettings({ emailNotifications });
-    } catch (error) {
-      console.error("Failed to save notification settings:", error);
-    } finally {
-      setSaving(false);
-    }
-  };
-
   if (showSettings) {
     return (
-      <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
-        <div className="mb-4 w-full flex items-center">
-          <button
-            className="p-2 mr-2 rounded-full hover:bg-gray-200 transition-colors duration-200"
-            onClick={() => setShowSettings(false)}
-          >
-            <BiArrowBack className="text-2xl text-gray-600" />
-          </button>
-          <h1 className="text-2xl font-semibold text-gray-800">
-            {t("NOTIFICATION_SETTINGS")}
-          </h1>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow">
-          <p className="text-gray-600 mb-6">
-            {t("NOTIFICATION_SETTINGS_DESCRIPTION")}
-          </p>
-
-          <div className="flex items-center justify-between py-4 border-b border-gray-200">
-            <div>
-              <h3 className="font-semibold text-gray-800">
-                {t("EMAIL_NOTIFICATIONS")}
-              </h3>
-              <p className="text-sm text-gray-500 mt-1">
-                {t("EMAIL_NOTIFICATIONS_DESCRIPTION")}
-              </p>
-            </div>
-            <button
-              role="switch"
-              aria-checked={emailNotifications}
-              onClick={() => setEmailNotifications((prev) => !prev)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
-                emailNotifications ? "bg-blue-600" : "bg-gray-300"
-              }`}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                  emailNotifications ? "translate-x-6" : "translate-x-1"
-                }`}
-              />
-            </button>
-          </div>
-
-          <div className="mt-6 flex justify-end">
-            <button
-              onClick={handleSaveSettings}
-              disabled={saving}
-              className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold px-6 py-2 rounded transition-colors duration-200"
-            >
-              {saving ? t("SAVING") : t("SAVE")}
-            </button>
-          </div>
-        </div>
-      </div>
+      <NotificationSettings
+        key={userId}
+        userId={userId}
+        onBack={() => setShowSettings(false)}
+      />
     );
   }
 
@@ -279,7 +221,11 @@ export default function NotificationUI() {
           </button>
         ))}
         <div className="ml-auto">
-          <button className="p-2" onClick={handleSettingsClick}>
+          <button
+            className="p-2"
+            aria-label={t("NOTIFICATION_SETTINGS")}
+            onClick={() => setShowSettings(true)}
+          >
             <BiCog className="text-2xl text-gray-600 hover:text-blue-600 transition-colors duration-200" />
           </button>
         </div>
@@ -344,3 +290,130 @@ export default function NotificationUI() {
     </div>
   );
 }
+
+function NotificationSettings({ userId, onBack }) {
+  const { t } = useTranslation(["common"]);
+  const [emailNotifications, setEmailNotifications] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [status, setStatus] = useState("LOADING");
+
+  useEffect(() => {
+    if (!userId) {
+      setStatus("NOTIFICATION_SETTINGS_LOAD_ERROR");
+      return;
+    }
+
+    let active = true;
+    getNotificationSettings(userId)
+      .then((preference) => {
+        if (!active) return;
+        setEmailNotifications(preference === "email");
+        setLoaded(true);
+        setStatus("");
+      })
+      .catch(() => {
+        if (active) setStatus("NOTIFICATION_SETTINGS_LOAD_ERROR");
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [userId]);
+
+  const controlsDisabled = !loaded || saving;
+
+  const handleSaveSettings = async () => {
+    setSaving(true);
+    setStatus("");
+    try {
+      await updateNotificationSettings(
+        userId,
+        emailNotifications ? "email" : null,
+      );
+      setStatus("NOTIFICATION_SETTINGS_SAVED");
+    } catch {
+      setStatus("NOTIFICATION_SETTINGS_SAVE_ERROR");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
+      <div className="mb-4 w-full flex items-center">
+        <button
+          className="p-2 mr-2 rounded-full hover:bg-gray-200 transition-colors duration-200"
+          aria-label={t("BACK")}
+          onClick={onBack}
+          disabled={saving}
+        >
+          <BiArrowBack className="text-2xl text-gray-600" />
+        </button>
+        <h1 className="text-2xl font-semibold text-gray-800">
+          {t("NOTIFICATION_SETTINGS")}
+        </h1>
+      </div>
+
+      <div className="bg-white p-6 rounded-lg shadow">
+        <p className="text-gray-600 mb-6">
+          {t("NOTIFICATION_SETTINGS_DESCRIPTION")}
+        </p>
+
+        <div className="flex items-center justify-between py-4 border-b border-gray-200">
+          <div>
+            <h3 className="font-semibold text-gray-800">
+              {t("EMAIL_NOTIFICATIONS")}
+            </h3>
+            <p className="text-sm text-gray-500 mt-1">
+              {t("EMAIL_NOTIFICATIONS_DESCRIPTION")}
+            </p>
+          </div>
+          <button
+            role="switch"
+            aria-label={t("EMAIL_NOTIFICATIONS")}
+            disabled={controlsDisabled}
+            aria-checked={emailNotifications}
+            onClick={() => {
+              setEmailNotifications((prev) => !prev);
+              setStatus("");
+            }}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
+              emailNotifications ? "bg-blue-600" : "bg-gray-300"
+            }`}
+          >
+            <span
+              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
+                emailNotifications ? "translate-x-6" : "translate-x-1"
+              }`}
+            />
+          </button>
+        </div>
+
+        {status && (
+          <p
+            className="mt-4 text-sm"
+            role={status.endsWith("_ERROR") ? "alert" : "status"}
+          >
+            {t(status)}
+          </p>
+        )}
+
+        <div className="mt-6 flex justify-end">
+          <button
+            onClick={handleSaveSettings}
+            disabled={controlsDisabled}
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold px-6 py-2 rounded transition-colors duration-200"
+          >
+            {saving ? t("SAVING") : t("SAVE")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+NotificationSettings.propTypes = {
+  userId: PropTypes.string,
+  onBack: PropTypes.func.isRequired,
+};

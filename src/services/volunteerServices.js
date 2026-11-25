@@ -185,10 +185,35 @@ export const GET_NOTIFICATION_COUNT = async (userId) => {
   return response.data;
 };
 
-export const updateNotificationSettings = async (settings) => {
-  const response = await api.put(
-    endpoints.UPDATE_NOTIFICATION_SETTINGS,
-    settings,
-  );
-  return response.data;
+const EMAIL_NOTIFICATION_CHANNEL_ID = 1;
+
+export const getNotificationSettings = async (userId) => {
+  const { data } = await api.post(endpoints.GET_NOTIFICATION_SETTINGS, {
+    userId,
+  });
+  const emailPreference = data?.data?.preferences?.find(
+    ({ channelId }) => channelId === EMAIL_NOTIFICATION_CHANNEL_ID,
+  )?.preference;
+
+  if (
+    !data?.success ||
+    (emailPreference !== null && emailPreference !== "email")
+  ) {
+    throw new Error("Unable to load the email notification preference");
+  }
+
+  return emailPreference;
+};
+
+export const updateNotificationSettings = async (userId, preference) => {
+  const { data } = await api.post(endpoints.UPDATE_NOTIFICATION_SETTINGS, {
+    userId,
+    preferences: [{ channelId: EMAIL_NOTIFICATION_CHANNEL_ID, preference }],
+  });
+
+  if (!data?.success) {
+    throw new Error("Unable to save the email notification preference");
+  }
+
+  return data;
 };

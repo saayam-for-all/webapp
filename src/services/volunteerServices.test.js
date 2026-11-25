@@ -14,6 +14,7 @@ import {
   getUserId,
   updateUserSkills,
   saveVolunteerStep1,
+  getNotificationSettings,
   updateNotificationSettings,
 } from "./volunteerServices";
 
@@ -308,23 +309,49 @@ describe("updateUserSkills", () => {
   });
 });
 
-describe("updateNotificationSettings", () => {
+describe("notification settings", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("sends PUT request with notification settings", async () => {
-    api.put.mockResolvedValue({ data: { success: true } });
+  it.each([null, "email"])(
+    "loads the email preference %p",
+    async (preference) => {
+      api.post.mockResolvedValue({
+        data: {
+          success: true,
+          data: {
+            preferences: [
+              { channelId: 2, preference: "text" },
+              { channelId: 1, preference },
+            ],
+          },
+        },
+      });
 
-    const settings = { emailNotifications: true };
-    const result = await updateNotificationSettings(settings);
+      await expect(getNotificationSettings("SID-123")).resolves.toBe(
+        preference,
+      );
+      expect(api.post).toHaveBeenCalledWith(
+        "v1/volunteer/notifications/preferences",
+        { userId: "SID-123" },
+      );
+    },
+  );
 
-    expect(api.put).toHaveBeenCalledWith(
-      "v1/volunteer/notifications/settings",
-      { emailNotifications: true },
-    );
-    expect(result).toEqual({ success: true });
-  });
+  it.each([null, "email"])(
+    "saves only the email preference %p",
+    async (preference) => {
+      api.post.mockResolvedValue({ data: { success: true } });
+
+      await updateNotificationSettings("SID-123", preference);
+
+      expect(api.post).toHaveBeenCalledWith(
+        "v1/volunteer/notifications/preferences/update",
+        { userId: "SID-123", preferences: [{ channelId: 1, preference }] },
+      );
+    },
+  );
 });
 
 describe("getUserId", () => {
