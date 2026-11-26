@@ -3,6 +3,9 @@ import {
   getBeneficiariesTrendAnalysis,
   getRequestsApplicationAnalytics,
   getKpiAnalytics,
+  getOrgGrowthTrendAnalytics,
+  getOrgSizeContributionAnalytics,
+  getOrgRatingTypeAnalytics,
 } from "./analyticsServices";
 
 jest.mock("./api");
@@ -125,6 +128,38 @@ describe("analyticsServices", () => {
         api.post.mockRejectedValue(new Error("Network error"));
         await expect(getKpiAnalytics()).rejects.toThrow("Network error");
       });
+    });
+  });
+});
+
+describe("organization analytics services", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe.each([
+    [getOrgGrowthTrendAnalytics, "v1/ml/growth_trend_analytics"],
+    [getOrgSizeContributionAnalytics, "v1/ml/size_contribution_analytics"],
+    [getOrgRatingTypeAnalytics, "v1/ml/rating_type_analytics"],
+  ])("%p", (service, path) => {
+    it(`POSTs {} to ${path} by default and returns data`, async () => {
+      api.post.mockResolvedValue({ data: { statusCode: 200 } });
+
+      await expect(service()).resolves.toEqual({ statusCode: 200 });
+      expect(api.post).toHaveBeenCalledWith(path, {});
+    });
+
+    it("passes a custom date range through", async () => {
+      api.post.mockResolvedValue({ data: {} });
+      const payload = { start_date: "2026-01-01", end_date: "2026-03-31" };
+
+      await service(payload);
+      expect(api.post).toHaveBeenCalledWith(path, payload);
+    });
+
+    it("propagates errors from api", async () => {
+      api.post.mockRejectedValue(new Error("Network error"));
+      await expect(service()).rejects.toThrow("Network error");
     });
   });
 });

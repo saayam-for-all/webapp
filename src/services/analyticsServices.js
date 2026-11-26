@@ -30,3 +30,26 @@ export const getVolunteerApplicationAnalytics = async (payload = {}) => {
   );
   return response.data;
 };
+
+// Organization dashboard: {} returns every preset period (7D, 30D, ...);
+// pass { start_date, end_date } ("YYYY-MM-DD") for a custom range.
+export const getOrgGrowthTrendAnalytics = async (payload = {}) => {
+  const response = await api.post(
+    endpoints.ORG_GROWTH_TREND_ANALYTICS,
+    payload,
+  );
+  return response.data;
+};
+
+export const getOrgSizeContributionAnalytics = async (payload = {}) => {
+  const response = await api.post(
+    endpoints.ORG_SIZE_CONTRIBUTION_ANALYTICS,
+    payload,
+  );
+  return response.data;
+};
+
+export const getOrgRatingTypeAnalytics = async (payload = {}) => {
+  const response = await api.post(endpoints.ORG_RATING_TYPE_ANALYTICS, payload);
+  return response.data;
+};
