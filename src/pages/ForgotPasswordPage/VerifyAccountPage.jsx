@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { Trans } from "react-i18next";
 
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
