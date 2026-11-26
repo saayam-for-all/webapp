@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 
 const Modal = ({
   show,
@@ -22,6 +22,7 @@ const Modal = ({
         {/* Fixed footer with Close button */}
         <div className="flex justify-end space-x-2 p-4 border-t border-gray-200">
           <button
+            type="button"
             onClick={onClose}
             className="bg-gray-400 text-white px-3 py-1 text-sm rounded hover:bg-gray-500 transition"
           >
@@ -30,6 +31,7 @@ const Modal = ({
 
           {onSubmit && (
             <button
+              type="button"
               onClick={onSubmit}
               className="bg-blue-600 text-white px-3 py-1 text-sm rounded hover:bg-blue-700 transition"
             >
@@ -40,6 +42,14 @@ const Modal = ({
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
+  submitText: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export default Modal;

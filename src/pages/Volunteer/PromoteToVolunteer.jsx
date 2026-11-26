@@ -116,6 +116,7 @@ const PromoteToVolunteer = () => {
     return [];
   });
   const [categories, setCategories] = useState([]);
+  const [skillSuggestionSession, setSkillSuggestionSession] = useState(null);
   const [availabilitySlots, setAvailabilitySlots] = useState(() => {
     const cachedData = getSessionStorageItem("volunteer_form_data");
     if (cachedData) {
@@ -237,6 +238,9 @@ const PromoteToVolunteer = () => {
             selectedSkills={selectedSkills}
             setSelectedSkills={setSelectedSkills}
             categories={categories}
+            enableSkillSuggestions
+            suggestionSession={skillSuggestionSession}
+            setSuggestionSession={setSkillSuggestionSession}
           />
         );
       case 4:

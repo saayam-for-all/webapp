@@ -1,7 +1,16 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
+import SkillSuggestions from "./SkillSuggestions";
 
-const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
+const Skills = ({
+  selectedSkills,
+  setSelectedSkills,
+  categories,
+  enableSkillSuggestions = false,
+  suggestionSession,
+  setSuggestionSession,
+}) => {
   const { t, i18n } = useTranslation(["common", "categories"]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [hoveredSubcategory, setHoveredSubcategory] = useState(null);
@@ -155,6 +164,26 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
     return Object.values(groups);
   }, [selectedSkills, categories, i18n.language]);
 
+  const sortedSelectedSkills = enableSkillSuggestions
+    ? [...new Set(selectedSkills)]
+        .map((catId) => {
+          const path = resolveSkillPath(catId);
+          const parts = [
+            path.categoryName,
+            path.parentName,
+            path.skillName,
+          ].filter(Boolean);
+
+          return {
+            catId,
+            label: parts
+              .filter((part, index) => index === 0 || part !== parts[index - 1])
+              .join(" > "),
+          };
+        })
+        .sort((a, b) => a.label.localeCompare(b.label, i18n.language || "en"))
+    : [];
+
   const removeCategorySkills = (catIds) => {
     setSelectedSkills(selectedSkills.filter((id) => !catIds.includes(id)));
   };
@@ -241,8 +270,23 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
       <p className="font-bold text-xl mb-2">
         {t("common:SKILLS_SELECTOR_TITLE")}
       </p>
+      {enableSkillSuggestions && (
+        <SkillSuggestions
+          categories={categories}
+          selectedSkills={selectedSkills}
+          setSelectedSkills={setSelectedSkills}
+          session={suggestionSession}
+          setSession={setSuggestionSession}
+        />
+      )}
+
       <p className="text-sm text-gray-500 mb-4">
-        {t("common:SKILLS_SELECTOR_PLACEHOLDER")}
+        {enableSkillSuggestions
+          ? t("common:VOLUNTEER_SKILLS_SELECTOR_HELPER", {
+              defaultValue:
+                "Please describe your skills in description box to get skills suggestions or choose them from Skills picker provided below. If you can not find matching skills, please choose General category",
+            })
+          : t("common:SKILLS_SELECTOR_PLACEHOLDER")}
       </p>
 
       {/* Desktop: Multi-column selector panel */}
@@ -595,6 +639,35 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
           <p className="text-sm text-gray-400 italic">
             {t("common:NO_SKILLS_SELECTED")}
           </p>
+        ) : enableSkillSuggestions ? (
+          <div
+            data-testid="selected-skills-container"
+            className="border border-blue-200 rounded-lg bg-blue-50 p-3 flex flex-col gap-2"
+          >
+            {sortedSelectedSkills.map(({ catId, label }) => (
+              <div
+                key={catId}
+                className="flex items-center justify-between gap-3 bg-white border border-blue-200 rounded-md px-3 py-2"
+              >
+                <span className="text-sm text-blue-900 break-words">
+                  {label}
+                </span>
+                <button
+                  type="button"
+                  title={t("common:REMOVE_SKILL")}
+                  aria-label={`${t("common:REMOVE_SKILL")}: ${label}`}
+                  className="text-gray-500 hover:text-red-600 font-bold shrink-0"
+                  onClick={() =>
+                    setSelectedSkills(
+                      selectedSkills.filter((id) => id !== catId),
+                    )
+                  }
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="flex flex-col gap-3">
             {groupedSelectedSkills.map((group) => (
@@ -644,6 +717,17 @@ const Skills = ({ selectedSkills, setSelectedSkills, categories }) => {
       </div>
     </div>
   );
+};
+
+Skills.propTypes = {
+  selectedSkills: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ).isRequired,
+  setSelectedSkills: PropTypes.func.isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  enableSkillSuggestions: PropTypes.bool,
+  suggestionSession: PropTypes.object,
+  setSuggestionSession: PropTypes.func,
 };
 
 export default Skills;
