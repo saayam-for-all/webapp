@@ -18,6 +18,7 @@ exports[`Modal renders when show = true 1`] = `
   >
     <button
       class="bg-gray-400 text-white px-3 py-1 text-sm rounded hover:bg-gray-500 transition"
+      type="button"
     >
       Close
     </button>

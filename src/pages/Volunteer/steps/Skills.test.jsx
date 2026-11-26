@@ -302,3 +302,108 @@ describe("Skills multi-category interaction (#1989)", () => {
     expect(mobileItem("COOKING").parentElement).toHaveTextContent("✓");
   });
 });
+
+describe("Volunteer wizard GenAI selected skills (#2041)", () => {
+  afterEach(cleanup);
+
+  const renderWizardSkills = (selectedSkills = []) => {
+    const setSelectedSkills = jest.fn();
+
+    render(
+      <Skills
+        selectedSkills={selectedSkills}
+        setSelectedSkills={setSelectedSkills}
+        categories={categories}
+        enableSkillSuggestions
+        suggestionSession={null}
+        setSuggestionSession={jest.fn()}
+      />,
+    );
+
+    return { setSelectedSkills };
+  };
+
+  it("shows the description field in the volunteer wizard", () => {
+    renderWizardSkills();
+
+    expect(screen.getByLabelText("Description")).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("button", {
+        name: "Suggest Skills",
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("does not show GenAI suggestions in the profile picker", () => {
+    renderSkills();
+
+    expect(screen.queryByLabelText("Description")).not.toBeInTheDocument();
+  });
+
+  it("shows all selected skills inside one container", () => {
+    renderWizardSkills(["python", "cooking", "design"]);
+
+    expect(screen.getAllByTestId("selected-skills-container")).toHaveLength(1);
+  });
+
+  it("displays full category hierarchy", () => {
+    renderWizardSkills(["python"]);
+
+    expect(screen.getByTestId("selected-skills-container")).toHaveTextContent(
+      "TECHNOLOGY > PROGRAMMING > PYTHON",
+    );
+  });
+
+  it("sorts selected skills alphabetically", () => {
+    renderWizardSkills(["python", "design", "cooking", "javascript"]);
+
+    const container = screen.getByTestId("selected-skills-container");
+
+    const labels = Array.from(container.querySelectorAll("span")).map(
+      (element) => element.textContent,
+    );
+
+    expect(labels).toEqual([
+      "COOKING",
+      "TECHNOLOGY > DESIGN",
+      "TECHNOLOGY > PROGRAMMING > JAVASCRIPT",
+      "TECHNOLOGY > PROGRAMMING > PYTHON",
+    ]);
+  });
+
+  it("displays duplicate skills only once", () => {
+    renderWizardSkills(["python", "python", "cooking"]);
+
+    const container = screen.getByTestId("selected-skills-container");
+
+    expect(container.querySelectorAll("button")).toHaveLength(2);
+  });
+
+  it("removes an individual skill without removing others", () => {
+    const { setSelectedSkills } = renderWizardSkills(["python", "cooking"]);
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "common:REMOVE_SKILL: TECHNOLOGY > PROGRAMMING > PYTHON",
+      }),
+    );
+
+    expect(setSelectedSkills).toHaveBeenCalledWith(["cooking"]);
+  });
+
+  it("preserves manual skill selection in the GenAI wizard", () => {
+    const { setSelectedSkills } = renderWizardSkills(["python"]);
+
+    fireEvent.click(item("COOKING"));
+
+    expect(setSelectedSkills).toHaveBeenCalledWith(["python", "cooking"]);
+  });
+
+  it("preserves parent category selection indicators", () => {
+    renderWizardSkills(["python", "cooking"]);
+
+    expect(item("TECHNOLOGY")).toHaveTextContent("✓");
+    expect(item("COOKING")).toHaveTextContent("✓");
+  });
+});
