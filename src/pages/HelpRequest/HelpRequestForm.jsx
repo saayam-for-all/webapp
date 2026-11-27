@@ -1939,7 +1939,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                       <div className="relative group">
                         {/* Unified Outline Box */}
                         <div
-                          className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-1 py-1 cursor-pointer select-none`}
+                          className={`flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm px-2 py-1 cursor-pointer select-none`}
                           onClick={() => {
                             if (
                               attachedFiles.length + uploadedFilesInfo.length >=
@@ -1953,7 +1953,7 @@ const HelpRequestForm = ({ isEdit = false, onClose, editRequestData }) => {
                           <div
                             className={`
                               flex items-center justify-center
-                              w-9 h-9 rounded-full
+                              w-10 h-10 rounded-full
                               text-white
                               ${
                                 attachedFiles.length +
