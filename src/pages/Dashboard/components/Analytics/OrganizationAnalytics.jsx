@@ -25,6 +25,8 @@ import {
   RATING_STAR_COLORS,
 } from "./organizationData";
 
+import { useRatingTypeAnalytics } from "./useRatingTypeAnalytics";
+
 const SURFACE = "#ffffff";
 
 const TABS = [
@@ -231,7 +233,7 @@ const EXPORT_COLUMNS = {
     { key: "organizations", label: "Organizations" },
   ],
   profitTrend: [
-    { key: "month", label: "Month" },
+    { key: "period", label: "Time Period" },
     { key: "profit", label: "Profit Organizations" },
     { key: "nonProfit", label: "Non-Profit Organizations" },
   ],
@@ -258,6 +260,13 @@ const OrganizationAnalytics = () => {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [customStartDate, setCustomStartDate] = useState("");
   const [customEndDate, setCustomEndDate] = useState("");
+
+  const ratingType = useRatingTypeAnalytics({
+    enabled: activeTab === "distribution" && filters.region === "All",
+    dateRange: filters.dateRange,
+    startDate: customStartDate,
+    endDate: customEndDate,
+  });
 
   const data = useMemo(() => {
     return getOrganizationAnalytics({
@@ -300,7 +309,11 @@ const OrganizationAnalytics = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-end gap-2">
-          <label className="flex flex-col text-left w-full sm:w-auto">
+          <div
+            role="group"
+            aria-label="Date Range"
+            className="flex flex-col text-left w-full sm:w-auto"
+          >
             <span className="text-[11px] font-medium text-gray-500 mb-0.5">
               Date Range
             </span>
@@ -327,7 +340,7 @@ const OrganizationAnalytics = () => {
                 </button>
               ))}
             </div>
-          </label>
+          </div>
 
           {filters.dateRange === "custom" && (
             <div className="flex gap-2 items-center w-full sm:w-auto">
@@ -798,7 +811,44 @@ const OrganizationAnalytics = () => {
         </div>
       )}
 
-      {activeTab === "distribution" && (
+      {activeTab === "distribution" && ratingType.status !== "success" && (
+        <div
+          className="rounded-lg border p-6 text-center text-sm text-gray-600"
+          role="status"
+        >
+          {filters.region !== "All"
+            ? "Select All regions to view Rating & Type analytics."
+            : ratingType.status === "invalid"
+              ? "Please select a valid start and end date."
+              : ratingType.status === "error"
+                ? "Unable to load Rating & Type analytics."
+                : "Loading Rating & Type analytics..."}
+        </div>
+      )}
+
+      {activeTab === "distribution" && ratingType.status === "success" && (
+        <>
+          {ratingType.data.byRating.length === 0 && (
+            <p className="text-sm text-gray-500" role="status">
+              No rating distribution data for the selected period.
+            </p>
+          )}
+          {ratingType.data.profitTrend.length === 0 && (
+            <p className="text-sm text-gray-500" role="status">
+              No organization mix data for the selected period.
+            </p>
+          )}
+          {ratingType.data.profitTrend.some(
+            (row) => row.profit === null || row.nonProfit === null,
+          ) && (
+            <p className="text-sm text-gray-500">
+              Some periods have incomplete organization type data.
+            </p>
+          )}
+        </>
+      )}
+
+      {activeTab === "distribution" && ratingType.status === "success" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <ChartContainer
             title="5. Rating Distribution (Bar Chart)"
@@ -806,12 +856,12 @@ const OrganizationAnalytics = () => {
             exportData={{
               filename: "rating-distribution",
               columns: EXPORT_COLUMNS.byRating,
-              rows: data.byRating,
+              rows: ratingType.data.byRating,
             }}
           >
             <ResponsiveContainer width="100%" height={200} minWidth={250}>
               <BarChart
-                data={data.byRating}
+                data={ratingType.data.byRating}
                 margin={{ top: 20, right: 12, bottom: 4, left: 0 }}
                 barCategoryGap="26%"
               >
@@ -854,7 +904,7 @@ const OrganizationAnalytics = () => {
                   radius={[4, 4, 0, 0]}
                   maxBarSize={56}
                 >
-                  {data.byRating.map((row, index) => (
+                  {ratingType.data.byRating.map((row, index) => (
                     <Cell key={row.rating} fill={RATING_RAMP[index]} />
                   ))}
                   <LabelList
@@ -874,18 +924,18 @@ const OrganizationAnalytics = () => {
               filename: "profit-vs-non-profit",
               legend: PROFIT_LEGEND,
               columns: EXPORT_COLUMNS.profitTrend,
-              rows: data.profitTrend,
+              rows: ratingType.data.profitTrend,
             }}
           >
             <ResponsiveContainer width="100%" height={200} minWidth={250}>
               <BarChart
-                data={data.profitTrend}
+                data={ratingType.data.profitTrend}
                 margin={{ top: 20, right: 12, bottom: 4, left: 0 }}
                 barCategoryGap="24%"
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis
-                  dataKey={data.profitTrend[0]?.date ? "date" : "month"}
+                  dataKey="period"
                   tick={axisTick}
                   stroke="#9ca3af"
                   label={{
@@ -940,8 +990,19 @@ const OrganizationAnalytics = () => {
       )}
 
       <div className="flex flex-col sm:flex-row flex-wrap justify-between gap-2 mt-3 pt-2 border-t border-gray-200 text-[10px] sm:text-[11px] text-gray-400">
-        <span>Data as of {data.asOf}</span>
-        <span>All values are indicative and for dashboard purposes only.</span>
+        {activeTab === "distribution" ? (
+          <span>
+            Summary metrics are illustrative; Rating &amp; Type charts use API
+            data.
+          </span>
+        ) : (
+          <>
+            <span>Data as of {data.asOf}</span>
+            <span>
+              All values are indicative and for dashboard purposes only.
+            </span>
+          </>
+        )}
         <span>Source: Organization Database</span>
       </div>
     </div>

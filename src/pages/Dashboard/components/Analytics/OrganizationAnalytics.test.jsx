@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import OrganizationAnalytics from "./OrganizationAnalytics";
 import { getOrganizationAnalytics } from "./organizationData";
+import { getOrgRatingTypeAnalytics } from "../../../../services/analyticsServices";
 
 // Silence recharts ResizeObserver warnings in jsdom
 globalThis.ResizeObserver = class {
@@ -30,6 +31,51 @@ jest.mock("recharts", () => {
   return new Proxy(actual, {
     get: (target, prop) =>
       prop === "ResponsiveContainer" ? Sized : target[prop],
+  });
+});
+
+jest.mock("../../../../services/analyticsServices", () => ({
+  getOrgRatingTypeAnalytics: jest.fn(),
+}));
+
+const emptyRatingPeriod = {
+  rating_distribution: [],
+  organization_mix_trend: {
+    for_profit: [],
+    non_profit: [],
+  },
+};
+
+const sampleRatingPeriod = {
+  rating_distribution: [
+    { rating: 1, count: 2 },
+    { rating: 2, count: 10 },
+    { rating: 3, count: 35 },
+    { rating: 4, count: 73 },
+    { rating: 5, count: 83 },
+  ],
+  organization_mix_trend: {
+    for_profit: [
+      { period: "2025-11", count: 56 },
+      { period: "2025-12", count: 66 },
+    ],
+    non_profit: [
+      { period: "2025-11", count: 104 },
+      { period: "2025-12", count: 127 },
+    ],
+  },
+};
+
+beforeEach(() => {
+  getOrgRatingTypeAnalytics.mockReset();
+  getOrgRatingTypeAnalytics.mockResolvedValue({
+    statusCode: 200,
+    body: JSON.stringify({
+      "7D": emptyRatingPeriod,
+      "30D": emptyRatingPeriod,
+      "1Y": sampleRatingPeriod,
+      All: sampleRatingPeriod,
+    }),
   });
 });
 
@@ -126,7 +172,7 @@ describe("OrganizationAnalytics", () => {
     expect(kpis.getByText("Avg. Org Rating")).toBeInTheDocument();
   });
 
-  it("shows Overview first and switches between the three sub-tabs", () => {
+  it("shows Overview first and switches between the three sub-tabs", async () => {
     render(<OrganizationAnalytics />);
 
     expect(screen.getByText(/Growth Trend/)).toBeInTheDocument();
@@ -140,6 +186,7 @@ describe("OrganizationAnalytics", () => {
     expect(screen.queryByText(/Growth Trend/)).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Rating & Type" }));
+    await screen.findByText(/Profit vs Non-Profit/);
     expect(screen.getByText(/Rating Distribution/)).toBeInTheDocument();
     expect(screen.getByText(/Profit vs Non-Profit/)).toBeInTheDocument();
 
@@ -178,7 +225,7 @@ describe("OrganizationAnalytics", () => {
     expect(screen.getByText(/\(27\.1%\)/)).toBeInTheDocument();
   });
 
-  it("keeps legend order matching the order the series are drawn", () => {
+  it("keeps legend order matching the order the series are drawn", async () => {
     // Recharts re-sorts its own legend payload, so the legend is rendered by
     // the component. Guards against a regression back to the built-in legend.
     const { container } = render(<OrganizationAnalytics />);
@@ -192,6 +239,7 @@ describe("OrganizationAnalytics", () => {
     ]);
 
     fireEvent.click(screen.getByRole("button", { name: "Rating & Type" }));
+    await screen.findByText(/Profit vs Non-Profit/);
     const distribution = [
       ...container.querySelectorAll(".recharts-legend-wrapper li"),
     ].map((li) => li.textContent);
@@ -208,7 +256,7 @@ describe("OrganizationAnalytics", () => {
     expect(screen.getByText("↑ 65% vs period start")).toBeInTheDocument();
   });
 
-  it("numbers the chart titles and names the chart type", () => {
+  it("numbers the chart titles and names the chart type", async () => {
     render(<OrganizationAnalytics />);
     expect(
       screen.getByText("1. Growth Trend (Line Chart)"),
@@ -218,6 +266,7 @@ describe("OrganizationAnalytics", () => {
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Rating & Type" }));
+    await screen.findByText(/Profit vs Non-Profit/);
     expect(
       screen.getByText("6. Profit vs Non-Profit (Stacked Bar Chart)"),
     ).toBeInTheDocument();
@@ -281,5 +330,82 @@ describe("OrganizationAnalytics", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /Reset/i }));
     expect(dateInputs()).toHaveLength(0);
+  });
+});
+
+describe("Rating & Type API integration", () => {
+  it("loads rating analytics when the Rating & Type tab is selected", async () => {
+    render(<OrganizationAnalytics />);
+
+    expect(getOrgRatingTypeAnalytics).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole("button", { name: "Rating & Type" }));
+
+    expect(
+      await screen.findByText("5. Rating Distribution (Bar Chart)"),
+    ).toBeInTheDocument();
+
+    expect(getOrgRatingTypeAnalytics).toHaveBeenCalledWith({});
+  });
+
+  it("shows an empty-data message for an empty preset period", async () => {
+    render(<OrganizationAnalytics />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Rating & Type" }));
+
+    await screen.findByText("5. Rating Distribution (Bar Chart)");
+
+    fireEvent.click(screen.getByRole("button", { name: "7 Days" }));
+
+    expect(
+      await screen.findByText(
+        "No rating distribution data for the selected period.",
+      ),
+    ).toBeInTheDocument();
+
+    expect(getOrgRatingTypeAnalytics).toHaveBeenCalledTimes(1);
+  });
+
+  it("displays an error message when the API fails", async () => {
+    getOrgRatingTypeAnalytics.mockRejectedValueOnce(new Error("Network error"));
+
+    render(<OrganizationAnalytics />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Rating & Type" }));
+
+    expect(
+      await screen.findByText("Unable to load Rating & Type analytics."),
+    ).toBeInTheDocument();
+  });
+
+  it("requests analytics for a valid custom date range", async () => {
+    getOrgRatingTypeAnalytics.mockResolvedValueOnce({
+      Custom: sampleRatingPeriod,
+    });
+
+    const { container } = render(<OrganizationAnalytics />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Custom" }));
+
+    fireEvent.click(screen.getByRole("button", { name: "Rating & Type" }));
+
+    expect(getOrgRatingTypeAnalytics).not.toHaveBeenCalled();
+
+    const [start, end] = container.querySelectorAll('input[type="date"]');
+
+    fireEvent.change(start, {
+      target: { value: "2026-01-01" },
+    });
+
+    fireEvent.change(end, {
+      target: { value: "2026-03-31" },
+    });
+
+    await screen.findByText("5. Rating Distribution (Bar Chart)");
+
+    expect(getOrgRatingTypeAnalytics).toHaveBeenCalledWith({
+      start_date: "2026-01-01",
+      end_date: "2026-03-31",
+    });
   });
 });
