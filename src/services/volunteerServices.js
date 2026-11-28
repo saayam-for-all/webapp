@@ -66,6 +66,23 @@ export const updateUserAvailability = async (userId, timezone, slots) => {
 };
 
 /**
+ * Change the timezone of a saved availability schedule (ba #51, volunteer #235).
+ * Slots are deliberately omitted: the backend converts the saved days and
+ * hours to the new timezone and returns them. It returns 400 if a converted
+ * slot would cross midnight, and then keeps the saved schedule unchanged.
+ * @param {string} userId - The user's database ID
+ * @param {string} timezone - New IANA timezone, e.g. "America/Chicago"
+ * @returns {Promise<Object>} - API response with the converted slots
+ */
+export const convertUserAvailabilityTimezone = async (userId, timezone) => {
+  const response = await api.put(endpoints.PROFILE_AVAILABILITY, {
+    userId,
+    timezone,
+  });
+  return response.data;
+};
+
+/**
  * Delete user skills by sending empty list or updated list
  * Internally uses update logic - skills not in list will be removed
  * @param {string} userId - The user's database ID
