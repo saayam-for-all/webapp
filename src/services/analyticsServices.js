@@ -30,3 +30,12 @@ export const getVolunteerApplicationAnalytics = async (payload = {}) => {
   );
   return response.data;
 };
+
+// Organization Dashboard → Growth & Location tab.
+// {} returns every pre-computed window (7D, 30D, 1Y, All).
+// Custom trend: { start_date, end_date }; custom location: { location_start_date, location_end_date }.
+// Optional filters: { organization_type, country }.
+export const getGrowthTrendAnalytics = async (payload = {}) => {
+  const response = await api.post(endpoints.GROWTH_TREND_ANALYTICS, payload);
+  return response.data;
+};
