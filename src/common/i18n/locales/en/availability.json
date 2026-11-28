@@ -30,5 +30,15 @@
   "END_TIME_MUST_BE_AFTER_START_TIME": "End time must be after start time",
   "PLEASE_PROVIDE_AVAILABILITY_SLOTS": "Please Provide Your Available Time Slots for Volunteering",
   "ADD": "Add",
-  "REMOVE_ROW": "Remove row"
+  "REMOVE_ROW": "Remove row",
+  "LOADING_AVAILABILITY": "Loading your availability...",
+  "LAST_UPDATED": "Last updated",
+  "RETRY": "Retry",
+  "DISCARD_CHANGES_CONFIRM": "You have unsaved changes. Discard them?",
+  "TIMEZONE_MISMATCH_NOTICE": "Your saved timezone ({{saved}}) is different from your current timezone ({{detected}}).",
+  "TIMEZONE_CONVERTED_SUCCESS": "Timezone updated. Your time slots have been converted to the new timezone.",
+  "TIMEZONE_CHANGE_SAVE_SEPARATELY": "Please save your timezone change on its own first, then edit your time slots.",
+  "SLOTS_NEED_ATTENTION_TITLE": "Some slots need attention",
+  "SLOTS_NEED_ATTENTION_MESSAGE": "Due to the timezone change, some slots need attention. Slots can't run overnight, so please change them.",
+  "EDIT_SLOTS": "Edit slots"
 }
