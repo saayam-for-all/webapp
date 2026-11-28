@@ -595,6 +595,8 @@
   "VOLUNTEER_SUGGEST_SKILLS": "నైపుణ్యాలను సూచించండి",
   "VOLUNTEER_SKILLS_LOADING": "నైపుణ్యాల కోసం వెతుకుతోంది...",
   "VOLUNTEER_SKILLS_LOADING_MESSAGE": "మీ వివరణకు సరిపోయే నైపుణ్యాల కోసం వెతుకుతోంది...",
+  "VOLUNTEER_SELECT_SKILLS": "ఎంచుకోండి",
+  "VOLUNTEER_CLEAR_DESCRIPTION": "వివరణను తొలగించండి",
   "VOLUNTEER_ADD_SKILLS": "ఎంచుకున్న నైపుణ్యాలను జోడించండి",
   "VOLUNTEER_SUGGESTED_SKILLS": "సూచించిన నైపుణ్యాలు",
   "VOLUNTEER_SKILLS_NO_MATCH": "మీ నైపుణ్యాలకు సరిపోయే అంశాలు కనుగొనబడలేదు. సాధారణ వర్గాన్ని ఎంచుకోండి లేదా నైపుణ్యాల జాబితాను చూడండి.",

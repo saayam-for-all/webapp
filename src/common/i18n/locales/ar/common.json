@@ -598,6 +598,8 @@
   "VOLUNTEER_SUGGEST_SKILLS": "اقتراح المهارات",
   "VOLUNTEER_SKILLS_LOADING": "جارٍ البحث عن المهارات...",
   "VOLUNTEER_SKILLS_LOADING_MESSAGE": "جارٍ البحث عن مهارات تتوافق مع وصفك...",
+  "VOLUNTEER_SELECT_SKILLS": "اختيار",
+  "VOLUNTEER_CLEAR_DESCRIPTION": "مسح الوصف",
   "VOLUNTEER_ADD_SKILLS": "إضافة المهارات المحددة",
   "VOLUNTEER_SUGGESTED_SKILLS": "المهارات المقترحة",
   "VOLUNTEER_SKILLS_NO_MATCH": "لم نجد مهارات مطابقة. يرجى اختيار الفئة العامة أو استكشاف قائمة المهارات.",

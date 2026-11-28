@@ -595,6 +595,8 @@
   "VOLUNTEER_SUGGEST_SKILLS": "Sugerir habilidades",
   "VOLUNTEER_SKILLS_LOADING": "Buscando habilidades...",
   "VOLUNTEER_SKILLS_LOADING_MESSAGE": "Buscando habilidades que coincidan con tu descripción...",
+  "VOLUNTEER_SELECT_SKILLS": "Seleccionar",
+  "VOLUNTEER_CLEAR_DESCRIPTION": "Borrar descripción",
   "VOLUNTEER_ADD_SKILLS": "Añadir habilidades seleccionadas",
   "VOLUNTEER_SUGGESTED_SKILLS": "Habilidades sugeridas",
   "VOLUNTEER_SKILLS_NO_MATCH": "No encontramos habilidades que coincidan. Selecciona la categoría General o explora el selector de habilidades.",

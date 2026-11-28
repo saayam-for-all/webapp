@@ -791,6 +791,8 @@
   "VOLUNTEER_SUGGEST_SKILLS": "Suggest Skills",
   "VOLUNTEER_SKILLS_LOADING": "Finding skills...",
   "VOLUNTEER_SKILLS_LOADING_MESSAGE": "Finding skills that match your description...",
+  "VOLUNTEER_SELECT_SKILLS": "Select",
+  "VOLUNTEER_CLEAR_DESCRIPTION": "Clear description",
   "VOLUNTEER_ADD_SKILLS": "Add Selected Skills",
   "VOLUNTEER_SUGGESTED_SKILLS": "Suggested Skills",
   "VOLUNTEER_SKILLS_NO_MATCH": "We couldn't find a match for your skills. Please choose General category or explore the skills picker on the page.",

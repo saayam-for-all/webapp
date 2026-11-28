@@ -2,7 +2,17 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { predictCategories } from "../../../services/requestServices";
-import Modal from "../../../common/components/Modal/Modal";
+import {
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
+  FormGroup,
+  Typography,
+} from "@mui/material";
 import {
   MAX_SKILL_DESCRIPTION_LENGTH,
   buildSkillSuggestionPayload,
@@ -84,6 +94,11 @@ const SkillSuggestions = ({
       }
 
       setSuggestions(resolved);
+      setCheckedSkills(
+        resolved
+          .filter((skill) => selectedSkills.includes(skill.catId))
+          .map((skill) => skill.catId),
+      );
       setShowModal(true);
     } catch {
       setError(
@@ -106,7 +121,13 @@ const SkillSuggestions = ({
   };
 
   const handleAddSkills = () => {
-    setSelectedSkills(mergeSelectedSkills(selectedSkills, checkedSkills));
+    const suggestedIds = new Set(suggestions.map((skill) => skill.catId));
+
+    const retainedSkills = selectedSkills.filter(
+      (id) => !suggestedIds.has(id) || checkedSkills.includes(id),
+    );
+
+    setSelectedSkills(mergeSelectedSkills(retainedSkills, checkedSkills));
 
     setShowModal(false);
     setCheckedSkills([]);
@@ -125,18 +146,42 @@ const SkillSuggestions = ({
 
       <div className="flex flex-col sm:flex-row gap-3 items-start">
         <div className="flex-1 w-full">
-          <textarea
-            id="volunteer-skills-description"
-            value={description}
-            maxLength={MAX_SKILL_DESCRIPTION_LENGTH}
-            rows={4}
-            onChange={(event) => setDescription(event.target.value)}
-            placeholder={t("common:VOLUNTEER_SKILLS_DESCRIPTION_PLACEHOLDER", {
-              defaultValue:
-                "Describe your skills and how you would like to help.",
-            })}
-            className="w-full border border-gray-300 rounded-lg p-3 resize-y"
-          />
+          <div className="relative">
+            <textarea
+              id="volunteer-skills-description"
+              value={description}
+              maxLength={MAX_SKILL_DESCRIPTION_LENGTH}
+              rows={4}
+              onChange={(event) => setDescription(event.target.value)}
+              placeholder={t(
+                "common:VOLUNTEER_SKILLS_DESCRIPTION_PLACEHOLDER",
+                {
+                  defaultValue:
+                    "Describe your skills and how you would like to help.",
+                },
+              )}
+              className="w-full border border-gray-300 rounded-lg p-3 pe-10 resize-y"
+            />
+            {description.length > 0 && (
+              <button
+                type="button"
+                aria-label={t("common:VOLUNTEER_CLEAR_DESCRIPTION", {
+                  defaultValue: "Clear description",
+                })}
+                title={t("common:VOLUNTEER_CLEAR_DESCRIPTION", {
+                  defaultValue: "Clear description",
+                })}
+                disabled={loading}
+                onClick={() => {
+                  setDescription("");
+                  setError("");
+                }}
+                className="absolute top-2 end-3 text-xl text-gray-500 hover:text-gray-800 disabled:opacity-50"
+              >
+                &times;
+              </button>
+            )}
+          </div>
 
           <p className="text-xs text-gray-500 text-right">
             {description.length}/{MAX_SKILL_DESCRIPTION_LENGTH}
@@ -173,73 +218,75 @@ const SkillSuggestions = ({
         </p>
       )}
 
-      <Modal
-        show={showModal}
+      <Dialog
+        open={showModal}
         onClose={() => setShowModal(false)}
-        onSubmit={handleAddSkills}
-        submitText={t("common:VOLUNTEER_ADD_SKILLS", {
-          defaultValue: "Add Selected Skills",
-        })}
+        aria-labelledby="volunteer-suggested-skills-title"
       >
-        <h2 className="text-xl font-semibold mb-4">
+        <DialogTitle id="volunteer-suggested-skills-title">
           {t("common:VOLUNTEER_SUGGESTED_SKILLS", {
             defaultValue: "Suggested Skills",
           })}
-        </h2>
+        </DialogTitle>
 
-        {noMatch && (
-          <p className="text-sm text-gray-600 mb-4">
-            {t("common:VOLUNTEER_SKILLS_NO_MATCH", {
-              defaultValue:
-                "We couldn't find a match for your skills. Please choose General category or explore the skills picker on the page.",
-            })}
-          </p>
-        )}
+        <DialogContent>
+          {noMatch && (
+            <Typography className="mb-4">
+              {t("common:VOLUNTEER_SKILLS_NO_MATCH", {
+                defaultValue:
+                  "We couldn't find a match for your skills. Please choose General category or explore the skills picker on the page.",
+              })}
+            </Typography>
+          )}
 
-        {unmatchedSkills.length > 0 && (
-          <p className="text-sm text-gray-600 mb-4">
-            {t("common:VOLUNTEER_UNMATCHED_SKILLS", {
-              defaultValue: "We couldn't match {{skills}}.",
-              skills: unmatchedSkills.join(", "),
-            })}
-          </p>
-        )}
-
-        <div className="flex flex-col gap-3">
-          {suggestions.map((skill) => {
-            const alreadySelected = selectedSkills.includes(skill.catId);
-
-            return (
-              <label
+          <FormGroup>
+            {suggestions.map((skill) => (
+              <FormControlLabel
                 key={skill.catId}
-                className="flex items-center gap-3 border border-gray-200 rounded-lg p-3"
-              >
-                <input
-                  type="checkbox"
-                  checked={
-                    alreadySelected || checkedSkills.includes(skill.catId)
-                  }
-                  disabled={alreadySelected}
-                  onChange={() => toggleSuggestion(skill.catId)}
-                  className="h-4 w-4"
-                />
+                control={
+                  <Checkbox
+                    checked={checkedSkills.includes(skill.catId)}
+                    onChange={() => toggleSuggestion(skill.catId)}
+                  />
+                }
+                label={translatePath(skill.hierarchy)}
+              />
+            ))}
+          </FormGroup>
 
-                <span className="text-sm">
-                  {translatePath(skill.hierarchy)}
+          {unmatchedSkills.length > 0 && (
+            <Typography variant="body2" sx={{ mt: 2 }} color="text.secondary">
+              {t("common:VOLUNTEER_UNMATCHED_SKILLS", {
+                defaultValue: "We couldn't match {{skills}}.",
+                skills: unmatchedSkills.join(", "),
+              })}
+            </Typography>
+          )}
+        </DialogContent>
 
-                  {alreadySelected && (
-                    <span className="block text-xs text-gray-500">
-                      {t("common:VOLUNTEER_SKILL_ALREADY_SELECTED", {
-                        defaultValue: "Already selected",
-                      })}
-                    </span>
-                  )}
-                </span>
-              </label>
-            );
-          })}
-        </div>
-      </Modal>
+        <DialogActions>
+          <Button
+            type="button"
+            onClick={handleAddSkills}
+            variant="contained"
+            className="bg-blue-500 hover:bg-blue-600 text-white hover:text-white"
+          >
+            {t("common:VOLUNTEER_SELECT_SKILLS", {
+              defaultValue: "Select",
+            })}
+          </Button>
+          <Button
+            type="button"
+            onClick={() => setShowModal(false)}
+            variant="contained"
+            className="bg-gray-500 hover:bg-gray-600 text-white hover:text-white"
+          >
+            {t("common:CANCEL", {
+              defaultValue: "Cancel",
+            })}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
