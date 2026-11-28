@@ -51,5 +51,6 @@
   "MOCK_ORG_DATA": "v1/ml/mockOrgData",
   "GET_KPI_ANALYTICS": "v1/ml/kpiAnalytics",
   "VOLUNTEER_APPLICATION_ANALYTICS": "v1/ml/volunteerApplicationAnalytics",
+  "SIZE_CONTRIBUTION_ANALYTICS": "v1/ml/size_contribution_analytics",
   "VOLUNTEER_STEP_1": "v1/volunteer/VolunteerStep1"
 }
