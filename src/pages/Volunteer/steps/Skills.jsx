@@ -270,6 +270,15 @@ const Skills = ({
       <p className="font-bold text-xl mb-2">
         {t("common:SKILLS_SELECTOR_TITLE")}
       </p>
+      <p className="text-sm text-gray-500 mb-4">
+        {enableSkillSuggestions
+          ? t("common:VOLUNTEER_SKILLS_SELECTOR_HELPER", {
+              defaultValue:
+                "Please describe your skills in description box to get skills suggestions or choose them from Skills picker provided below. If you can not find matching skills, please choose General category",
+            })
+          : t("common:SKILLS_SELECTOR_PLACEHOLDER")}
+      </p>
+
       {enableSkillSuggestions && (
         <SkillSuggestions
           categories={categories}
@@ -279,15 +288,6 @@ const Skills = ({
           setSession={setSuggestionSession}
         />
       )}
-
-      <p className="text-sm text-gray-500 mb-4">
-        {enableSkillSuggestions
-          ? t("common:VOLUNTEER_SKILLS_SELECTOR_HELPER", {
-              defaultValue:
-                "Please describe your skills in description box to get skills suggestions or choose them from Skills picker provided below. If you can not find matching skills, please choose General category",
-            })
-          : t("common:SKILLS_SELECTOR_PLACEHOLDER")}
-      </p>
 
       {/* Desktop: Multi-column selector panel */}
       <div className="hidden md:block">

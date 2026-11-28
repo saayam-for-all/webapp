@@ -596,6 +596,8 @@
   "VOLUNTEER_SUGGEST_SKILLS": "कौशल सुझाएँ",
   "VOLUNTEER_SKILLS_LOADING": "कौशल खोजे जा रहे हैं...",
   "VOLUNTEER_SKILLS_LOADING_MESSAGE": "आपके विवरण से मेल खाने वाले कौशल खोजे जा रहे हैं...",
+  "VOLUNTEER_SELECT_SKILLS": "चुनें",
+  "VOLUNTEER_CLEAR_DESCRIPTION": "विवरण साफ़ करें",
   "VOLUNTEER_ADD_SKILLS": "चयनित कौशल जोड़ें",
   "VOLUNTEER_SUGGESTED_SKILLS": "सुझाए गए कौशल",
   "VOLUNTEER_SKILLS_NO_MATCH": "आपके कौशल से कोई मेल नहीं मिला। सामान्य श्रेणी चुनें या कौशल सूची देखें।",

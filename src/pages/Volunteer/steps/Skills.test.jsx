@@ -335,6 +335,21 @@ describe("Volunteer wizard GenAI selected skills (#2041)", () => {
     ).toBeInTheDocument();
   });
 
+  it("displays instructional text above the description field", () => {
+    renderWizardSkills();
+
+    const helper = screen.getByText(
+      /Please describe your skills in description box/,
+    );
+
+    const description = screen.getByLabelText("Description");
+
+    expect(
+      helper.compareDocumentPosition(description) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
   it("does not show GenAI suggestions in the profile picker", () => {
     renderSkills();
 

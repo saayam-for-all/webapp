@@ -188,7 +188,7 @@ describe("GenAI volunteer skill suggestions", () => {
 
     fireEvent.click(
       within(dialog).getByRole("button", {
-        name: "Add Selected Skills",
+        name: "Select",
       }),
     );
 
@@ -210,13 +210,13 @@ describe("GenAI volunteer skill suggestions", () => {
 
     expect(checkboxes).toHaveLength(2);
     expect(checkboxes[0]).toBeChecked();
-    expect(checkboxes[0]).toBeDisabled();
+    expect(checkboxes[0]).toBeEnabled();
 
     fireEvent.click(checkboxes[1]);
 
     fireEvent.click(
       within(dialog).getByRole("button", {
-        name: "Add Selected Skills",
+        name: "Select",
       }),
     );
 
@@ -244,7 +244,11 @@ describe("GenAI volunteer skill suggestions", () => {
 
     await screen.findByRole("dialog");
 
-    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
 
     suggest("I can help with gardening");
 
@@ -279,7 +283,7 @@ describe("GenAI volunteer skill suggestions", () => {
 
     fireEvent.click(
       within(dialog).getByRole("button", {
-        name: "Add Selected Skills",
+        name: "Select",
       }),
     );
 
@@ -335,7 +339,7 @@ describe("GenAI volunteer skill suggestions", () => {
 
     fireEvent.click(
       within(dialog).getByRole("button", {
-        name: "Close",
+        name: "Cancel",
       }),
     );
 
@@ -363,4 +367,122 @@ it("does not show General when returned categories cannot be mapped", async () =
   );
 
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+});
+
+describe("Volunteer skill suggestions review feedback (#2041)", () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it("clears the description without removing selected skills", () => {
+    render(<Harness initialSkills={["4.3.1"]} />);
+
+    fireEvent.change(screen.getByLabelText("Description"), {
+      target: { value: "I teach math" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Clear description" }));
+
+    expect(screen.getByLabelText("Description")).toHaveValue("");
+    expect(screen.getByText("0/500")).toBeInTheDocument();
+    expect(screen.getByTestId("selected")).toHaveTextContent('["4.3.1"]');
+    expect(
+      screen.getByRole("button", { name: "Suggest Skills" }),
+    ).toBeDisabled();
+  });
+
+  it("allows deselecting an existing skill while preserving unrelated skills", async () => {
+    predictCategories.mockResolvedValue({
+      categories: [math, garden],
+    });
+
+    render(<Harness initialSkills={["4.3.1", "general"]} />);
+    suggest();
+
+    const dialog = await screen.findByRole("dialog");
+    const checkboxes = within(dialog).getAllByRole("checkbox");
+
+    expect(checkboxes[0]).toBeChecked();
+    expect(checkboxes[0]).toBeEnabled();
+
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(checkboxes[1]);
+
+    fireEvent.click(within(dialog).getByRole("button", { name: "Select" }));
+
+    expect(screen.getByTestId("selected")).toHaveTextContent(
+      '["general","3.3.5"]',
+    );
+  });
+
+  it("preserves existing selections when deselection is cancelled", async () => {
+    predictCategories.mockResolvedValue({
+      categories: [math, garden],
+    });
+
+    render(<Harness initialSkills={["4.3.1"]} />);
+    suggest();
+
+    const dialog = await screen.findByRole("dialog");
+    const checkboxes = within(dialog).getAllByRole("checkbox");
+
+    fireEvent.click(checkboxes[0]);
+    fireEvent.click(checkboxes[1]);
+
+    fireEvent.click(within(dialog).getByRole("button", { name: "Cancel" }));
+
+    expect(screen.getByTestId("selected")).toHaveTextContent('["4.3.1"]');
+  });
+
+  it("displays unmatched skills below the suggested skills", async () => {
+    predictCategories.mockResolvedValue({
+      categories: [math, garden],
+      unmatched_skills: ["driving car"],
+    });
+
+    render(<Harness />);
+    suggest();
+
+    const dialog = await screen.findByRole("dialog");
+    const checkboxes = within(dialog).getAllByRole("checkbox");
+    const note = within(dialog).getByText("We couldn't match driving car.");
+
+    expect(
+      checkboxes[1].compareDocumentPosition(note) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("preserves the API session after clearing the description", async () => {
+    const session = {
+      entries: [{ text: "I teach math", skills: [math] }],
+    };
+
+    predictCategories
+      .mockResolvedValueOnce({ categories: [math], session })
+      .mockResolvedValueOnce({ categories: [math, garden] });
+
+    render(<Harness />);
+    suggest();
+
+    const dialog = await screen.findByRole("dialog");
+
+    fireEvent.click(within(dialog).getByRole("button", { name: "Cancel" }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Clear description" }));
+
+    suggest("I can help with gardening");
+
+    await screen.findByRole("dialog");
+
+    expect(predictCategories).toHaveBeenNthCalledWith(2, {
+      description: "I can help with gardening",
+      mode: "volunteer_skills",
+      session,
+    });
+  });
 });

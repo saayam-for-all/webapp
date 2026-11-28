@@ -604,6 +604,8 @@
   "VOLUNTEER_SUGGEST_SKILLS": "Sugerir competências",
   "VOLUNTEER_SKILLS_LOADING": "A procurar competências...",
   "VOLUNTEER_SKILLS_LOADING_MESSAGE": "A procurar competências que correspondam à sua descrição...",
+  "VOLUNTEER_SELECT_SKILLS": "Selecionar",
+  "VOLUNTEER_CLEAR_DESCRIPTION": "Limpar descrição",
   "VOLUNTEER_ADD_SKILLS": "Adicionar competências selecionadas",
   "VOLUNTEER_SUGGESTED_SKILLS": "Competências sugeridas",
   "VOLUNTEER_SKILLS_NO_MATCH": "Não encontrámos competências correspondentes. Escolha a categoria Geral ou explore o seletor de competências.",

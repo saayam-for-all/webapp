@@ -597,6 +597,8 @@
   "VOLUNTEER_SUGGEST_SKILLS": "দক্ষতার পরামর্শ দিন",
   "VOLUNTEER_SKILLS_LOADING": "দক্ষতা খোঁজা হচ্ছে...",
   "VOLUNTEER_SKILLS_LOADING_MESSAGE": "আপনার বর্ণনার সঙ্গে মেলে এমন দক্ষতা খোঁজা হচ্ছে...",
+  "VOLUNTEER_SELECT_SKILLS": "নির্বাচন করুন",
+  "VOLUNTEER_CLEAR_DESCRIPTION": "বিবরণ মুছুন",
   "VOLUNTEER_ADD_SKILLS": "নির্বাচিত দক্ষতা যোগ করুন",
   "VOLUNTEER_SUGGESTED_SKILLS": "প্রস্তাবিত দক্ষতা",
   "VOLUNTEER_SKILLS_NO_MATCH": "মিল রয়েছে এমন দক্ষতা পাওয়া যায়নি। সাধারণ বিভাগ নির্বাচন করুন অথবা দক্ষতার তালিকা দেখুন।",

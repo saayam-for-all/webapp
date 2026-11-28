@@ -597,6 +597,8 @@
   "VOLUNTEER_SUGGEST_SKILLS": "Предложить навыки",
   "VOLUNTEER_SKILLS_LOADING": "Поиск навыков...",
   "VOLUNTEER_SKILLS_LOADING_MESSAGE": "Поиск навыков, соответствующих вашему описанию...",
+  "VOLUNTEER_SELECT_SKILLS": "Выбрать",
+  "VOLUNTEER_CLEAR_DESCRIPTION": "Очистить описание",
   "VOLUNTEER_ADD_SKILLS": "Добавить выбранные навыки",
   "VOLUNTEER_SUGGESTED_SKILLS": "Предложенные навыки",
   "VOLUNTEER_SKILLS_NO_MATCH": "Подходящие навыки не найдены. Выберите категорию «Общие» или просмотрите список навыков.",

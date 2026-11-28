@@ -596,6 +596,8 @@
   "VOLUNTEER_SUGGEST_SKILLS": "Fähigkeiten vorschlagen",
   "VOLUNTEER_SKILLS_LOADING": "Fähigkeiten werden gesucht...",
   "VOLUNTEER_SKILLS_LOADING_MESSAGE": "Passende Fähigkeiten zu Ihrer Beschreibung werden gesucht...",
+  "VOLUNTEER_SELECT_SKILLS": "Auswählen",
+  "VOLUNTEER_CLEAR_DESCRIPTION": "Beschreibung löschen",
   "VOLUNTEER_ADD_SKILLS": "Ausgewählte Fähigkeiten hinzufügen",
   "VOLUNTEER_SUGGESTED_SKILLS": "Vorgeschlagene Fähigkeiten",
   "VOLUNTEER_SKILLS_NO_MATCH": "Keine passenden Fähigkeiten gefunden. Wählen Sie die Kategorie Allgemein oder nutzen Sie die Fähigkeiten-Auswahl.",
